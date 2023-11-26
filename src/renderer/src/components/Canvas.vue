@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import BaseTableNode from '@components/BaseTableNode.vue';
 import { VueFlow } from '@vue-flow/core';
 import { Background } from '@vue-flow/background';
 import { MiniMap } from '@vue-flow/minimap';
@@ -14,6 +15,9 @@ const tableStore = useTableStore();
             <Background pattern-color="#6381b8" />
             <MiniMap />
             <Controls />
+            <template #node-custom="props">
+                <BaseTableNode v-bind="props" />
+            </template>
         </VueFlow>
     </div>
 </template>
