@@ -10,7 +10,7 @@ const tableStore = useTableStore();
 </script>
 
 <template>
-    <div class="h-screen">
+    <div class="h-full w-full">
         <VueFlow
             v-model:nodes="tableStore.elements"
             v-model:edges="tableStore.edges"
