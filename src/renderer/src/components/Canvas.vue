@@ -7,6 +7,12 @@ import { Controls } from '@vue-flow/controls';
 import { useTableStore } from '@stores/TableStore';
 
 const tableStore = useTableStore();
+const onNodeClick = (event) => {
+    tableStore.currentActiveNode = event.node;
+};
+const onNodeDrag = (event) => {
+    tableStore.currentActiveNode = event.node;
+};
 </script>
 
 <template>
@@ -17,12 +23,14 @@ const tableStore = useTableStore();
             :default-edge-options="{ type: 'smoothstep', animated: true }"
             :default-viewport="{ zoom: 0.5 }"
             :max-zoom="1.5"
+            @node-click="onNodeClick"
+            @node-drag="onNodeDrag"
         >
             <Background pattern-color="#6381b8" />
             <MiniMap />
             <Controls />
             <template #node-custom="props">
-                <BaseTableNode v-bind="props" />
+                <BaseTableNode v-bind="props" :data="props.data" />
             </template>
         </VueFlow>
     </div>

@@ -1,4 +1,8 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useTableStore } from '@stores/TableStore';
+
+const TableStore = useTableStore();
+</script>
 
 <template>
     <div>
@@ -20,6 +24,7 @@
                 type="text"
                 placeholder="Place table name here"
                 id="tableSettingsTableName"
+                v-model="TableStore.currentActiveNode.data.table.name"
             />
         </div>
     </div>
