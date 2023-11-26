@@ -1,10 +1,6 @@
 <script setup lang="ts">
-import {
-    animateIcon,
-    animateFormWrapperOnBeforeEnter,
-    animateFormWrapperOnEnter,
-    animateFormWrapperOnLeave,
-} from '@composables/useCollapseAnimation';
+import IconChevron from '@components/IconChevron.vue';
+import { animateIcon } from '@composables/useCollapseAnimation';
 import { ref } from 'vue';
 
 const Props = defineProps({
@@ -49,20 +45,14 @@ const onClickToggleSettings = () => {
                     '-rotate-90': !isActive,
                 }"
             >
-                <slot name="icon"></slot>
+                <IconChevron />
             </span>
         </button>
 
-        <Transition
-            @before-enter="animateFormWrapperOnBeforeEnter"
-            @enter="animateFormWrapperOnEnter"
-            @leave="animateFormWrapperOnLeave"
-        >
-            <div v-if="Props.showForms && isActive">
-                <div class="mx-2 pb-4 pt-2">
-                    <slot name="forms"></slot>
-                </div>
+        <div v-if="Props.showForms && isActive">
+            <div class="mx-2 pb-4 pt-2">
+                <slot></slot>
             </div>
-        </Transition>
+        </div>
     </div>
 </template>
