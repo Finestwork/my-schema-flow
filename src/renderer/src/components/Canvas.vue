@@ -16,6 +16,9 @@ const onNodeDrag = (event) => {
 const onPaneClick = () => {
     tableStore.currentActiveNode = {};
 };
+const onMove = () => {
+    tableStore.currentActiveNode = {};
+};
 </script>
 
 <template>
@@ -29,6 +32,7 @@ const onPaneClick = () => {
             @node-click="onNodeClick"
             @node-drag="onNodeDrag"
             @pane-click="onPaneClick"
+            @move="onMove"
         >
             <Background pattern-color="#6381b8" />
             <MiniMap />
