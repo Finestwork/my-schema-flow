@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import IconChevron from '@components/IconChevron.vue';
 import { animateIcon } from '@composables/useCollapseAnimation';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 
 const Props = defineProps({
     showForms: {
@@ -15,6 +15,12 @@ const onClickToggleSettings = () => {
     isActive.value = !isActive.value;
     animateIcon(iconWrapper.value, isActive.value);
 };
+watch(
+    () => Props.showForms,
+    (showForms) => {
+        isActive.value = showForms;
+    },
+);
 </script>
 <template>
     <div>
