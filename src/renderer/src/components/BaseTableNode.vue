@@ -10,8 +10,11 @@ const Props = defineProps({
 </script>
 
 <template>
-    <div class="h-[250px] w-[200px] border-slate-100 border-2 bg-white rounded-lg overflow-hidden">
-        <span class="bg-rose-500 block text-xs font-semibold text-center text-white py-2">{{
+    <div
+        class="relative h-[150px] w-[200px] border-blue-500 border-2 bg-white pt-1.5 rounded-lg overflow-hidden"
+    >
+        <span class="bg-blue-500 block w-full h-[6px] absolute top-0 left-0"> </span>
+        <span class="text-xs font-semibold text-center text-blue-500 bg-blue-50 py-1 block">{{
             Props.label
         }}</span>
     </div>
