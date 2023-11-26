@@ -6,4 +6,4 @@ import '@vue-flow/core/dist/style.css';
 import '@vue-flow/minimap/dist/style.css';
 import '@vue-flow/controls/dist/style.css';
 
-createApp(App).use(createPinia()).mount('#app');
+createApp(App).use(createPinia()).mount('body');
