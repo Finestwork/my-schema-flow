@@ -10,7 +10,7 @@
 
         <div class="my-2.5 mx-2">
             <label
-                class="dark:text-slate-300 text-sm font-medium inline-flex mb-2"
+                class="cursor-pointer dark:text-slate-300 text-sm font-medium inline-flex mb-2"
                 for="tableSettingsTableName"
                 >Table Name:</label
             >
