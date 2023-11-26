@@ -11,7 +11,12 @@ const tableStore = useTableStore();
 
 <template>
     <div class="h-screen">
-        <VueFlow v-model="tableStore.elements">
+        <VueFlow
+            v-model:nodes="tableStore.elements"
+            v-model:edges="tableStore.edges"
+            :default-edge-options="{ type: 'smoothstep', animated: true }"
+            :default-viewport="{ zoom: 0.5 }"
+        >
             <Background pattern-color="#6381b8" />
             <MiniMap />
             <Controls />

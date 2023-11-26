@@ -39,5 +39,16 @@ export const useTableStore = defineStore('tableStore', {
                 position: { x: 500, y: 150 },
             },
         ],
+        edges: [
+            { id: 'e1-2', source: '1', target: '2' },
+            { id: 'e1-3', source: '1', target: '3' },
+            { id: 'e1-4', source: '1', target: '4' },
+            {
+                id: 'e1-4',
+                source: '5',
+                target: '4',
+                targetHandleId: 'target-bottom',
+            },
+        ],
     }),
 });
