@@ -8,10 +8,13 @@ import { useTableStore } from '@stores/TableStore';
 
 const tableStore = useTableStore();
 const onNodeClick = (event) => {
-    tableStore.currentActiveNode = event.node;
+    tableStore.currentActiveNode = { ...event.node };
 };
 const onNodeDrag = (event) => {
-    tableStore.currentActiveNode = event.node;
+    tableStore.currentActiveNode = { ...event.node };
+};
+const onPaneClick = () => {
+    tableStore.currentActiveNode = {};
 };
 </script>
 
@@ -25,6 +28,7 @@ const onNodeDrag = (event) => {
             :max-zoom="1.5"
             @node-click="onNodeClick"
             @node-drag="onNodeDrag"
+            @pane-click="onPaneClick"
         >
             <Background pattern-color="#6381b8" />
             <MiniMap />

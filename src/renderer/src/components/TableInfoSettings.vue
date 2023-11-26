@@ -13,7 +13,7 @@ const TableStore = useTableStore();
             <span>Table Settings</span>
         </button>
 
-        <div class="mx-2 my-2.5">
+        <div class="mx-2 my-2.5" v-if="TableStore.hasActiveNode">
             <label
                 class="mb-2 inline-flex cursor-pointer text-xs font-medium dark:text-slate-300"
                 for="tableSettingsTableName"

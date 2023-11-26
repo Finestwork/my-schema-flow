@@ -9,9 +9,16 @@ export type TTableData = {
 };
 
 export const useTableStore = defineStore('tableStore', {
-    state: () => ({
-        elements: TestElements as Node & { data: TTableData }[],
-        edges: TestEdges as Edge[],
-        currentActiveNode: null as Node | null,
-    }),
+    state() {
+        return {
+            elements: TestElements as Node & { data: TTableData }[],
+            edges: TestEdges as Edge[],
+            currentActiveNode: {} as Node | Record<string, never>,
+        };
+    },
+    getters: {
+        hasActiveNode(state) {
+            return Object.keys(state.currentActiveNode).length !== 0;
+        },
+    },
 });
