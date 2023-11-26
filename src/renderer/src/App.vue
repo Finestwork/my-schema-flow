@@ -1,19 +1,13 @@
 <script setup lang="ts">
 import Canvas from '@components/Canvas.vue';
 import TableInfo from '@components/TableInfo.vue';
-import { useSettingsStore } from '@stores/SettingsStore';
-import { onMounted } from 'vue';
+import { isDarkMode } from '@composables/useDarkModeDetection';
 
-const SettingsStore = useSettingsStore();
-onMounted(() => {
-    if (SettingsStore.isDarkMode) {
-        document.documentElement.classList.add('dark');
-    }
-});
+isDarkMode();
 </script>
 
 <template>
-    <div class="dark:bg-dark-900 flex justify-between h-screen">
+    <div class="flex h-screen justify-between dark:bg-dark-900">
         <Canvas />
         <TableInfo />
     </div>

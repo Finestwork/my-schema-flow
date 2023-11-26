@@ -1,4 +1,5 @@
 <script setup lang="ts"></script>
+
 <template>
     <div>
         <button
@@ -10,7 +11,7 @@
 
         <div class="mx-2 my-2.5">
             <label
-                class="mb-2 inline-flex cursor-pointer text-sm font-medium dark:text-slate-300"
+                class="mb-2 inline-flex cursor-pointer text-xs font-medium dark:text-slate-300"
                 for="tableSettingsTableName"
                 >Table Name:</label
             >
