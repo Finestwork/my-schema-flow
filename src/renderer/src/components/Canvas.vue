@@ -16,6 +16,7 @@ const tableStore = useTableStore();
             v-model:edges="tableStore.edges"
             :default-edge-options="{ type: 'smoothstep', animated: true }"
             :default-viewport="{ zoom: 0.5 }"
+            :max-zoom="1.5"
         >
             <Background pattern-color="#6381b8" />
             <MiniMap />
