@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Canvas from '@components/Canvas.vue';
-import TableInformation from '@components/TableInformation.vue';
+import TableInfo from '@components/TableInfo.vue';
 import { useSettingsStore } from '@stores/SettingsStore';
 import { onMounted } from 'vue';
 
@@ -15,6 +15,6 @@ onMounted(() => {
 <template>
     <div class="dark:bg-dark-900 flex justify-between h-screen">
         <Canvas />
-        <TableInformation />
+        <TableInfo />
     </div>
 </template>
