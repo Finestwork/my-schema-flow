@@ -6,5 +6,7 @@ const tableStore = useTableStore();
 </script>
 
 <template>
-  <VueFlow v-model="tableStore.elements"> </VueFlow>
+  <div class="h-screen">
+    <VueFlow v-model="tableStore.elements"> </VueFlow>
+  </div>
 </template>
