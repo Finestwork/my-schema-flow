@@ -26,6 +26,7 @@
     "@vue-flow/controls": "^1.1.0",
     "@vue-flow/core": "^1.26.0",
     "@vue-flow/minimap": "^1.2.0",
+    "animejs": "^3.2.1",
     "pinia": "^2.1.7"
   },
   "devDependencies": {

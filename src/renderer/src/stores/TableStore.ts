@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { TestElements, TestEdges } from '@stores/TableStore.test';
+import { TestElements, TestEdges } from '@stores/TableStoreTest';
 import type { Edge, Node } from '@vue-flow/core';
 
 export type TTableData = {
