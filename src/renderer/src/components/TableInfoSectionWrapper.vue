@@ -15,15 +15,6 @@ const onClickToggleSettings = () => {
     isActive.value = !isActive.value;
     animateIcon(iconWrapper.value, isActive.value);
 };
-watch(
-    () => Props.showForms,
-    (showForms) => {
-        if (!showForms) {
-            isActive.value = false;
-            animateIcon(iconWrapper.value, isActive.value);
-        }
-    },
-);
 </script>
 <template>
     <div>
