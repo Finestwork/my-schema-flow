@@ -22,7 +22,7 @@ export const useTableStore = defineStore('tableStore', {
         return {
             elements: TestElements as Node & { data: TTableData }[],
             edges: TestEdges as Edge[],
-            currentActiveNode: {} as Node | Record<string, never>,
+            currentActiveNode: {} as (Node & { data: TTableData }[]) | Record<string, never>,
         };
     },
     getters: {

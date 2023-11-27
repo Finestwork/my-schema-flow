@@ -1,3 +1,4 @@
+import { useTableStore } from '@stores/TableStore';
 import { isEmpty, isBoolean, isNumber } from 'lodash';
 
 export type TData = {
@@ -21,7 +22,7 @@ export const validateColumn = (columnData: TData): string[] => {
     if (isEmpty(columnData.length)) {
         Errors.push('Data length is empty.');
     } else {
-        if (!isNumber(columnData.length)) {
+        if (!isNumber(parseInt(columnData.length))) {
             Errors.push('Data length must be a number.');
         }
     }
@@ -36,6 +37,9 @@ export const validateColumn = (columnData: TData): string[] => {
 export const addColumn = (columnData: TData) => {
     const Errors = validateColumn(columnData);
 
-    console.log(Errors);
     if (Errors.length !== 0) return;
+
+    const TableStore = useTableStore();
+    const Columns = TableStore.currentActiveNode.data.table.columns;
+    Columns.push(columnData);
 };

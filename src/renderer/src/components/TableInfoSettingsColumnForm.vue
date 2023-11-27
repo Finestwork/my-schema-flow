@@ -12,6 +12,7 @@ const columnData = ref({
     dataType: '',
     length: '',
     isNull: false,
+    keyConstraint: false,
 });
 </script>
 
