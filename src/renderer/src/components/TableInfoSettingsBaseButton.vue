@@ -3,21 +3,28 @@ import BaseTooltip from '@components/BaseTooltip.vue';
 
 type TProps = {
     colorScheme?: 'default' | 'danger';
+    disabled?: boolean;
 };
 
 const props = withDefaults(defineProps<TProps>(), {
     colorScheme: 'default',
+    disabled: false,
 });
 </script>
+
 <template>
     <BaseTooltip>
         <button
             class="flex h-[25px] w-[25px] rounded-md bg-red-500 p-2 outline-none dark:bg-dark-600 dark:stroke-slate-300"
             :class="{
-                'dark:hover:bg-blue-500 dark:focus:bg-blue-500': props.colorScheme === 'default',
-                'dark:hover:bg-rose-500 dark:focus:bg-rose-500': props.colorScheme === 'danger',
+                'dark:hover:bg-blue-500 dark:focus:bg-blue-500':
+                    props.colorScheme === 'default' && !disabled,
+                'dark:hover:bg-rose-500 dark:focus:bg-rose-500':
+                    props.colorScheme === 'danger' && !disabled,
+                'cursor-not-allowed dark:bg-dark-700 dark:stroke-slate-600': disabled,
             }"
             type="button"
+            :disabled="disabled"
         >
             <slot></slot>
         </button>

@@ -29,5 +29,13 @@ export const useTableStore = defineStore('tableStore', {
         hasActiveNode(state) {
             return Object.keys(state.currentActiveNode).length !== 0;
         },
+        activeNodeHasColumns(state) {
+            if (!state.hasActiveNode) {
+                return false;
+            }
+
+            const Columns = state.currentActiveNode.data.table.columns;
+            return Columns.length !== 0;
+        },
     },
 });
