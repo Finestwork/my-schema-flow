@@ -7,10 +7,12 @@ import { addColumn } from '@composables/useTableColumn';
 import { ref } from 'vue';
 
 const emits = defineEmits(['goBack']);
-const columnName = ref('');
-const dataType = ref('');
-const length = ref('');
-const isNull = ref(false);
+const columnData = ref({
+    name: '',
+    dataType: '',
+    length: '',
+    isNull: false,
+});
 </script>
 
 <template>
@@ -20,7 +22,7 @@ const isNull = ref(false);
             class="mb-4"
             id="tableSettingsColumnName"
             placeholder="Place column's name here"
-            v-model="columnName"
+            v-model="columnData.name"
         >
             <template #label>Column name:</template>
         </TableInfoTextInput>
@@ -28,7 +30,7 @@ const isNull = ref(false);
             class="mb-4"
             id="tableSettingsColumnDataType"
             placeholder="Place column's data type here"
-            v-model="dataType"
+            v-model="columnData.dataType"
         >
             <template #label> Data Type:</template>
         </TableInfoTextInput>
@@ -36,18 +38,18 @@ const isNull = ref(false);
             class="mb-4"
             id="tableSettingsColumnLength"
             placeholder="Place data size here"
-            v-model="length"
+            v-model="columnData.length"
         >
             <template #label>Length:</template>
         </TableInfoTextInput>
-        <TableInfoCheckbox id="tableSettingsColumnNull" value="isNull" v-model="isNull">
+        <TableInfoCheckbox id="tableSettingsColumnNull" value="isNull" v-model="columnData.isNull">
             <template #label>Null</template>
         </TableInfoCheckbox>
 
         <button
             class="group mt-6 flex w-full items-center justify-center rounded py-2.5 outline-none dark:bg-dark-700 dark:hover:bg-blue-600/10 dark:focus:bg-blue-600/10"
             type="button"
-            @click="addColumn"
+            @click="addColumn(columnData)"
         >
             <span class="mr-1 block w-[10px]">
                 <IconAdd
