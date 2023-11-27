@@ -1,5 +1,6 @@
 import { resolve } from 'path';
 import { defineConfig, externalizeDepsPlugin } from 'electron-vite';
+import VueMacros from 'unplugin-vue-macros/vite';
 import vue from '@vitejs/plugin-vue';
 
 export default defineConfig({
@@ -18,6 +19,12 @@ export default defineConfig({
                 '@composables': resolve('src/renderer/src/composables'),
             },
         },
-        plugins: [vue()],
+        plugins: [
+            VueMacros({
+                plugins: {
+                    vue: vue(),
+                },
+            }),
+        ],
     },
 });

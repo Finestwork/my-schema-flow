@@ -2,9 +2,13 @@
 type TProps = {
     id: string;
     placeholder: string;
+    modelValue: string;
 };
 
 const props = defineProps<TProps>();
+const { modelValue } = defineModels<{
+    modelValue: string;
+}>();
 </script>
 <template>
     <div>
@@ -19,6 +23,7 @@ const props = defineProps<TProps>();
             type="text"
             :placeholder="props.placeholder"
             :id="props.id"
+            v-model="modelValue"
         />
     </div>
 </template>
