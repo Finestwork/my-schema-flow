@@ -16,7 +16,7 @@ const displayColumnForm = ref(true);
         <template v-if="!displayColumnForm">
             <TableInfoSettingsTableName />
             <TableInfoSettingsTableColumns />
-            <TableInfoSettingsControls />
+            <TableInfoSettingsControls @add-column="displayColumnForm = true" />
         </template>
         <TableInfoSettingsColumnForm v-else @go-back="displayColumnForm = false" />
     </TableInfoSectionWrapper>

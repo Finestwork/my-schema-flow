@@ -6,10 +6,11 @@ import TableInfoSettingsBaseButton from '@components/TableInfoSettingsBaseButton
 import { useTableStore } from '@stores/TableStore';
 
 const TableStore = useTableStore();
+const emits = defineEmits(['addColumn']);
 </script>
 <template>
     <div class="mt-3.5 flex">
-        <TableInfoSettingsBaseButton class="mr-1.5">
+        <TableInfoSettingsBaseButton class="mr-1.5" @click="emits('addColumn')">
             <IconAdd />
             <template #tooltip>Add column</template>
         </TableInfoSettingsBaseButton>
