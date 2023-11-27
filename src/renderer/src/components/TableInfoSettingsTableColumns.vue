@@ -26,7 +26,7 @@ const columns = computed((): null | TTableColumn[] => {
         <button
             type="button"
             class="mb-2 flex w-full justify-between rounded-md p-2 text-xs font-semibold outline-none last-of-type:mb-0 dark:bg-dark-500/20 dark:text-slate-200 dark:hover:bg-dark-500/40"
-            v-for="(column, ind) in columns"
+            v-for="column in columns"
         >
             <span class="w-full grow truncate text-center text-blue-400">{{ column.name }}</span>
             <span class="w-full grow truncate text-center">{{ column.type }}</span>
