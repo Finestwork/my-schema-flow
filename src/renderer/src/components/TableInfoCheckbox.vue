@@ -9,15 +9,9 @@ type TProps = {
     value: string;
 };
 const props = defineProps<TProps>();
-const emits = defineEmits(['update:modelValue']);
-const modelValue = computed({
-    set(value: boolean | typeof Array) {
-        emits('update:modelValue', value);
-    },
-    get() {
-        return props.modelValue;
-    },
-});
+const { modelValue } = defineModels<{
+    modelValue: string | boolean;
+}>();
 const isChecked = computed(() => {
     // Checks if modelValue is a boolean
     if (!Array.isArray(props.modelValue)) {
@@ -63,6 +57,7 @@ const onLeave = (el: Element, done: () => void) => {
                 'dark:bg-blue-600 dark:hover:bg-blue-600/90 dark:focus:bg-blue-600/90': isChecked,
                 'dark:bg-dark-600/80 dark:hover:bg-dark-600 dark:focus:bg-dark-600': !isChecked,
             }"
+            @click="modelValue = !modelValue"
         >
             <Transition @before-enter="onBeforeEnter" @enter="onEnter" @leave="onLeave">
                 <IconCheck class="stroke-white" v-if="isChecked" />
