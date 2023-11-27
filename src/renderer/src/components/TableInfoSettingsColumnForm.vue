@@ -9,10 +9,10 @@ import { ref } from 'vue';
 const emits = defineEmits(['goBack']);
 const columnData = ref({
     name: '',
-    dataType: '',
+    type: '',
     length: '',
     isNull: false,
-    keyConstraint: false,
+    keyConstraint: '',
 });
 </script>
 
@@ -31,7 +31,7 @@ const columnData = ref({
             class="mb-4"
             id="tableSettingsColumnDataType"
             placeholder="Place column's data type here"
-            v-model="columnData.dataType"
+            v-model="columnData.type"
         >
             <template #label> Data Type:</template>
         </TableInfoTextInput>

@@ -7,7 +7,7 @@ export type TTableColumn = {
     type: string;
     isNull: boolean;
     length: number | null;
-    keyConstraint: 'PK' | 'FK' | null;
+    keyConstraint: 'PK' | 'FK' | '';
 };
 
 export type TTableData = {

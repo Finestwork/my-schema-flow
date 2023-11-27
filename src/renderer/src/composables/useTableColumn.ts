@@ -1,21 +1,15 @@
 import { useTableStore } from '@stores/TableStore';
 import { isEmpty, isBoolean, isNumber } from 'lodash';
+import type { TTableColumn } from '@stores/TableStore';
 
-export type TData = {
-    name: string;
-    dataType: string;
-    length: string;
-    isNull: boolean;
-};
-
-export const validateColumn = (columnData: TData): string[] => {
+export const validateColumn = (columnData: TTableColumn): string[] => {
     const Errors = [] as string[];
 
     if (isEmpty(columnData.name)) {
         Errors.push('Column name is empty.');
     }
 
-    if (isEmpty(columnData.dataType)) {
+    if (isEmpty(columnData.type)) {
         Errors.push('Data type is empty.');
     }
 
@@ -34,7 +28,7 @@ export const validateColumn = (columnData: TData): string[] => {
     return Errors;
 };
 
-export const addColumn = (columnData: TData) => {
+export const addColumn = (columnData: TTableColumn) => {
     const Errors = validateColumn(columnData);
 
     if (Errors.length !== 0) return;
