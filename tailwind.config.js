@@ -4,6 +4,9 @@ module.exports = {
     content: ['./src/renderer/**/*.{vue,js,ts,jsx,tsx}'],
     theme: {
         extend: {
+            fontFamily: {
+                jetbrains: ['Jetbrains Mono', 'sans-serif'],
+            },
             colors: {
                 light: {
                     50: '#C9D4EB',
