@@ -18,7 +18,10 @@ const onClickToggleSettings = () => {
 watch(
     () => Props.showForms,
     (showForms) => {
-        isActive.value = showForms;
+        if (!showForms) {
+            isActive.value = false;
+            animateIcon(iconWrapper.value, isActive.value);
+        }
     },
 );
 </script>
