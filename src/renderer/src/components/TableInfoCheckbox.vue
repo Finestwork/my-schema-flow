@@ -40,6 +40,11 @@ const onLeave = (el: Element, done: () => void) => {
         complete: done,
     });
 };
+const onBtnKeydown = (e: KeyboardEvent) => {
+    if (e.code.toLowerCase() === 'space') {
+        modelValue.value = !modelValue.value;
+    }
+};
 </script>
 <template>
     <div class="flex items-center">
@@ -58,6 +63,7 @@ const onLeave = (el: Element, done: () => void) => {
                 'dark:bg-dark-600/80 dark:hover:bg-dark-600 dark:focus:bg-dark-600': !isChecked,
             }"
             @click="modelValue = !modelValue"
+            @keydown="onBtnKeydown"
         >
             <Transition @before-enter="onBeforeEnter" @enter="onEnter" @leave="onLeave">
                 <IconCheck class="stroke-white" v-if="isChecked" />
