@@ -5,10 +5,19 @@ import TableInfoSettingsTableColumns from '@components/TableInfoSettingsTableCol
 import TableInfoSettingsControls from '@components/TableInfoSettingsControls.vue';
 import TableInfoSettingsColumnForm from '@components/TableInfoSettingsColumnForm.vue';
 import { useTableStore } from '@stores/TableStore';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 
 const TableStore = useTableStore();
 const displayColumnForm = ref(false);
+
+watch(
+    () => TableStore.hasActiveNode,
+    (hasActiveNode) => {
+        if (!hasActiveNode) {
+            displayColumnForm.value = false;
+        }
+    },
+);
 </script>
 
 <template>
