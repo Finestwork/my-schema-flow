@@ -2,6 +2,7 @@
 import IconAdd from '@components/IconAdd.vue';
 import TableInfoBackButton from '@components/TableInfoBackButton.vue';
 import TableInfoTextInput from '@components/TableInfoTextInput.vue';
+import TableInfoTextInputNumber from '@components/TableInfoTextInputNumber.vue';
 import TableInfoCheckbox from '@components/TableInfoCheckbox.vue';
 import { addColumn } from '@composables/useTableColumn';
 import { ref } from 'vue';
@@ -35,14 +36,14 @@ const columnData = ref({
         >
             <template #label> Data Type:</template>
         </TableInfoTextInput>
-        <TableInfoTextInput
+        <TableInfoTextInputNumber
             class="mb-4"
             id="tableSettingsColumnLength"
             placeholder="Place data size here"
             v-model="columnData.length"
         >
             <template #label>Length:</template>
-        </TableInfoTextInput>
+        </TableInfoTextInputNumber>
         <TableInfoCheckbox id="tableSettingsColumnNull" value="isNull" v-model="columnData.isNull">
             <template #label>Null</template>
         </TableInfoCheckbox>
