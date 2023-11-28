@@ -7,57 +7,7 @@ export const TestElements = [
         data: {
             table: {
                 name: 'node 1',
-                columns: [
-                    {
-                        name: 'id',
-                        type: 'integer',
-                        isNull: false,
-                        length: 0,
-                        keyConstraint: 'PK',
-                    },
-                    {
-                        name: 'student_id',
-                        type: 'integer',
-                        isNull: false,
-                        length: 0,
-                        keyConstraint: 'FK',
-                    },
-                    {
-                        name: 'school_id',
-                        type: 'integer',
-                        isNull: false,
-                        length: 0,
-                        keyConstraint: 'FK',
-                    },
-                    {
-                        name: 'first_name',
-                        type: 'varchar',
-                        isNull: true,
-                        length: 255,
-                        keyConstraint: null,
-                    },
-                    {
-                        name: 'middle_name',
-                        type: 'varchar',
-                        isNull: true,
-                        length: 255,
-                        keyConstraint: null,
-                    },
-                    {
-                        name: 'last_name',
-                        type: 'varchar',
-                        isNull: true,
-                        length: 255,
-                        keyConstraint: null,
-                    },
-                    {
-                        name: 'age',
-                        type: 'integer',
-                        isNull: true,
-                        length: null,
-                        keyConstraint: null,
-                    },
-                ],
+                columns: [],
             },
         },
     },

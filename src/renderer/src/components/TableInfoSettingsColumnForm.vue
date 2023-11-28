@@ -8,10 +8,11 @@ import TableInfoCheckbox from '@components/TableInfoCheckbox.vue';
 import { getAutocomplete } from '@composables/useMysqlDataType';
 import { addColumn } from '@composables/useTableColumn';
 import { ref, reactive } from 'vue';
+import type { TTableColumn } from '@stores/TableStore';
 
 const emits = defineEmits(['goBack']);
 const autocompleteSearchTerm = ref('');
-const columnData = reactive({
+const columnData: TTableColumn = reactive({
     name: '',
     type: '',
     length: '',

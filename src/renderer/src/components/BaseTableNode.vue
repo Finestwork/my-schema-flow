@@ -2,12 +2,16 @@
 import { Handle } from '@vue-flow/core';
 import type { TTableData } from '@stores/TableStore';
 import type { PropType } from 'vue';
+import { computed } from 'vue';
 
 const Props = defineProps({
     data: {
         type: Object as PropType<TTableData>,
         required: true,
     },
+});
+const getColumns = computed(() => {
+    return Props.data.table.columns;
 });
 </script>
 
@@ -22,7 +26,7 @@ const Props = defineProps({
         <div class="py-2">
             <div
                 class="flex justify-between px-2 py-2 text-xs font-semibold"
-                v-for="column in Props.data.table.columns"
+                v-for="column in getColumns"
             >
                 <span class="w-6/12 grow truncate text-slate-500">{{ column.name }}</span>
                 <span class="w-3/12 grow truncate text-center text-slate-500">{{

@@ -1,12 +1,12 @@
+import { TestElements } from '@stores/TableStoreTest';
 import { defineStore } from 'pinia';
-import { TestElements, TestEdges } from '@stores/TableStoreTest';
 import type { Edge, Node } from '@vue-flow/core';
 
 export type TTableColumn = {
     name: string;
     type: string;
     isNull: boolean;
-    length: number | null;
+    length: '' | null;
     keyConstraint: 'PK' | 'FK' | '';
 };
 
@@ -20,8 +20,8 @@ export type TTableData = {
 export const useTableStore = defineStore('tableStore', {
     state() {
         return {
-            elements: TestElements as Node & { data: TTableData }[],
-            edges: TestEdges as Edge[],
+            elements: TestElements as (Node & { data: TTableData })[],
+            edges: [] as Edge[],
             currentActiveNode: {} as (Node & { data: TTableData }[]) | Record<string, never>,
         };
     },
