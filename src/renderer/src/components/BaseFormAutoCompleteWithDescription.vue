@@ -14,6 +14,7 @@ const { modelValue } = defineModels<{
 }>();
 const emits = defineEmits<{
     (e: 'input', payload: KeyboardEvent);
+    (e: 'blur', payload: KeyboardEvent);
     (e: 'dropdownHidden');
 }>();
 const showDropdown = ref(false);
@@ -30,6 +31,13 @@ const onKeydownSelectItem = (e: KeyboardEvent, type: TItem) => {
     showDropdown.value = false;
     modelValue.value = type.name;
 };
+const onBlurFormatModelValue = () => {
+    const Index = props.items.findIndex(
+        (item) => item.name.toLowerCase() === modelValue.value.toLowerCase(),
+    );
+    if (Index === -1) return;
+    modelValue.value = props.items[Index].name;
+};
 </script>
 <template>
     <BaseFormAutoComplete
@@ -40,6 +48,7 @@ const onKeydownSelectItem = (e: KeyboardEvent, type: TItem) => {
         v-model:show-dropdown="showDropdown"
         :items="props.items"
         @input="emits('input', $event)"
+        @blur="onBlurFormatModelValue"
         @on-select="onSelectUpdateTextInput"
         @dropdown-hidden="emits('dropdownHidden')"
     >

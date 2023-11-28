@@ -18,6 +18,7 @@ const { modelValue, showDropdown } = defineModels<{
 }>();
 const emits = defineEmits<{
     (e: 'input', payload: Event): void;
+    (e: 'blur', payload: Event): void;
     (e: 'onSelect', { currentIndex: number }): void;
     (e: 'dropdownHidden'): void;
 }>();
@@ -30,6 +31,7 @@ const { focusNext, focusPrevious, currentIndex } = useFocusLoop(
 );
 
 const onTextInputBlur = (e: FocusEvent) => {
+    emits('blur', e);
     if (!floatingDropdown.value) return;
 
     if (!floatingDropdown.value.contains(e.relatedTarget)) {
