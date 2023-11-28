@@ -1,20 +1,23 @@
 import { ref } from 'vue';
 import type { Ref } from 'vue';
 
-export const useFocusLoop = (wrapper: Ref<HTMLElement>) => {
+export const useFocusLoop = (
+    wrapper: Ref<HTMLElement>,
+    elements: Ref<NodeListOf<HTMLButtonElement>>,
+) => {
     const CurrentIndex = ref(-1);
-    const Elements: Ref<Node[]> = ref([]);
-    const CurrentActiveEl: Ref<HTMLElement> = ref();
+    const CurrentActiveEl: Ref<HTMLElement | null> = ref(null);
 
-    const scrollElementTo = () => {
-        CurrentActiveEl.value = Elements.value[CurrentIndex.value];
+    const scrollElementTo = async () => {
+        if (!elements.value) return;
+        CurrentActiveEl.value = elements.value[CurrentIndex.value];
         wrapper.value.scrollTo(0, CurrentActiveEl.value.offsetTop);
-        setTimeout(() => {
-            CurrentActiveEl.value.focus();
-        }, 50);
+        CurrentActiveEl?.value?.focus();
     };
     const focusNext = () => {
-        if (CurrentIndex.value >= Elements.value.length - 1) {
+        if (!elements.value) return;
+
+        if (CurrentIndex.value >= elements.value.length - 1) {
             CurrentIndex.value = 0;
         } else {
             CurrentIndex.value++;
@@ -22,34 +25,20 @@ export const useFocusLoop = (wrapper: Ref<HTMLElement>) => {
         scrollElementTo();
     };
     const focusPrevious = () => {
+        if (!elements.value) return;
+
         if (CurrentIndex.value <= 0) {
-            CurrentIndex.value = Elements.value.length - 1;
+            CurrentIndex.value = elements.value.length - 1;
         } else {
             CurrentIndex.value--;
         }
 
         scrollElementTo();
     };
-    const onKeydown = (e: MouseEvent) => {
-        e.preventDefault();
-        if (e.key.toLowerCase() === 'arrowdown') {
-            focusNext();
-        }
-        if (e.key.toLowerCase() === 'arrowup') {
-            focusPrevious();
-        }
-    };
-
-    const getFocusableElements = () => {
-        Elements.value = wrapper.value.querySelectorAll('button');
-        wrapper.value.removeEventListener('keydown', onKeydown);
-        wrapper.value.addEventListener('keydown', onKeydown);
-    };
 
     return {
         currentIndex: CurrentIndex,
         focusNext,
         focusPrevious,
-        getFocusableElements,
     };
 };

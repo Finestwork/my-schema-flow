@@ -1,5 +1,7 @@
 {
-    "files": [],
+    "files": [
+      "node_modules/@vue-macros/define-models/macros-global.d.ts"
+    ],
     "include": [
         "src/renderer/src/env.d.ts",
         "src/renderer/src/**/*",

@@ -3,28 +3,26 @@ import IconAdd from '@components/IconAdd.vue';
 import TableInfoBackButton from '@components/TableInfoBackButton.vue';
 import TableInfoTextInput from '@components/TableInfoTextInput.vue';
 import TableInfoTextInputNumber from '@components/TableInfoTextInputNumber.vue';
-import TableSettingsAutoComplete from '@components/TableSettingsAutoComplete.vue';
+import BaseFormAutoCompleteWithDescription from '@components/BaseFormAutoCompleteWithDescription.vue';
 import TableInfoCheckbox from '@components/TableInfoCheckbox.vue';
-import { mySqlDataTypes } from '@renderer/database/MySqlDataTypes';
+import { getAutocomplete } from '@composables/useMysqlDataType';
 import { addColumn } from '@composables/useTableColumn';
-import { computed, ref } from 'vue';
+import { ref, reactive, watch } from 'vue';
 
 const emits = defineEmits(['goBack']);
-const columnData = ref({
+const autocompleteSearchTerm = ref('');
+const columnData = reactive({
     name: '',
     type: '',
     length: '',
     isNull: false,
     keyConstraint: '',
 });
-const mysqlDataTypesArr = computed(() => {
-    return mySqlDataTypes
-        .filter((type) => type.name.toLowerCase().includes(columnData.value.type.toLowerCase()))
-        .map((type) => ({
-            name: type.name,
-            description: type.description === '' ? 'No description' : type.description,
-        }));
-});
+const { contents: mysqlDataTypesArr } = getAutocomplete(autocompleteSearchTerm);
+const onInputUpdateAutocomplete = (e: KeyboardEvent) => {
+    const Target = <HTMLInputElement>e.target;
+    autocompleteSearchTerm.value = Target.value;
+};
 </script>
 
 <template>
@@ -38,31 +36,7 @@ const mysqlDataTypesArr = computed(() => {
         >
             <template #label>Column name:</template>
         </TableInfoTextInput>
-        <TableSettingsAutoComplete
-            class="mb-4"
-            id="tableSettingsColumnDataType"
-            placeholder="Place column's data type here"
-            v-model="columnData.type"
-            :items="mysqlDataTypesArr"
-        >
-            <template #label> Data Type:</template>
-            <template #float>
-                <button
-                    type="button"
-                    class="group flex w-full py-2 text-xs font-semibold outline-none dark:hover:bg-dark-800/70 dark:focus:bg-dark-800/70"
-                    v-for="type in mysqlDataTypesArr"
-                    :key="type.name"
-                >
-                    <span
-                        class="ml-1 w-4/12 shrink-0 text-left group-hover:text-blue-500 group-focus:text-blue-500 dark:text-slate-300"
-                        >{{ type.name }}</span
-                    >
-                    <p class="w-7/12 truncate text-left dark:text-dark-100">
-                        {{ type.description }}
-                    </p>
-                </button>
-            </template>
-        </TableSettingsAutoComplete>
+
         <TableInfoTextInputNumber
             class="mb-4"
             id="tableSettingsColumnLength"
@@ -71,6 +45,12 @@ const mysqlDataTypesArr = computed(() => {
         >
             <template #label>Length:</template>
         </TableInfoTextInputNumber>
+        <BaseFormAutoCompleteWithDescription
+            :items="mysqlDataTypesArr"
+            v-model="columnData.type"
+            @input="onInputUpdateAutocomplete"
+            @dropdown-hidden="autocompleteSearchTerm = ''"
+        />
         <TableInfoCheckbox id="tableSettingsColumnNull" value="isNull" v-model="columnData.isNull">
             <template #label>Null</template>
         </TableInfoCheckbox>
