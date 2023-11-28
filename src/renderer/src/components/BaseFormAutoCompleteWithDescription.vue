@@ -47,14 +47,14 @@ const onKeydownSelectItem = (e: KeyboardEvent, type: TItem) => {
         <template #float>
             <button
                 type="button"
-                class="group flex w-full py-2 text-xs font-semibold outline-none dark:hover:bg-dark-800/70 dark:focus:bg-dark-800/70"
+                class="group flex w-full px-2 py-2 text-xs font-semibold outline-none dark:hover:bg-dark-800/70 dark:focus:bg-dark-800/70"
                 v-for="type in props.items"
                 :key="type.name"
                 @click="onClickSelectItem(type)"
                 @keydown="onKeydownSelectItem($event, type)"
             >
                 <span
-                    class="ml-1 w-4/12 shrink-0 text-left group-hover:text-blue-500 group-focus:text-blue-500 dark:text-slate-300"
+                    class="mr-1 w-4/12 shrink-0 truncate text-left group-hover:text-blue-500 group-focus:text-blue-500 dark:text-slate-300"
                     >{{ type.name }}</span
                 >
                 <p class="w-7/12 truncate text-left dark:text-dark-100">

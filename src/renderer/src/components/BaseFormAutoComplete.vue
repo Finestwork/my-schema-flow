@@ -5,7 +5,7 @@ import { useFocusLoop } from '@composables/useFocusLoop';
 import { toggleDropdown } from '@composables/useAutocomplete';
 import { onClickOutside } from '@vueuse/core';
 import { watchDebounced } from '@vueuse/core';
-import { ref, watch } from 'vue';
+import { nextTick, onUnmounted, ref, watch } from 'vue';
 
 const props = defineProps<
     TProps & {
@@ -65,13 +65,20 @@ const onWatchToggleDropdown = () => {
     floatingDropdownChildren.value = source.value.querySelectorAll('button');
     toggleDropdown(source, floatingDropdown);
 };
+const onResizeUpdateDropdownSize = () => {
+    (<HTMLElement>document.activeElement)?.blur();
+    showDropdown.value = false;
+};
 
+window.addEventListener('resize', onResizeUpdateDropdownSize);
 onClickOutside(source, () => {
     showDropdown.value = false;
     emits('dropdownHidden');
 });
+onUnmounted(() => {
+    window.removeEventListener('resize', onResizeUpdateDropdownSize);
+});
 watch(showDropdown, onWatchToggleDropdown, { flush: 'post' });
-
 watchDebounced(
     () => props.items,
     () => {
