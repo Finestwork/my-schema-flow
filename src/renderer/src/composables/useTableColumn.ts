@@ -23,12 +23,8 @@ export const validateColumns = (columnData: TTableColumn): string[] => {
         }
     }
 
-    if (isEmpty(columnData.length)) {
-        Errors.push('Data length is empty.');
-    } else {
-        if (!isNumber(parseInt(columnData.length))) {
-            Errors.push('Data length must be a number.');
-        }
+    if (!isEmpty(columnData.length) && !isNumber(parseInt(columnData.length))) {
+        Errors.push('Data length must be a number.');
     }
 
     if (!isBoolean(columnData.isNull)) {
