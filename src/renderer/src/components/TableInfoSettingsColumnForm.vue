@@ -42,6 +42,7 @@ const onClickAddColumn = async () => {
     columnData.length = '';
     columnData.name = '';
     columnData.keyConstraint = '';
+    keyConstraint.value = '';
 };
 const onClickTogglePrimaryKey = () => {
     keyConstraint.value = keyConstraint.value !== 'PK' ? 'PK' : '';
