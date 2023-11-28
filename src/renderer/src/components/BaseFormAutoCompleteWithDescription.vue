@@ -41,7 +41,6 @@ const onBlurFormatModelValue = () => {
 </script>
 <template>
     <BaseFormAutoComplete
-        class="mb-4"
         id="tableSettingsColumnDataType"
         placeholder="Place column's data type here"
         v-model="modelValue"

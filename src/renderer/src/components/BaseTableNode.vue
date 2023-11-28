@@ -29,9 +29,7 @@ const getColumns = computed(() => {
                 v-for="column in getColumns"
             >
                 <span class="w-6/12 grow truncate text-slate-500">{{ column.name }}</span>
-                <span class="w-3/12 grow truncate text-center text-slate-500">{{
-                    column.type
-                }}</span>
+                <span class="w-3/12 grow truncate text-left text-slate-500">{{ column.type }}</span>
                 <span class="w-2/12 grow truncate text-center text-rose-500">{{
                     column.keyConstraint
                 }}</span>

@@ -6,15 +6,16 @@ import TableInfoBackButton from '@components/TableInfoBackButton.vue';
 import TableInfoTextInput from '@components/TableInfoTextInput.vue';
 import TableInfoTextInputNumber from '@components/TableInfoTextInputNumber.vue';
 import TableInfoCheckbox from '@components/TableInfoCheckbox.vue';
+import TableInfoButtonSelect from '@components/TableInfoButtonSelect.vue';
 import { getAutocomplete } from '@composables/useMysqlDataType';
 import { addColumn, validateColumns } from '@composables/useTableColumn';
 import { ref, reactive, computed, nextTick } from 'vue';
-import type { Ref } from 'vue';
 import type { TTableColumn } from '@stores/TableStore';
 
 const emits = defineEmits(['goBack']);
 const autocompleteSearchTerm = ref('');
-const columnErrors: Ref<string[]> = ref([]);
+const columnErrors = ref([]);
+const keyConstraint = ref('');
 const columnData: TTableColumn = reactive({
     name: '',
     type: '',
@@ -40,6 +41,15 @@ const onClickAddColumn = async () => {
     columnData.type = '';
     columnData.length = '';
     columnData.name = '';
+    columnData.keyConstraint = '';
+};
+const onClickTogglePrimaryKey = () => {
+    keyConstraint.value = keyConstraint.value !== 'PK' ? 'PK' : '';
+    columnData.keyConstraint = <'PK' | 'FK' | ''>keyConstraint.value;
+};
+const onClickToggleForeignKey = () => {
+    keyConstraint.value = keyConstraint.value !== 'FK' ? 'FK' : '';
+    columnData.keyConstraint = <'PK' | 'FK' | ''>keyConstraint.value;
 };
 </script>
 
@@ -70,14 +80,35 @@ const onClickAddColumn = async () => {
             <template #label>Length:</template>
         </TableInfoTextInputNumber>
         <BaseFormAutoCompleteWithDescription
+            class="mb-4"
             :items="mysqlDataTypesArr"
             v-model="columnData.type"
             @input="onInputUpdateAutocomplete"
         />
-        <TableInfoCheckbox id="tableSettingsColumnNull" value="isNull" v-model="columnData.isNull">
+        <TableInfoCheckbox
+            class="mb-4"
+            id="tableSettingsColumnNull"
+            value="isNull"
+            v-model="columnData.isNull"
+        >
             <template #label>Null</template>
         </TableInfoCheckbox>
 
+        <div>
+            <TableInfoButtonSelect
+                class="mr-2"
+                :is-active="keyConstraint === 'PK'"
+                @click="onClickTogglePrimaryKey"
+            >
+                Primary Key
+            </TableInfoButtonSelect>
+            <TableInfoButtonSelect
+                :is-active="keyConstraint === 'FK'"
+                @click="onClickToggleForeignKey"
+            >
+                Foreign Key
+            </TableInfoButtonSelect>
+        </div>
         <button
             class="group mt-6 flex w-full items-center justify-center rounded py-2.5 outline-none dark:bg-dark-700 dark:hover:bg-blue-600/10 dark:focus:bg-blue-600/10"
             type="button"
