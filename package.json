@@ -29,6 +29,7 @@
     "@vue-flow/core": "^1.26.0",
     "@vue-flow/minimap": "^1.2.0",
     "animejs": "^3.2.1",
+    "cleave-zen": "^0.0.9",
     "lodash": "^4.17.21",
     "pinia": "^2.1.7"
   },
