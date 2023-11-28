@@ -35,6 +35,18 @@ export const validateColumns = (columnData: TTableColumn): string[] => {
         Errors.push('Null property must be a boolean.');
     }
 
+    // Check if there's an existing primary key
+    const CurrentActiveNode = useTableStore().currentActiveNode;
+    const Columns = CurrentActiveNode.data.table.columns;
+    const Index = Columns.findIndex((column) => column.keyConstraint === 'PK');
+    if (Index !== -1) {
+        Errors.push("There's an existing primary key already.");
+    }
+
+    // Make sure that primary is not null
+    if (columnData.isNull && Index === -1) {
+        Errors.push('Primary key cannot be null.');
+    }
     return Errors;
 };
 
