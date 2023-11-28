@@ -8,9 +8,5 @@
 
 .dark .scrollbar-slim::-webkit-scrollbar-thumb {
     border-radius: 2px;
-    background: #222539;
-}
-
-.dark .scrollbar-slim::-webkit-scrollbar-thumb:hover {
     background: #191e2f;
 }

@@ -18,10 +18,12 @@ const columnData = ref({
     keyConstraint: '',
 });
 const mysqlDataTypesArr = computed(() => {
-    return mySqlDataTypes.map((type) => ({
-        name: type.name,
-        description: type.description === '' ? 'No description' : type.description,
-    }));
+    return mySqlDataTypes
+        .filter((type) => type.name.toLowerCase().includes(columnData.value.type.toLowerCase()))
+        .map((type) => ({
+            name: type.name,
+            description: type.description === '' ? 'No description' : type.description,
+        }));
 });
 </script>
 
@@ -52,7 +54,7 @@ const mysqlDataTypesArr = computed(() => {
                     :key="type.name"
                 >
                     <span
-                        class="ml-1 w-4/12 shrink-0 text-left group-hover:text-blue-500 dark:text-slate-300"
+                        class="ml-1 w-4/12 shrink-0 text-left group-hover:text-blue-500 group-focus:text-blue-500 dark:text-slate-300"
                         >{{ type.name }}</span
                     >
                     <p class="w-7/12 truncate text-left dark:text-dark-100">

@@ -9,6 +9,11 @@ const props = defineProps<TProps>();
 const { modelValue } = defineModels<{
     modelValue: string;
 }>();
+const emits = defineEmits<{
+    (e: 'focus', payload: Event): void;
+    (e: 'blur', payload: Event): void;
+    (e: 'keydown', payload: Event): void;
+}>();
 </script>
 
 <template>
@@ -25,6 +30,9 @@ const { modelValue } = defineModels<{
             :placeholder="props.placeholder"
             :id="props.id"
             v-model="modelValue"
+            @focus="emits('focus', $event)"
+            @blur="emits('blur', $event)"
+            @keydown="emits('keydown', $event)"
         />
     </div>
 </template>

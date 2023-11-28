@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import TableInfoTextInput from '@components/TableInfoTextInput.vue';
 import type { TProps } from '@components/TableInfoTextInput.vue';
+import { useFocusLoop } from '@composables/useFocusLoop';
 import { computePosition, size } from '@floating-ui/dom';
-import { nextTick, ref, onMounted } from 'vue';
+import { ref, watch } from 'vue';
 
 const props = defineProps<TProps>();
 const { modelValue } = defineModels<{
@@ -10,8 +11,12 @@ const { modelValue } = defineModels<{
 }>();
 const source = ref();
 const floatingDropdown = ref();
-onMounted(async () => {
-    await nextTick();
+const showDropdown = ref(false);
+const { focusNext, focusPrevious, getFocusableElements } = useFocusLoop(floatingDropdown);
+
+const onWatchToggleDropdown = () => {
+    if (!floatingDropdown.value) return;
+    getFocusableElements();
     const Middlewares = [
         size({
             apply({ rects }) {
@@ -29,12 +34,36 @@ onMounted(async () => {
             });
         },
     );
-});
+};
+watch(showDropdown, onWatchToggleDropdown, { flush: 'post' });
+
+const onBlur = (e: FocusEvent) => {
+    if (!floatingDropdown.value) return;
+
+    if (!floatingDropdown.value.contains(e.relatedTarget)) {
+        showDropdown.value = false;
+    }
+};
+const onKeydown = (e: KeyboardEvent) => {
+    if (e.key.toLowerCase() === 'arrowdown') {
+        focusNext();
+    }
+    if (e.key.toLowerCase() === 'arrowup') {
+        focusPrevious();
+    }
+};
 </script>
 
 <template>
     <div ref="source">
-        <TableInfoTextInput :id="props.id" :placeholder="props.placeholder" v-model="modelValue">
+        <TableInfoTextInput
+            :id="props.id"
+            :placeholder="props.placeholder"
+            v-model="modelValue"
+            @focus="showDropdown = true"
+            @blur="onBlur"
+            @keydown="onKeydown"
+        >
             <template #label>
                 <slot name="label"></slot>
             </template>
@@ -43,6 +72,7 @@ onMounted(async () => {
         <div
             ref="floatingDropdown"
             class="scrollbar-slim absolute max-h-[200px] overflow-y-scroll bg-white shadow-xl dark:bg-dark-700"
+            v-if="showDropdown"
         >
             <slot name="float"></slot>
         </div>
