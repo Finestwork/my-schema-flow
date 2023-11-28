@@ -8,7 +8,7 @@ import TableInfoTextInputNumber from '@components/TableInfoTextInputNumber.vue';
 import TableInfoCheckbox from '@components/TableInfoCheckbox.vue';
 import { getAutocomplete } from '@composables/useMysqlDataType';
 import { addColumn, validateColumns } from '@composables/useTableColumn';
-import { ref, reactive, computed } from 'vue';
+import { ref, reactive, computed, nextTick } from 'vue';
 import type { Ref } from 'vue';
 import type { TTableColumn } from '@stores/TableStore';
 
@@ -30,11 +30,16 @@ const onInputUpdateAutocomplete = (e: KeyboardEvent) => {
     const Target = <HTMLInputElement>e.target;
     autocompleteSearchTerm.value = Target.value;
 };
-const onClickAddColumn = () => {
+const onClickAddColumn = async () => {
     columnErrors.value = validateColumns(columnData);
     if (columnErrors.value.length !== 0) return;
     addColumn(columnData);
+    await nextTick();
     columnErrors.value = [];
+    columnData.isNull = false;
+    columnData.type = '';
+    columnData.length = '';
+    columnData.name = '';
 };
 </script>
 

@@ -41,5 +41,5 @@ export const validateColumns = (columnData: TTableColumn): string[] => {
 export const addColumn = (columnData: TTableColumn) => {
     const TableStore = useTableStore();
     const Columns = TableStore.currentActiveNode.data.table.columns;
-    Columns.push(columnData);
+    Columns.push(Object.assign({}, columnData));
 };
