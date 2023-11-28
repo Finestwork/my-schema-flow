@@ -19,15 +19,19 @@ const Props = defineProps({
         <span class="block bg-blue-50 py-2 text-center text-sm font-bold text-blue-500">{{
             Props.data.table.name
         }}</span>
-        <div
-            class="flex justify-between px-2 py-2 text-xs font-medium"
-            v-for="column in Props.data.table.columns"
-        >
-            <span class="w-6/12 grow truncate text-slate-500">{{ column.name }}</span>
-            <span class="w-3/12 grow truncate text-center text-slate-500">{{ column.type }}</span>
-            <span class="w-2/12 grow truncate text-center text-rose-500">{{
-                column.keyConstraint
-            }}</span>
+        <div class="py-2">
+            <div
+                class="flex justify-between px-2 py-2 text-xs font-semibold"
+                v-for="column in Props.data.table.columns"
+            >
+                <span class="w-6/12 grow truncate text-slate-500">{{ column.name }}</span>
+                <span class="w-3/12 grow truncate text-center text-slate-500">{{
+                    column.type
+                }}</span>
+                <span class="w-2/12 grow truncate text-center text-rose-500">{{
+                    column.keyConstraint
+                }}</span>
+            </div>
         </div>
     </div>
 </template>
