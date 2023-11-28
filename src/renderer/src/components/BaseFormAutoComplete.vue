@@ -4,6 +4,7 @@ import type { TProps } from '@components/TableInfoTextInput.vue';
 import { useFocusLoop } from '@composables/useFocusLoop';
 import { toggleDropdown } from '@composables/useAutocomplete';
 import { onClickOutside } from '@vueuse/core';
+import { watchDebounced } from '@vueuse/core';
 import { ref, watch } from 'vue';
 
 const props = defineProps<
@@ -70,6 +71,14 @@ onClickOutside(source, () => {
     emits('dropdownHidden');
 });
 watch(showDropdown, onWatchToggleDropdown, { flush: 'post' });
+
+watchDebounced(
+    () => props.items,
+    () => {
+        floatingDropdownChildren.value = source.value.querySelectorAll('button');
+    },
+    { debounce: 150 },
+);
 </script>
 
 <template>
