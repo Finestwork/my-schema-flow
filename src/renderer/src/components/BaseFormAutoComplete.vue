@@ -75,6 +75,7 @@ watch(showDropdown, onWatchToggleDropdown, { flush: 'post' });
 watchDebounced(
     () => props.items,
     () => {
+        if (source.value) return;
         floatingDropdownChildren.value = source.value.querySelectorAll('button');
     },
     { debounce: 150 },
