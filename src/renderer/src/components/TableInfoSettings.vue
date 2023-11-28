@@ -9,6 +9,7 @@ import { ref, watch } from 'vue';
 
 const TableStore = useTableStore();
 const displayColumnForm = ref(false);
+const showForm = ref(TableStore.hasActiveNode);
 
 watch(
     () => TableStore.hasActiveNode,
@@ -18,10 +19,16 @@ watch(
         }
     },
 );
+watch(
+    () => TableStore.hasActiveNode,
+    (hasActiveNode) => {
+        showForm.value = hasActiveNode;
+    },
+);
 </script>
 
 <template>
-    <TableInfoSectionWrapper :show-forms="TableStore.hasActiveNode">
+    <TableInfoSectionWrapper v-model:show-form="showForm">
         <template v-if="!displayColumnForm">
             <TableInfoSettingsTableName />
             <TableInfoSettingsTableColumns />
