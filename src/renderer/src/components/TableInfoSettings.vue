@@ -8,7 +8,7 @@ import { useTableStore } from '@stores/TableStore';
 import { ref } from 'vue';
 
 const TableStore = useTableStore();
-const displayColumnForm = ref(true);
+const displayColumnForm = ref(false);
 </script>
 
 <template>
