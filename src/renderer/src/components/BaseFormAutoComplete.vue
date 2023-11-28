@@ -5,7 +5,7 @@ import { useFocusLoop } from '@composables/useFocusLoop';
 import { toggleDropdown } from '@composables/useAutocomplete';
 import { onClickOutside } from '@vueuse/core';
 import { watchDebounced } from '@vueuse/core';
-import { nextTick, onUnmounted, ref, watch } from 'vue';
+import { onUnmounted, ref, watch } from 'vue';
 
 const props = defineProps<
     TProps & {
@@ -81,11 +81,11 @@ onUnmounted(() => {
 watch(showDropdown, onWatchToggleDropdown, { flush: 'post' });
 watchDebounced(
     () => props.items,
-    () => {
-        if (source.value) return;
+    async () => {
+        if (!source.value) return;
         floatingDropdownChildren.value = source.value.querySelectorAll('button');
     },
-    { debounce: 150 },
+    { debounce: 150, flush: 'post' },
 );
 </script>
 

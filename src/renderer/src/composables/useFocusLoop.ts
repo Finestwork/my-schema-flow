@@ -8,8 +8,8 @@ export const useFocusLoop = (
     const CurrentIndex = ref(-1);
     const CurrentActiveEl: Ref<HTMLElement | null> = ref(null);
 
-    const scrollElementTo = async () => {
-        if (!elements.value) return;
+    const scrollElementTo = () => {
+        if (!elements.value || !wrapper.value) return;
         CurrentActiveEl.value = elements.value[CurrentIndex.value];
         wrapper.value.scrollTo(0, CurrentActiveEl.value.offsetTop);
         CurrentActiveEl?.value?.focus();
@@ -22,6 +22,7 @@ export const useFocusLoop = (
         } else {
             CurrentIndex.value++;
         }
+
         scrollElementTo();
     };
     const focusPrevious = () => {
