@@ -34,6 +34,7 @@ const onClickAddColumn = () => {
     columnErrors.value = validateColumns(columnData);
     if (columnErrors.value.length !== 0) return;
     addColumn(columnData);
+    columnErrors.value = [];
 };
 </script>
 
