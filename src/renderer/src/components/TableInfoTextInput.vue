@@ -1,5 +1,5 @@
 <script setup lang="ts">
-type TProps = {
+export type TProps = {
     id: string;
     placeholder: string;
     modelValue: string;

@@ -3,9 +3,11 @@ import IconAdd from '@components/IconAdd.vue';
 import TableInfoBackButton from '@components/TableInfoBackButton.vue';
 import TableInfoTextInput from '@components/TableInfoTextInput.vue';
 import TableInfoTextInputNumber from '@components/TableInfoTextInputNumber.vue';
+import TableSettingsAutoComplete from '@components/TableSettingsAutoComplete.vue';
 import TableInfoCheckbox from '@components/TableInfoCheckbox.vue';
+import { mySqlDataTypes } from '@renderer/database/MySqlDataTypes';
 import { addColumn } from '@composables/useTableColumn';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 const emits = defineEmits(['goBack']);
 const columnData = ref({
@@ -14,6 +16,12 @@ const columnData = ref({
     length: '',
     isNull: false,
     keyConstraint: '',
+});
+const mysqlDataTypesArr = computed(() => {
+    return mySqlDataTypes.map((type) => ({
+        name: type.name,
+        description: type.description === '' ? 'No description' : type.description,
+    }));
 });
 </script>
 
@@ -28,14 +36,31 @@ const columnData = ref({
         >
             <template #label>Column name:</template>
         </TableInfoTextInput>
-        <TableInfoTextInput
+        <TableSettingsAutoComplete
             class="mb-4"
             id="tableSettingsColumnDataType"
             placeholder="Place column's data type here"
             v-model="columnData.type"
+            :items="mysqlDataTypesArr"
         >
             <template #label> Data Type:</template>
-        </TableInfoTextInput>
+            <template #float>
+                <button
+                    type="button"
+                    class="group flex w-full py-2 text-xs font-semibold outline-none dark:hover:bg-dark-800/70 dark:focus:bg-dark-800/70"
+                    v-for="type in mysqlDataTypesArr"
+                    :key="type.name"
+                >
+                    <span
+                        class="ml-1 w-4/12 shrink-0 text-left group-hover:text-blue-500 dark:text-slate-300"
+                        >{{ type.name }}</span
+                    >
+                    <p class="w-7/12 truncate text-left dark:text-dark-100">
+                        {{ type.description }}
+                    </p>
+                </button>
+            </template>
+        </TableSettingsAutoComplete>
         <TableInfoTextInputNumber
             class="mb-4"
             id="tableSettingsColumnLength"
