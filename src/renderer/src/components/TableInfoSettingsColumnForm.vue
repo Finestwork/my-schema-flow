@@ -7,7 +7,7 @@ import BaseFormAutoCompleteWithDescription from '@components/BaseFormAutoComplet
 import TableInfoCheckbox from '@components/TableInfoCheckbox.vue';
 import { getAutocomplete } from '@composables/useMysqlDataType';
 import { addColumn } from '@composables/useTableColumn';
-import { ref, reactive, watch } from 'vue';
+import { ref, reactive } from 'vue';
 
 const emits = defineEmits(['goBack']);
 const autocompleteSearchTerm = ref('');
@@ -49,7 +49,6 @@ const onInputUpdateAutocomplete = (e: KeyboardEvent) => {
             :items="mysqlDataTypesArr"
             v-model="columnData.type"
             @input="onInputUpdateAutocomplete"
-            @dropdown-hidden="autocompleteSearchTerm = ''"
         />
         <TableInfoCheckbox id="tableSettingsColumnNull" value="isNull" v-model="columnData.isNull">
             <template #label>Null</template>
