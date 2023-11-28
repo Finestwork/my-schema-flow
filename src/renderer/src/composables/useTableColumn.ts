@@ -3,7 +3,7 @@ import { mySqlDataTypes } from '@renderer/database/MySqlDataTypes';
 import { isEmpty, isBoolean, isNumber } from 'lodash';
 import type { TTableColumn } from '@stores/TableStore';
 
-export const validateColumn = (columnData: TTableColumn): string[] => {
+export const validateColumns = (columnData: TTableColumn): string[] => {
     const Errors = [] as string[];
 
     if (isEmpty(columnData.name)) {
@@ -39,10 +39,6 @@ export const validateColumn = (columnData: TTableColumn): string[] => {
 };
 
 export const addColumn = (columnData: TTableColumn) => {
-    const Errors = validateColumn(columnData);
-
-    if (Errors.length !== 0) return;
-
     const TableStore = useTableStore();
     const Columns = TableStore.currentActiveNode.data.table.columns;
     Columns.push(columnData);
