@@ -6,6 +6,9 @@ type TProps = {
     disabled?: boolean;
 };
 
+const emits = defineEmits<{
+    (e: 'click', payload: Event);
+}>();
 const props = withDefaults(defineProps<TProps>(), {
     colorScheme: 'default',
     disabled: false,
@@ -25,6 +28,7 @@ const props = withDefaults(defineProps<TProps>(), {
             }"
             type="button"
             :disabled="disabled"
+            @click="emits('click', $event)"
         >
             <slot></slot>
         </button>

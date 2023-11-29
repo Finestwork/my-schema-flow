@@ -6,7 +6,10 @@ import TableInfoSettingsBaseButton from '@components/TableInfoSettingsBaseButton
 import { useTableStore } from '@stores/TableStore';
 
 const TableStore = useTableStore();
-const emits = defineEmits(['addColumn']);
+const emits = defineEmits<{
+    (e: 'addColumn'): void;
+    (e: 'copyColumn', payload: Event): void;
+}>();
 </script>
 <template>
     <div class="mt-3.5 flex">
@@ -14,7 +17,11 @@ const emits = defineEmits(['addColumn']);
             <IconAdd />
             <template #tooltip>Add column</template>
         </TableInfoSettingsBaseButton>
-        <TableInfoSettingsBaseButton class="mr-1.5" :disabled="!TableStore.activeNodeHasColumns">
+        <TableInfoSettingsBaseButton
+            class="mr-1.5"
+            :disabled="!TableStore.activeNodeHasColumns"
+            @click="emits('copyColumn', $event)"
+        >
             <IconCopy />
             <template #tooltip>Copy column</template>
         </TableInfoSettingsBaseButton>

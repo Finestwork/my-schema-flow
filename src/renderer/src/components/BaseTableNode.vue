@@ -19,7 +19,7 @@ const getColumns = computed(() => {
         const MySqlDataType = mySqlDataTypes.filter((dataType) => dataType.name === Type)[0];
         let formattedType = '';
 
-        if (MySqlDataType.hasSize && Size !== '') {
+        if (MySqlDataType && MySqlDataType.hasSize && Size !== '') {
             formattedType = `${Type}(${Size})`;
         } else {
             formattedType = `${Type})`;
