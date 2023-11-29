@@ -44,11 +44,15 @@ const onClickAddColumn = async () => {
     columnData.keyConstraint = '';
     keyConstraint.value = '';
 };
-const onClickTogglePrimaryKey = () => {
+const onClickTogglePrimaryKey = (e: MouseEvent) => {
+    const Target = <HTMLButtonElement>e.currentTarget;
+    Target.blur();
     keyConstraint.value = keyConstraint.value !== 'PK' ? 'PK' : '';
     columnData.keyConstraint = <'PK' | 'FK' | ''>keyConstraint.value;
 };
-const onClickToggleForeignKey = () => {
+const onClickToggleForeignKey = (e: MouseEvent) => {
+    const Target = <HTMLButtonElement>e.currentTarget;
+    Target.blur();
     keyConstraint.value = keyConstraint.value !== 'FK' ? 'FK' : '';
     columnData.keyConstraint = <'PK' | 'FK' | ''>keyConstraint.value;
 };
