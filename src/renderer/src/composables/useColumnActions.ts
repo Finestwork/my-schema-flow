@@ -52,6 +52,9 @@ export function useColumnActions() {
     const addColumn = (columnData: TTableColumnCreation) => {
         tableStore.onActiveNodeCreateColumn(columnData);
     };
+    const updateColumn = (columnData: TTableColumnCreation) => {
+        tableStore.updateTableColumn(columnData, activeColumnIndex.value);
+    };
     const cloneColumn = (e: MouseEvent) => {
         if (activeColumnIndex.value === -1) return;
         const Columns = tableStore.currentActiveNode.data.table.columns;
@@ -86,6 +89,7 @@ export function useColumnActions() {
         activeColumnIndex,
         validateColumns,
         addColumn,
+        updateColumn,
         cloneColumn,
         deleteColumn,
         canCloneColumn,

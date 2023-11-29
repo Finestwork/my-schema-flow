@@ -5,6 +5,9 @@ import { ref } from 'vue';
 const { currentIndex } = defineModels<{
     currentIndex: number;
 }>();
+const emits = defineEmits<{
+    (e: 'editColumn', index: number);
+}>();
 const buttonColumns = ref();
 const { sortedActiveNodeColumns } = useSortTableColumns();
 const onClickRemoveActiveState = (e: MouseEvent) => {
@@ -31,6 +34,7 @@ const onClickRemoveActiveState = (e: MouseEvent) => {
                 'dark:hover:bg-dark-blue-500/40 dark:bg-blue-500/20 dark:text-blue-500':
                     currentIndex === index,
             }"
+            @dblclick="emits('editColumn', index)"
         >
             <span
                 class="w-full grow truncate text-left"

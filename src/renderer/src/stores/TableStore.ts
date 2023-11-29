@@ -42,6 +42,17 @@ export const useTableStore = defineStore('tableStore', {
             };
             Columns.push(Object.assign({}, ColumnData));
         },
+        updateTableColumn(columnData: TTableColumnCreation, index: number) {
+            const Columns = this.currentActiveNode.data.table.columns;
+            const CurrentColumn = Columns[index];
+            Columns[index] = Object.assign(CurrentColumn, {
+                name: columnData.name,
+                type: columnData.type,
+                isNull: columnData.isNull,
+                length: columnData.length,
+                keyConstraint: columnData.keyConstraint,
+            });
+        },
     },
     getters: {
         hasActiveNode(state) {
