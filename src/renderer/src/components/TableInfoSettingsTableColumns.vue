@@ -35,6 +35,7 @@ const onClickRemoveActiveState = (e: MouseEvent) => {
             type="button"
             class="mb-2 flex w-full justify-between rounded-md p-2 text-xs font-semibold outline-none last-of-type:mb-0"
             v-for="(column, index) in columns"
+            :key="column.id"
             :class="{
                 'dark:bg-dark-500/20 dark:text-slate-200 dark:hover:bg-dark-500/40':
                     currentIndex !== index,

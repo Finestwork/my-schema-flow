@@ -10,14 +10,14 @@ import TableInfoButtonSelect from '@components/TableInfoButtonSelect.vue';
 import { getAutocomplete } from '@composables/useMysqlDataType';
 import { useColumnActions } from '@composables/useColumnActions';
 import { ref, reactive, computed, nextTick } from 'vue';
-import type { TTableColumn } from '@stores/TableStore';
+import type { TTableColumnCreation } from '@stores/TableStore';
 
 const emits = defineEmits(['goBack']);
 const autocompleteSearchTerm = ref('');
 const columnErrors = ref([]);
 const keyConstraint = ref('');
 const { addColumn, validateColumns } = useColumnActions();
-const columnData: TTableColumn = reactive({
+const columnData: TTableColumnCreation = reactive({
     name: '',
     type: '',
     length: '',

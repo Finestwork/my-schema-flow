@@ -1,4 +1,4 @@
-import { TTableColumn, useTableStore } from '@stores/TableStore';
+import { TTableColumn, TTableColumnCreation, useTableStore } from '@stores/TableStore';
 import { mySqlDataTypes } from '@renderer/database/MySqlDataTypes';
 import { computed, ref } from 'vue';
 import { isBoolean, isEmpty, isNumber } from 'lodash';
@@ -7,7 +7,7 @@ export function useColumnActions() {
     const tableStore = useTableStore();
     const activeColumnIndex = ref(-1);
 
-    const validateColumns = (columnData: TTableColumn): string[] => {
+    const validateColumns = (columnData: TTableColumnCreation): string[] => {
         const Errors = [] as string[];
 
         if (isEmpty(columnData.name)) {
@@ -49,10 +49,8 @@ export function useColumnActions() {
         }
         return Errors;
     };
-    const addColumn = (columnData: TTableColumn) => {
-        const TableStore = useTableStore();
-        const Columns = TableStore.currentActiveNode.data.table.columns;
-        Columns.push(Object.assign({}, columnData));
+    const addColumn = (columnData: TTableColumnCreation) => {
+        tableStore.onActiveNodeCreateColumn(columnData);
     };
     const cloneColumn = (e: MouseEvent) => {
         if (activeColumnIndex.value === -1) return;
@@ -70,7 +68,6 @@ export function useColumnActions() {
     const deleteColumn = () => {
         const TableStore = useTableStore();
         const Columns = TableStore.currentActiveNode.data.table.columns;
-        console.log(Columns, activeColumnIndex);
         Columns.splice(activeColumnIndex, 1);
         activeColumnIndex.value = -1;
     };

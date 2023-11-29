@@ -1,13 +1,17 @@
 import { TestElements } from '@stores/TableStoreTest';
 import { defineStore } from 'pinia';
+import { v4 as uuidv4 } from 'uuid';
 import type { Edge, Node } from '@vue-flow/core';
 
-export type TTableColumn = {
+export type TTableColumnCreation = {
     name: string;
     type: string;
     isNull: boolean;
     length: '' | null;
     keyConstraint: 'PK' | 'FK' | '';
+};
+export type TTableColumn = TTableColumnCreation & {
+    id: number;
 };
 
 export type TTableData = {
@@ -25,12 +29,26 @@ export const useTableStore = defineStore('tableStore', {
             currentActiveNode: {} as (Node & { data: TTableData }[]) | Record<string, never>,
         };
     },
+    actions: {
+        onActiveNodeCreateColumn(columnData: TTableColumnCreation) {
+            const Columns = this.currentActiveNode.data.table.columns;
+            const ColumnData = {
+                id: uuidv4(),
+                name: columnData.name,
+                type: columnData.type,
+                isNull: columnData.isNull,
+                length: columnData.length,
+                keyConstraint: columnData.keyConstraint,
+            };
+            Columns.push(Object.assign({}, ColumnData));
+        },
+    },
     getters: {
         hasActiveNode(state) {
             return Object.keys(state.currentActiveNode).length !== 0;
         },
         activeNodeHasColumns(state) {
-            if (!state.hasActiveNode) {
+            if (!this.hasActiveNode) {
                 return false;
             }
 

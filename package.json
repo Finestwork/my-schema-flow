@@ -32,7 +32,8 @@
     "cleave-zen": "^0.0.9",
     "lodash": "^4.17.21",
     "numeral": "^2.0.6",
-    "pinia": "^2.1.7"
+    "pinia": "^2.1.7",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@electron-toolkit/eslint-config": "^1.0.1",
