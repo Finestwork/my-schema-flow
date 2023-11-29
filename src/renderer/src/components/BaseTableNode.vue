@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { Handle } from '@vue-flow/core';
-import type { TTableData } from '@stores/TableStore';
 import { mySqlDataTypes } from '@renderer/database/MySqlDataTypes';
-import type { PropType } from 'vue';
 import { computed } from 'vue';
 import numeral from 'numeral';
+import type { TTableData } from '@stores/TableStore';
+import type { PropType } from 'vue';
 
 const Props = defineProps({
     data: {
