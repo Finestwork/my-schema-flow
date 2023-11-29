@@ -10,6 +10,7 @@ import { ref, watch } from 'vue';
 const TableStore = useTableStore();
 const displayColumnForm = ref(false);
 const showForm = ref(TableStore.hasActiveNode);
+const columnActiveIndex = ref(-1);
 
 watch(
     () => TableStore.hasActiveNode,
@@ -31,7 +32,7 @@ watch(
     <TableInfoSectionWrapper v-model:show-form="showForm">
         <template v-if="!displayColumnForm">
             <TableInfoSettingsTableName />
-            <TableInfoSettingsTableColumns />
+            <TableInfoSettingsTableColumns :current-index="columnActiveIndex" />
             <TableInfoSettingsControls @add-column="displayColumnForm = true" />
         </template>
         <TableInfoSettingsColumnForm v-else @go-back="displayColumnForm = false" />
