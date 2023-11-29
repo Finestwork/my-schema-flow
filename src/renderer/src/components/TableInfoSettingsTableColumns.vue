@@ -34,13 +34,13 @@ const onClickRemoveActiveState = (e: MouseEvent) => {
             ref="buttonColumns"
             type="button"
             class="mb-2 flex w-full justify-between rounded-md p-2 text-xs font-semibold outline-none last-of-type:mb-0"
+            v-for="(column, index) in columns"
             :class="{
                 'dark:bg-dark-500/20 dark:text-slate-200 dark:hover:bg-dark-500/40':
                     currentIndex !== index,
                 'dark:hover:bg-dark-blue-500/40 dark:bg-blue-500/20 dark:text-blue-500':
                     currentIndex === index,
             }"
-            v-for="(column, index) in columns"
         >
             <span
                 class="w-full grow truncate text-left"

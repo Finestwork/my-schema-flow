@@ -5,33 +5,15 @@ import TableInfoSettingsTableColumns from '@components/TableInfoSettingsTableCol
 import TableInfoSettingsControls from '@components/TableInfoSettingsControls.vue';
 import TableInfoSettingsColumnForm from '@components/TableInfoSettingsColumnForm.vue';
 import { useTableStore } from '@stores/TableStore';
-import { copyColumn, deleteColumn } from '@composables/useColumnActions';
-import { computed, ref, watch } from 'vue';
+import { useColumnActions } from '@composables/useColumnActions';
+import { ref, watch } from 'vue';
 import { useSettingsStore } from '@stores/SettingsStore';
 
 const tableStore = useTableStore();
 const settingsStore = useSettingsStore();
 const showForm = ref(!settingsStore.hideTableSettingsPanel);
 const displayColumnForm = ref(false);
-const columnActiveIndex = ref(-1);
-const onClickCopyColumn = (e: MouseEvent) => {
-    if (columnActiveIndex.value === -1) return;
-    const Target = <HTMLButtonElement>e.currentTarget;
-    copyColumn(columnActiveIndex.value);
-    columnActiveIndex.value = -1;
-    Target.blur();
-};
-const onClickDeleteColumn = () => {
-    deleteColumn(columnActiveIndex.value);
-    columnActiveIndex.value = -1;
-};
-const canCloneColumn = computed(() => {
-    if (columnActiveIndex.value < 0) return false;
-    const Columns = tableStore.currentActiveNode.data.table.columns;
-    const CurrentSelectedColumn = Columns[columnActiveIndex.value];
-    if (CurrentSelectedColumn.length === 0) return false;
-    return CurrentSelectedColumn.keyConstraint !== 'PK';
-});
+const { activeColumnIndex, deleteColumn, cloneColumn, canCloneColumn } = useColumnActions();
 
 watch(
     () => tableStore.hasActiveNode,
@@ -48,13 +30,13 @@ watch(
         <template v-if="tableStore.hasActiveNode">
             <template v-if="!displayColumnForm">
                 <TableInfoSettingsTableName />
-                <TableInfoSettingsTableColumns v-model:current-index="columnActiveIndex" />
+                <TableInfoSettingsTableColumns v-model:current-index="activeColumnIndex" />
                 <TableInfoSettingsControls
                     :can-clone="canCloneColumn"
-                    :column-active-index="columnActiveIndex"
+                    :column-active-index="activeColumnIndex"
                     @add-column="displayColumnForm = true"
-                    @copy-column="onClickCopyColumn"
-                    @delete-column="onClickDeleteColumn"
+                    @copy-column="cloneColumn"
+                    @delete-column="deleteColumn"
                 />
             </template>
             <TableInfoSettingsColumnForm v-else @go-back="displayColumnForm = false" />
