@@ -6,8 +6,9 @@ import TableInfoSettingsBaseButton from '@components/TableInfoSettingsBaseButton
 import { useTableStore } from '@stores/TableStore';
 
 const TableStore = useTableStore();
-const { canClone } = defineProps<{
+const { canClone, canDelete } = defineProps<{
     canClone: boolean;
+    canDelete: boolean;
 }>();
 const emits = defineEmits<{
     (e: 'addColumn'): void;
@@ -31,7 +32,7 @@ const emits = defineEmits<{
         </TableInfoSettingsBaseButton>
         <TableInfoSettingsBaseButton
             color-scheme="danger"
-            :disabled="!TableStore.activeNodeHasColumns"
+            :disabled="!TableStore.activeNodeHasColumns || !canDelete"
             @click="emits('deleteColumn')"
         >
             <IconTrash />

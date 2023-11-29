@@ -78,6 +78,9 @@ export function useColumnActions() {
         if (CurrentSelectedColumn.length === 0) return false;
         return CurrentSelectedColumn.keyConstraint !== 'PK';
     });
+    const canDeleteColumn = computed(() => {
+        return activeColumnIndex.value !== -1;
+    });
 
     return {
         activeColumnIndex,
@@ -86,5 +89,6 @@ export function useColumnActions() {
         cloneColumn,
         deleteColumn,
         canCloneColumn,
+        canDeleteColumn,
     };
 }

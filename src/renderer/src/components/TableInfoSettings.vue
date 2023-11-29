@@ -13,7 +13,8 @@ const tableStore = useTableStore();
 const settingsStore = useSettingsStore();
 const showForm = ref(!settingsStore.hideTableSettingsPanel);
 const displayColumnForm = ref(false);
-const { activeColumnIndex, deleteColumn, cloneColumn, canCloneColumn } = useColumnActions();
+const { activeColumnIndex, deleteColumn, cloneColumn, canCloneColumn, canDeleteColumn } =
+    useColumnActions();
 
 watch(
     () => tableStore.hasActiveNode,
@@ -34,6 +35,7 @@ watch(
                 <TableInfoSettingsTableColumns v-model:current-index="activeColumnIndex" />
                 <TableInfoSettingsControls
                     :can-clone="canCloneColumn"
+                    :can-delete="canDeleteColumn"
                     :column-active-index="activeColumnIndex"
                     @add-column="displayColumnForm = true"
                     @copy-column="cloneColumn"
