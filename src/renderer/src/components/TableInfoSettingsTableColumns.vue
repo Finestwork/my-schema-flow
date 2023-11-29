@@ -9,7 +9,7 @@ const { currentIndex } = defineModels<{
     currentIndex: number;
 }>();
 const columns = computed((): null | TTableColumn[] => {
-    const Columns = TableStore.currentActiveNode.data.table.columns;
+    const Columns = TableStore?.currentActiveNode?.data?.table?.columns ?? [];
     return Columns.sort((a, b) => {
         if (a.keyConstraint === b.keyConstraint) {
             return 0;
