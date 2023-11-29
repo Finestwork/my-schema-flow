@@ -12,12 +12,12 @@ const displayColumnForm = ref(false);
 const showForm = ref(TableStore.hasActiveNode);
 const columnActiveIndex = ref(-1);
 const onClickCopyColumn = (e: MouseEvent) => {
+    if (columnActiveIndex.value === -1) return;
     const Target = <HTMLButtonElement>e.currentTarget;
     const Columns = TableStore.currentActiveNode.data.table.columns;
     const CurrentColumn = Columns[columnActiveIndex.value];
     Columns.push(Object.assign({}, CurrentColumn));
     columnActiveIndex.value = -1;
-    console.log(e.currentTarget, e.target);
     Target.blur();
 };
 
