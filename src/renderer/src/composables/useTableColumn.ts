@@ -35,7 +35,7 @@ export const validateColumns = (columnData: TTableColumn): string[] => {
     const CurrentActiveNode = useTableStore().currentActiveNode;
     const Columns = CurrentActiveNode.data.table.columns;
     const Index = Columns.findIndex((column) => column.keyConstraint === 'PK');
-    if (Index !== -1) {
+    if (Index !== -1 && columnData.keyConstraint === 'PK') {
         Errors.push("There's an existing primary key already.");
     }
 
