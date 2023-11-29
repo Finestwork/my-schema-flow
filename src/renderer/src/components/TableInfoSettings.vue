@@ -6,7 +6,7 @@ import TableInfoSettingsControls from '@components/TableInfoSettingsControls.vue
 import TableInfoSettingsColumnForm from '@components/TableInfoSettingsColumnForm.vue';
 import { useTableStore } from '@stores/TableStore';
 import { copyColumn, deleteColumn } from '@composables/useColumnActions';
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 
 const TableStore = useTableStore();
 const displayColumnForm = ref(false);
@@ -23,6 +23,13 @@ const onClickDeleteColumn = () => {
     deleteColumn(columnActiveIndex.value);
     columnActiveIndex.value = -1;
 };
+const canCloneColumn = computed(() => {
+    if (columnActiveIndex.value < 0) return false;
+    const Columns = TableStore.currentActiveNode.data.table.columns;
+    const CurrentSelectedColumn = Columns[columnActiveIndex.value];
+    if (CurrentSelectedColumn.length === 0) return false;
+    return CurrentSelectedColumn.keyConstraint !== 'PK';
+});
 
 watch(
     () => TableStore.hasActiveNode,
@@ -46,6 +53,8 @@ watch(
             <TableInfoSettingsTableName />
             <TableInfoSettingsTableColumns v-model:current-index="columnActiveIndex" />
             <TableInfoSettingsControls
+                :can-clone="canCloneColumn"
+                :column-active-index="columnActiveIndex"
                 @add-column="displayColumnForm = true"
                 @copy-column="onClickCopyColumn"
                 @delete-column="onClickDeleteColumn"

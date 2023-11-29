@@ -53,6 +53,10 @@ export const copyColumn = (index: number) => {
     const TableStore = useTableStore();
     const Columns = TableStore.currentActiveNode.data.table.columns;
     const CurrentColumn = Columns[index];
+
+    // Column with PK cannot be cloned
+    if (CurrentColumn.keyConstraint === 'PK') return;
+
     Columns.push(Object.assign({}, CurrentColumn));
 };
 export const deleteColumn = (index: number) => {

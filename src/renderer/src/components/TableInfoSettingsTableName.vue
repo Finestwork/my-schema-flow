@@ -1,7 +1,17 @@
 <script setup lang="ts">
 import { useTableStore } from '@stores/TableStore';
+import { computed } from 'vue';
 
 const TableStore = useTableStore();
+const tableName = computed({
+    set(value: string) {
+        if (!TableStore.currentActiveNode) return;
+        TableStore.currentActiveNode.data.table.name = value;
+    },
+    get() {
+        return TableStore?.currentActiveNode?.data?.table?.name ?? '';
+    },
+});
 </script>
 <template>
     <label
@@ -15,6 +25,6 @@ const TableStore = useTableStore();
         type="text"
         placeholder="Place table name here"
         id="tableSettingsTableName"
-        v-model="TableStore.currentActiveNode.data.table.name"
+        v-model="tableName"
     />
 </template>

@@ -6,6 +6,9 @@ import TableInfoSettingsBaseButton from '@components/TableInfoSettingsBaseButton
 import { useTableStore } from '@stores/TableStore';
 
 const TableStore = useTableStore();
+const { canClone } = defineProps<{
+    canClone: boolean;
+}>();
 const emits = defineEmits<{
     (e: 'addColumn'): void;
     (e: 'copyColumn', payload: Event): void;
@@ -20,7 +23,7 @@ const emits = defineEmits<{
         </TableInfoSettingsBaseButton>
         <TableInfoSettingsBaseButton
             class="mr-1.5"
-            :disabled="!TableStore.activeNodeHasColumns"
+            :disabled="!TableStore.activeNodeHasColumns || !canClone"
             @click="emits('copyColumn', $event)"
         >
             <IconCopy />
