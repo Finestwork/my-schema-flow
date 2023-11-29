@@ -1,28 +1,12 @@
 <script setup lang="ts">
-import type { TTableColumn } from '@stores/TableStore';
-import { useTableStore } from '@stores/TableStore';
-import { computed, ref } from 'vue';
+import { useSortTableColumns } from '@composables/useSortTableColumns';
+import { ref } from 'vue';
 
-const TableStore = useTableStore();
-const buttonColumns = ref();
 const { currentIndex } = defineModels<{
     currentIndex: number;
 }>();
-const columns = computed((): null | TTableColumn[] => {
-    const Columns = TableStore?.currentActiveNode?.data?.table?.columns ?? [];
-    return Columns.sort((a, b) => {
-        if (a.keyConstraint === b.keyConstraint) {
-            return 0;
-        }
-        if (a.keyConstraint === 'PK') {
-            return -1;
-        }
-        if (a.keyConstraint === 'FK') {
-            return b.keyConstraint === null ? -1 : 1;
-        }
-        return 1;
-    });
-});
+const buttonColumns = ref();
+const { sortedColumns } = useSortTableColumns();
 const onClickRemoveActiveState = (e: MouseEvent) => {
     const Target = <HTMLElement>e.target;
     const PreviousValue = currentIndex.value;
@@ -39,7 +23,7 @@ const onClickRemoveActiveState = (e: MouseEvent) => {
             ref="buttonColumns"
             type="button"
             class="mb-2 flex w-full justify-between rounded-md p-2 text-xs font-semibold outline-none last-of-type:mb-0"
-            v-for="(column, index) in columns"
+            v-for="(column, index) in sortedColumns"
             :key="column.id"
             :class="{
                 'dark:bg-dark-500/20 dark:text-slate-200 dark:hover:bg-dark-500/40':
