@@ -14,7 +14,7 @@ const Props = defineProps({
 });
 const getColumns = computed(() => {
     return Props.data.table.columns.map((column) => {
-        const Size = numeral(column.length).format('0.0a');
+        const Size = numeral(column.length).format('0a');
         const Type = column.type;
         const MySqlDataType = mySqlDataTypes.filter((dataType) => dataType.name === Type)[0];
         let formattedType = '';
