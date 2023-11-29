@@ -25,7 +25,12 @@ const columns = computed((): null | TTableColumn[] => {
 });
 const onClickRemoveActiveState = (e: MouseEvent) => {
     const Target = <HTMLElement>e.target;
+    const PreviousValue = currentIndex.value;
     currentIndex.value = buttonColumns.value.findIndex((btn) => btn.contains(Target));
+    if (currentIndex.value === PreviousValue) {
+        currentIndex.value = -1;
+        return;
+    }
 };
 </script>
 <template>

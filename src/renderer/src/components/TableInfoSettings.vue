@@ -19,6 +19,7 @@ watch(
     () => tableStore.hasActiveNode,
     (hasActiveNode) => {
         if (!hasActiveNode) {
+            activeColumnIndex.value = -1;
             displayColumnForm.value = false;
         }
     },
