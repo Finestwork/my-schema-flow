@@ -8,7 +8,7 @@ import TableInfoTextInputNumber from '@components/TableInfoTextInputNumber.vue';
 import TableInfoCheckbox from '@components/TableInfoCheckbox.vue';
 import TableInfoButtonSelect from '@components/TableInfoButtonSelect.vue';
 import { getAutocomplete } from '@composables/useMysqlDataType';
-import { addColumn, validateColumns } from '@composables/useTableColumn';
+import { addColumn, validateColumns } from '@composables/useColumnActions';
 import { ref, reactive, computed, nextTick } from 'vue';
 import type { TTableColumn } from '@stores/TableStore';
 

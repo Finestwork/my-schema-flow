@@ -9,6 +9,7 @@ const TableStore = useTableStore();
 const emits = defineEmits<{
     (e: 'addColumn'): void;
     (e: 'copyColumn', payload: Event): void;
+    (e: 'deleteColumn'): void;
 }>();
 </script>
 <template>
@@ -28,6 +29,7 @@ const emits = defineEmits<{
         <TableInfoSettingsBaseButton
             color-scheme="danger"
             :disabled="!TableStore.activeNodeHasColumns"
+            @click="emits('deleteColumn')"
         >
             <IconTrash />
             <template #tooltip>Delete column</template>

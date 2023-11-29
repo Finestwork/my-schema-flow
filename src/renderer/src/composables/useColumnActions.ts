@@ -1,7 +1,6 @@
-import { useTableStore } from '@stores/TableStore';
+import { TTableColumn, useTableStore } from '@stores/TableStore';
 import { mySqlDataTypes } from '@renderer/database/MySqlDataTypes';
-import { isEmpty, isBoolean, isNumber } from 'lodash';
-import type { TTableColumn } from '@stores/TableStore';
+import { isBoolean, isEmpty, isNumber } from 'lodash';
 
 export const validateColumns = (columnData: TTableColumn): string[] => {
     const Errors = [] as string[];
@@ -45,9 +44,19 @@ export const validateColumns = (columnData: TTableColumn): string[] => {
     }
     return Errors;
 };
-
 export const addColumn = (columnData: TTableColumn) => {
     const TableStore = useTableStore();
     const Columns = TableStore.currentActiveNode.data.table.columns;
     Columns.push(Object.assign({}, columnData));
+};
+export const copyColumn = (index: number) => {
+    const TableStore = useTableStore();
+    const Columns = TableStore.currentActiveNode.data.table.columns;
+    const CurrentColumn = Columns[index];
+    Columns.push(Object.assign({}, CurrentColumn));
+};
+export const deleteColumn = (index: number) => {
+    const TableStore = useTableStore();
+    const Columns = TableStore.currentActiveNode.data.table.columns;
+    Columns.splice(index, 1);
 };

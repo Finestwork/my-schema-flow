@@ -5,6 +5,7 @@ import TableInfoSettingsTableColumns from '@components/TableInfoSettingsTableCol
 import TableInfoSettingsControls from '@components/TableInfoSettingsControls.vue';
 import TableInfoSettingsColumnForm from '@components/TableInfoSettingsColumnForm.vue';
 import { useTableStore } from '@stores/TableStore';
+import { copyColumn, deleteColumn } from '@composables/useColumnActions';
 import { ref, watch } from 'vue';
 
 const TableStore = useTableStore();
@@ -14,11 +15,13 @@ const columnActiveIndex = ref(-1);
 const onClickCopyColumn = (e: MouseEvent) => {
     if (columnActiveIndex.value === -1) return;
     const Target = <HTMLButtonElement>e.currentTarget;
-    const Columns = TableStore.currentActiveNode.data.table.columns;
-    const CurrentColumn = Columns[columnActiveIndex.value];
-    Columns.push(Object.assign({}, CurrentColumn));
+    copyColumn(columnActiveIndex.value);
     columnActiveIndex.value = -1;
     Target.blur();
+};
+const onClickDeleteColumn = () => {
+    deleteColumn(columnActiveIndex.value);
+    columnActiveIndex.value = -1;
 };
 
 watch(
@@ -45,6 +48,7 @@ watch(
             <TableInfoSettingsControls
                 @add-column="displayColumnForm = true"
                 @copy-column="onClickCopyColumn"
+                @delete-column="onClickDeleteColumn"
             />
         </template>
         <TableInfoSettingsColumnForm v-else @go-back="displayColumnForm = false" />
