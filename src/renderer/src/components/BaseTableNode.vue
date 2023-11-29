@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { Handle } from '@vue-flow/core';
 import type { TTableData } from '@stores/TableStore';
+import { mySqlDataTypes } from '@renderer/database/MySqlDataTypes';
 import type { PropType } from 'vue';
 import { computed } from 'vue';
+import numeral from 'numeral';
 
 const Props = defineProps({
     data: {
@@ -11,7 +13,24 @@ const Props = defineProps({
     },
 });
 const getColumns = computed(() => {
-    return Props.data.table.columns;
+    return Props.data.table.columns.map((column) => {
+        const Size = numeral(column.length).format('0.0a');
+        const Type = column.type;
+        const MySqlDataType = mySqlDataTypes.filter((dataType) => dataType.name === Type)[0];
+        let formattedType = '';
+
+        if (MySqlDataType.hasSize && Size !== '') {
+            formattedType = `${Type}(${Size})`;
+        } else {
+            formattedType = `${Type})`;
+        }
+
+        return {
+            name: column.name,
+            type: formattedType,
+            keyConstraint: column.keyConstraint,
+        };
+    });
 });
 </script>
 
@@ -28,8 +47,8 @@ const getColumns = computed(() => {
                 class="flex justify-between px-2 py-2 text-xs font-semibold"
                 v-for="column in getColumns"
             >
-                <span class="w-6/12 grow truncate text-slate-500">{{ column.name }}</span>
-                <span class="w-3/12 grow truncate text-left text-slate-500">{{ column.type }}</span>
+                <span class="w-4/12 grow truncate text-slate-500">{{ column.name }}</span>
+                <span class="w-4/12 grow truncate text-left text-slate-500">{{ column.type }}</span>
                 <span class="w-2/12 grow truncate text-center text-rose-500">{{
                     column.keyConstraint
                 }}</span>

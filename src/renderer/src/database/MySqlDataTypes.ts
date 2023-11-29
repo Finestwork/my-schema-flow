@@ -1,5 +1,3 @@
-import { stubTrue } from 'lodash';
-
 export type TMysqlDataType = {
     name: string;
     hasSize: boolean;
