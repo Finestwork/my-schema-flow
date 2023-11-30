@@ -3,7 +3,6 @@ import BaseFormAutoComplete from '@components/BaseFormAutoComplete.vue';
 import BaseFormAutoCompleteItem from '@components/BaseFormAutoCompleteItem.vue';
 import { useTableStore } from '@stores/TableStore';
 import { computed, reactive, watch } from 'vue';
-import { state } from 'vue-tsc/out/shared';
 
 const tableStore = useTableStore();
 const states = reactive({
@@ -16,6 +15,15 @@ const getAttributes = computed(() =>
         attr.toLowerCase().includes(states.attributeSearchTerm.toLowerCase()),
     ),
 );
+const onKeydownChooseAttribute = (e: KeyboardEvent, value: string) => {
+    if (e.key.toLowerCase() !== 'enter') return;
+    states.attribute = value;
+    states.showAttributeDropdown = false;
+};
+const onClickChooseAttribute = (value: string) => {
+    states.attribute = value;
+    states.showAttributeDropdown = false;
+};
 
 watch(
     () => states.attribute,
@@ -37,7 +45,11 @@ watch(
             <template #label>Attribute:</template>
             <template #float>
                 <div class="scrollbar-slim">
-                    <BaseFormAutoCompleteItem v-for="attr in getAttributes">
+                    <BaseFormAutoCompleteItem
+                        v-for="attr in getAttributes"
+                        @keydown="onKeydownChooseAttribute($event, attr)"
+                        @click="onClickChooseAttribute(attr)"
+                    >
                         {{ attr }}
                     </BaseFormAutoCompleteItem>
                 </div>

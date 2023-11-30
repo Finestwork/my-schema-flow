@@ -65,9 +65,9 @@ const onBlurFormatModelValue = () => {
                     class="mr-1 w-4/12 shrink-0 truncate text-left group-hover:text-blue-500 group-focus:text-blue-500 dark:text-slate-300"
                     >{{ type.name }}</span
                 >
-                <p class="w-7/12 truncate text-left dark:text-dark-100">
+                <span class="w-7/12 truncate text-left dark:text-dark-100">
                     {{ type.description }}
-                </p>
+                </span>
             </button>
         </template>
     </BaseFormAutoComplete>
