@@ -15,8 +15,9 @@ const onClickToggleSettings = () => {
 <template>
     <div>
         <button
-            class="flex w-full items-center justify-between border-b-2 px-2 py-2.5 text-left dark:border-dark-600 dark:bg-dark-700 dark:hover:bg-dark-700/70 dark:focus:bg-dark-700/70"
+            class="flex w-full items-center justify-between px-2 py-2.5 text-left dark:bg-dark-700 dark:hover:bg-dark-700/70 dark:focus:bg-dark-700/70"
             type="button"
+            :class="{ 'border-b-[1px] dark:border-dark-600': !showForm }"
             @click="onClickToggleSettings"
         >
             <span class="text-xs font-semibold dark:text-dark-300">
