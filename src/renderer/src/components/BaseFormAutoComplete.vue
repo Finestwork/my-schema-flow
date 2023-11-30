@@ -77,8 +77,11 @@ onUnmounted(() => {
 });
 watch(
     showDropdown,
-    () => {
-        if (!floatingDropdown.value) return;
+    (showDropdown) => {
+        if (!showDropdown) {
+            currentIndex.value = -1;
+            return;
+        }
         floatingDropdownChildren.value = source.value.querySelectorAll('button');
         const TextInput = source.value.querySelector('input');
         toggleDropdown(TextInput, floatingDropdown);
