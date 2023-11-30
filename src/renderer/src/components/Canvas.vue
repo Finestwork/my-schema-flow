@@ -29,6 +29,7 @@ const onMove = () => {
             :default-edge-options="{ type: 'smoothstep', animated: true }"
             :default-viewport="{ zoom: 0.5 }"
             :max-zoom="1.5"
+            :delete-key-code="null"
             @node-click="onNodeClick"
             @node-drag="onNodeDrag"
             @pane-click="onPaneClick"
