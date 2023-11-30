@@ -62,12 +62,6 @@ const onFloatingDropdownKeydown = (e: KeyboardEvent) => {
         emits('onSelect', { currentIndex: currentIndex.value });
     }
 };
-const onWatchToggleDropdown = () => {
-    if (!floatingDropdown.value) return;
-    floatingDropdownChildren.value = source.value.querySelectorAll('button');
-    const TextInput = source.value.querySelector('input');
-    toggleDropdown(TextInput, floatingDropdown);
-};
 const onResizeUpdateDropdownSize = () => {
     (<HTMLElement>document.activeElement)?.blur();
     showDropdown.value = false;
@@ -81,7 +75,16 @@ onClickOutside(source, () => {
 onUnmounted(() => {
     window.removeEventListener('resize', onResizeUpdateDropdownSize);
 });
-watch(showDropdown, onWatchToggleDropdown, { flush: 'post' });
+watch(
+    showDropdown,
+    () => {
+        if (!floatingDropdown.value) return;
+        floatingDropdownChildren.value = source.value.querySelectorAll('button');
+        const TextInput = source.value.querySelector('input');
+        toggleDropdown(TextInput, floatingDropdown);
+    },
+    { flush: 'post' },
+);
 watchDebounced(
     () => props.items,
     async () => {

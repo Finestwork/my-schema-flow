@@ -68,7 +68,7 @@ export const useTableStore = defineStore('tableStore', {
         },
         getAttributesOfCurrentActiveNode(state) {
             const Columns = state.currentActiveNode.data.table.columns;
-            return Columns.map((column) => column.name);
+            return Columns.slice().map((column) => column.name);
         },
     },
 });

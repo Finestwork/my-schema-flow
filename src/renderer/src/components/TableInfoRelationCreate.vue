@@ -40,7 +40,7 @@ watch(
             placeholder="Place table's attribute here"
             v-model="states.attribute"
             v-model:show-dropdown="states.showAttributeDropdown"
-            :items="tableStore.getAttributesOfCurrentActiveNode"
+            :items="getAttributes"
         >
             <template #label>Attribute:</template>
             <template #float>
