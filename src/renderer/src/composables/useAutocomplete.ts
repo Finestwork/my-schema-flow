@@ -1,22 +1,27 @@
 import { computePosition, size, flip } from '@floating-ui/dom';
 import type { Ref } from 'vue';
-import { nextTick } from 'vue';
+import { nextTick, toValue } from 'vue';
 
-export const toggleDropdown = (source: Ref<HTMLElement>, floatingDropdown: Ref<HTMLElement>) => {
+export const toggleDropdown = (
+    source: Ref<HTMLElement> | HTMLElement,
+    floatingDropdown: Ref<HTMLElement> | HTMLElement,
+) => {
+    const Source = toValue(source);
+    const FloatingDropdown = toValue(floatingDropdown);
     const Middlewares = [
         size({
             apply({ rects }) {
-                Object.assign(floatingDropdown.value.style, {
+                Object.assign(FloatingDropdown.style, {
                     width: `${rects.reference.width}px`,
                 });
             },
         }),
         flip(),
     ];
-    computePosition(source.value, floatingDropdown.value, { middleware: Middlewares }).then(
+    computePosition(Source, FloatingDropdown, { middleware: Middlewares }).then(
         async ({ x, y }) => {
             await nextTick();
-            Object.assign(floatingDropdown.value.style, {
+            Object.assign(FloatingDropdown.style, {
                 top: `${y}px`,
                 left: `${x}px`,
             });

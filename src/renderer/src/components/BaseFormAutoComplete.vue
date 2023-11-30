@@ -65,7 +65,8 @@ const onFloatingDropdownKeydown = (e: KeyboardEvent) => {
 const onWatchToggleDropdown = () => {
     if (!floatingDropdown.value) return;
     floatingDropdownChildren.value = source.value.querySelectorAll('button');
-    toggleDropdown(source, floatingDropdown);
+    const TextInput = source.value.querySelector('input');
+    toggleDropdown(TextInput, floatingDropdown);
 };
 const onResizeUpdateDropdownSize = () => {
     (<HTMLElement>document.activeElement)?.blur();
