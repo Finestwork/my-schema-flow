@@ -2,13 +2,27 @@
 import BaseFormAutoComplete from '@components/BaseFormAutoComplete.vue';
 import BaseFormAutoCompleteItem from '@components/BaseFormAutoCompleteItem.vue';
 import { useTableStore } from '@stores/TableStore';
-import { reactive } from 'vue';
+import { computed, reactive, watch } from 'vue';
+import { state } from 'vue-tsc/out/shared';
 
 const tableStore = useTableStore();
 const states = reactive({
     attribute: '',
+    attributeSearchTerm: '',
     showAttributeDropdown: false,
 });
+const getAttributes = computed(() =>
+    tableStore.getAttributesOfCurrentActiveNode.filter((attr) =>
+        attr.toLowerCase().includes(states.attributeSearchTerm.toLowerCase()),
+    ),
+);
+
+watch(
+    () => states.attribute,
+    (attr) => {
+        states.attributeSearchTerm = attr;
+    },
+);
 </script>
 
 <template>
@@ -23,9 +37,7 @@ const states = reactive({
             <template #label>Attribute:</template>
             <template #float>
                 <div class="scrollbar-slim">
-                    <BaseFormAutoCompleteItem
-                        v-for="attr in tableStore.getAttributesOfCurrentActiveNode"
-                    >
+                    <BaseFormAutoCompleteItem v-for="attr in getAttributes">
                         {{ attr }}
                     </BaseFormAutoCompleteItem>
                 </div>
