@@ -8,7 +8,7 @@ import type { TTableColumn } from '@stores/TableStore';
 export function useSortTableColumns() {
     const tableStore = useTableStore();
     const sortedActiveNodeColumns = computed((): null | TTableColumn[] => {
-        const Columns = tableStore?.currentActiveNode?.data?.table?.columns ?? [];
+        const Columns = tableStore?.currentActiveNode?.data?.table?.columns?.slice() ?? [];
         return Columns.sort((a, b) => {
             if (a.keyConstraint === b.keyConstraint) {
                 return 0;
