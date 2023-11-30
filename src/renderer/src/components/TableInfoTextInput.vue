@@ -1,10 +1,12 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 export type TProps = {
     id: string;
     placeholder: string;
     modelValue: string;
 };
 
+const input = ref();
 const props = defineProps<TProps>();
 const { modelValue } = defineModels<{
     modelValue: string;
@@ -15,6 +17,9 @@ const emits = defineEmits<{
     (e: 'keydown', payload: Event): void;
     (e: 'input', payload: Event): void;
 }>();
+defineExpose({
+    input,
+});
 </script>
 
 <template>

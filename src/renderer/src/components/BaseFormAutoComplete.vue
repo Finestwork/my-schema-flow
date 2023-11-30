@@ -25,6 +25,7 @@ const emits = defineEmits<{
 const source = ref();
 const floatingDropdown = ref();
 const floatingDropdownChildren = ref();
+const tableInfoTextInput = ref();
 const { focusNext, focusPrevious, currentIndex } = useFocusLoop(
     floatingDropdown,
     floatingDropdownChildren,
@@ -39,7 +40,7 @@ const onTextInputBlur = (e: FocusEvent) => {
     }
 };
 const onTextInputKeydown = async (e: KeyboardEvent) => {
-    // Add delay so that when text input got blurred, dropdown component will position the scroll bar correctly
+    // Add delay so that when text input got blurred, a dropdown component will position the scroll bar correctly
     setTimeout(() => {
         if (e.key.toLowerCase() === 'arrowdown') {
             focusNext();
@@ -90,7 +91,8 @@ watch(
 );
 watchDebounced(
     () => props.items,
-    async () => {
+    async (items) => {
+        if (items.length === 0) currentIndex.value = -1;
         if (!source.value) return;
         floatingDropdownChildren.value = source.value.querySelectorAll('button');
     },
@@ -101,6 +103,7 @@ watchDebounced(
 <template>
     <div ref="source">
         <TableInfoTextInput
+            ref="tableInfoTextInput"
             :id="props.id"
             :placeholder="props.placeholder"
             v-model="modelValue"
