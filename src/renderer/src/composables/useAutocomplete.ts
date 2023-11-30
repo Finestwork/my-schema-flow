@@ -1,5 +1,6 @@
-import { computePosition, size } from '@floating-ui/dom';
+import { computePosition, size, flip } from '@floating-ui/dom';
 import type { Ref } from 'vue';
+import { nextTick } from 'vue';
 
 export const toggleDropdown = (source: Ref<HTMLElement>, floatingDropdown: Ref<HTMLElement>) => {
     const Middlewares = [
@@ -10,9 +11,11 @@ export const toggleDropdown = (source: Ref<HTMLElement>, floatingDropdown: Ref<H
                 });
             },
         }),
+        flip(),
     ];
     computePosition(source.value, floatingDropdown.value, { middleware: Middlewares }).then(
-        ({ x, y }) => {
+        async ({ x, y }) => {
+            await nextTick();
             Object.assign(floatingDropdown.value.style, {
                 top: `${y}px`,
                 left: `${x}px`,

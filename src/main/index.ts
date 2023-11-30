@@ -18,7 +18,7 @@ function createWindow(): void {
     });
 
     mainWindow.webContents.openDevTools({
-        mode: 'detach',
+        mode: 'bottom',
     });
     mainWindow.on('ready-to-show', () => {
         mainWindow.maximize();

@@ -106,7 +106,6 @@ watchDebounced(
                 <slot name="label"></slot>
             </template>
         </TableInfoTextInput>
-
         <div
             ref="floatingDropdown"
             class="scrollbar-slim absolute max-h-[200px] overflow-y-scroll bg-white shadow-xl dark:bg-dark-700"

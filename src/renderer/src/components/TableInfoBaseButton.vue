@@ -10,7 +10,7 @@ const emits = defineEmits<{
         @click="emits('click', $event)"
     >
         <span
-            class="mr-1 block w-[10px] group-hover:stroke-blue-500 group-focus:stroke-blue-600 dark:stroke-slate-300"
+            class="mr-1 block w-[10px] group-hover:stroke-blue-500 group-focus:stroke-blue-500 dark:stroke-slate-300"
         >
             <slot name="icon"></slot>
         </span>
