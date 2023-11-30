@@ -7,6 +7,7 @@ import TableInfoTextInput from '@components/TableInfoTextInput.vue';
 import TableInfoTextInputNumber from '@components/TableInfoTextInputNumber.vue';
 import TableInfoCheckbox from '@components/TableInfoCheckbox.vue';
 import TableInfoButtonSelect from '@components/TableInfoButtonSelect.vue';
+import TableInfoBaseButton from '@components/TableInfoBaseButton.vue';
 import { getAutocomplete } from '@composables/useMysqlDataType';
 import { useColumnActions } from '@composables/useColumnActions';
 import { ref, reactive, computed, nextTick } from 'vue';
@@ -115,20 +116,12 @@ const onClickToggleForeignKey = (e: MouseEvent) => {
                 Foreign Key
             </TableInfoButtonSelect>
         </div>
-        <button
-            class="group mt-6 flex w-full items-center justify-center rounded py-2.5 outline-none dark:bg-dark-700 dark:hover:bg-blue-600/10 dark:focus:bg-blue-600/10"
-            type="button"
-            @click="onClickAddColumn"
-        >
-            <span class="mr-1 block w-[10px]">
-                <IconAdd
-                    class="group-hover:stroke-blue-500 group-focus:stroke-blue-600 dark:stroke-slate-300"
-                />
-            </span>
-            <span
-                class="text-xs font-semibold group-hover:text-blue-500 group-focus:text-blue-500 dark:text-slate-300"
-                >Add Column</span
-            >
-        </button>
+
+        <TableInfoBaseButton @click="onClickAddColumn">
+            <template #icon>
+                <IconAdd />
+            </template>
+            <template #text>Add Column</template>
+        </TableInfoBaseButton>
     </div>
 </template>

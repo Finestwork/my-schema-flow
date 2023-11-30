@@ -2,7 +2,7 @@
 import IconAdd from '@components/IconAdd.vue';
 import IconCopy from '@components/IconCopy.vue';
 import IconTrash from '@components/IconTrash.vue';
-import TableInfoSettingsBaseButton from '@components/TableInfoSettingsBaseButton.vue';
+import TableInfoBaseButtonIcon from '@components/TableInfoBaseButtonIcon.vue';
 import { useTableStore } from '@stores/TableStore';
 
 const TableStore = useTableStore();
@@ -18,25 +18,25 @@ const emits = defineEmits<{
 </script>
 <template>
     <div class="mt-3.5 flex">
-        <TableInfoSettingsBaseButton class="mr-1.5" @click="emits('addColumn')">
+        <TableInfoBaseButtonIcon class="mr-1.5" @click="emits('addColumn')">
             <IconAdd />
             <template #tooltip>Add column</template>
-        </TableInfoSettingsBaseButton>
-        <TableInfoSettingsBaseButton
+        </TableInfoBaseButtonIcon>
+        <TableInfoBaseButtonIcon
             class="mr-1.5"
             :disabled="!TableStore.activeNodeHasColumns || !canClone"
             @click="emits('copyColumn', $event)"
         >
             <IconCopy />
             <template #tooltip>Copy column</template>
-        </TableInfoSettingsBaseButton>
-        <TableInfoSettingsBaseButton
+        </TableInfoBaseButtonIcon>
+        <TableInfoBaseButtonIcon
             color-scheme="danger"
             :disabled="!TableStore.activeNodeHasColumns || !canDelete"
             @click="emits('deleteColumn')"
         >
             <IconTrash />
             <template #tooltip>Delete column</template>
-        </TableInfoSettingsBaseButton>
+        </TableInfoBaseButtonIcon>
     </div>
 </template>
