@@ -19,7 +19,9 @@ const onClickToggleSettings = () => {
             type="button"
             @click="onClickToggleSettings"
         >
-            <span class="text-xs font-semibold dark:text-dark-300">Table Settings</span>
+            <span class="text-xs font-semibold dark:text-dark-300">
+                <slot name="label"></slot>
+            </span>
             <span
                 ref="iconWrapper"
                 class="block w-[12px] dark:stroke-dark-300"

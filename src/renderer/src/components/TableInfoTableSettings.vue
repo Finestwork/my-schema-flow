@@ -35,6 +35,7 @@ watch(
 
 <template>
     <TableInfoSectionWrapper v-model:show-form="showForm">
+        <template #label>Table Settings</template>
         <template v-if="tableStore.hasActiveNode">
             <template v-if="!displayColumnForm && !displayEditColumnForm">
                 <TableInfoSettingsTableName />
