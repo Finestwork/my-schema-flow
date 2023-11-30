@@ -15,22 +15,24 @@ const getAttributes = computed(() =>
         attr.toLowerCase().includes(states.attributeSearchTerm.toLowerCase()),
     ),
 );
+const onSelectUpdateAttribute = ({ currentIndex }) => {
+    states.attribute = tableStore.getAttributesOfCurrentActiveNode[currentIndex];
+};
+const onInputUpdateSearchTerm = (e: KeyboardEvent) => {
+    const Target = <HTMLInputElement>e.currentTarget;
+    states.attributeSearchTerm = Target.value;
+};
 const onKeydownChooseAttribute = (e: KeyboardEvent, value: string) => {
     if (e.key.toLowerCase() !== 'enter') return;
     states.attribute = value;
+    states.attributeSearchTerm = value;
     states.showAttributeDropdown = false;
 };
 const onClickChooseAttribute = (value: string) => {
     states.attribute = value;
+    states.attributeSearchTerm = value;
     states.showAttributeDropdown = false;
 };
-
-watch(
-    () => states.attribute,
-    (attr) => {
-        states.attributeSearchTerm = attr;
-    },
-);
 </script>
 
 <template>
@@ -41,6 +43,8 @@ watch(
             v-model="states.attribute"
             v-model:show-dropdown="states.showAttributeDropdown"
             :items="getAttributes"
+            @on-select="onSelectUpdateAttribute"
+            @input="onInputUpdateSearchTerm"
         >
             <template #label>Attribute:</template>
             <template #float>
