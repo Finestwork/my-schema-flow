@@ -1,13 +1,13 @@
 <script setup lang="ts">
+import TableInfoTextInput from '@components/TableInfoTextInput.vue';
 import TableInfoSectionWrapper from '@components/TableInfoSectionWrapper.vue';
-import TableInfoSettingsTableName from '@components/TableInfoSettingsTableName.vue';
 import TableInfoSettingsTableColumns from '@components/TableInfoSettingsTableColumns.vue';
 import TableInfoSettingsControls from '@components/TableInfoSettingsControls.vue';
 import TableInfoSettingsColumnForm from '@components/TableInfoSettingsColumnForm.vue';
 import TableInfoSettingsEditColumnForm from '@components/TableInfoSettingsEditColumnForm.vue';
 import { useTableStore } from '@stores/TableStore';
 import { useColumnActions } from '@composables/useColumnActions';
-import { nextTick, ref, watch } from 'vue';
+import { ref, watch } from 'vue';
 import { useSettingsStore } from '@stores/SettingsStore';
 
 const tableStore = useTableStore();
@@ -38,7 +38,13 @@ watch(
         <template #label>Table Settings</template>
         <template v-if="tableStore.hasActiveNode">
             <template v-if="!displayColumnForm && !displayEditColumnForm">
-                <TableInfoSettingsTableName />
+                <TableInfoTextInput
+                    id="tableSettingsTableName"
+                    placeholder="Place table name here"
+                    v-model="tableStore.currentActiveNode.data.table.name"
+                >
+                    <template #label>Table Name:</template>
+                </TableInfoTextInput>
                 <TableInfoSettingsTableColumns
                     v-model:current-index="activeColumnIndex"
                     @edit-column="onClickEditColumn"
