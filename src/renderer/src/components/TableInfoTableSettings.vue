@@ -5,6 +5,7 @@ import TableInfoSettingsTableColumns from '@components/TableInfoSettingsTableCol
 import TableInfoSettingsControls from '@components/TableInfoSettingsControls.vue';
 import TableInfoSettingsColumnForm from '@components/TableInfoSettingsColumnForm.vue';
 import TableInfoSettingsEditColumnForm from '@components/TableInfoSettingsEditColumnForm.vue';
+import TableInfoNoTableSelected from '@components/TableInfoNoTableSelected.vue';
 import { useTableStore } from '@stores/TableStore';
 import { useColumnActions } from '@composables/useColumnActions';
 import { ref, watch } from 'vue';
@@ -68,8 +69,6 @@ watch(
                 @go-back="displayEditColumnForm = false"
             />
         </template>
-        <p class="my-2 text-center text-xs font-semibold italic dark:text-slate-500" v-else>
-            No table selected
-        </p>
+        <TableInfoNoTableSelected v-else />
     </TableInfoSectionWrapper>
 </template>

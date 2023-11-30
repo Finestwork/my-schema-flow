@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import IconAdd from '@components/IconAdd.vue';
+import TableInfoBaseButton from '@components/TableInfoBaseButton.vue';
 </script>
 <template>
     <div>
-        <button type="button">
-            <span>
+        <TableInfoBaseButton>
+            <template #icon>
                 <IconAdd />
-            </span>
-            Add Relation
-        </button>
+            </template>
+            <template #text>Add Relation</template>
+        </TableInfoBaseButton>
     </div>
 </template>
