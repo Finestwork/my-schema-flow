@@ -20,7 +20,10 @@ const states = reactive({
     <TableInfoSectionWrapper :show-form="showForm">
         <template #label>Table Relations</template>
         <div v-if="tableStore.hasActiveNode">
-            <TableInfoRelationCreate v-if="states.showCreateForm" />
+            <TableInfoRelationCreate
+                v-if="states.showCreateForm"
+                @relationship-established="states.showCreateForm = false"
+            />
             <TableInfoBaseButton v-else @click="states.showCreateForm = true">
                 <template #icon>
                     <IconAdd />

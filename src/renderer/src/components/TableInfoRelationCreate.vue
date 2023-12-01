@@ -14,6 +14,9 @@ const states = reactive({
     referencedColumn: '',
     referencedColumnSearchTerm: '',
 });
+const emits = defineEmits<{
+    (e: 'relationshipEstablished');
+}>();
 const getAttributes = computed(() =>
     tableStore.getAttributesOfCurrentActiveNode.filter((attr) =>
         attr.toLowerCase().includes(states.attributeSearchTerm.toLowerCase()),
@@ -40,6 +43,15 @@ const isBtnDisabled = computed(() => {
         states.referencedColumn.trim() === ''
     );
 });
+const onClickEstablishRelation = () => {
+    const Element = tableStore.elements.filter(
+        (element) => element.data.table.name === states.referencedTable,
+    )[0];
+    const TargetId = Element.id;
+    const SourceId = tableStore.currentActiveNode.id;
+    tableStore.addNewEdge(SourceId, TargetId);
+    emits('relationshipEstablished');
+};
 </script>
 
 <template>
@@ -75,7 +87,11 @@ const isBtnDisabled = computed(() => {
             <template #label> Referenced Column:</template>
         </TableInfoRelationAutoComplete>
 
-        <TableInfoBaseButton class="mt-6" :disabled="isBtnDisabled">
+        <TableInfoBaseButton
+            class="mt-6"
+            :disabled="isBtnDisabled"
+            @click="onClickEstablishRelation"
+        >
             <template #icon>
                 <IconAdd />
             </template>

@@ -30,6 +30,10 @@ export const useTableStore = defineStore('tableStore', {
         };
     },
     actions: {
+        addNewEdge(sourceId: string, targetId: string) {
+            const Edge = { id: uuidv4(), source: sourceId, target: targetId };
+            this.edges.push(Edge);
+        },
         onActiveNodeCreateColumn(columnData: TTableColumnCreation) {
             const Columns = this.currentActiveNode.data.table.columns;
             const ColumnData = {
