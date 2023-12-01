@@ -9,6 +9,8 @@ const states = reactive({
     attributeSearchTerm: '',
     referencedTable: '',
     referencedTableSearchTerm: '',
+    referencedColumn: '',
+    referencedColumnSearchTerm: '',
 });
 const getAttributes = computed(() =>
     tableStore.getAttributesOfCurrentActiveNode.filter((attr) =>
@@ -20,6 +22,14 @@ const tableColumns = computed(() => {
     const CurrentColumnName = CurrentActiveNode.data.table.name;
     const ColumnNames = tableStore.getAllColumnNames.map((column) => column.name);
     return ColumnNames.filter((column) => column !== CurrentColumnName);
+});
+const referencedColumns = computed(() => {
+    const Element = tableStore.elements.filter(
+        (element) => element.data.table.name === states.referencedTable,
+    );
+    if (Element.length === 0) return [];
+    const Columns = Element[0].data.table.columns;
+    return Columns.map((column) => column.name);
 });
 </script>
 
@@ -36,13 +46,24 @@ const tableColumns = computed(() => {
             <template #label> Attribute: </template>
         </TableInfoRelationAutoComplete>
         <TableInfoRelationAutoComplete
-            id="tableInfo"
-            placeholder="Place table's attribute here"
+            class="mb-4"
+            id="referencedTable"
+            placeholder="Place reference table here"
             v-model="states.referencedTable"
             v-model:search-term="states.referencedTableSearchTerm"
             :items="tableColumns"
         >
             <template #label> Referenced Table: </template>
+        </TableInfoRelationAutoComplete>
+        <TableInfoRelationAutoComplete
+            v-if="states.referencedTable !== ''"
+            id="referencedColumn"
+            placeholder="Place reference column here"
+            v-model="states.referencedColumn"
+            v-model:search-term="states.referencedColumnSearchTerm"
+            :items="referencedColumns"
+        >
+            <template #label> Referenced Column: </template>
         </TableInfoRelationAutoComplete>
     </div>
 </template>
