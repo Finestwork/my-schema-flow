@@ -33,6 +33,13 @@ const referencedColumns = computed(() => {
     const Columns = Element[0].data.table.columns;
     return Columns.map((column) => column.name);
 });
+const isBtnDisabled = computed(() => {
+    return (
+        states.attribute.trim() === '' ||
+        states.referencedTable.trim() === '' ||
+        states.referencedColumn.trim() === ''
+    );
+});
 </script>
 
 <template>
@@ -68,7 +75,7 @@ const referencedColumns = computed(() => {
             <template #label> Referenced Column:</template>
         </TableInfoRelationAutoComplete>
 
-        <TableInfoBaseButton class="mt-6">
+        <TableInfoBaseButton class="mt-6" :disabled="isBtnDisabled">
             <template #icon>
                 <IconAdd />
             </template>
