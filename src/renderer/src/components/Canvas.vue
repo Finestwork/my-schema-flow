@@ -9,13 +9,17 @@ import { useTableStore } from '@stores/TableStore';
 const tableStore = useTableStore();
 const onNodeClick = (event) => {
     tableStore.currentActiveNode = { ...event.node };
-    tableStore.currentActiveEdges = event.connectedEdges.slice();
+    if(tableStore.currentActiveEdges.length === 0){
+        tableStore.currentActiveEdges = event.connectedEdges.slice();
+    }
 };
 const onNodeDrag = (event) => {
     tableStore.currentActiveNode = { ...event.node };
-    tableStore.currentActiveEdges = tableStore.edges.filter(
-        (edge) => edge.source === event.node.id || edge.target === event.node.id,
-    );
+    if(tableStore.currentActiveEdges.length === 0){
+        tableStore.currentActiveEdges = tableStore.edges.filter(
+            (edge) => edge.source === event.node.id || edge.target === event.node.id,
+        );
+    }
 };
 const onPaneClick = () => {
     tableStore.currentActiveNode = {};
