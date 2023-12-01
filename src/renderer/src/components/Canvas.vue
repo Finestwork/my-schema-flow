@@ -36,8 +36,9 @@ const onMove = () => {
         <VueFlow
             v-model:nodes="tableStore.elements"
             v-model:edges="tableStore.edges"
-            :default-edge-options="{ type: 'smoothstep', animated: true }"
+            :default-edge-options="{ type: 'smoothstep' }"
             :default-viewport="{ zoom: 0.5 }"
+            :min-zoom="0.5"
             :max-zoom="1.5"
             :delete-key-code="null"
             @node-click="onNodeClick"
