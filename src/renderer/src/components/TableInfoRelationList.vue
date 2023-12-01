@@ -6,18 +6,14 @@ const tableStore = useTableStore();
 const getAllEdges = computed(() => {
     const ActiveNode = tableStore.currentActiveNode;
     const CurrentTable = ActiveNode.data.table.name;
-    console.log(tableStore.currentActiveEdges);
     return tableStore.currentActiveEdges
         .map((edge) => {
             const IsCurrentNodeParent = edge.data.referenced.table === CurrentTable;
-            console.log(edge);
-            if (edge.data.referenced.table === CurrentTable && !IsCurrentNodeParent) {
-                return null;
-            }
+            const Table = IsCurrentNodeParent
+                ? edge.data.referencing.table
+                : edge.data.referenced.table;
             return {
-                table: IsCurrentNodeParent
-                    ? edge.data.referenced.table
-                    : edge.data.referencing.table,
+                table: Table,
                 column: IsCurrentNodeParent
                     ? edge.data.referenced.column
                     : edge.data.referencing.column,
@@ -34,8 +30,8 @@ const getAllEdges = computed(() => {
             type="button"
             v-for="edge in getAllEdges"
         >
-            <span class="w-6/12 truncate">{{ edge.table }}</span>
-            <span class="mx-2 w-3/12 truncate">{{ edge.column }}</span>
+            <span class="w-4/12 truncate text-left">{{ edge.table }}</span>
+            <span class="mx-2 w-4/12 truncate text-left">{{ edge.column }}</span>
             <span class="w-2/12 truncate text-rose-500">{{
                 edge.isCurrentNodeParent ? 'Child' : 'Parent'
             }}</span>
