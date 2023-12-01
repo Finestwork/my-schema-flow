@@ -5,6 +5,7 @@ import TableInfoSectionWrapper from '@components/TableInfoSectionWrapper.vue';
 import TableInfoNoTableSelected from '@components/TableInfoNoTableSelected.vue';
 import TableInfoBaseButton from '@components/TableInfoBaseButton.vue';
 import TableInfoRelationCreate from '@components/TableInfoRelationCreate.vue';
+import TableInfoRelationList from '@components/TableInfoRelationList.vue';
 import { useSettingsStore } from '@stores/SettingsStore';
 import { useTableStore } from '@stores/TableStore';
 import { ref, reactive } from 'vue';
@@ -32,7 +33,7 @@ const resetState = () => {
             <BaseAlertErrorList
                 class="mb-2 mt-2"
                 color-scheme="danger"
-                v-if="states.errors.length !== 0"
+                v-if="states.errors.length !== 0 && states.showCreateForm"
                 :items="states.errors"
             />
             <TableInfoRelationCreate
@@ -41,12 +42,15 @@ const resetState = () => {
                 @relationship-established="resetState"
                 @go-back="resetState"
             />
-            <TableInfoBaseButton v-else @click="states.showCreateForm = true">
-                <template #icon>
-                    <IconAdd />
-                </template>
-                <template #text>Add Relation</template>
-            </TableInfoBaseButton>
+            <template v-if="!states.showCreateForm">
+                <TableInfoRelationList />
+                <TableInfoBaseButton @click="states.showCreateForm = true">
+                    <template #icon>
+                        <IconAdd />
+                    </template>
+                    <template #text>Add Relation</template>
+                </TableInfoBaseButton>
+            </template>
         </div>
         <TableInfoNoTableSelected v-else />
     </TableInfoSectionWrapper>

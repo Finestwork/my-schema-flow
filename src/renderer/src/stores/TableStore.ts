@@ -21,9 +21,14 @@ export type TTableData = {
     };
 };
 
+export type TEdgeDataObject = {
+    id: string;
+    column: string;
+    table: string;
+};
 export type TEdgeData = {
-    referencedColumn: string;
-    referencingColumn: string;
+    referenced: TEdgeDataObject;
+    referencing: TEdgeDataObject;
 };
 
 export const useTableStore = defineStore('tableStore', {
@@ -36,16 +41,24 @@ export const useTableStore = defineStore('tableStore', {
     },
     actions: {
         addNewEdge(
-            referenced: { id: string; column: string },
-            referencing: { id: string; column: string },
+            referenced: { id: string; column: string; table: string },
+            referencing: { id: string; column: string; table: string },
         ) {
             const Edge = {
                 id: uuidv4(),
                 source: referenced.id,
                 target: referencing.id,
                 data: {
-                    referencedColumn: referenced.column,
-                    referencingColumn: referencing.column,
+                    referenced: {
+                        id: referenced.id,
+                        column: referenced.column,
+                        table: referenced.table,
+                    },
+                    referencing: {
+                        id: referencing.id,
+                        column: referencing.column,
+                        table: referencing.table,
+                    },
                 },
             };
             this.edges.push(Edge);

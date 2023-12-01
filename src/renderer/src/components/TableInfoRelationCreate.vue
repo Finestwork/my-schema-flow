@@ -66,10 +66,12 @@ const onClickEstablishRelation = () => {
     const ReferencedObj = {
         id: Element.id,
         column: states.referencedColumn,
+        table: states.referencedTable,
     };
     const ReferencingObj = {
         id: tableStore.currentActiveNode.id,
         column: states.referencingColumn,
+        table: tableStore.currentActiveNode.data.table.name,
     };
     tableStore.addNewEdge(ReferencedObj, ReferencingObj);
     emits('relationshipEstablished');
