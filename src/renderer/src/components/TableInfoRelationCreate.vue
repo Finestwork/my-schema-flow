@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import IconAdd from '@components/IconAdd.vue';
 import TableInfoBaseButton from '@components/TableInfoBaseButton.vue';
+import TableInfoBackButton from '@components/TableInfoBackButton.vue';
 import TableInfoRelationAutoComplete from '@components/TableInfoRelationAutoComplete.vue';
 import { useTableStore } from '@stores/TableStore';
 import { computed, reactive } from 'vue';
@@ -16,6 +17,7 @@ const states = reactive({
 });
 const emits = defineEmits<{
     (e: 'relationshipEstablished');
+    (e: 'goBack');
     (e: 'error', payload: string[]);
 }>();
 const getAttributes = computed(() =>
@@ -75,47 +77,42 @@ const onClickEstablishRelation = () => {
 </script>
 
 <template>
-    <div>
-        <TableInfoRelationAutoComplete
-            class="mb-4"
-            id="referencingColumn"
-            placeholder="Place referencing column here"
-            v-model="states.referencingColumn"
-            v-model:search-term="states.referencingColumnSearchTerm"
-            :items="getAttributes"
-        >
-            <template #label>Referencing Column:</template>
-        </TableInfoRelationAutoComplete>
-        <TableInfoRelationAutoComplete
-            class="mb-4"
-            id="referencedTable"
-            placeholder="Place referenced table here"
-            v-model="states.referencedTable"
-            v-model:search-term="states.referencedTableSearchTerm"
-            :items="tableColumns"
-        >
-            <template #label> Referenced Table:</template>
-        </TableInfoRelationAutoComplete>
-        <TableInfoRelationAutoComplete
-            v-if="states.referencedTable !== ''"
-            id="referencedColumn"
-            placeholder="Place referenced column here"
-            v-model="states.referencedColumn"
-            v-model:search-term="states.referencedColumnSearchTerm"
-            :items="referencedColumns"
-        >
-            <template #label> Referenced Column:</template>
-        </TableInfoRelationAutoComplete>
+    <TableInfoBackButton class="mb-4 mt-2.5" @click="emits('goBack')" />
+    <TableInfoRelationAutoComplete
+        class="mb-4"
+        id="referencingColumn"
+        placeholder="Place referencing column here"
+        v-model="states.referencingColumn"
+        v-model:search-term="states.referencingColumnSearchTerm"
+        :items="getAttributes"
+    >
+        <template #label>Referencing Column:</template>
+    </TableInfoRelationAutoComplete>
+    <TableInfoRelationAutoComplete
+        class="mb-4"
+        id="referencedTable"
+        placeholder="Place referenced table here"
+        v-model="states.referencedTable"
+        v-model:search-term="states.referencedTableSearchTerm"
+        :items="tableColumns"
+    >
+        <template #label> Referenced Table:</template>
+    </TableInfoRelationAutoComplete>
+    <TableInfoRelationAutoComplete
+        v-if="states.referencedTable !== ''"
+        id="referencedColumn"
+        placeholder="Place referenced column here"
+        v-model="states.referencedColumn"
+        v-model:search-term="states.referencedColumnSearchTerm"
+        :items="referencedColumns"
+    >
+        <template #label> Referenced Column:</template>
+    </TableInfoRelationAutoComplete>
 
-        <TableInfoBaseButton
-            class="mt-6"
-            :disabled="isBtnDisabled"
-            @click="onClickEstablishRelation"
-        >
-            <template #icon>
-                <IconAdd />
-            </template>
-            <template #text>Add Relation</template>
-        </TableInfoBaseButton>
-    </div>
+    <TableInfoBaseButton class="mt-6" :disabled="isBtnDisabled" @click="onClickEstablishRelation">
+        <template #icon>
+            <IconAdd />
+        </template>
+        <template #text>Add Relation</template>
+    </TableInfoBaseButton>
 </template>

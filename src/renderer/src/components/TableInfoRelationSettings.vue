@@ -19,7 +19,7 @@ const states = reactive({
 const onError = (errors) => {
     states.errors = errors;
 };
-const onRelationshipEstablished = () => {
+const resetState = () => {
     states.errors = [];
     states.showCreateForm = false;
 };
@@ -38,7 +38,8 @@ const onRelationshipEstablished = () => {
             <TableInfoRelationCreate
                 v-if="states.showCreateForm"
                 @error="onError"
-                @relationship-established="onRelationshipEstablished"
+                @relationship-established="resetState"
+                @go-back="resetState"
             />
             <TableInfoBaseButton v-else @click="states.showCreateForm = true">
                 <template #icon>
