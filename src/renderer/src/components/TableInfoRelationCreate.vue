@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import IconAdd from '@components/IconAdd.vue';
+import TableInfoBaseButton from '@components/TableInfoBaseButton.vue';
 import TableInfoRelationAutoComplete from '@components/TableInfoRelationAutoComplete.vue';
 import { useTableStore } from '@stores/TableStore';
 import { computed, reactive } from 'vue';
@@ -43,7 +45,7 @@ const referencedColumns = computed(() => {
             v-model:search-term="states.attributeSearchTerm"
             :items="getAttributes"
         >
-            <template #label> Attribute: </template>
+            <template #label> Attribute:</template>
         </TableInfoRelationAutoComplete>
         <TableInfoRelationAutoComplete
             class="mb-4"
@@ -53,7 +55,7 @@ const referencedColumns = computed(() => {
             v-model:search-term="states.referencedTableSearchTerm"
             :items="tableColumns"
         >
-            <template #label> Referenced Table: </template>
+            <template #label> Referenced Table:</template>
         </TableInfoRelationAutoComplete>
         <TableInfoRelationAutoComplete
             v-if="states.referencedTable !== ''"
@@ -63,7 +65,14 @@ const referencedColumns = computed(() => {
             v-model:search-term="states.referencedColumnSearchTerm"
             :items="referencedColumns"
         >
-            <template #label> Referenced Column: </template>
+            <template #label> Referenced Column:</template>
         </TableInfoRelationAutoComplete>
+
+        <TableInfoBaseButton class="mt-6">
+            <template #icon>
+                <IconAdd />
+            </template>
+            <template #text>Add Relation</template>
+        </TableInfoBaseButton>
     </div>
 </template>

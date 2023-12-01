@@ -117,7 +117,7 @@ const onClickToggleForeignKey = (e: MouseEvent) => {
             </TableInfoButtonSelect>
         </div>
 
-        <TableInfoBaseButton @click="onClickAddColumn">
+        <TableInfoBaseButton class="mt-6" @click="onClickAddColumn">
             <template #icon>
                 <IconAdd />
             </template>
