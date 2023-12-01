@@ -7,8 +7,8 @@ import { computed, reactive } from 'vue';
 
 const tableStore = useTableStore();
 const states = reactive({
-    attribute: '',
-    attributeSearchTerm: '',
+    referencingColumn: '',
+    referencingColumnSearchTerm: '',
     referencedTable: '',
     referencedTableSearchTerm: '',
     referencedColumn: '',
@@ -16,10 +16,11 @@ const states = reactive({
 });
 const emits = defineEmits<{
     (e: 'relationshipEstablished');
+    (e: 'error', payload: string[]);
 }>();
 const getAttributes = computed(() =>
     tableStore.getAttributesOfCurrentActiveNode.filter((attr) =>
-        attr.toLowerCase().includes(states.attributeSearchTerm.toLowerCase()),
+        attr.toLowerCase().includes(states.referencingColumnSearchTerm.toLowerCase()),
     ),
 );
 const tableColumns = computed(() => {
@@ -38,7 +39,7 @@ const referencedColumns = computed(() => {
 });
 const isBtnDisabled = computed(() => {
     return (
-        states.attribute.trim() === '' ||
+        states.referencingColumn.trim() === '' ||
         states.referencedTable.trim() === '' ||
         states.referencedColumn.trim() === ''
     );
@@ -47,9 +48,28 @@ const onClickEstablishRelation = () => {
     const Element = tableStore.elements.filter(
         (element) => element.data.table.name === states.referencedTable,
     )[0];
-    const TargetId = Element.id;
-    const SourceId = tableStore.currentActiveNode.id;
-    tableStore.addNewEdge(SourceId, TargetId);
+
+    // Validate if source column is already existing
+    const Edge = tableStore.edges.filter(
+        (edge) =>
+            edge.data.referencedColumn === states.referencedColumn &&
+            edge.data.referencingColumn === states.referencingColumn,
+    )[0];
+
+    if (Edge) {
+        emits('error', ['Relationship has already been established.']);
+        return;
+    }
+
+    const ReferencedObj = {
+        id: Element.id,
+        column: states.referencedColumn,
+    };
+    const ReferencingObj = {
+        id: tableStore.currentActiveNode.id,
+        column: states.referencingColumn,
+    };
+    tableStore.addNewEdge(ReferencedObj, ReferencingObj);
     emits('relationshipEstablished');
 };
 </script>
@@ -58,18 +78,18 @@ const onClickEstablishRelation = () => {
     <div>
         <TableInfoRelationAutoComplete
             class="mb-4"
-            id="tableInfo"
-            placeholder="Place table's attribute here"
-            v-model="states.attribute"
-            v-model:search-term="states.attributeSearchTerm"
+            id="referencingColumn"
+            placeholder="Place referencing column here"
+            v-model="states.referencingColumn"
+            v-model:search-term="states.referencingColumnSearchTerm"
             :items="getAttributes"
         >
-            <template #label> Attribute:</template>
+            <template #label>Referencing Column:</template>
         </TableInfoRelationAutoComplete>
         <TableInfoRelationAutoComplete
             class="mb-4"
             id="referencedTable"
-            placeholder="Place reference table here"
+            placeholder="Place referenced table here"
             v-model="states.referencedTable"
             v-model:search-term="states.referencedTableSearchTerm"
             :items="tableColumns"
@@ -79,7 +99,7 @@ const onClickEstablishRelation = () => {
         <TableInfoRelationAutoComplete
             v-if="states.referencedTable !== ''"
             id="referencedColumn"
-            placeholder="Place reference column here"
+            placeholder="Place referenced column here"
             v-model="states.referencedColumn"
             v-model:search-term="states.referencedColumnSearchTerm"
             :items="referencedColumns"

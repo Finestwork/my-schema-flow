@@ -21,17 +21,33 @@ export type TTableData = {
     };
 };
 
+export type TEdgeData = {
+    referencedColumn: string;
+    referencingColumn: string;
+};
+
 export const useTableStore = defineStore('tableStore', {
     state() {
         return {
             elements: TestElements as (Node & { data: TTableData })[],
-            edges: [] as Edge[],
+            edges: [] as (Edge & { data: TEdgeData })[],
             currentActiveNode: {} as (Node & { data: TTableData }[]) | Record<string, never>,
         };
     },
     actions: {
-        addNewEdge(sourceId: string, targetId: string) {
-            const Edge = { id: uuidv4(), source: sourceId, target: targetId };
+        addNewEdge(
+            referenced: { id: string; column: string },
+            referencing: { id: string; column: string },
+        ) {
+            const Edge = {
+                id: uuidv4(),
+                source: referenced.id,
+                target: referencing.id,
+                data: {
+                    referencedColumn: referenced.column,
+                    referencingColumn: referencing.column,
+                },
+            };
             this.edges.push(Edge);
         },
         onActiveNodeCreateColumn(columnData: TTableColumnCreation) {

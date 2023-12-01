@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import IconAdd from '@components/IconAdd.vue';
+import BaseAlertErrorList from '@components/BaseAlertErrorList.vue';
 import TableInfoSectionWrapper from '@components/TableInfoSectionWrapper.vue';
 import TableInfoNoTableSelected from '@components/TableInfoNoTableSelected.vue';
 import TableInfoBaseButton from '@components/TableInfoBaseButton.vue';
@@ -13,16 +14,31 @@ const settingsStore = useSettingsStore();
 const showForm = ref(!settingsStore.hideTableRelationSettingsPanel);
 const states = reactive({
     showCreateForm: false,
+    errors: [] as string[],
 });
+const onError = (errors) => {
+    states.errors = errors;
+};
+const onRelationshipEstablished = () => {
+    states.errors = [];
+    states.showCreateForm = false;
+};
 </script>
 
 <template>
     <TableInfoSectionWrapper :show-form="showForm">
         <template #label>Table Relations</template>
         <div v-if="tableStore.hasActiveNode">
+            <BaseAlertErrorList
+                class="mb-2 mt-2"
+                color-scheme="danger"
+                v-if="states.errors.length !== 0"
+                :items="states.errors"
+            />
             <TableInfoRelationCreate
                 v-if="states.showCreateForm"
-                @relationship-established="states.showCreateForm = false"
+                @error="onError"
+                @relationship-established="onRelationshipEstablished"
             />
             <TableInfoBaseButton v-else @click="states.showCreateForm = true">
                 <template #icon>
