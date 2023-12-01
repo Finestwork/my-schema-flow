@@ -1,4 +1,4 @@
-import { TestElements } from '@stores/TableStoreTest';
+import { TestEdges, TestElements } from '@stores/TableStoreTest';
 import { defineStore } from 'pinia';
 import { v4 as uuidv4 } from 'uuid';
 import type { Edge, Node } from '@vue-flow/core';
@@ -35,8 +35,9 @@ export const useTableStore = defineStore('tableStore', {
     state() {
         return {
             elements: TestElements as (Node & { data: TTableData })[],
-            edges: [] as (Edge & { data: TEdgeData })[],
+            edges: TestEdges as (Edge & { data: TEdgeData })[],
             currentActiveNode: {} as (Node & { data: TTableData }[]) | Record<string, never>,
+            currentActiveEdges: [] as (Edge & { data: TEdgeData })[],
         };
     },
     actions: {

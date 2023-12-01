@@ -6,16 +6,25 @@ const tableStore = useTableStore();
 const getAllEdges = computed(() => {
     const ActiveNode = tableStore.currentActiveNode;
     const CurrentTable = ActiveNode.data.table.name;
-    return tableStore.edges.map((edge) => {
-        const IsCurrentNodeParent = edge.data.referenced.table === CurrentTable;
-        return {
-            table: IsCurrentNodeParent ? edge.data.referenced.table : edge.data.referencing.table,
-            column: IsCurrentNodeParent
-                ? edge.data.referenced.column
-                : edge.data.referencing.column,
-            isCurrentNodeParent: IsCurrentNodeParent,
-        };
-    });
+    console.log(tableStore.currentActiveEdges);
+    return tableStore.currentActiveEdges
+        .map((edge) => {
+            const IsCurrentNodeParent = edge.data.referenced.table === CurrentTable;
+            console.log(edge);
+            if (edge.data.referenced.table === CurrentTable && !IsCurrentNodeParent) {
+                return null;
+            }
+            return {
+                table: IsCurrentNodeParent
+                    ? edge.data.referenced.table
+                    : edge.data.referencing.table,
+                column: IsCurrentNodeParent
+                    ? edge.data.referenced.column
+                    : edge.data.referencing.column,
+                isCurrentNodeParent: IsCurrentNodeParent,
+            };
+        })
+        .filter((edge) => edge);
 });
 </script>
 <template>
