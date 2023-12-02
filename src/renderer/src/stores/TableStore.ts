@@ -102,7 +102,7 @@ export const useTableStore = defineStore('tableStore', {
                 length: columnData.length,
                 keyConstraint: columnData.keyConstraint,
             };
-            Columns.push(Object.assign({}, ColumnData));
+            this.currentActiveNode.data.table.columns = [...Columns, Object.assign({}, ColumnData)];
         },
         updateTableColumn(columnData: TTableColumnCreation, index: number) {
             const Columns = this.currentActiveNode.data.table.columns;

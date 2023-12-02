@@ -5,7 +5,7 @@ import { Background } from '@vue-flow/background';
 import { MiniMap } from '@vue-flow/minimap';
 import { Controls } from '@vue-flow/controls';
 import { useTableStore } from '@stores/TableStore';
-import { onMounted } from 'vue';
+import { computed, onMounted, watch } from 'vue';
 import { sortConstraintKeys } from '@renderer/TableColumnHelper';
 
 const tableStore = useTableStore();
@@ -29,19 +29,24 @@ const onMove = () => {
         tableStore.currentActiveEdgeIndex = -1;
     }
 };
-onMounted(() => {
-    tableStore.elements = tableStore.elements.map((element) => {
-        const Columns = element.data.table.columns;
-        element.data.table.columns = sortConstraintKeys(Columns);
-        return element;
-    });
+const sortedColumns = computed({
+    set(elements) {
+        tableStore.elements = elements;
+    },
+    get() {
+        return tableStore.elements.map((element) => {
+            const Columns = element.data.table.columns;
+            element.data.table.columns = sortConstraintKeys(Columns);
+            return element;
+        });
+    },
 });
 </script>
 
 <template>
     <div class="h-full w-full">
         <VueFlow
-            v-model:nodes="tableStore.elements"
+            v-model:nodes="sortedColumns"
             v-model:edges="tableStore.edges"
             :default-edge-options="{ type: 'smoothstep' }"
             :default-viewport="{ zoom: 0.5 }"
