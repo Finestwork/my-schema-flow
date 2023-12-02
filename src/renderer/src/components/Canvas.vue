@@ -5,6 +5,8 @@ import { Background } from '@vue-flow/background';
 import { MiniMap } from '@vue-flow/minimap';
 import { Controls } from '@vue-flow/controls';
 import { useTableStore } from '@stores/TableStore';
+import { onMounted } from 'vue';
+import { sortConstraintKeys } from '@renderer/TableColumnHelper';
 
 const tableStore = useTableStore();
 const onNodeClick = (event) => {
@@ -27,6 +29,13 @@ const onMove = () => {
         tableStore.currentActiveEdgeIndex = -1;
     }
 };
+onMounted(() => {
+    tableStore.elements = tableStore.elements.map((element) => {
+        const Columns = element.data.table.columns;
+        element.data.table.columns = sortConstraintKeys(Columns);
+        return element;
+    });
+});
 </script>
 
 <template>

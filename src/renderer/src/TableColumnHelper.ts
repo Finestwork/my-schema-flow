@@ -1,6 +1,5 @@
 export const sortConstraintKeys = (arr: { keyConstraint: 'PK' | 'FK' | '' }[]) => {
     return arr.slice().sort((a, b) => {
-        console.log(a.keyConstraint, b.keyConstraint);
         if (a.keyConstraint === b.keyConstraint) {
             return 0;
         }
