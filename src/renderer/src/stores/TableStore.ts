@@ -1,14 +1,14 @@
-import { TestEdges, TestElements } from '@stores/TableStoreTest';
-import { defineStore } from 'pinia';
-import { v4 as uuidv4 } from 'uuid';
-import type { Edge, Node } from '@vue-flow/core';
+import { TestEdges, TestElements } from "@stores/TableStoreTest";
+import { defineStore } from "pinia";
+import { v4 as uuidv4 } from "uuid";
+import type { Edge, Node } from "@vue-flow/core";
 
 export type TTableColumnCreation = {
     name: string;
     type: string;
     isNull: boolean;
-    length: '' | null;
-    keyConstraint: 'PK' | 'FK' | '';
+    length: "" | null;
+    keyConstraint: "PK" | "FK" | "";
 };
 export type TTableColumn = TTableColumnCreation & {
     id: number;
@@ -31,19 +31,20 @@ export type TEdgeData = {
     referencing: TEdgeDataObject;
 };
 
-export const useTableStore = defineStore('tableStore', {
+export const useTableStore = defineStore("tableStore", {
     state() {
         return {
             elements: TestElements as (Node & { data: TTableData })[],
             edges: TestEdges as (Edge & { data: TEdgeData })[],
             currentActiveNode: {} as (Node & { data: TTableData }[]) | Record<string, never>,
             currentActiveEdges: [] as (Edge & { data: TEdgeData })[],
+            currentActiveEdge: {} as ((Edge & { data: TEdgeData }) | Record<string, never>)
         };
     },
     actions: {
         addNewEdge(
             referenced: { id: string; column: string; table: string },
-            referencing: { id: string; column: string; table: string },
+            referencing: { id: string; column: string; table: string }
         ) {
             const Edge = {
                 id: uuidv4(),
@@ -53,14 +54,14 @@ export const useTableStore = defineStore('tableStore', {
                     referenced: {
                         id: referenced.id,
                         column: referenced.column,
-                        table: referenced.table,
+                        table: referenced.table
                     },
                     referencing: {
                         id: referencing.id,
                         column: referencing.column,
-                        table: referencing.table,
-                    },
-                },
+                        table: referencing.table
+                    }
+                }
             };
             this.edges.push(Edge);
         },
@@ -72,7 +73,7 @@ export const useTableStore = defineStore('tableStore', {
                 type: columnData.type,
                 isNull: columnData.isNull,
                 length: columnData.length,
-                keyConstraint: columnData.keyConstraint,
+                keyConstraint: columnData.keyConstraint
             };
             Columns.push(Object.assign({}, ColumnData));
         },
@@ -84,9 +85,9 @@ export const useTableStore = defineStore('tableStore', {
                 type: columnData.type,
                 isNull: columnData.isNull,
                 length: columnData.length,
-                keyConstraint: columnData.keyConstraint,
+                keyConstraint: columnData.keyConstraint
             });
-        },
+        }
     },
     getters: {
         hasActiveNode(state) {
@@ -107,8 +108,8 @@ export const useTableStore = defineStore('tableStore', {
         getAllColumnNames(state) {
             return state.elements.map((element) => ({
                 id: element.id,
-                name: element.data.table.name,
+                name: element.data.table.name
             }));
-        },
-    },
+        }
+    }
 });

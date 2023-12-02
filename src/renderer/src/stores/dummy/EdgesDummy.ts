@@ -2,7 +2,7 @@ export default [
     {
         source: {
             table: 'categories',
-            column: 'id',
+            column: 'category_id',
         },
         target: {
             table: 'products',

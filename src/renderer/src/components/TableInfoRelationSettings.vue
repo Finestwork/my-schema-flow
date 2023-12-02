@@ -5,10 +5,11 @@ import TableInfoSectionWrapper from '@components/TableInfoSectionWrapper.vue';
 import TableInfoNoTableSelected from '@components/TableInfoNoTableSelected.vue';
 import TableInfoBaseButton from '@components/TableInfoBaseButton.vue';
 import TableInfoRelationCreate from '@components/TableInfoRelationCreate.vue';
+import TableInfoRelationEdit from '@components/TableInfoRelationEdit.vue';
 import TableInfoRelationList from '@components/TableInfoRelationList.vue';
 import { useSettingsStore } from '@stores/SettingsStore';
 import { useTableStore } from '@stores/TableStore';
-import { ref, reactive } from 'vue';
+import { ref, reactive, computed } from 'vue';
 
 const tableStore = useTableStore();
 const settingsStore = useSettingsStore();
@@ -17,6 +18,15 @@ const states = reactive({
     showCreateForm: false,
     errors: [] as string[],
 });
+const shouldDisplayCreateForm = computed(
+    () => states.showCreateForm && Object.keys(tableStore.currentActiveEdge).length === 0,
+);
+const shouldDisplayEditForm = computed(
+    () => !states.showCreateForm && Object.keys(tableStore.currentActiveEdge).length !== 0,
+);
+const shouldDisplayDefaultContent = computed(
+    () => !states.showCreateForm && Object.keys(tableStore.currentActiveEdge).length === 0,
+);
 const onError = (errors) => {
     states.errors = errors;
 };
@@ -33,16 +43,17 @@ const resetState = () => {
             <BaseAlertErrorList
                 class="mb-2 mt-2"
                 color-scheme="danger"
-                v-if="states.errors.length !== 0 && states.showCreateForm"
+                v-if="states.errors.length"
                 :items="states.errors"
             />
             <TableInfoRelationCreate
-                v-if="states.showCreateForm"
+                v-if="shouldDisplayCreateForm"
                 @error="onError"
                 @relationship-established="resetState"
                 @go-back="resetState"
             />
-            <template v-if="!states.showCreateForm">
+            <TableInfoRelationEdit v-if="shouldDisplayEditForm" />
+            <template v-if="shouldDisplayDefaultContent">
                 <TableInfoRelationList />
                 <TableInfoBaseButton @click="states.showCreateForm = true">
                     <template #icon>

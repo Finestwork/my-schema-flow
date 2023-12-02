@@ -8,20 +8,20 @@ import { useTableRelationDropdown } from '@composables/useTableRelationDropdown'
 import { reactive } from 'vue';
 
 const tableStore = useTableStore();
+const CurrentActiveEdge = tableStore.currentActiveEdge;
 const states = reactive({
-    referencingColumn: '',
+    referencingColumn: CurrentActiveEdge.data.referencing.column,
     referencingColumnSearchTerm: '',
-    referencedTable: '',
+    referencedTable: CurrentActiveEdge.data.referenced.table,
     referencedTableSearchTerm: '',
-    referencedColumn: '',
+    referencedColumn: CurrentActiveEdge.data.referenced.column,
     referencedColumnSearchTerm: '',
 });
 const emits = defineEmits<{
     (e: 'relationshipEstablished');
-    (e: 'goBack');
     (e: 'error', payload: string[]);
 }>();
-const { getAttributes, tableColumns, referencedColumns, isBtnDisabled } =
+const { getAttributes, referencedColumns, tableColumns, isBtnDisabled } =
     useTableRelationDropdown(states);
 const onClickEstablishRelation = () => {
     const Element = tableStore.elements.filter(
@@ -56,11 +56,11 @@ const onClickEstablishRelation = () => {
 </script>
 
 <template>
-    <TableInfoBackButton class="mb-4 mt-2.5" @click="emits('goBack')" />
+    <TableInfoBackButton class="mb-4 mt-2.5" @click="tableStore.currentActiveEdge = {}" />
     <TableInfoRelationAutoComplete
         id="referencingColumn"
-        v-model="states.referencingColumn"
         v-model:search-term="states.referencingColumnSearchTerm"
+        v-model="states.referencingColumn"
         class="mb-4"
         placeholder="Place referencing column here"
         :items="getAttributes"
