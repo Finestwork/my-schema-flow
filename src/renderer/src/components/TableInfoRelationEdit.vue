@@ -3,18 +3,17 @@ import IconAdd from '@components/IconAdd.vue';
 import TableInfoBaseButton from '@components/TableInfoBaseButton.vue';
 import TableInfoBackButton from '@components/TableInfoBackButton.vue';
 import TableInfoRelationAutoComplete from '@components/TableInfoRelationAutoComplete.vue';
-import { useTableStore } from '@stores/TableStore';
 import { useTableRelationDropdown } from '@composables/useTableRelationDropdown';
+import { useTableRelation } from '@composables/useTableRelation';
 import { reactive } from 'vue';
 
-const tableStore = useTableStore();
-const CurrentActiveEdge = tableStore.currentActiveEdge;
+const { tableStore, currentActiveEdge } = useTableRelation();
 const states = reactive({
-    referencingColumn: CurrentActiveEdge.data.referencing.column,
+    referencingColumn: currentActiveEdge.value.data.referencing.column,
     referencingColumnSearchTerm: '',
-    referencedTable: CurrentActiveEdge.data.referenced.table,
+    referencedTable: currentActiveEdge.value.data.referenced.table,
     referencedTableSearchTerm: '',
-    referencedColumn: CurrentActiveEdge.data.referenced.column,
+    referencedColumn: currentActiveEdge.value.data.referenced.column,
     referencedColumnSearchTerm: '',
 });
 const emits = defineEmits<{
@@ -56,7 +55,7 @@ const onClickEstablishRelation = () => {
 </script>
 
 <template>
-    <TableInfoBackButton class="mb-4 mt-2.5" @click="tableStore.currentActiveEdge = {}" />
+    <TableInfoBackButton class="mb-4 mt-2.5" @click="tableStore.currentActiveEdgeIndex = -1" />
     <TableInfoRelationAutoComplete
         id="referencingColumn"
         v-model:search-term="states.referencingColumnSearchTerm"

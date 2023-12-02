@@ -8,25 +8,19 @@ import TableInfoRelationCreate from '@components/TableInfoRelationCreate.vue';
 import TableInfoRelationEdit from '@components/TableInfoRelationEdit.vue';
 import TableInfoRelationList from '@components/TableInfoRelationList.vue';
 import { useSettingsStore } from '@stores/SettingsStore';
-import { useTableStore } from '@stores/TableStore';
+import { useTableRelation } from '@composables/useTableRelation';
 import { ref, reactive, computed } from 'vue';
 
-const tableStore = useTableStore();
 const settingsStore = useSettingsStore();
 const showForm = ref(!settingsStore.hideTableRelationSettingsPanel);
 const states = reactive({
     showCreateForm: false,
     errors: [] as string[],
 });
-const shouldDisplayCreateForm = computed(
-    () => states.showCreateForm && Object.keys(tableStore.currentActiveEdge).length === 0,
-);
-const shouldDisplayEditForm = computed(
-    () => !states.showCreateForm && Object.keys(tableStore.currentActiveEdge).length !== 0,
-);
-const shouldDisplayDefaultContent = computed(
-    () => !states.showCreateForm && Object.keys(tableStore.currentActiveEdge).length === 0,
-);
+const { tableStore, noActiveEdge } = useTableRelation();
+const shouldDisplayCreateForm = computed(() => states.showCreateForm && noActiveEdge.value);
+const shouldDisplayEditForm = computed(() => !states.showCreateForm && !noActiveEdge.value);
+const shouldDisplayDefaultContent = computed(() => !states.showCreateForm && noActiveEdge.value);
 const onError = (errors) => {
     states.errors = errors;
 };
@@ -41,9 +35,9 @@ const resetState = () => {
         <template #label>Table Relations</template>
         <div v-if="tableStore.hasActiveNode">
             <BaseAlertErrorList
+                v-if="states.errors.length"
                 class="mb-2 mt-2"
                 color-scheme="danger"
-                v-if="states.errors.length"
                 :items="states.errors"
             />
             <TableInfoRelationCreate

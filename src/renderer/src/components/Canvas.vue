@@ -9,27 +9,23 @@ import { useTableStore } from '@stores/TableStore';
 const tableStore = useTableStore();
 const onNodeClick = (event) => {
     tableStore.currentActiveNode = { ...event.node };
-    if (tableStore.currentActiveEdges.length === 0) {
-        tableStore.currentActiveEdges = event.connectedEdges.slice();
-    }
 };
 const onNodeDrag = (event) => {
     tableStore.currentActiveNode = { ...event.node };
-    if (tableStore.currentActiveEdges.length === 0) {
-        tableStore.currentActiveEdges = tableStore.edges.filter(
-            (edge) => edge.source === event.node.id || edge.target === event.node.id,
-        );
-    }
 };
 const onPaneClick = () => {
     tableStore.currentActiveNode = {};
-    tableStore.currentActiveEdge = {};
     tableStore.currentActiveEdges = [];
+    if (tableStore.currentActiveEdgeIndex !== -1) {
+        tableStore.currentActiveEdgeIndex = -1;
+    }
 };
 const onMove = () => {
     tableStore.currentActiveNode = {};
-    tableStore.currentActiveEdge = {};
     tableStore.currentActiveEdges = [];
+    if (tableStore.currentActiveEdgeIndex !== -1) {
+        tableStore.currentActiveEdgeIndex = -1;
+    }
 };
 </script>
 
