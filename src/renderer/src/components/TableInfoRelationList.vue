@@ -22,21 +22,25 @@ const getAllEdges = computed(() => {
                 isCurrentNodeParent: IsCurrentNodeParent,
             };
         })
-        .filter((edge) => edge);
+        .sort((edge) => {
+            return edge.isCurrentNodeParent ? 1 : -1;
+        });
 });
-const onClickUpdateEdge = (edgeIndex: number) => {
-    tableStore.currentActiveEdgeIndex = edgeIndex;
+const onClickUpdateEdge = (edgeIndex: string) => {
+    const Index = currentActiveEdges.value.findIndex((edge) => edge.id === edgeIndex);
+    console.log(currentActiveEdges.value[Index].data);
+    tableStore.currentActiveEdgeIndex = Index;
 };
 </script>
 
 <template>
     <div class="mb-5 mt-3">
         <button
-            v-for="(edge, ind) in getAllEdges"
+            v-for="edge in getAllEdges"
             :key="edge.id"
             class="mb-2 flex w-full justify-between rounded-md p-2 text-xs font-semibold outline-none last-of-type:mb-0 dark:bg-dark-500/20 dark:text-slate-200 dark:hover:bg-dark-500/40"
             type="button"
-            @dblclick="onClickUpdateEdge(ind)"
+            @dblclick="onClickUpdateEdge(edge.id)"
         >
             <span class="w-4/12 truncate text-left">{{ edge.table }}</span>
             <span class="mx-2 w-4/12 truncate text-left">{{ edge.column }}</span>

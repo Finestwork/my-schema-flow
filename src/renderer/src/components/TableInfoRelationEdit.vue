@@ -5,7 +5,7 @@ import TableInfoBackButton from '@components/TableInfoBackButton.vue';
 import TableInfoRelationAutoComplete from '@components/TableInfoRelationAutoComplete.vue';
 import { useTableRelationDropdown } from '@composables/useTableRelationDropdown';
 import { useTableRelation } from '@composables/useTableRelation';
-import { nextTick, reactive } from 'vue';
+import { nextTick, reactive, watch } from 'vue';
 
 const { tableStore, currentActiveEdge } = useTableRelation();
 const states = reactive({
@@ -52,6 +52,13 @@ const onClickUpdateRelation = async () => {
     await nextTick();
     tableStore.currentActiveEdgeIndex = -1;
 };
+watch(
+    () => states.referencedTable,
+    (newVal, oldVal) => {
+        if (newVal === oldVal) return;
+        states.referencedColumn = '';
+    },
+);
 </script>
 
 <template>
