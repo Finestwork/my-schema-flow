@@ -13,10 +13,7 @@ export function useTableRelation() {
     const currentActiveEdge: ComputedRef<Edge & { data: TEdgeData }> = computed(
         () => currentActiveEdges.value[TableStore.currentActiveEdgeIndex],
     );
-    const noActiveEdge = computed(() => {
-        console.log(TableStore.currentActiveEdgeIndex);
-        return TableStore.currentActiveEdgeIndex === -1;
-    });
+    const noActiveEdge = computed(() => TableStore.currentActiveEdgeIndex === -1);
 
     return {
         tableStore: TableStore,

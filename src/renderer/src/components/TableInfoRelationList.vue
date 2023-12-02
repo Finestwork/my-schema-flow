@@ -18,9 +18,7 @@ const getAllEdges = computed(() => {
             return {
                 id: edge.id,
                 table: Table,
-                column: IsCurrentNodeParent
-                    ? edge.data.referenced.column
-                    : edge.data.referencing.column,
+                column: edge.data.referencing.column,
                 isCurrentNodeParent: IsCurrentNodeParent,
             };
         })

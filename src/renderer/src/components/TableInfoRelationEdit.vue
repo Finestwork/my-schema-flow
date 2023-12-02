@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import IconAdd from '@components/IconAdd.vue';
+import IconEdit from '@components/IconEdit.vue';
 import TableInfoBaseButton from '@components/TableInfoBaseButton.vue';
 import TableInfoBackButton from '@components/TableInfoBackButton.vue';
 import TableInfoRelationAutoComplete from '@components/TableInfoRelationAutoComplete.vue';
 import { useTableRelationDropdown } from '@composables/useTableRelationDropdown';
 import { useTableRelation } from '@composables/useTableRelation';
-import { reactive } from 'vue';
+import { nextTick, reactive } from 'vue';
 
 const { tableStore, currentActiveEdge } = useTableRelation();
 const states = reactive({
@@ -17,12 +17,11 @@ const states = reactive({
     referencedColumnSearchTerm: '',
 });
 const emits = defineEmits<{
-    (e: 'relationshipEstablished');
     (e: 'error', payload: string[]);
 }>();
 const { getAttributes, referencedColumns, tableColumns, isBtnDisabled } =
     useTableRelationDropdown(states);
-const onClickEstablishRelation = () => {
+const onClickUpdateRelation = async () => {
     const Element = tableStore.elements.filter(
         (element) => element.data.table.name === states.referencedTable,
     )[0];
@@ -49,8 +48,9 @@ const onClickEstablishRelation = () => {
         column: states.referencingColumn,
         table: tableStore.currentActiveNode.data.table.name,
     };
-    tableStore.addNewEdge(ReferencedObj, ReferencingObj);
-    emits('relationshipEstablished');
+    tableStore.updateNewEdge(currentActiveEdge.value.id, ReferencedObj, ReferencingObj);
+    await nextTick();
+    tableStore.currentActiveEdgeIndex = -1;
 };
 </script>
 
@@ -87,10 +87,10 @@ const onClickEstablishRelation = () => {
         <template #label> Referenced Column:</template>
     </TableInfoRelationAutoComplete>
 
-    <TableInfoBaseButton class="mt-6" :disabled="isBtnDisabled" @click="onClickEstablishRelation">
+    <TableInfoBaseButton class="mt-6" :disabled="isBtnDisabled" @click="onClickUpdateRelation">
         <template #icon>
-            <IconAdd />
+            <IconEdit class="block" />
         </template>
-        <template #text>Add Relation</template>
+        <template #text>Update Relation</template>
     </TableInfoBaseButton>
 </template>

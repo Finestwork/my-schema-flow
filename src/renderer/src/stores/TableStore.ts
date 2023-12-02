@@ -63,8 +63,34 @@ export const useTableStore = defineStore('tableStore', {
                     },
                 },
             };
-            console.log(Edge);
-            this.edges.push(Edge);
+            this.edges = [...this.edges, Edge];
+        },
+        updateNewEdge(
+            edgeId: string,
+            referenced: { id: string; column: string; table: string },
+            referencing: { id: string; column: string; table: string },
+        ) {
+            const NewEdgeObject = {
+                id: uuidv4(),
+                source: referenced.id,
+                target: referencing.id,
+                data: {
+                    referenced: {
+                        id: referenced.id,
+                        column: referenced.column,
+                        table: referenced.table,
+                    },
+                    referencing: {
+                        id: referencing.id,
+                        column: referencing.column,
+                        table: referencing.table,
+                    },
+                },
+            };
+            const Index = this.edges.findIndex((edge) => edge.id === edgeId);
+            if (Index === -1) return;
+            this.edges.splice(Index, 1);
+            this.edges = [...this.edges, NewEdgeObject];
         },
         onActiveNodeCreateColumn(columnData: TTableColumnCreation) {
             const Columns = this.currentActiveNode.data.table.columns;

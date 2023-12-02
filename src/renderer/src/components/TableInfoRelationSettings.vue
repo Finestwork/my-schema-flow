@@ -46,7 +46,7 @@ const resetState = () => {
                 @relationship-established="resetState"
                 @go-back="resetState"
             />
-            <TableInfoRelationEdit v-if="shouldDisplayEditForm" />
+            <TableInfoRelationEdit v-if="shouldDisplayEditForm" @error="onError" />
             <template v-if="shouldDisplayDefaultContent">
                 <TableInfoRelationList />
                 <TableInfoBaseButton @click="states.showCreateForm = true">

@@ -14,7 +14,7 @@ const emits = defineEmits<{
         @click="emits('click', $event)"
     >
         <span
-            class="mr-1 block w-[10px]"
+            class="mr-1.5 block w-[10px]"
             :class="{
                 'stroke-slate-600': disabled,
                 'dark:dark:stroke-slate-300 group-hover:dark:stroke-blue-500 group-focus:dark:stroke-blue-500':
