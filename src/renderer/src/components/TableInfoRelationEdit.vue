@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import IconEdit from '@components/IconEdit.vue';
-import TableInfoBaseButton from '@components/TableInfoBaseButton.vue';
+import IconTrash from '@components/IconTrash.vue';
 import TableInfoBackButton from '@components/TableInfoBackButton.vue';
 import TableInfoRelationAutoComplete from '@components/TableInfoRelationAutoComplete.vue';
+import TableInfoBaseButtonIcon from '@components/TableInfoBaseButtonIcon.vue';
 import { useTableRelationDropdown } from '@composables/useTableRelationDropdown';
 import { useTableRelation } from '@composables/useTableRelation';
 import { nextTick, reactive, watch } from 'vue';
@@ -52,6 +53,11 @@ const onClickUpdateRelation = async () => {
     await nextTick();
     tableStore.currentActiveEdgeIndex = -1;
 };
+const onClickDeleteRelation = async () => {
+    tableStore.deleteEdge(currentActiveEdge.value.id);
+    await nextTick();
+    tableStore.currentActiveEdgeIndex = -1;
+};
 watch(
     () => states.referencedTable,
     (newVal, oldVal) => {
@@ -94,10 +100,18 @@ watch(
         <template #label> Referenced Column:</template>
     </TableInfoRelationAutoComplete>
 
-    <TableInfoBaseButton class="mt-6" :disabled="isBtnDisabled" @click="onClickUpdateRelation">
-        <template #icon>
-            <IconEdit class="block" />
-        </template>
-        <template #text>Update Relation</template>
-    </TableInfoBaseButton>
+    <div class="mt-6">
+        <TableInfoBaseButtonIcon
+            class="mr-2"
+            :disabled="isBtnDisabled"
+            @click="onClickUpdateRelation"
+        >
+            <IconEdit />
+            <template #tooltip> Update Relation</template>
+        </TableInfoBaseButtonIcon>
+        <TableInfoBaseButtonIcon color-scheme="danger" @click="onClickDeleteRelation">
+            <IconTrash />
+            <template #tooltip> Delete Relation</template>
+        </TableInfoBaseButtonIcon>
+    </div>
 </template>

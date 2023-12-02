@@ -92,6 +92,11 @@ export const useTableStore = defineStore('tableStore', {
             this.edges.splice(Index, 1);
             this.edges = [...this.edges, NewEdgeObject];
         },
+        deleteEdge(edgeId: string) {
+            const Index = this.edges.findIndex((edge) => edge.id === edgeId);
+            if (Index === -1) return;
+            this.edges.splice(Index, 1);
+        },
         onActiveNodeCreateColumn(columnData: TTableColumnCreation) {
             const Columns = this.currentActiveNode.data.table.columns;
             const ColumnData = {

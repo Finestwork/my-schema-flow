@@ -28,7 +28,6 @@ const getAllEdges = computed(() => {
 });
 const onClickUpdateEdge = (edgeIndex: string) => {
     const Index = currentActiveEdges.value.findIndex((edge) => edge.id === edgeIndex);
-    console.log(currentActiveEdges.value[Index].data);
     tableStore.currentActiveEdgeIndex = Index;
 };
 </script>

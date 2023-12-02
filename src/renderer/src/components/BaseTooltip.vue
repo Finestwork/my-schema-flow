@@ -38,7 +38,12 @@ const onLeave = (el: Element, done: () => void) => {
 </script>
 
 <template>
-    <div ref="source" @mouseenter="showTooltip = true" @mouseleave="showTooltip = false">
+    <div
+        class="inline-flex"
+        ref="source"
+        @mouseenter="showTooltip = true"
+        @mouseleave="showTooltip = false"
+    >
         <slot></slot>
 
         <Teleport to="body">
@@ -53,4 +58,3 @@ const onLeave = (el: Element, done: () => void) => {
         </Teleport>
     </div>
 </template>
-<script setup lang="ts"></script>
