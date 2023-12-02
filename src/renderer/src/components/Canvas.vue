@@ -5,16 +5,17 @@ import { Background } from '@vue-flow/background';
 import { MiniMap } from '@vue-flow/minimap';
 import { Controls } from '@vue-flow/controls';
 import { useTableStore } from '@stores/TableStore';
-import { computed, onMounted, watch } from 'vue';
+import { useDebounceFn } from '@vueuse/core';
 import { sortConstraintKeys } from '@renderer/TableColumnHelper';
+import { computed } from 'vue';
 
 const tableStore = useTableStore();
 const onNodeClick = (event) => {
     tableStore.currentActiveNode = { ...event.node };
 };
-const onNodeDrag = (event) => {
+const onNodeDrag = useDebounceFn((event) => {
     tableStore.currentActiveNode = { ...event.node };
-};
+}, 150);
 const onPaneClick = () => {
     tableStore.currentActiveNode = {};
     tableStore.currentActiveEdges = [];
