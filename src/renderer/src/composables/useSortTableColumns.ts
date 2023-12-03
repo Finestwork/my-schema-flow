@@ -1,6 +1,6 @@
 import { computed } from 'vue';
 import { useTableStore } from '@stores/TableStore';
-import { sortConstraintKeys } from '@renderer/TableColumnHelper';
+import { sortConstraintKeys } from '@renderer/utils/TableColumnHelper';
 import type { TTableColumn } from '@stores/TableStore';
 
 /**

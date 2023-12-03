@@ -4,17 +4,20 @@ import { VueFlow } from '@vue-flow/core';
 import { Background } from '@vue-flow/background';
 import { MiniMap } from '@vue-flow/minimap';
 import { Controls } from '@vue-flow/controls';
+import { useTableRelation } from '@composables/useTableRelation';
+import { useCalculateHandlePosition } from '@composables/useCalculateHandlePosition';
+import { sortConstraintKeys } from '@renderer/utils/TableColumnHelper';
 import { useTableStore } from '@stores/TableStore';
 import { useDebounceFn } from '@vueuse/core';
-import { sortConstraintKeys } from '@renderer/TableColumnHelper';
 import { computed } from 'vue';
 
-const tableStore = useTableStore();
+const { tableStore, currentActiveEdges } = useTableRelation();
 const onNodeClick = (event) => {
     tableStore.currentActiveNode = { ...event.node };
 };
 const onNodeDrag = useDebounceFn((event) => {
     tableStore.currentActiveNode = { ...event.node };
+    currentActiveEdges.value.forEach(useCalculateHandlePosition);
 }, 150);
 const onPaneClick = () => {
     tableStore.currentActiveNode = {};
