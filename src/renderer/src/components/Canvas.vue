@@ -9,10 +9,8 @@ import { sortConstraintKeys } from '@renderer/utils/TableColumnHelper';
 import { calculateEdgePosition } from '@renderer/utils/NodeEdgeHelper';
 import { nodeAutolayout } from '@renderer/utils/NodeHelper';
 import { useDebounceFn } from '@vueuse/core';
-import { useVueFlow } from '@vue-flow/core';
 
 const { tableStore, currentActiveEdges } = useTableRelation();
-const { onPaneReady } = useVueFlow();
 const onNodeClick = (event) => {
     tableStore.currentActiveNode = { ...event.node };
 };
@@ -35,7 +33,7 @@ const onMove = () => {
     }
 };
 
-onPaneReady(() => {
+const onPaneReady = () => {
     tableStore.elements = tableStore.elements.map((element) => {
         const Columns = element.data.table.columns;
         element.data.table.columns = sortConstraintKeys(Columns);
@@ -45,7 +43,7 @@ onPaneReady(() => {
     tableStore.elements = nodes;
     tableStore.edges = edges;
     tableStore.edges.forEach(calculateEdgePosition);
-});
+};
 </script>
 
 <template>
@@ -62,6 +60,7 @@ onPaneReady(() => {
             @node-drag="onNodeDrag"
             @pane-click="onPaneClick"
             @move="onMove"
+            @pane-ready="onPaneReady"
         >
             <Background pattern-color="#6381b8" />
             <MiniMap />
