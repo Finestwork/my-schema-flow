@@ -33,7 +33,6 @@ const createEdges = () => {
             id: uuidv4(),
             source: TableDummy[edge.source.table].id,
             target: TableDummy[edge.target.table].id,
-            animated: true,
             data: {
                 referenced: {
                     id: TableDummy[edge.source.table].id,
