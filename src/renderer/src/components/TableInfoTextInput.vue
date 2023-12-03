@@ -12,9 +12,9 @@ const { modelValue } = defineModels<{
     modelValue: string;
 }>();
 const emits = defineEmits<{
-    (e: 'focus', payload: Event): void;
-    (e: 'blur', payload: Event): void;
-    (e: 'keydown', payload: Event): void;
+    (e: 'focus', payload: FocusEvent): void;
+    (e: 'blur', payload: FocusEvent): void;
+    (e: 'keydown', payload: KeyboardEvent): void;
     (e: 'input', payload: Event): void;
 }>();
 defineExpose({

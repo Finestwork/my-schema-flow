@@ -1,7 +1,6 @@
 import TableDummy from '@stores/dummy/TableDummy';
 import EdgesDummy from '@stores/dummy/EdgesDummy';
 import { v4 as uuidv4 } from 'uuid';
-import { forEach } from 'lodash';
 import { Edge } from '@vue-flow/core';
 import { TEdgeData } from '@stores/TableStore';
 

@@ -10,7 +10,6 @@ import { calculateEdgePosition } from '@renderer/utils/NodeEdgeHelper';
 import { nodeAutolayout } from '@renderer/utils/NodeHelper';
 import { useDebounceFn } from '@vueuse/core';
 import { useVueFlow } from '@vue-flow/core';
-import { computed } from 'vue';
 
 const { tableStore, currentActiveEdges } = useTableRelation();
 const { onPaneReady } = useVueFlow();
@@ -35,31 +34,24 @@ const onMove = () => {
         tableStore.currentActiveEdgeIndex = -1;
     }
 };
-const sortedColumns = computed({
-    set(elements) {
-        tableStore.elements = elements;
-    },
-    get() {
-        return tableStore.elements.map((element) => {
-            const Columns = element.data.table.columns;
-            element.data.table.columns = sortConstraintKeys(Columns);
-            return element;
-        });
-    },
-});
 
-onPaneReady((event) => {
-    const { nodes, edges } = nodeAutolayout(sortedColumns.value, tableStore.edges);
-    sortedColumns.value = nodes;
+onPaneReady(() => {
+    tableStore.elements = tableStore.elements.map((element) => {
+        const Columns = element.data.table.columns;
+        element.data.table.columns = sortConstraintKeys(Columns);
+        return element;
+    });
+    const { nodes, edges } = nodeAutolayout(tableStore.elements, tableStore.edges);
+    tableStore.elements = nodes;
     tableStore.edges = edges;
-    event.edges.forEach(calculateEdgePosition);
+    tableStore.edges.forEach(calculateEdgePosition);
 });
 </script>
 
 <template>
     <div class="h-full w-full">
         <VueFlow
-            v-model:nodes="sortedColumns"
+            v-model:nodes="tableStore.elements"
             v-model:edges="tableStore.edges"
             :default-edge-options="{ type: 'smoothstep' }"
             :default-viewport="{ zoom: 0.5 }"

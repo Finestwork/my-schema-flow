@@ -1,4 +1,6 @@
-export const sortConstraintKeys = (arr: { keyConstraint: 'PK' | 'FK' | '' }[]) => {
+import type { TTableColumn } from '@stores/TableStore';
+
+export const sortConstraintKeys = (arr: TTableColumn[]) => {
     return arr.slice().sort((a, b) => {
         if (a.keyConstraint === b.keyConstraint) {
             return 0;

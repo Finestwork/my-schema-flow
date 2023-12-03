@@ -2,7 +2,6 @@
 type TProps = {
     id: string;
     placeholder: string;
-    modelValue: string;
 };
 
 const props = defineProps<TProps>();

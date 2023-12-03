@@ -1,4 +1,4 @@
-import { TTableColumn, TTableColumnCreation, useTableStore } from '@stores/TableStore';
+import { TTableColumnCreation, useTableStore } from '@stores/TableStore';
 import { mySqlDataTypes } from '@renderer/database/MySqlDataTypes';
 import { computed, ref } from 'vue';
 import { isBoolean, isEmpty, isNumber } from 'lodash';
@@ -27,7 +27,7 @@ export function useColumnActions() {
             }
         }
 
-        if (!isEmpty(columnData.length) && !isNumber(parseInt(columnData.length))) {
+        if (!isEmpty(columnData.length) && !isNumber(parseInt(<string>columnData.length))) {
             Errors.push('Data length must be a number.');
         }
 
@@ -55,7 +55,7 @@ export function useColumnActions() {
     const updateColumn = (columnData: TTableColumnCreation) => {
         tableStore.updateTableColumn(columnData, activeColumnIndex.value);
     };
-    const cloneColumn = (e: MouseEvent) => {
+    const cloneColumn = (e: Event) => {
         if (activeColumnIndex.value === -1) return;
         const Columns = tableStore.currentActiveNode.data.table.columns;
         const CurrentColumn = Columns[activeColumnIndex.value];

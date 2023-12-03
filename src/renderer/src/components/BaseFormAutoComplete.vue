@@ -19,7 +19,7 @@ const { modelValue, showDropdown } = defineModels<{
 const emits = defineEmits<{
     (e: 'input', payload: Event): void;
     (e: 'blur', payload: Event): void;
-    (e: 'onSelect', { currentIndex: number }): void;
+    (e: 'onSelect', payload: { currentIndex: number }): void;
     (e: 'dropdownHidden'): void;
 }>();
 const source = ref();

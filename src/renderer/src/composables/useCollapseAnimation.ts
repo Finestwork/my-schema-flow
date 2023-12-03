@@ -1,6 +1,6 @@
 import anime from 'animejs/lib/anime.es.js';
 
-export const animateIcon = (icon: HTMLElement, isActive: boolean) => {
+export const animateIcon = (icon: Element, isActive: boolean) => {
     const Icon = icon;
     if (!isActive) {
         anime({
@@ -19,8 +19,8 @@ export const animateIcon = (icon: HTMLElement, isActive: boolean) => {
     });
 };
 
-export const animateFormWrapperOnBeforeEnter = (el: HTMLElement) => {
-    const FirstChild = el.firstElementChild;
+export const animateFormWrapperOnBeforeEnter = (el: Element) => {
+    const FirstChild = <HTMLElement>el.firstElementChild;
     if (!FirstChild) return;
 
     Object.assign(FirstChild.style, {
@@ -28,12 +28,12 @@ export const animateFormWrapperOnBeforeEnter = (el: HTMLElement) => {
         transform: `scale(0.5)`,
     });
 
-    Object.assign(el.style, {
+    Object.assign((<HTMLElement>el).style, {
         height: 0,
     });
 };
 
-export const animateFormWrapperOnEnter = (el: HTMLElement, done: () => void) => {
+export const animateFormWrapperOnEnter = (el: Element, done: () => void) => {
     const FirstChild = el.firstElementChild;
     if (!FirstChild) return;
     const SavedHeight = FirstChild.scrollHeight;
@@ -56,12 +56,12 @@ export const animateFormWrapperOnEnter = (el: HTMLElement, done: () => void) => 
     });
 };
 
-export const animateFormWrapperOnLeave = (el: HTMLElement, done: () => void) => {
-    const FirstChild = el.firstElementChild;
+export const animateFormWrapperOnLeave = (el: Element, done: () => void) => {
+    const FirstChild = <HTMLElement>el.firstElementChild;
     if (!FirstChild) return;
     const SavedHeight = FirstChild.offsetHeight;
 
-    Object.assign(el.style, {
+    Object.assign((<HTMLElement>el).style, {
         targets: el,
         height: `${SavedHeight}px`,
     });

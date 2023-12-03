@@ -18,7 +18,7 @@ const { modelValue, searchTerm } = defineModels<{
 const onSelectUpdateAttribute = ({ currentIndex }) => {
     modelValue.value = items[currentIndex];
 };
-const onInputUpdateSearchTerm = (e: KeyboardEvent) => {
+const onInputUpdateSearchTerm = (e: Event) => {
     const Target = <HTMLInputElement>e.currentTarget;
     searchTerm.value = Target.value;
 };

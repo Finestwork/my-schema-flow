@@ -26,9 +26,12 @@
             "@stores/*": [
                 "src/renderer/src/stores/*"
             ],
+            "@stores/dummy/*": [
+                "src/renderer/src/stores/dummy/*"
+            ],
             "@composables/*": [
                 "src/renderer/src/composables/*"
-            ]
+            ],
         }
     },
     "vueCompilerOptions": {

@@ -12,6 +12,7 @@ import { getAutocomplete } from '@composables/useMysqlDataType';
 import { useColumnActions } from '@composables/useColumnActions';
 import { useTableStore } from '@stores/TableStore';
 import { ref, reactive, computed } from 'vue';
+import type { Ref } from 'vue';
 import type { TTableColumnCreation } from '@stores/TableStore';
 
 const { currentActiveIndex } = defineProps<{
@@ -21,7 +22,7 @@ const emits = defineEmits(['goBack']);
 const tableStore = useTableStore();
 const CurrentColumn = tableStore.currentActiveNode.data.table.columns[currentActiveIndex];
 const autocompleteSearchTerm = ref('');
-const columnErrors = ref([]);
+const columnErrors: Ref<string[]> = ref([]);
 const keyConstraint = ref(CurrentColumn?.keyConstraint ?? '');
 const { activeColumnIndex, updateColumn, validateColumns } = useColumnActions();
 const columnData: TTableColumnCreation = reactive({
@@ -35,7 +36,7 @@ const { contents: mysqlDataTypesArr } = getAutocomplete(autocompleteSearchTerm);
 const getColumnErrors = computed(() => {
     return columnErrors.value.map((column) => `• ${column}`);
 });
-const onInputUpdateAutocomplete = (e: KeyboardEvent) => {
+const onInputUpdateAutocomplete = (e: Event) => {
     const Target = <HTMLInputElement>e.target;
     autocompleteSearchTerm.value = Target.value;
 };
@@ -120,7 +121,7 @@ const onClickToggleForeignKey = (e: MouseEvent) => {
             <template #icon>
                 <IconEdit />
             </template>
-            <template #text> Update Column </template>
+            <template #text> Update Column</template>
         </TableInfoBaseButton>
     </div>
 </template>

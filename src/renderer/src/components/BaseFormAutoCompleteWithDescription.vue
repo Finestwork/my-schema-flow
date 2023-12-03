@@ -13,7 +13,7 @@ const { modelValue } = defineModels<{
     modelValue: string;
 }>();
 const emits = defineEmits<{
-    (e: 'input', payload: KeyboardEvent);
+    (e: 'input', payload: Event);
     (e: 'blur', payload: KeyboardEvent);
     (e: 'dropdownHidden');
 }>();

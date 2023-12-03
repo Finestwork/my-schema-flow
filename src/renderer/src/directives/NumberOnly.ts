@@ -1,8 +1,6 @@
 import { formatNumeral } from 'cleave-zen';
 import type { NumeralThousandGroupStyles } from 'cleave-zen';
-import type { DirectiveBinding } from 'vue';
 
-type TBind = DirectiveBinding & { dir: { numberOnly(): void } };
 export const NumberOnly = {
     numberOnly(e: Event) {
         const Target = <HTMLInputElement>e.target;
@@ -10,10 +8,10 @@ export const NumberOnly = {
             numeralThousandsGroupStyle: 'thousand' as NumeralThousandGroupStyles.THOUSAND,
         });
     },
-    mounted(el: Element, binding: TBind) {
+    mounted(el: Element, binding) {
         el.addEventListener('input', binding.dir.numberOnly);
     },
-    unmounted(el: Element, binding: TBind) {
+    unmounted(el: Element, binding) {
         el.removeEventListener('input', binding.dir.numberOnly);
     },
 };
