@@ -43,7 +43,7 @@ const getColumns = computed(() => {
     <div
         class="relative min-h-[150px] w-[250px] overflow-hidden rounded-lg border-2 font-jetbrains hover:cursor-pointer dark:bg-dark-800"
         :class="{
-            'dark:border-blue-500': props.data.state.isActive,
+            'dark:border-blue-500/30': props.data.state.isActive,
             'dark:border-slate-700': !props.data.state.isActive,
         }"
     >

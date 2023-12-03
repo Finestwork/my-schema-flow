@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import BaseTableNode from '@components/BaseTableNode.vue';
+import BaseTableEdge from '@components/BaseTableEdge.vue';
 import { VueFlow } from '@vue-flow/core';
 import { Background } from '@vue-flow/background';
 import { MiniMap } from '@vue-flow/minimap';
@@ -18,6 +19,7 @@ const resetActiveState = () => {
         };
     }
     currentActiveEdges.value.forEach((edge) => {
+        edge.style = {};
         edge.animated = false;
     });
 };
@@ -27,6 +29,9 @@ const onNodeClick = (event) => {
     tableStore.currentActiveNode = { ...event.node };
     tableStore.currentActiveNode.data.state.isActive = true;
     currentActiveEdges.value.forEach((edge) => {
+        edge.style = {
+            stroke: '#3b82f6',
+        };
         edge.animated = true;
     });
 };
@@ -90,6 +95,9 @@ const onPaneReady = () => {
             <template #node-custom="props">
                 <BaseTableNode v-bind="props" :data="props.data" />
             </template>
+            <!--            <template #edge-custom="props">-->
+            <!--                <BaseTableEdge v-bind="props" />-->
+            <!--            </template>-->
         </VueFlow>
     </div>
 </template>
