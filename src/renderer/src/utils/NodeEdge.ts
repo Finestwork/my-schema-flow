@@ -1,4 +1,4 @@
-export function useCalculateHandlePosition(edge) {
+export function calculateEdgePosition(edge) {
     const SourceNode = edge.sourceNode;
     const TargetNode = edge.targetNode;
     const nodeWidth = TargetNode.dimensions.width;

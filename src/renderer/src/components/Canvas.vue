@@ -5,19 +5,20 @@ import { Background } from '@vue-flow/background';
 import { MiniMap } from '@vue-flow/minimap';
 import { Controls } from '@vue-flow/controls';
 import { useTableRelation } from '@composables/useTableRelation';
-import { useCalculateHandlePosition } from '@composables/useCalculateHandlePosition';
 import { sortConstraintKeys } from '@renderer/utils/TableColumnHelper';
-import { useTableStore } from '@stores/TableStore';
+import { calculateEdgePosition } from '@renderer/utils/NodeEdge';
 import { useDebounceFn } from '@vueuse/core';
+import { useVueFlow } from '@vue-flow/core';
 import { computed } from 'vue';
 
 const { tableStore, currentActiveEdges } = useTableRelation();
+const { onPaneReady } = useVueFlow();
 const onNodeClick = (event) => {
     tableStore.currentActiveNode = { ...event.node };
 };
 const onNodeDrag = useDebounceFn((event) => {
     tableStore.currentActiveNode = { ...event.node };
-    currentActiveEdges.value.forEach(useCalculateHandlePosition);
+    currentActiveEdges.value.forEach(calculateEdgePosition);
 }, 150);
 const onPaneClick = () => {
     tableStore.currentActiveNode = {};
@@ -44,6 +45,11 @@ const sortedColumns = computed({
             return element;
         });
     },
+});
+
+onPaneReady((event) => {
+    console.log(event.edges);
+    event.edges.forEach(calculateEdgePosition);
 });
 </script>
 
