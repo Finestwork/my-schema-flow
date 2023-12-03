@@ -12,13 +12,22 @@ import { useDebounceFn } from '@vueuse/core';
 
 const { tableStore, currentActiveEdges } = useTableRelation();
 const onNodeClick = (event) => {
+    tableStore.resetActiveState();
     tableStore.currentActiveNode = { ...event.node };
+    tableStore.currentActiveNode.data.state = {
+        isActive: true,
+    };
 };
 const onNodeDrag = useDebounceFn((event) => {
+    tableStore.resetActiveState();
     tableStore.currentActiveNode = { ...event.node };
+    tableStore.currentActiveNode.data.state = {
+        isActive: true,
+    };
     currentActiveEdges.value.forEach(calculateEdgePosition);
 }, 150);
 const onPaneClick = () => {
+    tableStore.resetActiveState();
     tableStore.currentActiveNode = {};
     tableStore.currentActiveEdges = [];
     if (tableStore.currentActiveEdgeIndex !== -1) {
@@ -26,6 +35,7 @@ const onPaneClick = () => {
     }
 };
 const onMove = () => {
+    tableStore.resetActiveState();
     tableStore.currentActiveNode = {};
     tableStore.currentActiveEdges = [];
     if (tableStore.currentActiveEdgeIndex !== -1) {

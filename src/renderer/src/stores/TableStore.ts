@@ -120,6 +120,13 @@ export const useTableStore = defineStore('tableStore', {
                 keyConstraint: columnData.keyConstraint,
             });
         },
+        resetActiveState() {
+            if (Object.keys(this.currentActiveNode).length !== 0) {
+                this.currentActiveNode.data.state = {
+                    isActive: false,
+                };
+            }
+        },
     },
     getters: {
         hasActiveNode(state) {

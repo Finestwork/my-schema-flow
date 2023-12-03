@@ -6,14 +6,19 @@ import numeral from 'numeral';
 import type { TTableData } from '@stores/TableStore';
 import type { PropType } from 'vue';
 
-const Props = defineProps({
+export type TState = {
+    state: {
+        isActive: boolean;
+    };
+};
+const props = defineProps({
     data: {
-        type: Object as PropType<TTableData>,
+        type: Object as PropType<TTableData & TState>,
         required: true,
     },
 });
 const getColumns = computed(() => {
-    return Props.data.table.columns.map((column) => {
+    return props.data.table.columns.map((column) => {
         const Size = numeral(column.length).format('0a');
         const Type = column.type;
         const MySqlDataType = mySqlDataTypes.filter((dataType) => dataType.name === Type)[0];
@@ -36,12 +41,20 @@ const getColumns = computed(() => {
 
 <template>
     <div
-        class="relative min-h-[150px] w-[250px] overflow-hidden rounded-lg border-2 font-jetbrains dark:border-slate-700 dark:bg-dark-800"
+        class="relative min-h-[150px] w-[250px] overflow-hidden rounded-lg border-2 font-jetbrains hover:cursor-pointer dark:bg-dark-800"
+        :class="{
+            'dark:border-blue-500': props.data.state.isActive,
+            'dark:border-slate-700': !props.data.state.isActive,
+        }"
     >
         <NodeHandles />
         <span
-            class="block py-2 text-center text-sm font-bold dark:bg-dark-700/50 dark:text-slate-400"
-            >{{ Props.data.table.name }}</span
+            class="block py-2 text-center text-sm font-bold"
+            :class="{
+                'dark:bg-blue-950/30 dark:text-blue-500': props.data.state.isActive,
+                'dark:bg-dark-700/50 dark:text-slate-400': !props.data.state.isActive,
+            }"
+            >{{ props.data.table.name }}</span
         >
         <div class="py-2">
             <div

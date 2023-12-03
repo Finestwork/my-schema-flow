@@ -18,6 +18,9 @@ const createElements = () => {
                     name: TableDummy[table].name,
                     columns: TableDummy[table].columns,
                 },
+                state: {
+                    isActive: false,
+                },
             },
         });
         index++;
