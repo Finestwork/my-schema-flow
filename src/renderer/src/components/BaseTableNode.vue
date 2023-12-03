@@ -36,11 +36,11 @@ const getColumns = computed(() => {
 
 <template>
     <div
-        class="relative min-h-[150px] w-[250px] overflow-hidden rounded-lg border-2 font-jetbrains dark:border-slate-600 dark:bg-dark-800"
+        class="relative min-h-[150px] w-[250px] overflow-hidden rounded-lg border-2 font-jetbrains dark:border-slate-700 dark:bg-dark-800"
     >
         <NodeHandles />
         <span
-            class="block py-2 text-center text-sm font-bold dark:bg-dark-700 dark:text-slate-300"
+            class="block py-2 text-center text-sm font-bold dark:bg-dark-700/50 dark:text-slate-400"
             >{{ Props.data.table.name }}</span
         >
         <div class="py-2">
