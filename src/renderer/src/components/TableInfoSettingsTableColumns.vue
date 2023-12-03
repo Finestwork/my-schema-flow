@@ -23,11 +23,11 @@ const onClickRemoveActiveState = (e: MouseEvent) => {
 <template>
     <div class="mt-6" @click="onClickRemoveActiveState">
         <button
+            v-for="(column, index) in sortedActiveNodeColumns"
             ref="buttonColumns"
+            :key="column.id"
             type="button"
             class="mb-2 flex w-full justify-between rounded-md p-2 text-xs font-semibold outline-none last-of-type:mb-0"
-            v-for="(column, index) in sortedActiveNodeColumns"
-            :key="column.id"
             :class="{
                 'dark:bg-dark-500/20 dark:text-slate-200 dark:hover:bg-dark-500/40':
                     currentIndex !== index,

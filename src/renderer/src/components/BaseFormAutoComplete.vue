@@ -103,10 +103,10 @@ watchDebounced(
 <template>
     <div ref="source">
         <TableInfoTextInput
-            ref="tableInfoTextInput"
             :id="props.id"
-            :placeholder="props.placeholder"
+            ref="tableInfoTextInput"
             v-model="modelValue"
+            :placeholder="props.placeholder"
             @focus="showDropdown = true"
             @blur="onTextInputBlur"
             @keydown="onTextInputKeydown"
@@ -117,9 +117,9 @@ watchDebounced(
             </template>
         </TableInfoTextInput>
         <div
+            v-if="showDropdown"
             ref="floatingDropdown"
             class="scrollbar-slim absolute max-h-[200px] overflow-y-scroll bg-white shadow-xl dark:bg-dark-700"
-            v-if="showDropdown"
             @keydown="onFloatingDropdownKeydown"
         >
             <slot name="float"></slot>

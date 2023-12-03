@@ -38,9 +38,9 @@ const onClickChooseAttribute = (value: string) => {
 <template>
     <BaseFormAutoComplete
         :id="id"
-        :placeholder="placeholder"
         v-model="modelValue"
         v-model:show-dropdown="states.showAttributeDropdown"
+        :placeholder="placeholder"
         :items="items"
         @on-select="onSelectUpdateAttribute"
         @input="onInputUpdateSearchTerm"
@@ -52,6 +52,7 @@ const onClickChooseAttribute = (value: string) => {
             <div class="scrollbar-slim">
                 <BaseFormAutoCompleteItem
                     v-for="attr in items"
+                    :key="attr"
                     @keydown="onKeydownChooseAttribute($event, attr)"
                     @click="onClickChooseAttribute(attr)"
                 >

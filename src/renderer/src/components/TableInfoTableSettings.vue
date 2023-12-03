@@ -41,8 +41,8 @@ watch(
             <template v-if="!displayColumnForm && !displayEditColumnForm">
                 <TableInfoTextInput
                     id="tableSettingsTableName"
-                    placeholder="Place table name here"
                     v-model="tableStore.currentActiveNode.data.table.name"
+                    placeholder="Place table name here"
                 >
                     <template #label>Table Name:</template>
                 </TableInfoTextInput>

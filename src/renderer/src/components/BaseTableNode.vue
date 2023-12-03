@@ -45,9 +45,9 @@ const getColumns = computed(() => {
         >
         <div class="py-2">
             <div
-                class="flex justify-between px-2 py-2 text-xs font-bold"
                 v-for="column in getColumns"
                 :key="column.name"
+                class="flex justify-between px-2 py-2 text-xs font-bold"
             >
                 <span class="mr-2 w-4/12 grow truncate dark:text-slate-500">{{ column.name }}</span>
                 <span class="w-4/12 grow truncate text-left dark:text-slate-600">{{

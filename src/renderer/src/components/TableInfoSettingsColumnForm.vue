@@ -65,39 +65,39 @@ const onClickToggleForeignKey = (e: MouseEvent) => {
     <div class="mt-4">
         <TableInfoBackButton class="mb-6" @click="emits('goBack')" />
         <BaseAlertErrorList
+            v-if="getColumnErrors.length !== 0"
             class="mb-2"
             color-scheme="danger"
-            v-if="getColumnErrors.length !== 0"
             :items="getColumnErrors"
         />
         <TableInfoTextInput
-            class="mb-4"
             id="tableSettingsColumnName"
-            placeholder="Place column's name here"
             v-model="columnData.name"
+            class="mb-4"
+            placeholder="Place column's name here"
         >
             <template #label>Column name:</template>
         </TableInfoTextInput>
 
         <TableInfoTextInputNumber
-            class="mb-4"
             id="tableSettingsColumnLength"
-            placeholder="Place data size here"
             v-model="columnData.length"
+            class="mb-4"
+            placeholder="Place data size here"
         >
             <template #label>Length:</template>
         </TableInfoTextInputNumber>
         <BaseFormAutoCompleteWithDescription
+            v-model="columnData.type"
             class="mb-4"
             :items="mysqlDataTypesArr"
-            v-model="columnData.type"
             @input="onInputUpdateAutocomplete"
         />
         <TableInfoCheckbox
-            class="mb-4"
             id="tableSettingsColumnNull"
-            value="isNull"
             v-model="columnData.isNull"
+            class="mb-4"
+            value="isNull"
         >
             <template #label>Null</template>
         </TableInfoCheckbox>

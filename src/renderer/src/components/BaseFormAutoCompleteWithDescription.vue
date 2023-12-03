@@ -42,9 +42,9 @@ const onBlurFormatModelValue = () => {
 <template>
     <BaseFormAutoComplete
         id="tableSettingsColumnDataType"
-        placeholder="Place column's data type here"
         v-model="modelValue"
         v-model:show-dropdown="showDropdown"
+        placeholder="Place column's data type here"
         :items="props.items"
         @input="emits('input', $event)"
         @blur="onBlurFormatModelValue"
@@ -54,10 +54,10 @@ const onBlurFormatModelValue = () => {
         <template #label> Data Type:</template>
         <template #float>
             <button
-                type="button"
-                class="group flex w-full px-2 py-2 text-xs font-semibold outline-none dark:hover:bg-dark-800/70 dark:focus:bg-dark-800/70"
                 v-for="type in props.items"
                 :key="type.name"
+                type="button"
+                class="group flex w-full px-2 py-2 text-xs font-semibold outline-none dark:hover:bg-dark-800/70 dark:focus:bg-dark-800/70"
                 @click="onClickSelectItem(type)"
                 @keydown="onKeydownSelectItem($event, type)"
             >

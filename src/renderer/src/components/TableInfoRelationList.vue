@@ -3,9 +3,6 @@ import { useTableRelation } from '@composables/useTableRelation';
 import { computed } from 'vue';
 
 const { tableStore, currentActiveEdges } = useTableRelation();
-const emits = defineEmits<{
-    (e: 'onSelect', edgeId: string);
-}>();
 const getAllEdges = computed(() => {
     const ActiveNode = tableStore.currentActiveNode;
     const CurrentTable = ActiveNode.data.table.name;

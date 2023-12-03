@@ -39,8 +39,8 @@ const onLeave = (el: Element, done: () => void) => {
 
 <template>
     <div
-        class="inline-flex"
         ref="source"
+        class="inline-flex"
         @mouseenter="showTooltip = true"
         @mouseleave="showTooltip = false"
     >
@@ -49,8 +49,8 @@ const onLeave = (el: Element, done: () => void) => {
         <Teleport to="body">
             <Transition @enter="onEnter" @leave="onLeave">
                 <span
-                    class="absolute left-0 top-0 rounded-lg px-2 py-2 text-xs font-semibold shadow-xl dark:bg-dark-700 dark:text-slate-300"
                     v-if="showTooltip"
+                    class="absolute left-0 top-0 rounded-lg px-2 py-2 text-xs font-semibold shadow-xl dark:bg-dark-700 dark:text-slate-300"
                 >
                     <slot name="tooltip"></slot>
                 </span>

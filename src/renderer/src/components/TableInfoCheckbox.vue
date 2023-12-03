@@ -4,22 +4,21 @@ import { computed } from 'vue';
 import anime from 'animejs/lib/anime';
 
 type TProps = {
-    modelValue: boolean | typeof Array;
     id: string;
     value: string;
 };
 const props = defineProps<TProps>();
 const { modelValue } = defineModels<{
-    modelValue: string | boolean;
+    modelValue: boolean | Array<string>;
 }>();
 const isChecked = computed(() => {
     // Checks if modelValue is a boolean
-    if (!Array.isArray(props.modelValue)) {
-        return props.modelValue;
+    if (!Array.isArray(modelValue)) {
+        return modelValue;
     }
 
     // Surely this is an array
-    return props.modelValue.includes(props.value);
+    return modelValue.includes(props.value);
 });
 const onBeforeEnter = (el: Element) => {
     Object.assign((el as HTMLElement).style, {
@@ -49,11 +48,11 @@ const onBtnKeydown = (e: KeyboardEvent) => {
 <template>
     <div class="flex items-center">
         <input
+            :id="props.id"
+            v-model="modelValue"
             class="hidden appearance-none"
             type="checkbox"
-            :id="props.id"
             :value="props.value"
-            v-model="modelValue"
         />
         <button
             type="button"
@@ -66,7 +65,7 @@ const onBtnKeydown = (e: KeyboardEvent) => {
             @keydown="onBtnKeydown"
         >
             <Transition @before-enter="onBeforeEnter" @enter="onEnter" @leave="onLeave">
-                <IconCheck class="stroke-white" v-if="isChecked" />
+                <IconCheck v-if="isChecked" class="stroke-white" />
             </Transition>
         </button>
         <label
