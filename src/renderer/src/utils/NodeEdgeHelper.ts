@@ -1,4 +1,4 @@
-export function calculateEdgePosition(edge) {
+export const calculateEdgePosition = (edge) => {
     const SourceNode = edge.sourceNode;
     const TargetNode = edge.targetNode;
     const nodeWidth = TargetNode.dimensions.width;
@@ -51,4 +51,4 @@ export function calculateEdgePosition(edge) {
             edge.sourceHandle = 'source-top';
         }
     }
-}
+};

@@ -6,7 +6,8 @@ import { MiniMap } from '@vue-flow/minimap';
 import { Controls } from '@vue-flow/controls';
 import { useTableRelation } from '@composables/useTableRelation';
 import { sortConstraintKeys } from '@renderer/utils/TableColumnHelper';
-import { calculateEdgePosition } from '@renderer/utils/NodeEdge';
+import { calculateEdgePosition } from '@renderer/utils/NodeEdgeHelper';
+import { nodeAutolayout } from '@renderer/utils/NodeHelper';
 import { useDebounceFn } from '@vueuse/core';
 import { useVueFlow } from '@vue-flow/core';
 import { computed } from 'vue';
@@ -48,7 +49,9 @@ const sortedColumns = computed({
 });
 
 onPaneReady((event) => {
-    console.log(event.edges);
+    const { nodes, edges } = nodeAutolayout(sortedColumns.value, tableStore.edges);
+    sortedColumns.value = nodes;
+    tableStore.edges = edges;
     event.edges.forEach(calculateEdgePosition);
 });
 </script>
