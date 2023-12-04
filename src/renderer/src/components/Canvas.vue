@@ -38,9 +38,13 @@ const onNodeClick = (event) => {
 const onNodeDrag = useDebounceFn((event) => {
     resetActiveState();
     tableStore.currentActiveNode = { ...event.node };
-    tableStore.currentActiveNode.data.state = {
-        isActive: true,
-    };
+    tableStore.currentActiveNode.data.state.isActive = true;
+    currentActiveEdges.value.forEach((edge) => {
+        edge.style = {
+            stroke: '#3b82f6',
+        };
+        edge.animated = true;
+    });
     currentActiveEdges.value.forEach(calculateEdgePosition);
 }, 150);
 const onPaneClick = () => {
