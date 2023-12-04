@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import BaseTableNode from '@components/BaseTableNode.vue';
-import BaseTableEdge from '@components/BaseTableEdge.vue';
+import CanvasControls from '@components/CanvasControls.vue';
 import { VueFlow } from '@vue-flow/core';
 import { Background } from '@vue-flow/background';
 import { MiniMap } from '@vue-flow/minimap';
@@ -91,13 +91,10 @@ const onPaneReady = () => {
         >
             <Background pattern-color="#6381b8" />
             <MiniMap />
-            <Controls />
+            <CanvasControls />
             <template #node-custom="props">
                 <BaseTableNode v-bind="props" :data="props.data" />
             </template>
-            <!--            <template #edge-custom="props">-->
-            <!--                <BaseTableEdge v-bind="props" />-->
-            <!--            </template>-->
         </VueFlow>
     </div>
 </template>

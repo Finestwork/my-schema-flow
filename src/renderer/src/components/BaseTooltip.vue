@@ -1,28 +1,32 @@
 <script setup lang="ts">
 import anime from 'animejs/lib/anime.es.js';
 import { ref } from 'vue';
-import { computePosition } from '@floating-ui/dom';
+import { computePosition, flip } from '@floating-ui/dom';
 
 const showTooltip = ref(false);
 const source = ref();
 
 const onEnter = (el: Element, done: () => void) => {
-    computePosition(source.value, el as HTMLElement).then(({ x, y }) => {
-        Object.assign((<HTMLElement>el).style, {
-            left: `${x}px`,
-            top: `${y + 15}px`,
-            opacity: 0,
-        });
+    const Middlewares = [flip()];
+    computePosition(source.value, el as HTMLElement, { middleware: Middlewares }).then(
+        ({ x, y, placement }) => {
+            const InitialTop = placement === 'top' ? y - 15 : y + 15;
+            Object.assign((<HTMLElement>el).style, {
+                left: `${x}px`,
+                top: `${InitialTop}px`,
+                opacity: 0,
+            });
 
-        anime({
-            targets: el,
-            top: y,
-            opacity: 1,
-            duration: 350,
-            easing: 'easeOutQuint',
-            complete: done,
-        });
-    });
+            anime({
+                targets: el,
+                top: y,
+                opacity: 1,
+                duration: 350,
+                easing: 'easeOutQuint',
+                complete: done,
+            });
+        },
+    );
 };
 const onLeave = (el: Element, done: () => void) => {
     const CurrentTop = el.getBoundingClientRect().top;
