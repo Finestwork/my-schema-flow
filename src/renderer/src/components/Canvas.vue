@@ -4,7 +4,6 @@ import CanvasControls from '@components/CanvasControls.vue';
 import { VueFlow } from '@vue-flow/core';
 import { Background } from '@vue-flow/background';
 import { MiniMap } from '@vue-flow/minimap';
-import { Controls } from '@vue-flow/controls';
 import { useTableRelation } from '@composables/useTableRelation';
 import { sortConstraintKeys } from '@renderer/utils/TableColumnHelper';
 import { calculateEdgePosition } from '@renderer/utils/NodeEdgeHelper';
