@@ -7,7 +7,7 @@ export type TTableColumnCreation = {
     name: string;
     type: string;
     isNull: boolean;
-    length: '' | null;
+    length: '';
     keyConstraint: 'PK' | 'FK' | '';
 };
 export type TTableColumn = TTableColumnCreation & {

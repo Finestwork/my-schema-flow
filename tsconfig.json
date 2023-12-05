@@ -1,45 +1,5 @@
 {
-    "files": [
-      "node_modules/@vue-macros/define-models/macros-global.d.ts"
-    ],
-    "include": [
-        "src/renderer/src/env.d.ts",
-        "src/renderer/src/**/*",
-        "src/renderer/src/stores/**/*",
-        "src/renderer/src/composables/**/*",
-        "src/renderer/src/**/*.vue",
-        "src/preload/*.d.ts"
-    ],
-    "compilerOptions": {
-        "composite": true,
-        "baseUrl": ".",
-        "types": [
-            "unplugin-vue-macros/macros-global"
-        ],
-        "paths": {
-            "@renderer/*": [
-                "src/renderer/src/*"
-            ],
-            "@components/*": [
-                "src/renderer/src/components/*"
-            ],
-            "@stores/*": [
-                "src/renderer/src/stores/*"
-            ],
-            "@stores/dummy/*": [
-                "src/renderer/src/stores/dummy/*"
-            ],
-            "@composables/*": [
-                "src/renderer/src/composables/*"
-            ],
-        }
-    },
-    "vueCompilerOptions": {
-        "target": 3,
-        "plugins": [
-            "@vue-macros/volar/define-models"
-        ]
-    },
+    "extends": "./tsconfig.aliases.json",
     "references": [
         {
             "path": "./tsconfig.node.json"
