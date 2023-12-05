@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import VAlertErrorList from '@components/Shared/Alerts/VAlertErrorList.vue';
+import VAlert from '@components/Shared/Alerts/VAlert.vue';
 import VEditIcon from '@components/Shared/Icons/VEditIcon.vue';
 import FormAutoCompleteWithDescription from '@components/TableInfo/Shared/FormAutoCompleteWithDescription.vue';
 import BackButton from '@components/TableInfo/Shared/BackButton.vue';
@@ -21,6 +22,7 @@ const { currentActiveIndex } = defineProps<{
 const emits = defineEmits(['goBack']);
 const tableStore = useTableStore();
 const autocompleteSearchTerm = ref('');
+const isSuccessfullyUpdated = ref(false);
 const columnErrors: Ref<Array<string>> = ref([]);
 const CurrentColumn = tableStore.currentActiveNode.data.table.columns[currentActiveIndex];
 const keyConstraint = ref(CurrentColumn?.keyConstraint ?? '');
@@ -40,12 +42,13 @@ const onInputUpdateAutocomplete = (e: Event) => {
     const Target = <HTMLInputElement>e.target;
     autocompleteSearchTerm.value = Target.value;
 };
-const onClickAddColumn = async () => {
+const onClickUpdateColumn = async () => {
     columnErrors.value = validateColumns(columnData);
     if (columnErrors.value.length !== 0) return;
     activeColumnIndex.value = currentActiveIndex;
     updateColumn(columnData);
     columnErrors.value = [];
+    isSuccessfullyUpdated.value = true;
 };
 const onClickTogglePrimaryKey = (e: MouseEvent) => {
     const Target = <HTMLButtonElement>e.currentTarget;
@@ -70,6 +73,10 @@ const onClickToggleForeignKey = (e: MouseEvent) => {
             color-scheme="danger"
             :items="getColumnErrors"
         />
+        <VAlert class="mb-2" v-if="isSuccessfullyUpdated">
+            You have successfully updated the column!
+        </VAlert>
+
         <TextInput
             id="tableSettingsColumnName"
             v-model="columnData.name"
@@ -114,7 +121,7 @@ const onClickToggleForeignKey = (e: MouseEvent) => {
                 Foreign Key
             </ButtonSelect>
         </div>
-        <BaseButton class="mt-6" @click="onClickAddColumn">
+        <BaseButton class="mt-6" @click="onClickUpdateColumn">
             <template #icon>
                 <VEditIcon />
             </template>
