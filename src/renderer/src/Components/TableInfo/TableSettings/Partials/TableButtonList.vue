@@ -37,14 +37,14 @@ const onClickRemoveActiveState = (e: MouseEvent) => {
             @dblclick="emits('editColumn', index)"
         >
             <span
-                class="w-full grow truncate text-left"
+                class="mr-2 w-full grow truncate text-left"
                 :class="{
                     'dark:text-blue-400': currentIndex !== index,
                     'dark:text-blue-500': currentIndex === index,
                 }"
                 >{{ column.name }}</span
             >
-            <span class="w-full grow truncate text-center">{{ column.type }}</span>
+            <span class="w-full grow truncate text-left">{{ column.type }}</span>
             <span class="w-full grow truncate text-center">{{
                 column.isNull ? 'Null' : 'Not Null'
             }}</span>
