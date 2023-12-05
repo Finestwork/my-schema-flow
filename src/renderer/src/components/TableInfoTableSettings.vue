@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import TableInfoTextInput from '@components/TableInfoTextInput.vue';
-import TableInfoSectionWrapper from '@components/TableInfoSectionWrapper.vue';
-import TableInfoSettingsTableColumns from '@components/TableInfoSettingsTableColumns.vue';
-import TableInfoSettingsControls from '@components/TableInfoSettingsControls.vue';
-import TableInfoSettingsColumnForm from '@components/TableInfoSettingsColumnForm.vue';
-import TableInfoSettingsEditColumnForm from '@components/TableInfoSettingsEditColumnForm.vue';
 import TableInfoNoTableSelected from '@components/TableInfoNoTableSelected.vue';
-import { useTableStore } from '@stores/TableStore';
+import TableInfoSectionWrapper from '@components/TableInfoSectionWrapper.vue';
+import TableInfoSettingsColumnForm from '@components/TableInfoSettingsColumnForm.vue';
+import TableInfoSettingsControls from '@components/TableInfoSettingsControls.vue';
+import TableInfoSettingsEditColumnForm from '@components/TableInfoSettingsEditColumnForm.vue';
+import TableInfoSettingsTableColumns from '@components/TableInfoSettingsTableColumns.vue';
+import TableInfoTextInput from '@components/TableInfoTextInput.vue';
 import { useColumnActions } from '@composables/useColumnActions';
-import { ref, watch } from 'vue';
 import { useSettingsStore } from '@stores/SettingsStore';
+import { useTableStore } from '@stores/TableStore';
+import { ref, watch } from 'vue';
 
 const tableStore = useTableStore();
 const settingsStore = useSettingsStore();

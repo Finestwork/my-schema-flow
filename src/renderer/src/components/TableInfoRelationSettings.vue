@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import IconAdd from '@components/IconAdd.vue';
 import BaseAlertErrorList from '@components/BaseAlertErrorList.vue';
-import TableInfoSectionWrapper from '@components/TableInfoSectionWrapper.vue';
-import TableInfoNoTableSelected from '@components/TableInfoNoTableSelected.vue';
+import IconAdd from '@components/IconAdd.vue';
 import TableInfoBaseButton from '@components/TableInfoBaseButton.vue';
+import TableInfoNoTableSelected from '@components/TableInfoNoTableSelected.vue';
 import TableInfoRelationCreate from '@components/TableInfoRelationCreate.vue';
 import TableInfoRelationEdit from '@components/TableInfoRelationEdit.vue';
 import TableInfoRelationList from '@components/TableInfoRelationList.vue';
-import { useSettingsStore } from '@stores/SettingsStore';
+import TableInfoSectionWrapper from '@components/TableInfoSectionWrapper.vue';
 import { useTableRelation } from '@composables/useTableRelation';
-import { ref, reactive, computed } from 'vue';
+import { useSettingsStore } from '@stores/SettingsStore';
+import { computed, reactive, ref } from 'vue';
 
 const settingsStore = useSettingsStore();
 const showForm = ref(!settingsStore.hideTableRelationSettingsPanel);

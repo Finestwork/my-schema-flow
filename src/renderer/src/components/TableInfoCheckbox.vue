@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import IconCheck from '@components/IconCheck.vue';
-import { computed } from 'vue';
 import anime from 'animejs/lib/anime';
+import { computed } from 'vue';
 
 type TProps = {
     id: string;

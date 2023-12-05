@@ -1,4 +1,4 @@
-import { computePosition, size, flip } from '@floating-ui/dom';
+import { computePosition, flip, size } from '@floating-ui/dom';
 import type { Ref } from 'vue';
 import { nextTick, toValue } from 'vue';
 

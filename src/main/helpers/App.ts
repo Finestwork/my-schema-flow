@@ -1,6 +1,6 @@
-import { app, BrowserWindow } from 'electron';
-import { electronApp, optimizer } from '@electron-toolkit/utils';
 import MainWindow from './MainWindow';
+import { electronApp, optimizer } from '@electron-toolkit/utils';
+import { app, BrowserWindow } from 'electron';
 
 export default class App {
     /**

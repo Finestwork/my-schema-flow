@@ -1,7 +1,7 @@
-import { join } from 'path';
-import { BrowserWindow, shell } from 'electron';
-import { is } from '@electron-toolkit/utils';
 import icon from '../../../resources/icon.png?asset';
+import { is } from '@electron-toolkit/utils';
+import { BrowserWindow, shell } from 'electron';
+import { join } from 'path';
 
 export default class MainWindow {
     private _mainWindow: BrowserWindow | null;

@@ -1,8 +1,8 @@
-import { useDebounceFn } from '@vueuse/core';
-import { calculateEdgePosition } from '@renderer/utils/NodeEdgeHelper';
-import { sortConstraintKeys } from '@renderer/utils/TableColumnHelper';
-import { nodeAutolayout } from '@renderer/utils/NodeHelper';
 import { useTableRelation } from '@composables/useTableRelation';
+import { calculateEdgePosition } from '@renderer/utils/NodeEdgeHelper';
+import { nodeAutolayout } from '@renderer/utils/NodeHelper';
+import { sortConstraintKeys } from '@renderer/utils/TableColumnHelper';
+import { useDebounceFn } from '@vueuse/core';
 
 export function useCanvas() {
     const { tableStore, currentActiveEdges } = useTableRelation();

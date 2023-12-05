@@ -1,7 +1,7 @@
-import { resolve } from 'path';
-import { defineConfig, externalizeDepsPlugin } from 'electron-vite';
-import VueMacros from 'unplugin-vue-macros/vite';
 import vue from '@vitejs/plugin-vue';
+import { defineConfig, externalizeDepsPlugin } from 'electron-vite';
+import { resolve } from 'path';
+import VueMacros from 'unplugin-vue-macros/vite';
 
 export default defineConfig({
     main: {

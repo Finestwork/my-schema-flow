@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import TableInfoTextInput from '@components/TableInfoTextInput.vue';
 import type { TProps } from '@components/TableInfoTextInput.vue';
-import { useFocusLoop } from '@composables/useFocusLoop';
+import TableInfoTextInput from '@components/TableInfoTextInput.vue';
 import { toggleDropdown } from '@composables/useAutocomplete';
+import { useFocusLoop } from '@composables/useFocusLoop';
 import { onClickOutside } from '@vueuse/core';
 import { watchDebounced } from '@vueuse/core';
 import { onUnmounted, ref, watch } from 'vue';

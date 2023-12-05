@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import IconAdd from '@components/IconAdd.vue';
-import TableInfoBaseButton from '@components/TableInfoBaseButton.vue';
 import TableInfoBackButton from '@components/TableInfoBackButton.vue';
+import TableInfoBaseButton from '@components/TableInfoBaseButton.vue';
 import TableInfoRelationAutoComplete from '@components/TableInfoRelationAutoComplete.vue';
-import { useTableStore } from '@stores/TableStore';
 import { useTableRelationDropdown } from '@composables/useTableRelationDropdown';
+import { useTableStore } from '@stores/TableStore';
 import { reactive } from 'vue';
 
 const tableStore = useTableStore();

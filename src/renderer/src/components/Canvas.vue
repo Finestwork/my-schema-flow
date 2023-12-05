@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import BaseTableNode from '@components/BaseTableNode.vue';
 import CanvasControls from '@components/CanvasControls.vue';
-import { VueFlow } from '@vue-flow/core';
-import { Background } from '@vue-flow/background';
-import { MiniMap } from '@vue-flow/minimap';
 import { useCanvas } from '@composables/useCanvas';
+import { Background } from '@vue-flow/background';
+import { VueFlow } from '@vue-flow/core';
+import { MiniMap } from '@vue-flow/minimap';
 
 const { onNodeClick, onNodeDrag, onPaneClick, onPaneReady, onMove, tableStore } = useCanvas();
 </script>

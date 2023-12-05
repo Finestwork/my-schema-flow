@@ -1,7 +1,7 @@
-import { TTableColumnCreation, useTableStore } from '@stores/TableStore';
 import { mySqlDataTypes } from '@renderer/database/MySqlDataTypes';
-import { computed, ref } from 'vue';
+import { TTableColumnCreation, useTableStore } from '@stores/TableStore';
 import { isBoolean, isEmpty, isNumber } from 'lodash';
+import { computed, ref } from 'vue';
 
 export function useColumnActions() {
     const tableStore = useTableStore();

@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import { computePosition, flip } from '@floating-ui/dom';
 import anime from 'animejs/lib/anime.es.js';
 import { ref } from 'vue';
-import { computePosition, flip } from '@floating-ui/dom';
 
 const showTooltip = ref(false);
 const source = ref();

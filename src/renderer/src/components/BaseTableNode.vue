@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import NodeHandles from '@components/NodeHandles.vue';
 import { mySqlDataTypes } from '@renderer/database/MySqlDataTypes';
-import { computed } from 'vue';
-import numeral from 'numeral';
 import type { TTableData } from '@stores/TableStore';
+import numeral from 'numeral';
 import type { PropType } from 'vue';
+import { computed } from 'vue';
 
 export type TState = {
     state: {

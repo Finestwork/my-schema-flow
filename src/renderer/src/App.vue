@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import Titlebar from '@components/Titlebar.vue';
 import Canvas from '@components/Canvas.vue';
 import TableInfo from '@components/TableInfo.vue';
+import Titlebar from '@components/Titlebar.vue';
 import { isDarkMode } from '@composables/useDarkModeDetection';
 import { nextTick, onMounted, onUnmounted, ref } from 'vue';
 

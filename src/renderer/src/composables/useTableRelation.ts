@@ -1,7 +1,7 @@
 import { TEdgeData, useTableStore } from '@stores/TableStore';
-import { computed } from 'vue';
-import type { ComputedRef } from 'vue';
 import type { Edge } from '@vue-flow/core';
+import type { ComputedRef } from 'vue';
+import { computed } from 'vue';
 
 export function useTableRelation() {
     const TableStore = useTableStore();

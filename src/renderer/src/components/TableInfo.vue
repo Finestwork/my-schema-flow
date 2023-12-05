@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import TableInfoTableSettings from '@components/TableInfoTableSettings.vue';
 import TableInfoRelationSettings from '@components/TableInfoRelationSettings.vue';
+import TableInfoTableSettings from '@components/TableInfoTableSettings.vue';
 </script>
 
 <template>

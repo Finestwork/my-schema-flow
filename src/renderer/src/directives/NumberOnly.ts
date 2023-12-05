@@ -1,5 +1,5 @@
-import { formatNumeral } from 'cleave-zen';
 import type { NumeralThousandGroupStyles } from 'cleave-zen';
+import { formatNumeral } from 'cleave-zen';
 
 export const NumberOnly = {
     numberOnly(e: Event) {

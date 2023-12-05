@@ -51,6 +51,7 @@
     "electron-builder": "^24.6.3",
     "electron-vite": "^1.0.27",
     "eslint": "^8.47.0",
+    "eslint-plugin-simple-import-sort": "^10.0.0",
     "eslint-plugin-vue": "^9.17.0",
     "postcss": "^8.4.31",
     "prettier": "^3.0.2",

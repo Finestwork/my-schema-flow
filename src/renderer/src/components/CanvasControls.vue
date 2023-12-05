@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import IconZoomIn from '@components/IconZoomIn.vue';
-import IconZoomOut from '@components/IconZoomOut.vue';
+import CanvasButtonControl from '@components/CanvasButtonControl.vue';
 import IconFullScreen from '@components/IconFullScreen.vue';
 import IconLock from '@components/IconLock.vue';
 import IconUnlock from '@components/IconUnlock.vue';
-import CanvasButtonControl from '@components/CanvasButtonControl.vue';
+import IconZoomIn from '@components/IconZoomIn.vue';
+import IconZoomOut from '@components/IconZoomOut.vue';
 import { Controls } from '@vue-flow/controls';
 import { useVueFlow } from '@vue-flow/core';
 import { ref } from 'vue';

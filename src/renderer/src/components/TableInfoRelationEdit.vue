@@ -2,10 +2,10 @@
 import IconEdit from '@components/IconEdit.vue';
 import IconTrash from '@components/IconTrash.vue';
 import TableInfoBackButton from '@components/TableInfoBackButton.vue';
-import TableInfoRelationAutoComplete from '@components/TableInfoRelationAutoComplete.vue';
 import TableInfoBaseButtonIcon from '@components/TableInfoBaseButtonIcon.vue';
-import { useTableRelationDropdown } from '@composables/useTableRelationDropdown';
+import TableInfoRelationAutoComplete from '@components/TableInfoRelationAutoComplete.vue';
 import { useTableRelation } from '@composables/useTableRelation';
+import { useTableRelationDropdown } from '@composables/useTableRelationDropdown';
 import { nextTick, reactive, watch } from 'vue';
 
 const { tableStore, currentActiveEdge } = useTableRelation();

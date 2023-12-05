@@ -1,6 +1,6 @@
-import { computed } from 'vue';
-import type { Ref } from 'vue';
 import { mySqlDataTypes } from '@renderer/database/MySqlDataTypes';
+import type { Ref } from 'vue';
+import { computed } from 'vue';
 
 export const getAutocomplete = (searchTerm: Ref<string>) => {
     const contents = computed(() => {

@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import IconAdd from '@components/IconAdd.vue';
 import BaseAlertErrorList from '@components/BaseAlertErrorList.vue';
 import BaseFormAutoCompleteWithDescription from '@components/BaseFormAutoCompleteWithDescription.vue';
+import IconAdd from '@components/IconAdd.vue';
 import TableInfoBackButton from '@components/TableInfoBackButton.vue';
+import TableInfoBaseButton from '@components/TableInfoBaseButton.vue';
+import TableInfoButtonSelect from '@components/TableInfoButtonSelect.vue';
+import TableInfoCheckbox from '@components/TableInfoCheckbox.vue';
 import TableInfoTextInput from '@components/TableInfoTextInput.vue';
 import TableInfoTextInputNumber from '@components/TableInfoTextInputNumber.vue';
-import TableInfoCheckbox from '@components/TableInfoCheckbox.vue';
-import TableInfoButtonSelect from '@components/TableInfoButtonSelect.vue';
-import TableInfoBaseButton from '@components/TableInfoBaseButton.vue';
-import { getAutocomplete } from '@composables/useMysqlDataType';
 import { useColumnActions } from '@composables/useColumnActions';
-import { ref, reactive, computed, nextTick } from 'vue';
-import type { Ref } from 'vue';
+import { getAutocomplete } from '@composables/useMysqlDataType';
 import type { TTableColumnCreation } from '@stores/TableStore';
+import type { Ref } from 'vue';
+import { computed, nextTick, reactive, ref } from 'vue';
 
 const emits = defineEmits(['goBack']);
 const autocompleteSearchTerm = ref('');
