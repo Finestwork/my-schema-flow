@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import BaseTableNode from '@components/BaseTableNode.vue';
-import CanvasControls from '@components/CanvasControls.vue';
+import CanvasControls from '@components/Canvas/Partials/Controls.vue';
+import CustomNode from '@components/Canvas/Partials/CustomNode.vue';
 import { useCanvas } from '@composables/useCanvas';
 import { Background } from '@vue-flow/background';
 import { VueFlow } from '@vue-flow/core';
@@ -29,7 +29,7 @@ const { onNodeClick, onNodeDrag, onPaneClick, onPaneReady, onMove, tableStore } 
             <MiniMap />
             <CanvasControls />
             <template #node-custom="props">
-                <BaseTableNode v-bind="props" :data="props.data" />
+                <CustomNode v-bind="props" :data="props.data" />
             </template>
         </VueFlow>
     </div>

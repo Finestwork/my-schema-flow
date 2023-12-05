@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import BaseTooltip from '@components/BaseTooltip.vue';
+import VTooltip from '@components/Shared/Tooltips/VTooltip.vue';
 
 type TProps = {
     colorScheme?: 'default' | 'danger';
@@ -16,7 +16,7 @@ const props = withDefaults(defineProps<TProps>(), {
 </script>
 
 <template>
-    <BaseTooltip>
+    <VTooltip>
         <button
             class="flex h-[25px] w-[25px] rounded-md p-2 outline-none dark:bg-dark-600 dark:stroke-slate-300"
             :class="{
@@ -36,5 +36,5 @@ const props = withDefaults(defineProps<TProps>(), {
         <template #tooltip>
             <slot name="tooltip"></slot>
         </template>
-    </BaseTooltip>
+    </VTooltip>
 </template>

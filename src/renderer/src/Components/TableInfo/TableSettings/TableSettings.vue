@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import TableInfoNoTableSelected from '@components/TableInfoNoTableSelected.vue';
-import TableInfoSectionWrapper from '@components/TableInfoSectionWrapper.vue';
-import TableInfoSettingsColumnForm from '@components/TableInfoSettingsColumnForm.vue';
-import TableInfoSettingsControls from '@components/TableInfoSettingsControls.vue';
-import TableInfoSettingsEditColumnForm from '@components/TableInfoSettingsEditColumnForm.vue';
-import TableInfoSettingsTableColumns from '@components/TableInfoSettingsTableColumns.vue';
-import TableInfoTextInput from '@components/TableInfoTextInput.vue';
+import NoTableSelected from '@components/TableInfo/Shared/NoTableSelected.vue';
+import SectionWrapper from '@components/TableInfo/Shared/SectionWrapper.vue';
+import ColumnForm from '@components/TableInfo/TableSettings/Partials/AddColumnForm.vue';
+import FormControls from '@components/TableInfo/TableSettings/Partials/FormControls.vue';
+import TableInfoSettingsEditColumnForm from '@components/TableInfo/TableSettings/Partials/EditColumnForm.vue';
+import TableButtonList from '@components/TableInfo/TableSettings/Partials/TableButtonList.vue';
+import TableInfoTextInput from '@components/TableInfo/Shared/TextInput.vue';
 import { useColumnActions } from '@composables/useColumnActions';
 import { useSettingsStore } from '@stores/SettingsStore';
 import { useTableStore } from '@stores/TableStore';
@@ -35,7 +35,7 @@ watch(
 </script>
 
 <template>
-    <TableInfoSectionWrapper v-model:show-form="showForm">
+    <SectionWrapper v-model:show-form="showForm">
         <template #label>Table Settings</template>
         <template v-if="tableStore.hasActiveNode">
             <template v-if="!displayColumnForm && !displayEditColumnForm">
@@ -46,11 +46,11 @@ watch(
                 >
                     <template #label>Table Name:</template>
                 </TableInfoTextInput>
-                <TableInfoSettingsTableColumns
+                <TableButtonList
                     v-model:current-index="activeColumnIndex"
                     @edit-column="onClickEditColumn"
                 />
-                <TableInfoSettingsControls
+                <FormControls
                     :can-clone="canCloneColumn"
                     :can-delete="canDeleteColumn"
                     :column-active-index="activeColumnIndex"
@@ -59,7 +59,7 @@ watch(
                     @delete-column="deleteColumn"
                 />
             </template>
-            <TableInfoSettingsColumnForm
+            <ColumnForm
                 v-if="displayColumnForm && !displayEditColumnForm"
                 @go-back="displayColumnForm = false"
             />
@@ -69,6 +69,6 @@ watch(
                 @go-back="displayEditColumnForm = false"
             />
         </template>
-        <TableInfoNoTableSelected v-else />
-    </TableInfoSectionWrapper>
+        <NoTableSelected v-else />
+    </SectionWrapper>
 </template>

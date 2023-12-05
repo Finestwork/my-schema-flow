@@ -5,7 +5,7 @@
         "src/renderer/src/stores/**/*",
         "src/renderer/src/composables/**/*",
         "src/renderer/src/**/*.vue",
-        "src/preload/*.d.ts"
+      "src/preload/*.d.ts"
     ],
     "compilerOptions": {
         "baseUrl": ".",

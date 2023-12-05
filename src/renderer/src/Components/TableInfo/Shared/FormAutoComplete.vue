@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { TProps } from '@components/TableInfoTextInput.vue';
-import TableInfoTextInput from '@components/TableInfoTextInput.vue';
+import TableInfoTextInput from '@components/TableInfo/Shared/TextInput.vue';
 import { toggleDropdown } from '@composables/useAutocomplete';
 import { useFocusLoop } from '@composables/useFocusLoop';
 import { onClickOutside } from '@vueuse/core';
 import { watchDebounced } from '@vueuse/core';
 import { onUnmounted, ref, watch } from 'vue';
+import type { TProps } from '@components/TableInfo/Shared/TextInput.vue';
 
 const props = defineProps<
     TProps & {

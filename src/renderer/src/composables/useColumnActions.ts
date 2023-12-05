@@ -1,5 +1,5 @@
 import { mySqlDataTypes } from '@renderer/database/MySqlDataTypes';
-import { TTableColumnCreation, useTableStore } from '@stores/TableStore';
+import { TTableColumnCreation, useTableStore } from '@renderer/stores/TableStore';
 import { isBoolean, isEmpty, isNumber } from 'lodash';
 import { computed, ref } from 'vue';
 

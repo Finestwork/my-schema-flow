@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import IconChevron from '@components/IconChevron.vue';
+import VChevronIcon from '@components/Shared/Icons/VChevronIcon.vue';
 import { animateIcon } from '@composables/useCollapseAnimation';
 import { ref } from 'vue';
 
@@ -30,7 +30,7 @@ const onClickToggleSettings = () => {
                     '-rotate-90': !showForm,
                 }"
             >
-                <IconChevron />
+                <VChevronIcon />
             </span>
         </button>
 

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import IconAdd from '@components/IconAdd.vue';
-import IconCopy from '@components/IconCopy.vue';
-import IconTrash from '@components/IconTrash.vue';
-import TableInfoBaseButtonIcon from '@components/TableInfoBaseButtonIcon.vue';
+import IconAdd from '@components/Shared/Icons/VAddIcon.vue';
+import VCopyIcon from '@components/Shared/Icons/VCopyIcon.vue';
+import VTrashIcon from '@components/Shared/Icons/VTrashIcon.vue';
+import BaseButtonIcon from '@components/TableInfo/Shared/BaseButtonIcon.vue';
 import { useTableStore } from '@stores/TableStore';
 
 const TableStore = useTableStore();
@@ -18,25 +18,25 @@ const emits = defineEmits<{
 </script>
 <template>
     <div class="mt-3.5 flex">
-        <TableInfoBaseButtonIcon class="mr-1.5" @click="emits('addColumn')">
+        <BaseButtonIcon class="mr-1.5" @click="emits('addColumn')">
             <IconAdd />
             <template #tooltip>Add column</template>
-        </TableInfoBaseButtonIcon>
-        <TableInfoBaseButtonIcon
+        </BaseButtonIcon>
+        <BaseButtonIcon
             class="mr-1.5"
             :disabled="!TableStore.activeNodeHasColumns || !canClone"
             @click="emits('copyColumn', $event)"
         >
-            <IconCopy />
+            <VCopyIcon />
             <template #tooltip>Copy column</template>
-        </TableInfoBaseButtonIcon>
-        <TableInfoBaseButtonIcon
+        </BaseButtonIcon>
+        <BaseButtonIcon
             color-scheme="danger"
             :disabled="!TableStore.activeNodeHasColumns || !canDelete"
             @click="emits('deleteColumn')"
         >
-            <IconTrash />
+            <VTrashIcon />
             <template #tooltip>Delete column</template>
-        </TableInfoBaseButtonIcon>
+        </BaseButtonIcon>
     </div>
 </template>

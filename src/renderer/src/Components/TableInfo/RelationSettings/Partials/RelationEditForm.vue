@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import IconEdit from '@components/IconEdit.vue';
-import IconTrash from '@components/IconTrash.vue';
-import TableInfoBackButton from '@components/TableInfoBackButton.vue';
-import TableInfoBaseButtonIcon from '@components/TableInfoBaseButtonIcon.vue';
-import TableInfoRelationAutoComplete from '@components/TableInfoRelationAutoComplete.vue';
+import VEditIcon from '@components/Shared/Icons/VEditIcon.vue';
+import VTrashIcon from '@components/Shared/Icons/VTrashIcon.vue';
+import BackButton from '@components/TableInfo/Shared/BackButton.vue';
+import BaseButtonIcon from '@components/TableInfo/Shared/BaseButtonIcon.vue';
+import AutoComplete from '@components/TableInfo/RelationSettings/Partials/AutoComplete.vue';
 import { useTableRelation } from '@composables/useTableRelation';
 import { useTableRelationDropdown } from '@composables/useTableRelationDropdown';
 import { nextTick, reactive, watch } from 'vue';
@@ -68,8 +68,8 @@ watch(
 </script>
 
 <template>
-    <TableInfoBackButton class="mb-4 mt-2.5" @click="tableStore.currentActiveEdgeIndex = -1" />
-    <TableInfoRelationAutoComplete
+    <BackButton class="mb-4 mt-2.5" @click="tableStore.currentActiveEdgeIndex = -1" />
+    <AutoComplete
         id="referencingColumn"
         v-model:search-term="states.referencingColumnSearchTerm"
         v-model="states.referencingColumn"
@@ -78,8 +78,8 @@ watch(
         :items="getAttributes"
     >
         <template #label>Referencing Column:</template>
-    </TableInfoRelationAutoComplete>
-    <TableInfoRelationAutoComplete
+    </AutoComplete>
+    <AutoComplete
         id="referencedTable"
         v-model="states.referencedTable"
         v-model:search-term="states.referencedTableSearchTerm"
@@ -88,8 +88,8 @@ watch(
         :items="tableColumns"
     >
         <template #label> Referenced Table:</template>
-    </TableInfoRelationAutoComplete>
-    <TableInfoRelationAutoComplete
+    </AutoComplete>
+    <AutoComplete
         v-if="states.referencedTable !== ''"
         id="referencedColumn"
         v-model="states.referencedColumn"
@@ -98,20 +98,16 @@ watch(
         :items="referencedColumns"
     >
         <template #label> Referenced Column:</template>
-    </TableInfoRelationAutoComplete>
+    </AutoComplete>
 
     <div class="mt-6">
-        <TableInfoBaseButtonIcon
-            class="mr-2"
-            :disabled="isBtnDisabled"
-            @click="onClickUpdateRelation"
-        >
-            <IconEdit />
+        <BaseButtonIcon class="mr-2" :disabled="isBtnDisabled" @click="onClickUpdateRelation">
+            <VEditIcon />
             <template #tooltip> Update Relation</template>
-        </TableInfoBaseButtonIcon>
-        <TableInfoBaseButtonIcon color-scheme="danger" @click="onClickDeleteRelation">
-            <IconTrash />
+        </BaseButtonIcon>
+        <BaseButtonIcon color-scheme="danger" @click="onClickDeleteRelation">
+            <VTrashIcon />
             <template #tooltip> Delete Relation</template>
-        </TableInfoBaseButtonIcon>
+        </BaseButtonIcon>
     </div>
 </template>

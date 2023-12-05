@@ -1,5 +1,16 @@
 {
     "extends": "./tsconfig.aliases.json",
+    "compilerOptions": {
+        "types": [
+            "unplugin-vue-macros/macros-global"
+        ],
+      "allowSyntheticDefaultImports": true
+    },
+    "vueCompilerOptions": {
+        "plugins": [
+            "@vue-macros/volar/define-models"
+        ]
+    },
     "references": [
         {
             "path": "./tsconfig.node.json"

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import BaseTooltip from '@components/BaseTooltip.vue';
+import VTooltip from '@components/Shared/Tooltips/VTooltip.vue';
 
 export type TProps = {
     disabled?: boolean;
@@ -9,7 +9,7 @@ const props = withDefaults(defineProps<TProps>(), {
 });
 </script>
 <template>
-    <BaseTooltip>
+    <VTooltip>
         <button
             class="h-[28px] w-[28px] p-2 outline-none"
             type="button"
@@ -32,5 +32,5 @@ const props = withDefaults(defineProps<TProps>(), {
         <template #tooltip>
             <slot name="tooltip"></slot>
         </template>
-    </BaseTooltip>
+    </VTooltip>
 </template>

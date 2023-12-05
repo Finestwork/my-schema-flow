@@ -1,10 +1,10 @@
-import './assets/css/fonts.css';
-import './assets/css/tailwind.css';
-import './assets/css/scrollbar.css';
+import '@renderer/assets/css/fonts.css';
+import '@renderer/assets/css/tailwind.css';
+import '@renderer/assets/css/scrollbar.css';
 import '@vue-flow/core/dist/style.css';
 import '@vue-flow/minimap/dist/style.css';
 import '@vue-flow/controls/dist/style.css';
-import './assets/css/vueflow.css';
+import '@renderer/assets/css/vueflow.css';
 
 import App from './App.vue';
 import { NumberOnly } from '@renderer/directives/NumberOnly';

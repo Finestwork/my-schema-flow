@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import BaseFormAutoComplete from '@components/BaseFormAutoComplete.vue';
-import BaseFormAutoCompleteItem from '@components/BaseFormAutoCompleteItem.vue';
+import FormAutoComplete from '@components/TableInfo/Shared/FormAutoComplete.vue';
+import FormAutoCompleteItem from '@components/TableInfo/Shared/FormAutoCompleteItem.vue';
 import { reactive } from 'vue';
 
 const states = reactive({
@@ -36,7 +36,7 @@ const onClickChooseAttribute = (value: string) => {
 </script>
 
 <template>
-    <BaseFormAutoComplete
+    <FormAutoComplete
         :id="id"
         v-model="modelValue"
         v-model:show-dropdown="states.showAttributeDropdown"
@@ -50,15 +50,15 @@ const onClickChooseAttribute = (value: string) => {
         </template>
         <template #float>
             <div class="scrollbar-slim">
-                <BaseFormAutoCompleteItem
+                <FormAutoCompleteItem
                     v-for="attr in items"
                     :key="attr"
                     @keydown="onKeydownChooseAttribute($event, attr)"
                     @click="onClickChooseAttribute(attr)"
                 >
                     {{ attr }}
-                </BaseFormAutoCompleteItem>
+                </FormAutoCompleteItem>
             </div>
         </template>
-    </BaseFormAutoComplete>
+    </FormAutoComplete>
 </template>

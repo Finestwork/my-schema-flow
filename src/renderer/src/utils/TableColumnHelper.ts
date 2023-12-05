@@ -1,4 +1,4 @@
-import type { TTableColumn } from '@stores/TableStore';
+import type { TTableColumn } from '@renderer/stores/TableStore';
 
 export const sortConstraintKeys = (arr: TTableColumn[]) => {
     return arr.slice().sort((a, b) => {

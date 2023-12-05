@@ -1,4 +1,4 @@
-import { useTableStore } from '@stores/TableStore';
+import { useTableStore } from '@renderer/stores/TableStore';
 import { computed } from 'vue';
 
 export type TDropdownStates = {

@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import NodeHandles from '@components/NodeHandles.vue';
+import CustomNodeHandles from '@components/Canvas/Partials/CustomNodeHandles.vue';
 import { mySqlDataTypes } from '@renderer/database/MySqlDataTypes';
-import type { TTableData } from '@stores/TableStore';
 import numeral from 'numeral';
-import type { PropType } from 'vue';
 import { computed } from 'vue';
+import type { TTableData } from '@stores/TableStore';
+import type { PropType } from 'vue';
 
 export type TState = {
     state: {
@@ -47,7 +47,7 @@ const getColumns = computed(() => {
             'dark:border-slate-700': !props.data.state.isActive,
         }"
     >
-        <NodeHandles />
+        <CustomNodeHandles />
         <span
             class="block py-2 text-center text-sm font-bold"
             :class="{

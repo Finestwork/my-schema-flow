@@ -1,28 +1,28 @@
 <script setup lang="ts">
-import BaseAlertErrorList from '@components/BaseAlertErrorList.vue';
-import BaseFormAutoCompleteWithDescription from '@components/BaseFormAutoCompleteWithDescription.vue';
-import IconEdit from '@components/IconEdit.vue';
-import TableInfoBackButton from '@components/TableInfoBackButton.vue';
-import TableInfoBaseButton from '@components/TableInfoBaseButton.vue';
-import TableInfoButtonSelect from '@components/TableInfoButtonSelect.vue';
-import TableInfoCheckbox from '@components/TableInfoCheckbox.vue';
-import TableInfoTextInput from '@components/TableInfoTextInput.vue';
-import TableInfoTextInputNumber from '@components/TableInfoTextInputNumber.vue';
+import VAlertErrorList from '@components/Shared/Alerts/VAlertErrorList.vue';
+import VEditIcon from '@components/Shared/Icons/VEditIcon.vue';
+import FormAutoCompleteWithDescription from '@components/TableInfo/Shared/FormAutoCompleteWithDescription.vue';
+import BackButton from '@components/TableInfo/Shared/BackButton.vue';
+import BaseButton from '@components/TableInfo/Shared/BaseButton.vue';
+import ButtonSelect from '@components/TableInfo/Shared/ButtonSelect.vue';
+import Checkbox from '@components/TableInfo/Shared/Checkbox.vue';
+import TextInput from '@components/TableInfo/Shared/TextInput.vue';
+import TextInputNumber from '@components/TableInfo/Shared/TextInputNumber.vue';
+import { useTableStore } from '@stores/TableStore';
 import { useColumnActions } from '@composables/useColumnActions';
 import { getAutocomplete } from '@composables/useMysqlDataType';
-import type { TTableColumnCreation } from '@stores/TableStore';
-import { useTableStore } from '@stores/TableStore';
-import type { Ref } from 'vue';
 import { computed, reactive, ref } from 'vue';
+import type { TTableColumnCreation } from '@stores/TableStore';
+import type { Ref } from 'vue';
 
 const { currentActiveIndex } = defineProps<{
     currentActiveIndex: number;
 }>();
 const emits = defineEmits(['goBack']);
 const tableStore = useTableStore();
-const CurrentColumn = tableStore.currentActiveNode.data.table.columns[currentActiveIndex];
 const autocompleteSearchTerm = ref('');
-const columnErrors: Ref<string[]> = ref([]);
+const columnErrors: Ref<Array<string>> = ref([]);
+const CurrentColumn = tableStore.currentActiveNode.data.table.columns[currentActiveIndex];
 const keyConstraint = ref(CurrentColumn?.keyConstraint ?? '');
 const { activeColumnIndex, updateColumn, validateColumns } = useColumnActions();
 const columnData: TTableColumnCreation = reactive({
@@ -63,65 +63,62 @@ const onClickToggleForeignKey = (e: MouseEvent) => {
 
 <template>
     <div class="mt-4">
-        <TableInfoBackButton class="mb-6" @click="emits('goBack')" />
-        <BaseAlertErrorList
+        <BackButton class="mb-6" @click="emits('goBack')" />
+        <VAlertErrorList
             v-if="getColumnErrors.length !== 0"
             class="mb-2"
             color-scheme="danger"
             :items="getColumnErrors"
         />
-        <TableInfoTextInput
+        <TextInput
             id="tableSettingsColumnName"
             v-model="columnData.name"
             class="mb-4"
             placeholder="Place column's name here"
         >
             <template #label>Column name:</template>
-        </TableInfoTextInput>
+        </TextInput>
 
-        <TableInfoTextInputNumber
+        <TextInputNumber
             id="tableSettingsColumnLength"
             v-model="columnData.length"
             class="mb-4"
             placeholder="Place data size here"
         >
             <template #label>Length:</template>
-        </TableInfoTextInputNumber>
-        <BaseFormAutoCompleteWithDescription
+        </TextInputNumber>
+        <FormAutoCompleteWithDescription
             v-model="columnData.type"
             class="mb-4"
             :items="mysqlDataTypesArr"
             @input="onInputUpdateAutocomplete"
         />
-        <TableInfoCheckbox
+        <Checkbox
             id="tableSettingsColumnNull"
             v-model="columnData.isNull"
             class="mb-4"
             value="isNull"
         >
             <template #label>Null</template>
-        </TableInfoCheckbox>
+        </Checkbox>
 
         <div>
-            <TableInfoButtonSelect
+            <ButtonSelect
                 class="mr-2"
                 :is-active="keyConstraint === 'PK'"
                 @click="onClickTogglePrimaryKey"
             >
                 Primary Key
-            </TableInfoButtonSelect>
-            <TableInfoButtonSelect
-                :is-active="keyConstraint === 'FK'"
-                @click="onClickToggleForeignKey"
-            >
+            </ButtonSelect>
+            <ButtonSelect :is-active="keyConstraint === 'FK'" @click="onClickToggleForeignKey">
                 Foreign Key
-            </TableInfoButtonSelect>
+            </ButtonSelect>
         </div>
-        <TableInfoBaseButton class="mt-6" @click="onClickAddColumn">
+        <BaseButton class="mt-6" @click="onClickAddColumn">
             <template #icon>
-                <IconEdit />
+                <VEditIcon />
             </template>
             <template #text> Update Column</template>
-        </TableInfoBaseButton>
+        </BaseButton>
     </div>
 </template>

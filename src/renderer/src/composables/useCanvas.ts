@@ -1,4 +1,4 @@
-import { useTableRelation } from '@composables/useTableRelation';
+import { useTableRelation } from '@renderer/composables/useTableRelation';
 import { calculateEdgePosition } from '@renderer/utils/NodeEdgeHelper';
 import { nodeAutolayout } from '@renderer/utils/NodeHelper';
 import { sortConstraintKeys } from '@renderer/utils/TableColumnHelper';

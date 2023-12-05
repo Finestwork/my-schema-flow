@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import IconAdd from '@components/IconAdd.vue';
-import TableInfoBackButton from '@components/TableInfoBackButton.vue';
-import TableInfoBaseButton from '@components/TableInfoBaseButton.vue';
-import TableInfoRelationAutoComplete from '@components/TableInfoRelationAutoComplete.vue';
+import VAddIcon from '@components/Shared/Icons/VAddIcon.vue';
+import BackButton from '@components/TableInfo/Shared/BackButton.vue';
+import BaseButton from '@components/TableInfo/Shared/BaseButton.vue';
+import AutoComplete from '@components/TableInfo/RelationSettings/Partials/AutoComplete.vue';
 import { useTableRelationDropdown } from '@composables/useTableRelationDropdown';
 import { useTableStore } from '@stores/TableStore';
 import { reactive } from 'vue';
@@ -56,8 +56,8 @@ const onClickEstablishRelation = () => {
 </script>
 
 <template>
-    <TableInfoBackButton class="mb-4 mt-2.5" @click="emits('goBack')" />
-    <TableInfoRelationAutoComplete
+    <BackButton class="mb-4 mt-2.5" @click="emits('goBack')" />
+    <AutoComplete
         id="referencingColumn"
         v-model="states.referencingColumn"
         v-model:search-term="states.referencingColumnSearchTerm"
@@ -66,8 +66,8 @@ const onClickEstablishRelation = () => {
         :items="getAttributes"
     >
         <template #label>Referencing Column:</template>
-    </TableInfoRelationAutoComplete>
-    <TableInfoRelationAutoComplete
+    </AutoComplete>
+    <AutoComplete
         id="referencedTable"
         v-model="states.referencedTable"
         v-model:search-term="states.referencedTableSearchTerm"
@@ -76,8 +76,8 @@ const onClickEstablishRelation = () => {
         :items="tableColumns"
     >
         <template #label> Referenced Table:</template>
-    </TableInfoRelationAutoComplete>
-    <TableInfoRelationAutoComplete
+    </AutoComplete>
+    <AutoComplete
         v-if="states.referencedTable !== ''"
         id="referencedColumn"
         v-model="states.referencedColumn"
@@ -86,12 +86,12 @@ const onClickEstablishRelation = () => {
         :items="referencedColumns"
     >
         <template #label> Referenced Column:</template>
-    </TableInfoRelationAutoComplete>
+    </AutoComplete>
 
-    <TableInfoBaseButton class="mt-6" :disabled="isBtnDisabled" @click="onClickEstablishRelation">
+    <BaseButton class="mt-6" :disabled="isBtnDisabled" @click="onClickEstablishRelation">
         <template #icon>
-            <IconAdd />
+            <VAddIcon />
         </template>
         <template #text>Add Relation</template>
-    </TableInfoBaseButton>
+    </BaseButton>
 </template>

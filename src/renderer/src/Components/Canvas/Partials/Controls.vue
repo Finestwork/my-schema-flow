@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import CanvasButtonControl from '@components/CanvasButtonControl.vue';
-import IconFullScreen from '@components/IconFullScreen.vue';
-import IconLock from '@components/IconLock.vue';
-import IconUnlock from '@components/IconUnlock.vue';
-import IconZoomIn from '@components/IconZoomIn.vue';
-import IconZoomOut from '@components/IconZoomOut.vue';
+import BaseButtonControl from '@components/Canvas/Partials/BaseButtonControl.vue';
+import VFullScreenIcon from '@components/Shared/Icons/VFullScreenIcon.vue';
+import VLockIcon from '@components/Shared/Icons/VLockIcon.vue';
+import VUnlockIcon from '@components/Shared/Icons/VUnlockIcon.vue';
+import VZoomInIcon from '@components/Shared/Icons/VZoomInIcon.vue';
+import VZoomOutIcon from '@components/Shared/Icons/VZoomOutIcon.vue';
 import { Controls } from '@vue-flow/controls';
 import { useVueFlow } from '@vue-flow/core';
 import { ref } from 'vue';
@@ -28,32 +28,32 @@ const onClickControlInteractive = () => {
 <template>
     <Controls>
         <template #control-zoom-in>
-            <CanvasButtonControl :disabled="currentZoom === 1.5" @click="onClickZoomIn">
-                <IconZoomIn />
+            <BaseButtonControl :disabled="currentZoom === 1.5" @click="onClickZoomIn">
+                <VZoomInIcon />
                 <template #tooltip>Zoom In</template>
-            </CanvasButtonControl>
+            </BaseButtonControl>
         </template>
         <template #control-zoom-out>
-            <CanvasButtonControl :disabled="currentZoom === 0.5" @click="onClickZoomOut">
-                <IconZoomOut />
+            <BaseButtonControl :disabled="currentZoom === 0.5" @click="onClickZoomOut">
+                <VZoomOutIcon />
                 <template #tooltip>Zoom Out</template>
-            </CanvasButtonControl>
+            </BaseButtonControl>
         </template>
         <template #control-fit-view>
-            <CanvasButtonControl @click="fitView()">
-                <IconFullScreen />
+            <BaseButtonControl @click="fitView()">
+                <VFullScreenIcon />
                 <template #tooltip>Fit to View</template>
-            </CanvasButtonControl>
+            </BaseButtonControl>
         </template>
         <template #control-interactive>
-            <CanvasButtonControl @click="onClickControlInteractive">
-                <IconUnlock v-if="isInteractive" />
-                <IconLock v-else />
+            <BaseButtonControl @click="onClickControlInteractive">
+                <VUnlockIcon v-if="isInteractive" />
+                <VLockIcon v-else />
 
                 <template #tooltip>
                     {{ !isInteractive ? 'Unlock Interactivity' : 'Lock Interactivity' }}
                 </template>
-            </CanvasButtonControl>
+            </BaseButtonControl>
         </template>
     </Controls>
 </template>

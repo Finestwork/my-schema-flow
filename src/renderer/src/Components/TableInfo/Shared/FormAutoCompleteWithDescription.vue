@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import BaseFormAutoComplete from '@components/BaseFormAutoComplete.vue';
+import BaseFormAutoComplete from '@components/TableInfo/Shared/FormAutoComplete.vue';
 import { ref } from 'vue';
 
 export type TItem = {

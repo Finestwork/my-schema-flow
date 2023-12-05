@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import IconBackArrow from '@components/IconBackArrow.vue';
+import VBackArrowIcon from '@components/Shared/Icons/VBackArrowIcon.vue';
 </script>
 <template>
     <button
@@ -7,7 +7,7 @@ import IconBackArrow from '@components/IconBackArrow.vue';
         type="button"
     >
         <span class="mr-2 block w-[12px]">
-            <IconBackArrow />
+            <VBackArrowIcon />
         </span>
 
         <span class="text-xs font-semibold dark:text-slate-300">Go back</span>

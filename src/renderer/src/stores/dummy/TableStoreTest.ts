@@ -1,6 +1,6 @@
-import EdgesDummy from '@stores/dummy/EdgesDummy';
-import TableDummy from '@stores/dummy/TableDummy';
-import { TEdgeData } from '@stores/TableStore';
+import EdgesDummy from '@renderer/stores/dummy/EdgesDummy';
+import TableDummy from '@renderer/stores/dummy/TableDummy';
+import { TEdgeData } from '@renderer/stores/TableStore';
 import { Edge } from '@vue-flow/core';
 import { v4 as uuidv4 } from 'uuid';
 

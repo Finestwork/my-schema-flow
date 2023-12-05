@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import IconCheck from '@components/IconCheck.vue';
+import VCheckIcon from '@components/Shared/Icons/VCheckIcon.vue';
 import anime from 'animejs/lib/anime';
 import { computed } from 'vue';
 
@@ -65,7 +65,7 @@ const onBtnKeydown = (e: KeyboardEvent) => {
             @keydown="onBtnKeydown"
         >
             <Transition @before-enter="onBeforeEnter" @enter="onEnter" @leave="onLeave">
-                <IconCheck v-if="isChecked" class="stroke-white" />
+                <VCheckIcon v-if="isChecked" class="stroke-white" />
             </Transition>
         </button>
         <label

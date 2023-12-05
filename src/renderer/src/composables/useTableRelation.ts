@@ -1,4 +1,4 @@
-import { TEdgeData, useTableStore } from '@stores/TableStore';
+import { TEdgeData, useTableStore } from '@renderer/stores/TableStore';
 import type { Edge } from '@vue-flow/core';
 import type { ComputedRef } from 'vue';
 import { computed } from 'vue';

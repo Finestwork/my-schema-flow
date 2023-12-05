@@ -1,4 +1,4 @@
-import { TestEdges, TestElements } from '@stores/dummy/TableStoreTest';
+import { TestEdges, TestElements } from '@renderer/stores/dummy/TableStoreTest';
 import type { Edge, Node } from '@vue-flow/core';
 import { defineStore } from 'pinia';
 import { v4 as uuidv4 } from 'uuid';
