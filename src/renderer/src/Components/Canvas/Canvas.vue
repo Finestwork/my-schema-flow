@@ -28,7 +28,7 @@ const currentZoom = ref(0.5);
             @pane-ready="onPaneReady"
         >
             <Background pattern-color="#6381b8" />
-            <MiniMap />
+            <MiniMap pannable zoomable />
             <CanvasControls v-model:current-zoom="currentZoom" />
             <span class="absolute left-2 top-2 text-xs font-semibold text-slate-500"
                 >{{ currentZoom * 100 }}%</span
