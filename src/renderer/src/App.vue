@@ -29,7 +29,7 @@ onUnmounted(() => {
     <TitleBar ref="titleBar" />
     <div ref="contentWrapper">
         <Toolbar />
-        <div class="flex h-screen justify-between dark:bg-dark-900">
+        <div class="flex h-[calc(100vh-49.4px-2.5rem)] justify-between dark:bg-dark-900">
             <Canvas />
             <TableInfo />
         </div>
