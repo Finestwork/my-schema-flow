@@ -73,7 +73,7 @@ const onClickToggleForeignKey = (e: MouseEvent) => {
             color-scheme="danger"
             :items="getColumnErrors"
         />
-        <VAlert class="mb-2" v-if="isSuccessfullyUpdated">
+        <VAlert v-if="isSuccessfullyUpdated" class="mb-2">
             You have successfully updated the column!
         </VAlert>
 
