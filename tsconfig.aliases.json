@@ -2,10 +2,8 @@
     "include": [
         "src/renderer/src/env.d.ts",
         "src/renderer/src/**/*",
-        "src/renderer/src/stores/**/*",
-        "src/renderer/src/composables/**/*",
         "src/renderer/src/**/*.vue",
-      "src/preload/*.d.ts"
+        "src/preload/*.d.ts"
     ],
     "compilerOptions": {
         "baseUrl": ".",
@@ -24,6 +22,9 @@
             ],
             "@composables/*": [
                 "src/renderer/src/composables/*"
+            ],
+            "@utilities/*": [
+                "src/renderer/src/utilities/*"
             ]
         }
     }

@@ -17,6 +17,7 @@ export default defineConfig({
                 '@components': resolve('src/renderer/src/components'),
                 '@stores': resolve('src/renderer/src/stores'),
                 '@composables': resolve('src/renderer/src/composables'),
+                '@utilities': resolve('src/renderer/src/utilities'),
             },
         },
         plugins: [

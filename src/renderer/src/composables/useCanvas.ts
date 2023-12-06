@@ -1,7 +1,7 @@
 import { useTableRelation } from '@renderer/composables/useTableRelation';
-import { calculateEdgePosition } from '@renderer/utils/NodeEdgeHelper';
-import { nodeAutolayout } from '@renderer/utils/NodeHelper';
-import { sortConstraintKeys } from '@renderer/utils/TableColumnHelper';
+import { calculateEdgePosition } from '@renderer/utilities/NodeEdgeHelper';
+import { nodeAutolayout } from '@renderer/utilities/NodeHelper';
+import { sortConstraintKeys } from '@renderer/utilities/TableColumnHelper';
 import { useDebounceFn } from '@vueuse/core';
 
 export function useCanvas() {
