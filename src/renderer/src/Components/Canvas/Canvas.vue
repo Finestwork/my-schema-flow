@@ -109,6 +109,7 @@ const onMove = (event) => {
     clearTimeout(dragTimeoutId);
     dragTimeoutId = window.setTimeout(() => {
         isDragging.value = false;
+        if (!tableStore.isCreatingTable) return;
         movePlaceholder(event.event.sourceEvent);
     }, 150);
 };
