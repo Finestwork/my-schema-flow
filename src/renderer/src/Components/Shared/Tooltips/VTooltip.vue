@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computePosition, flip } from '@floating-ui/dom';
+import { computePosition, flip, shift } from '@floating-ui/dom';
 import anime from 'animejs/lib/anime.es.js';
 import { ref } from 'vue';
 
@@ -7,7 +7,7 @@ const showTooltip = ref(false);
 const source = ref();
 
 const onEnter = (el: Element, done: () => void) => {
-    const Middlewares = [flip()];
+    const Middlewares = [flip(), shift()];
     computePosition(source.value, el as HTMLElement, { middleware: Middlewares }).then(
         ({ x, y, placement }) => {
             const InitialTop = placement === 'top' ? y - 15 : y + 15;

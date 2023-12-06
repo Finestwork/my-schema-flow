@@ -2,6 +2,7 @@
 import Canvas from '@components/Canvas/Canvas.vue';
 import TableInfo from '@components/TableInfo/TableInfo.vue';
 import TitleBar from '@components/TitleBar/TitleBar.vue';
+import Toolbar from '@components/Toolbar/Toolbar.vue';
 import { nextTick, onMounted, onUnmounted, ref } from 'vue';
 
 const titleBar = ref();
@@ -26,8 +27,11 @@ onUnmounted(() => {
 
 <template>
     <TitleBar ref="titleBar" />
-    <div ref="contentWrapper" class="flex h-screen justify-between dark:bg-dark-900">
-        <Canvas />
-        <TableInfo />
+    <div ref="contentWrapper">
+        <Toolbar />
+        <div class="flex h-screen justify-between dark:bg-dark-900">
+            <Canvas />
+            <TableInfo />
+        </div>
     </div>
 </template>
