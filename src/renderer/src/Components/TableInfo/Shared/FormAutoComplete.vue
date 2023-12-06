@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import TableInfoTextInput from '@components/TableInfo/Shared/TextInput.vue';
-import { toggleDropdown } from '@composables/useAutocomplete';
+import { toggleDropdown } from '@renderer/utils/DropdownHelper';
 import { useFocusLoop } from '@composables/useFocusLoop';
 import { onClickOutside } from '@vueuse/core';
 import { watchDebounced } from '@vueuse/core';
@@ -85,7 +85,7 @@ watch(
         }
         floatingDropdownChildren.value = source.value.querySelectorAll('button');
         const TextInput = source.value.querySelector('input');
-        toggleDropdown(TextInput, floatingDropdown);
+        toggleDropdown(TextInput, floatingDropdown.value);
     },
     { flush: 'post' },
 );
