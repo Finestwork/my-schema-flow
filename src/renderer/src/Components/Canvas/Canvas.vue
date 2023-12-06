@@ -5,8 +5,10 @@ import { useCanvas } from '@composables/useCanvas';
 import { Background } from '@vue-flow/background';
 import { VueFlow } from '@vue-flow/core';
 import { MiniMap } from '@vue-flow/minimap';
+import { ref } from 'vue';
 
 const { onNodeClick, onNodeDrag, onPaneClick, onPaneReady, onMove, tableStore } = useCanvas();
+const currentZoom = ref(0.5);
 </script>
 
 <template>
@@ -15,9 +17,9 @@ const { onNodeClick, onNodeDrag, onPaneClick, onPaneReady, onMove, tableStore } 
             v-model:nodes="tableStore.elements"
             v-model:edges="tableStore.edges"
             :default-edge-options="{ type: 'smoothstep' }"
-            :default-viewport="{ zoom: 0.5 }"
-            :min-zoom="0.5"
-            :max-zoom="1.5"
+            :default-viewport="{ zoom: currentZoom }"
+            :min-zoom="0.1"
+            :max-zoom="1"
             :delete-key-code="null"
             @node-click="onNodeClick"
             @node-drag="onNodeDrag"
@@ -27,7 +29,10 @@ const { onNodeClick, onNodeDrag, onPaneClick, onPaneReady, onMove, tableStore } 
         >
             <Background pattern-color="#6381b8" />
             <MiniMap />
-            <CanvasControls />
+            <CanvasControls v-model:current-zoom="currentZoom" />
+            <span class="absolute left-2 top-2 text-xs font-semibold text-slate-500"
+                >{{ currentZoom * 100 }}%</span
+            >
             <template #node-custom="props">
                 <CustomNode v-bind="props" :data="props.data" />
             </template>

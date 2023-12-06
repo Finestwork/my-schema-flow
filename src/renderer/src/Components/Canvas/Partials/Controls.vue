@@ -9,16 +9,20 @@ import { Controls } from '@vue-flow/controls';
 import { useVueFlow } from '@vue-flow/core';
 import { ref } from 'vue';
 
-const currentZoom = ref(0.5);
+const { currentZoom } = defineModels<{
+    currentZoom: number;
+}>();
 const isInteractive = ref(true);
-const { zoomIn, zoomOut, fitView, setInteractive, getViewport } = useVueFlow();
+const { zoomTo, fitView, setInteractive } = useVueFlow();
 const onClickZoomIn = () => {
-    currentZoom.value = getViewport().zoom;
-    zoomIn({ duration: 350 });
+    if (currentZoom.value >= 1) return;
+    currentZoom.value = +(currentZoom.value + 0.1).toFixed(2);
+    zoomTo(currentZoom.value, { duration: 350 });
 };
 const onClickZoomOut = () => {
-    currentZoom.value = getViewport().zoom;
-    zoomOut({ duration: 350 });
+    if (currentZoom.value <= 0.1) return;
+    currentZoom.value = +(currentZoom.value - 0.1).toFixed(2);
+    zoomTo(currentZoom.value, { duration: 350 });
 };
 const onClickControlInteractive = () => {
     setInteractive(!isInteractive.value);
@@ -28,13 +32,13 @@ const onClickControlInteractive = () => {
 <template>
     <Controls>
         <template #control-zoom-in>
-            <BaseButtonControl :disabled="currentZoom === 1.5" @click="onClickZoomIn">
+            <BaseButtonControl :disabled="currentZoom >= 1" @click="onClickZoomIn">
                 <VZoomInIcon />
                 <template #tooltip>Zoom In</template>
             </BaseButtonControl>
         </template>
         <template #control-zoom-out>
-            <BaseButtonControl :disabled="currentZoom === 0.5" @click="onClickZoomOut">
+            <BaseButtonControl :disabled="currentZoom <= 0.1" @click="onClickZoomOut">
                 <VZoomOutIcon />
                 <template #tooltip>Zoom Out</template>
             </BaseButtonControl>
