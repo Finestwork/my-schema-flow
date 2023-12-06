@@ -39,9 +39,28 @@ export const useTableStore = defineStore('tableStore', {
             currentActiveNode: {} as (Node & { data: TTableData }[]) | Record<string, never>,
             currentActiveEdges: [] as (Edge & { data: TEdgeData })[],
             currentActiveEdgeIndex: -1,
+            isCreatingTable: false,
         };
     },
     actions: {
+        createNewElement(posX: number, posY: number) {
+            const NewElementObj = {
+                id: uuidv4(),
+                type: 'custom',
+                connectable: false,
+                position: { x: posX, y: posY },
+                data: {
+                    table: {
+                        name: `table_${this.elements.length + 1}`,
+                        columns: [],
+                    },
+                    state: {
+                        isActive: false,
+                    },
+                },
+            };
+            this.elements.push(NewElementObj);
+        },
         addNewEdge(
             referenced: { id: string; column: string; table: string },
             referencing: { id: string; column: string; table: string },

@@ -8,3 +8,7 @@
 .dark .vue-flow__minimap rect{
     fill: #414A6C;
 }
+
+.add-crosshair .vue-flow__pane.draggable{
+    cursor: crosshair;
+}
