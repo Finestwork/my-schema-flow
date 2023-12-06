@@ -36,6 +36,7 @@ const resetActiveState = () => {
     });
 };
 const movePlaceholder = (event: MouseEvent) => {
+    if (!vueFlowRef.value) return;
     const { left, top } = vueFlowRef.value.getBoundingClientRect();
     const { clientX, clientY } = event;
     const Component = <typeof CustomNodePlaceholder>newTableNode.value;
