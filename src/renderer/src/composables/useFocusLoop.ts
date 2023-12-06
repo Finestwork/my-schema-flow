@@ -1,10 +1,10 @@
 import type { Ref } from 'vue';
 import { ref } from 'vue';
 
-export const useFocusLoop = (
+export function useFocusLoop(
     wrapper: Ref<HTMLElement>,
     elements: Ref<NodeListOf<HTMLButtonElement>>,
-) => {
+) {
     const CurrentIndex = ref(-1);
     const CurrentActiveEl: Ref<HTMLElement | null> = ref(null);
 
@@ -42,4 +42,4 @@ export const useFocusLoop = (
         focusNext,
         focusPrevious,
     };
-};
+}

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import VChevronIcon from '@components/Shared/Icons/VChevronIcon.vue';
-import { animateIcon } from '@composables/useCollapseAnimation';
 import { ref } from 'vue';
+import anime from 'animejs/lib/anime.es';
 
 const { showForm } = defineModels<{
     showForm: boolean;
@@ -9,13 +9,27 @@ const { showForm } = defineModels<{
 const iconWrapper = ref();
 const onClickToggleSettings = () => {
     showForm.value = !showForm.value;
-    animateIcon(iconWrapper.value, showForm.value);
+    if (!showForm.value) {
+        anime({
+            targets: iconWrapper.value,
+            rotate: -90,
+            easing: 'easeOutQuint',
+            duration: 750,
+        });
+        return;
+    }
+    anime({
+        targets: iconWrapper.value,
+        rotate: 0,
+        easing: 'easeOutQuint',
+        duration: 750,
+    });
 };
 </script>
 <template>
     <div>
         <button
-            class="flex w-full items-center justify-between px-2 py-2.5 text-left dark:bg-dark-700 dark:hover:bg-dark-700/70 dark:focus:bg-dark-700/70"
+            class="flex w-full items-center justify-between px-2 py-2.5 text-left outline-none dark:bg-dark-700 dark:hover:bg-dark-700/70 dark:focus:bg-dark-700/70"
             type="button"
             :class="{ 'border-b-[1px] dark:border-dark-600': !showForm }"
             @click="onClickToggleSettings"
