@@ -144,7 +144,7 @@ watch(
 </script>
 
 <template>
-    <div class="relative h-full w-full">
+    <div class="relative">
         <VueFlow
             v-model:nodes="tableStore.elements"
             v-model:edges="tableStore.edges"

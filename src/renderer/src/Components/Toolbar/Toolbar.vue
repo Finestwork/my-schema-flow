@@ -16,7 +16,7 @@ const onClickRunAutoLayout = () => {
 };
 </script>
 <template>
-    <div class="px-2 py-3 dark:bg-dark-800">
+    <div class="dark:bg-dark-850 px-2 py-3">
         <BaseButtonIcon class="mr-2" @click="onClickCreateTable">
             <VTableIcon />
             <template #tooltip>Create Table</template>
