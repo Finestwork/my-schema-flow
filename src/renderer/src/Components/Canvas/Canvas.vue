@@ -80,6 +80,10 @@ const onNodeClick = (event) => {
 };
 const onNodeDrag = useDebounceFn((event) => {
     resetActiveState();
+    // If the current node is not the same with previously dragged node
+    if (tableStore.currentActiveNode.id !== event.node.id) {
+        tableStore.currentActiveEdgeIndex = -1;
+    }
     tableStore.currentActiveNode = { ...event.node };
     tableStore.currentActiveNode.data.state.isActive = true;
     currentActiveEdges.value.forEach((edge) => {
