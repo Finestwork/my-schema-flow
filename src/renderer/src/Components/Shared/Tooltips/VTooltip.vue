@@ -1,13 +1,19 @@
 <script setup lang="ts">
-import { computePosition, flip, shift } from '@floating-ui/dom';
+import { computePosition, offset, flip, shift } from '@floating-ui/dom';
 import anime from 'animejs/lib/anime.es.js';
 import { ref } from 'vue';
 
+export type TTooltip = {
+    offsetY?: number;
+};
+const props = withDefaults(defineProps<TTooltip>(), {
+    offsetY: 0,
+});
 const showTooltip = ref(false);
 const source = ref();
 
 const onEnter = (el: Element, done: () => void) => {
-    const Middlewares = [flip(), shift()];
+    const Middlewares = [offset({ mainAxis: props.offsetY }), flip(), shift()];
     computePosition(source.value, el as HTMLElement, { middleware: Middlewares }).then(
         ({ x, y, placement }) => {
             const InitialTop = placement === 'top' ? y - 15 : y + 15;
