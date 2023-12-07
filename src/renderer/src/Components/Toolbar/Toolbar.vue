@@ -65,6 +65,7 @@ const onClickChangeLayoutOrientation = (orientation: 'TB' | 'LR' = 'TB') => {
                     <template #text>Left to right</template>
                 </BaseButtonDropdownItem>
             </template>
+            <template #tooltip> Change Layout Orientation </template>
         </BaseButtonDropdown>
     </div>
 </template>

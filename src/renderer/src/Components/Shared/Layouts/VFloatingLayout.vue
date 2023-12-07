@@ -11,17 +11,19 @@ export type TFloatingLayout = {
 const props = withDefaults(defineProps<TFloatingLayout>(), {
     offsetY: 0,
 });
-const source: Ref<HTMLElement> = ref();
-const float: Ref<HTMLElement> = ref();
+const source: Ref<HTMLElement | null> = ref(null);
+const float: Ref<HTMLElement | null> = ref(null);
 
 watch(
     () => props.show,
     async (showing) => {
         await nextTick();
         if (showing) {
+            if (!source.value || !float.value) return;
             const Middlewares = [offset({ mainAxis: props.offsetY }), flip(), shift()];
             computePosition(source.value, float.value, { middleware: Middlewares }).then(
                 ({ x, y }) => {
+                    if (!float.value) return;
                     Object.assign(float.value.style, {
                         left: `${x}px`,
                         top: `${y}px`,
