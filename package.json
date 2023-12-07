@@ -29,6 +29,7 @@
     "@vue-flow/core": "^1.26.0",
     "@vue-flow/minimap": "^1.2.0",
     "animejs": "^3.2.1",
+    "bounce.js": "^0.8.2",
     "cleave-zen": "^0.0.9",
     "dagre": "^0.8.5",
     "lodash": "^4.17.21",

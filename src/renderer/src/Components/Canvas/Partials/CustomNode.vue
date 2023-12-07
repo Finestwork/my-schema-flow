@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import CustomNodeHandles from '@components/Canvas/Partials/CustomNodeHandles.vue';
 import { mySqlDataTypes } from '@renderer/database/MySqlDataTypes';
+import { jellyAnimation } from '@utilities/animate';
+import { useTableStore } from '@stores/TableStore';
 import numeral from 'numeral';
-import { computed } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 import type { TTableData } from '@stores/TableStore';
 import type { PropType } from 'vue';
 
@@ -17,6 +19,8 @@ const props = defineProps({
         required: true,
     },
 });
+const tableStore = useTableStore();
+const root = ref();
 const getColumns = computed(() => {
     return props.data.table.columns.map((column) => {
         const Size = numeral(column.length).format('0a');
@@ -37,10 +41,15 @@ const getColumns = computed(() => {
         };
     });
 });
+onMounted(() => {
+    if (!tableStore.isCreatingTable) return;
+    jellyAnimation(root.value);
+});
 </script>
 
 <template>
     <div
+        ref="root"
         class="relative min-h-[150px] w-[250px] overflow-hidden rounded-lg border-2 font-jetbrains hover:cursor-pointer dark:bg-dark-800"
         :class="{
             'dark:border-blue-500/30': props.data.state.isActive,
