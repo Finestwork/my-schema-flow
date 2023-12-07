@@ -4,6 +4,8 @@ import VAutoLayoutIcon from '@components/Shared/Icons/VAutoLayoutIcon.vue';
 import BaseButtonIcon from '@components/Toolbar/Partials/BaseButtonIcon.vue';
 import { useTableStore } from '@stores/TableStore';
 import { useSettingsStore } from '@stores/SettingsStore';
+import { calculateEdgePosition } from '@utilities/NodeEdgeHelper';
+import { nodeAutolayout } from '@utilities/NodeHelper';
 
 const tableStore = useTableStore();
 const settingsStore = useSettingsStore();
@@ -13,6 +15,12 @@ const onClickCreateTable = () => {
 };
 const onClickRunAutoLayout = () => {
     settingsStore.runAutoLayout = true;
+};
+const onClickLayoutOrientation = (orientation: 'TB' | 'LR' = 'TB') => {
+    const { nodes, edges } = nodeAutolayout(tableStore.elements, tableStore.edges, orientation);
+    tableStore.elements = nodes;
+    tableStore.edges = edges;
+    tableStore.edges.forEach(calculateEdgePosition);
 };
 </script>
 <template>
@@ -25,5 +33,7 @@ const onClickRunAutoLayout = () => {
             <VAutoLayoutIcon />
             <template #tooltip>Auto Layout</template>
         </BaseButtonIcon>
+        <button type="button" @click="onClickLayoutOrientation('TB')">Top to bottom</button>
+        <button type="button" @click="onClickLayoutOrientation('LR')">Left to right</button>
     </div>
 </template>
