@@ -142,6 +142,7 @@ watch(
             runAutoLayout();
             await nextTick();
             settingsStore.runAutoLayout = false;
+            tableStore.edges.forEach(calculateEdgePosition);
         }
     },
 );
