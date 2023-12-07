@@ -3,9 +3,16 @@ import VTableIcon from '@components/Shared/Icons/VTableIcon.vue';
 import VAutoLayoutIcon from '@components/Shared/Icons/VAutoLayoutIcon.vue';
 import BaseButtonIcon from '@components/Toolbar/Partials/BaseButtonIcon.vue';
 import { useTableStore } from '@stores/TableStore';
+import { useSettingsStore } from '@stores/SettingsStore';
+
+const tableStore = useTableStore();
+const settingsStore = useSettingsStore();
 
 const onClickCreateTable = () => {
-    useTableStore().isCreatingTable = true;
+    tableStore.isCreatingTable = true;
+};
+const onClickRunAutoLayout = () => {
+    settingsStore.runAutoLayout = true;
 };
 </script>
 <template>
@@ -14,7 +21,7 @@ const onClickCreateTable = () => {
             <VTableIcon />
             <template #tooltip>Create Table</template>
         </BaseButtonIcon>
-        <BaseButtonIcon>
+        <BaseButtonIcon @click="onClickRunAutoLayout">
             <VAutoLayoutIcon />
             <template #tooltip>Auto Layout</template>
         </BaseButtonIcon>

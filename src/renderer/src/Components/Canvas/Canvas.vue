@@ -6,12 +6,14 @@ import { calculateEdgePosition } from '@utilities/NodeEdgeHelper';
 import { sortConstraintKeys } from '@utilities/TableColumnHelper';
 import { nodeAutolayout } from '@utilities/NodeHelper';
 import { useTableRelation } from '@composables/useTableRelation';
+import { useSettingsStore } from '@stores/SettingsStore';
 import { Background } from '@vue-flow/background';
 import { useVueFlow, VueFlow } from '@vue-flow/core';
 import { MiniMap } from '@vue-flow/minimap';
-import { ref, nextTick } from 'vue';
+import { ref, nextTick, watch } from 'vue';
 import { useDebounceFn } from '@vueuse/core/index';
 
+const settingsStore = useSettingsStore();
 const newTableNode = ref();
 const currentZoom = ref(0.5);
 const isDragging = ref(false);
@@ -48,6 +50,11 @@ const movePlaceholder = (event: MouseEvent) => {
         left: `${clientX - left + 5}px`,
         top: `${clientY - top + 5}px`,
     });
+};
+const runAutoLayout = () => {
+    const { nodes, edges } = nodeAutolayout(tableStore.elements, tableStore.edges);
+    tableStore.elements = nodes;
+    tableStore.edges = edges;
 };
 
 const onPaneMouseEnter = () => {
@@ -120,11 +127,20 @@ const onPaneReady = () => {
         element.data.table.columns = sortConstraintKeys(Columns);
         return element;
     });
-    const { nodes, edges } = nodeAutolayout(tableStore.elements, tableStore.edges);
-    tableStore.elements = nodes;
-    tableStore.edges = edges;
+    runAutoLayout();
     tableStore.edges.forEach(calculateEdgePosition);
 };
+
+watch(
+    () => settingsStore.runAutoLayout,
+    async (shouldRun) => {
+        if (shouldRun) {
+            runAutoLayout();
+            await nextTick();
+            settingsStore.runAutoLayout = false;
+        }
+    },
+);
 </script>
 
 <template>
