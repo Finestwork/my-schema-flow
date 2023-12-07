@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import NoTableSelected from '@components/TableInfo/Shared/NoTableSelected.vue';
 import SectionWrapper from '@components/TableInfo/Shared/SectionWrapper.vue';
-import ColumnForm from '@components/TableInfo/TableSettings/Partials/AddColumnForm.vue';
+import AddColumnForm from '@components/TableInfo/TableSettings/Partials/AddColumnForm.vue';
+import EditColumnForm from '@components/TableInfo/TableSettings/Partials/EditColumnForm.vue';
 import FormControls from '@components/TableInfo/TableSettings/Partials/FormControls.vue';
-import TableInfoSettingsEditColumnForm from '@components/TableInfo/TableSettings/Partials/EditColumnForm.vue';
 import TableButtonList from '@components/TableInfo/TableSettings/Partials/TableButtonList.vue';
 import TableInfoTextInput from '@components/TableInfo/Shared/TextInput.vue';
 import { useColumnActions } from '@composables/useColumnActions';
@@ -59,11 +59,11 @@ watch(
                     @delete-column="deleteColumn"
                 />
             </template>
-            <ColumnForm
+            <AddColumnForm
                 v-if="displayColumnForm && !displayEditColumnForm"
                 @go-back="displayColumnForm = false"
             />
-            <TableInfoSettingsEditColumnForm
+            <EditColumnForm
                 v-if="!displayColumnForm && displayEditColumnForm"
                 :current-active-index="activeColumnIndex"
                 @go-back="displayEditColumnForm = false"
