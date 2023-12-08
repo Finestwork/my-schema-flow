@@ -8,13 +8,14 @@ import { nodeAutolayout } from '@utilities/NodeHelper';
 import { useTableRelation } from '@composables/useTableRelation';
 import { useSettingsStore } from '@stores/SettingsStore';
 import { Background } from '@vue-flow/background';
-import { useVueFlow, VueFlow } from '@vue-flow/core';
 import { MiniMap } from '@vue-flow/minimap';
+import { useVueFlow, VueFlow } from '@vue-flow/core';
+import { useDebounceFn } from '@vueuse/core';
 import { ref, nextTick, watch } from 'vue';
-import { useDebounceFn } from '@vueuse/core/index';
 
 const settingsStore = useSettingsStore();
 const newTableNode = ref();
+const vueFlowComponent = ref();
 const currentZoom = ref(0.5);
 const isDragging = ref(false);
 const isMouseEntered = ref(false);
@@ -151,6 +152,7 @@ watch(
 <template>
     <div class="relative">
         <VueFlow
+            ref="vueFlowComponent"
             v-model:nodes="tableStore.elements"
             v-model:edges="tableStore.edges"
             :class="{
@@ -170,7 +172,7 @@ watch(
             @pane-mouse-move="onPaneMouseMove"
             @pane-mouse-leave="onPaneMouseLeave"
         >
-            <Background pattern-color="#6381b8" />
+            <Background class="h-full" pattern-color="#6381b8" />
             <MiniMap pannable zoomable />
             <CanvasControls v-model:current-zoom="currentZoom" />
             <span class="absolute left-2 top-2 text-xs font-semibold text-slate-500"

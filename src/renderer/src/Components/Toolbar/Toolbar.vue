@@ -7,6 +7,7 @@ import VLRLayoutIcon from '@components/Shared/Icons/VLRLayoutIcon.vue';
 import BaseButtonIcon from '@components/Toolbar/Partials/BaseButtonIcon.vue';
 import BaseButtonDropdown from '@components/Toolbar/Partials/BaseButtonDropdown.vue';
 import BaseButtonDropdownItem from '@components/Toolbar/Partials/BaseButtonDropdownItem.vue';
+import ExportButton from '@components/Toolbar/Partials/ExportButton.vue';
 import { useTableStore } from '@stores/TableStore';
 import { useSettingsStore } from '@stores/SettingsStore';
 import { calculateEdgePosition } from '@utilities/NodeEdgeHelper';
@@ -43,7 +44,7 @@ const onClickChangeLayoutOrientation = (orientation: 'TB' | 'LR' = 'TB') => {
             <VAutoLayoutIcon />
             <template #tooltip>Auto Layout</template>
         </BaseButtonIcon>
-        <BaseButtonDropdown v-model:show-items="showLayoutOrientationDropdown">
+        <BaseButtonDropdown v-model:show-items="showLayoutOrientationDropdown" class="mr-2">
             <VLayoutOrientationIcon />
             <template #float>
                 <BaseButtonDropdownItem
@@ -65,7 +66,8 @@ const onClickChangeLayoutOrientation = (orientation: 'TB' | 'LR' = 'TB') => {
                     <template #text>Left to right</template>
                 </BaseButtonDropdownItem>
             </template>
-            <template #tooltip> Change Layout Orientation </template>
+            <template #tooltip> Change Layout Orientation</template>
         </BaseButtonDropdown>
+        <ExportButton />
     </div>
 </template>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 export type TButtonDropdownItem = {
-    isActive: boolean;
+    isActive?: boolean;
 };
 const props = withDefaults(defineProps<TButtonDropdownItem>(), {
     isActive: false,
@@ -16,6 +16,7 @@ const props = withDefaults(defineProps<TButtonDropdownItem>(), {
         }"
     >
         <span
+            v-if="$slots.icon"
             class="mr-2 w-[12px] shrink-0"
             :class="{
                 'dark:stroke-dark-300 group-hover:dark:stroke-blue-500/80 group-focus:dark:stroke-blue-500/80':

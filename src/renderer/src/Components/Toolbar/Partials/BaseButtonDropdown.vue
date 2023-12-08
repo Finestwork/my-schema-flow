@@ -21,6 +21,7 @@ const onClickToggleActiveState = () => {
 onClickOutside(floatingLayout, () => {
     isActive.value = false;
     showItems.value = false;
+    showTooltip.value = false;
 });
 watch(showItems, async (shouldShow) => {
     await nextTick();
@@ -30,14 +31,16 @@ watch(showItems, async (shouldShow) => {
 </script>
 
 <template>
-    <VControlledTooltip :should-show-tooltip="!showItems">
+    <VControlledTooltip :should-show-tooltip="!showItems && showTooltip">
         <VFloatingLayout
             ref="floatingLayout"
             class="relative inline-flex h-[25px] w-[40px]"
             :show="showItems"
             :offset-y="2"
             @mouseenter="showTooltip = true"
+            @focus="showTooltip = true"
             @mouseleave="showTooltip = false"
+            @blur="showTooltip = false"
         >
             <button
                 class="flex h-full w-full items-center rounded px-1.5 outline-none"
