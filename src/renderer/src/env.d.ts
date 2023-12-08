@@ -6,14 +6,3 @@ declare module '*.vue' {
     const component: DefineComponent<{}, {}, any>;
     export default component;
 }
-
-declare global {
-    import type { ElectronAPI } from '@electron-toolkit/preload';
-
-    interface Window {
-        electron: ElectronAPI;
-        api: {
-            saveFile(contents: string): void;
-        };
-    }
-}

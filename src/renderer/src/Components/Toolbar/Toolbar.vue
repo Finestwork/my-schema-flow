@@ -2,6 +2,7 @@
 import VTableIcon from '@components/Shared/Icons/VTableIcon.vue';
 import VAutoLayoutIcon from '@components/Shared/Icons/VAutoLayoutIcon.vue';
 import BaseButtonIcon from '@components/Toolbar/Partials/BaseButtonIcon.vue';
+import OpenFileButton from '@components/Toolbar/Partials/OpenFileButton.vue';
 import ChangeLayoutButton from '@components/Toolbar/Partials/ChangeLayoutButton.vue';
 import ExportButton from '@components/Toolbar/Partials/ExportButton.vue';
 import SaveButton from '@components/Toolbar/Partials/SaveButton.vue';
@@ -23,6 +24,7 @@ const onClickRunAutoLayout = () => {
 <template>
     <div class="flex items-center justify-between px-2 py-3 dark:bg-dark-850">
         <div class="flex">
+            <OpenFileButton class="mr-2" />
             <BaseButtonIcon class="mr-2" @click="onClickCreateTable">
                 <VTableIcon />
                 <template #tooltip>Create Table</template>

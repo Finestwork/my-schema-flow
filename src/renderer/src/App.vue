@@ -8,7 +8,7 @@ import { nextTick, onMounted, onUnmounted, ref } from 'vue';
 
 const titleBar = ref();
 const contentWrapper = ref();
-const { onFileSave } = useIPCListeners();
+const { onFileSave, onFileOpened } = useIPCListeners();
 const updateHeight = () => {
     const TitleBarComponent = <typeof TitleBar>titleBar.value;
     const TitleBar = TitleBarComponent.$el;
@@ -20,6 +20,7 @@ onMounted(async () => {
     await nextTick();
     updateHeight();
     onFileSave();
+    onFileOpened();
     document.documentElement.classList.add('dark');
     window.addEventListener('resize', updateHeight);
 });

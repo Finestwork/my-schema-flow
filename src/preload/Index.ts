@@ -6,6 +6,9 @@ const api = {
     saveFile(contents) {
         ipcRenderer.send('saveFile', contents);
     },
+    openFile() {
+        ipcRenderer.send('openFile');
+    },
 };
 
 // Use `contextBridge` APIs to expose Electron APIs to

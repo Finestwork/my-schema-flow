@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useTableStore } from '@stores/TableStore';
-import { onMounted } from 'vue';
 
 const tableStore = useTableStore();
 
