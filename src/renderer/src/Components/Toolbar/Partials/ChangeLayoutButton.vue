@@ -7,14 +7,15 @@ import VLRLayoutIcon from '@components/Shared/Icons/VLRLayoutIcon.vue';
 import { nodeAutolayout } from '@utilities/NodeHelper';
 import { calculateEdgePosition } from '@utilities/NodeEdgeHelper';
 import { useTableStore } from '@stores/TableStore';
+import { useSettingsStore } from '@stores/SettingsStore';
 import { ref } from 'vue';
 
 const tableStore = useTableStore();
+const settingsStore = useSettingsStore();
 const showLayoutOrientationDropdown = ref(false);
-const currentOrientation = ref('TB');
 const onClickChangeLayoutOrientation = (orientation: 'TB' | 'LR' = 'TB') => {
     showLayoutOrientationDropdown.value = false;
-    currentOrientation.value = orientation;
+    settingsStore.currentNodeOrientation = orientation;
     const { nodes, edges } = nodeAutolayout(tableStore.elements, tableStore.edges, orientation);
     tableStore.elements = nodes;
     tableStore.edges = edges;
@@ -27,7 +28,7 @@ const onClickChangeLayoutOrientation = (orientation: 'TB' | 'LR' = 'TB') => {
         <VLayoutOrientationIcon />
         <template #float>
             <BaseButtonDropdownItem
-                :is-active="currentOrientation === 'TB'"
+                :is-active="settingsStore.currentNodeOrientation === 'TB'"
                 @click="onClickChangeLayoutOrientation('TB')"
             >
                 <template #icon>
@@ -36,7 +37,7 @@ const onClickChangeLayoutOrientation = (orientation: 'TB' | 'LR' = 'TB') => {
                 <template #text>Top to bottom</template>
             </BaseButtonDropdownItem>
             <BaseButtonDropdownItem
-                :is-active="currentOrientation === 'LR'"
+                :is-active="settingsStore.currentNodeOrientation === 'LR'"
                 @click="onClickChangeLayoutOrientation('LR')"
             >
                 <template #icon>

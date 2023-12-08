@@ -5,16 +5,17 @@ import BaseButtonIcon from '@components/Toolbar/Partials/BaseButtonIcon.vue';
 import ChangeLayoutButton from '@components/Toolbar/Partials/ChangeLayoutButton.vue';
 import ExportButton from '@components/Toolbar/Partials/ExportButton.vue';
 import { useTableStore } from '@stores/TableStore';
-import { useSettingsStore } from '@stores/SettingsStore';
+import { useAutoLayout } from '@composables/useAutoLayout';
+import { calculateEdgePosition } from '@utilities/NodeEdgeHelper';
 
 const tableStore = useTableStore();
-const settingsStore = useSettingsStore();
 
 const onClickCreateTable = () => {
     tableStore.isCreatingTable = true;
 };
 const onClickRunAutoLayout = () => {
-    settingsStore.runAutoLayout = true;
+    useAutoLayout();
+    tableStore.edges.forEach(calculateEdgePosition);
 };
 </script>
 <template>
