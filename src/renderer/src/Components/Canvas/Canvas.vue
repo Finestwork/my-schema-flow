@@ -3,7 +3,7 @@ import CanvasControls from '@components/Canvas/Partials/Controls.vue';
 import CustomNode from '@components/Canvas/Partials/CustomNode.vue';
 import CustomNodePlaceholder from '@components/Canvas/Partials/CustomNodePlaceholder.vue';
 import { calculateEdgePosition } from '@utilities/NodeEdgeHelper';
-import { sortConstraintKeys } from '@utilities/TableColumnHelper';
+import { useSortTableColumns } from '@composables/useSortTableColumns';
 import { useAutoLayout } from '@composables/useAutoLayout';
 import { useTableRelation } from '@composables/useTableRelation';
 import { Background } from '@vue-flow/background';
@@ -23,6 +23,7 @@ const placeholderPosition = ref({
 });
 let dragTimeoutId = 0;
 const { tableStore, currentActiveEdges } = useTableRelation();
+const { sortAllTablesColumn } = useSortTableColumns();
 const { vueFlowRef, project } = useVueFlow();
 
 const resetActiveState = () => {
@@ -120,11 +121,7 @@ const onMove = (event) => {
     }, 150);
 };
 const onPaneReady = () => {
-    tableStore.elements = tableStore.elements.map((element) => {
-        const Columns = element.data.table.columns;
-        element.data.table.columns = sortConstraintKeys(Columns);
-        return element;
-    });
+    sortAllTablesColumn();
     useAutoLayout();
     tableStore.edges.forEach(calculateEdgePosition);
 };

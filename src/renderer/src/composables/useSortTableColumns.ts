@@ -8,10 +8,25 @@ import { computed } from 'vue';
  */
 export function useSortTableColumns() {
     const tableStore = useTableStore();
-    const sortedActiveNodeColumns = computed((): null | TTableColumn[] => {
+
+    /**
+     * Sorts the column of active node from PK to FK
+     */
+    const sortActiveTableColumns = computed((): null | TTableColumn[] => {
         const Columns = tableStore?.currentActiveNode?.data?.table?.columns ?? [];
         return sortConstraintKeys(Columns);
     });
 
-    return { sortedActiveNodeColumns };
+    /**
+     * Sorts all table nodes from PK to FK
+     */
+    const sortAllTablesColumn = () => {
+        tableStore.elements = tableStore.elements.map((element) => {
+            const Columns = element.data.table.columns;
+            element.data.table.columns = sortConstraintKeys(Columns);
+            return element;
+        });
+    };
+
+    return { sortActiveTableColumns, sortAllTablesColumn };
 }

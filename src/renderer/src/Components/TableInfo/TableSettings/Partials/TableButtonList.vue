@@ -9,7 +9,7 @@ const emits = defineEmits<{
     (e: 'editColumn', index: number);
 }>();
 const buttonColumns = ref();
-const { sortedActiveNodeColumns } = useSortTableColumns();
+const { sortActiveTableColumns } = useSortTableColumns();
 const onClickRemoveActiveState = (e: MouseEvent) => {
     const Target = <HTMLElement>e.target;
     const PreviousValue = currentIndex.value;
@@ -23,7 +23,7 @@ const onClickRemoveActiveState = (e: MouseEvent) => {
 <template>
     <div class="mt-6" @click="onClickRemoveActiveState">
         <button
-            v-for="(column, index) in sortedActiveNodeColumns"
+            v-for="(column, index) in sortActiveTableColumns"
             ref="buttonColumns"
             :key="column.id"
             type="button"
