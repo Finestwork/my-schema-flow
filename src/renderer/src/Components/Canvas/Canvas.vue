@@ -1,14 +1,15 @@
 <script setup lang="ts">
-import CanvasControls from '@sortAllColumnsInTables/Canvas/Partials/Controls.vue';
+import CanvasControls from '@components/Canvas/Partials/Controls.vue';
 import CustomNode from '@components/Canvas/Partials/CustomNode.vue';
 import CustomNodePlaceholder from '@components/Canvas/Partials/CustomNodePlaceholder.vue';
 import { calculateEdgePosition } from '@utilities/NodeEdgeHelper';
 import { useSortTableColumns } from '@composables/useSortTableColumns';
 import { useAutoLayout } from '@composables/useAutoLayout';
 import { useTableRelation } from '@composables/useTableRelation';
+import { useTablePlaceholder } from '@composables/useTablePlaceholder';
 import { Background } from '@vue-flow/background';
 import { MiniMap } from '@vue-flow/minimap';
-import { useVueFlow, VueFlow } from '@vue-flow/core';
+import { VueFlow } from '@vue-flow/core';
 import { useDebounceFn } from '@vueuse/core';
 import { ref, nextTick } from 'vue';
 
@@ -17,14 +18,11 @@ const vueFlowComponent = ref();
 const currentZoom = ref(0.5);
 const isDragging = ref(false);
 const isMouseEntered = ref(false);
-const placeholderPosition = ref({
-    x: -1,
-    y: -1,
-});
 let dragTimeoutId = 0;
 const { tableStore, currentActiveEdges } = useTableRelation();
 const { sortAllColumnsInTables } = useSortTableColumns();
-const { vueFlowRef, project } = useVueFlow();
+const { placeholderPosition, resetPlaceholderPosition, movePlaceholder } =
+    useTablePlaceholder(newTableNode);
 
 const resetActiveState = () => {
     if (Object.keys(tableStore.currentActiveNode).length !== 0) {
@@ -37,20 +35,6 @@ const resetActiveState = () => {
         edge.animated = false;
     });
 };
-const movePlaceholder = (event: MouseEvent) => {
-    if (!vueFlowRef.value) return;
-    const { left, top } = vueFlowRef.value.getBoundingClientRect();
-    const { clientX, clientY } = event;
-    const Component = <typeof CustomNodePlaceholder>newTableNode.value;
-    placeholderPosition.value = project({
-        x: clientX - left,
-        y: clientY - top,
-    });
-    Object.assign(Component.$el.style, {
-        left: `${clientX - left + 5}px`,
-        top: `${clientY - top + 5}px`,
-    });
-};
 
 const onPaneMouseEnter = () => {
     isMouseEntered.value = true;
@@ -60,7 +44,7 @@ const onPaneMouseLeave = () => {
 };
 const onPaneMouseMove = (event: MouseEvent) => {
     if (!tableStore.isCreatingTable) return;
-    movePlaceholder(event);
+    movePlaceholder(event.clientX, event.clientY);
 };
 const onNodeClick = (event) => {
     resetActiveState();
@@ -101,8 +85,7 @@ const onPaneClick = async () => {
         tableStore.createNewElement(placeholderPosition.value.x, placeholderPosition.value.y);
         await nextTick();
         tableStore.isCreatingTable = false;
-        placeholderPosition.value.x = -1;
-        placeholderPosition.value.y = -1;
+        resetPlaceholderPosition();
     }
 };
 const onMove = (event) => {
@@ -117,7 +100,8 @@ const onMove = (event) => {
     dragTimeoutId = window.setTimeout(() => {
         isDragging.value = false;
         if (!tableStore.isCreatingTable) return;
-        movePlaceholder(event.event.sourceEvent);
+        const { clientX, clientY } = event.event.sourceEvent;
+        movePlaceholder(clientX, clientY);
     }, 150);
 };
 const onPaneReady = () => {
