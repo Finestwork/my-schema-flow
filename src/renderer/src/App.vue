@@ -3,10 +3,12 @@ import Canvas from '@components/Canvas/Canvas.vue';
 import TableInfo from '@components/TableInfo/TableInfo.vue';
 import TitleBar from '@components/TitleBar/TitleBar.vue';
 import Toolbar from '@components/Toolbar/Toolbar.vue';
+import { useIPCListeners } from '@composables/useIPCListeners';
 import { nextTick, onMounted, onUnmounted, ref } from 'vue';
 
 const titleBar = ref();
 const contentWrapper = ref();
+const { onFileSave } = useIPCListeners();
 const updateHeight = () => {
     const TitleBarComponent = <typeof TitleBar>titleBar.value;
     const TitleBar = TitleBarComponent.$el;
@@ -16,8 +18,9 @@ const updateHeight = () => {
 };
 onMounted(async () => {
     await nextTick();
-    document.documentElement.classList.add('dark');
     updateHeight();
+    onFileSave();
+    document.documentElement.classList.add('dark');
     window.addEventListener('resize', updateHeight);
 });
 onUnmounted(() => {

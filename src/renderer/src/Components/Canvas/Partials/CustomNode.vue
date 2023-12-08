@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import CustomNodeHandles from '@components/Canvas/Partials/CustomNodeHandles.vue';
 import { mySqlDataTypes } from '@renderer/database/MySqlDataTypes';
-import { jellyAnimation } from '@utilities/Animate';
+import { jellyAnimation } from '@utilities/AnimateHelper';
 import { useTableStore } from '@stores/TableStore';
 import numeral from 'numeral';
 import { computed, ref, onMounted } from 'vue';

@@ -31,11 +31,14 @@ export type TEdgeData = {
     referencing: TEdgeDataObject;
 };
 
+export type TElement = Node & { data: TTableData };
+export type TEdge = Edge & { data: TTableData };
+
 export const useTableStore = defineStore('tableStore', {
     state() {
         return {
-            elements: TestElements as (Node & { data: TTableData })[],
-            edges: TestEdges as (Edge & { data: TEdgeData })[],
+            elements: TestElements as TElement[],
+            edges: TestEdges as TEdge[],
             currentActiveNode: {} as (Node & { data: TTableData }[]) | Record<string, never>,
             currentActiveEdges: [] as (Edge & { data: TEdgeData })[],
             currentActiveEdgeIndex: -1,
