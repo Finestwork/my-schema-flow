@@ -15,7 +15,9 @@ const getTitle = computed(() => {
 });
 </script>
 <template>
-    <div class="fixed left-0 top-0 z-50 flex h-[40px] w-full items-center px-2 dark:bg-[#0f121c]">
+    <div
+        class="drag-title-bar fixed left-0 top-0 z-50 flex h-[40px] w-full items-center px-2 dark:bg-[#0f121c]"
+    >
         <p class="text-xs font-semibold text-slate-600">{{ getTitle }}</p>
     </div>
 </template>
