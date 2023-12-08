@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import CanvasControls from '@components/Canvas/Partials/Controls.vue';
+import CanvasControls from '@sortAllColumnsInTables/Canvas/Partials/Controls.vue';
 import CustomNode from '@components/Canvas/Partials/CustomNode.vue';
 import CustomNodePlaceholder from '@components/Canvas/Partials/CustomNodePlaceholder.vue';
 import { calculateEdgePosition } from '@utilities/NodeEdgeHelper';
@@ -23,7 +23,7 @@ const placeholderPosition = ref({
 });
 let dragTimeoutId = 0;
 const { tableStore, currentActiveEdges } = useTableRelation();
-const { sortAllTablesColumn } = useSortTableColumns();
+const { sortAllColumnsInTables } = useSortTableColumns();
 const { vueFlowRef, project } = useVueFlow();
 
 const resetActiveState = () => {
@@ -121,7 +121,7 @@ const onMove = (event) => {
     }, 150);
 };
 const onPaneReady = () => {
-    sortAllTablesColumn();
+    sortAllColumnsInTables();
     useAutoLayout();
     tableStore.edges.forEach(calculateEdgePosition);
 };

@@ -20,7 +20,7 @@ export function useSortTableColumns() {
     /**
      * Sorts all table nodes from PK to FK
      */
-    const sortAllTablesColumn = () => {
+    const sortAllColumnsInTables = () => {
         tableStore.elements = tableStore.elements.map((element) => {
             const Columns = element.data.table.columns;
             element.data.table.columns = sortConstraintKeys(Columns);
@@ -28,5 +28,5 @@ export function useSortTableColumns() {
         });
     };
 
-    return { sortActiveTableColumns, sortAllTablesColumn };
+    return { sortActiveTableColumns, sortAllColumnsInTables };
 }
