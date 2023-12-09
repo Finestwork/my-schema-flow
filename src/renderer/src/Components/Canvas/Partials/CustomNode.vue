@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import VTrashIcon from '@components/Shared/Icons/VTrashIcon.vue';
 import CustomNodeHandles from '@components/Canvas/Partials/CustomNodeHandles.vue';
+import BaseToolbarButtonIcon from '@components/Canvas/Partials/BaseToolbarButtonIcon.vue';
+import { NodeToolbar } from '@vue-flow/node-toolbar';
 import { mySqlDataTypes } from '@renderer/database/MySqlDataTypes';
 import { jellyAnimation } from '@utilities/AnimateHelper';
 import { useTableStore } from '@stores/TableStore';
@@ -56,7 +59,17 @@ onMounted(() => {
             'dark:border-slate-700': !props.data.state.isActive,
         }"
     >
+        <NodeToolbar :is-visible="props.data.state.isActive" :offset="5">
+            <div class="justify-right flex">
+                <BaseToolbarButtonIcon>
+                    <VTrashIcon />
+                    <template #tooltip>Delete Table</template>
+                </BaseToolbarButtonIcon>
+            </div>
+        </NodeToolbar>
+
         <CustomNodeHandles />
+
         <span
             class="block py-2 text-center text-sm font-bold"
             :class="{

@@ -28,6 +28,7 @@
     "@vue-flow/controls": "^1.1.0",
     "@vue-flow/core": "^1.26.0",
     "@vue-flow/minimap": "^1.2.0",
+    "@vue-flow/node-toolbar": "^1.1.0",
     "@vueuse/core": "^10.7.0",
     "@vueuse/integrations": "^10.7.0",
     "animejs": "^3.2.1",

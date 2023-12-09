@@ -4,9 +4,11 @@ import { ref } from 'vue';
 
 export type TTooltip = {
     offsetY?: number;
+    placement?: 'top' | 'bottom' | 'left' | 'right';
 };
 const props = withDefaults(defineProps<TTooltip>(), {
     offsetY: 0,
+    placement: 'bottom',
 });
 const showTooltip = ref(false);
 const source = ref();
@@ -14,6 +16,7 @@ const { slideUpAnimation } = useTooltipAnimation(source, {
     offset: {
         y: props.offsetY,
     },
+    placement: props.placement,
 });
 const { onEnter, onLeave } = slideUpAnimation();
 </script>
