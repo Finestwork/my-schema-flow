@@ -39,8 +39,8 @@ export const useTableStore = defineStore('tableStore', {
         return {
             elements: TestElements as TElement[],
             edges: TestEdges as TEdge[],
-            currentActiveNode: {} as (Node & { data: TTableData }[]) | Record<string, never>,
-            currentActiveEdges: [] as (Edge & { data: TEdgeData })[],
+            currentActiveNode: {} as TElement | Record<string, never>,
+            currentActiveEdges: [] as TEdge[],
             currentActiveEdgeIndex: -1,
             isCreatingTable: false,
         };
@@ -62,7 +62,7 @@ export const useTableStore = defineStore('tableStore', {
                     },
                 },
             };
-            this.elements.push(NewElementObj);
+            return NewElementObj;
         },
         addNewEdge(
             referenced: { id: string; column: string; table: string },
@@ -85,7 +85,7 @@ export const useTableStore = defineStore('tableStore', {
                     },
                 },
             };
-            this.edges = [...this.edges, Edge];
+            this.edges.push(Edge);
         },
         updateNewEdge(
             edgeId: string,
@@ -112,7 +112,7 @@ export const useTableStore = defineStore('tableStore', {
             const Index = this.edges.findIndex((edge) => edge.id === edgeId);
             if (Index === -1) return;
             this.edges.splice(Index, 1);
-            this.edges = [...this.edges, NewEdgeObject];
+            this.edges.push(NewEdgeObject);
         },
         deleteEdge(edgeId: string) {
             const Index = this.edges.findIndex((edge) => edge.id === edgeId);

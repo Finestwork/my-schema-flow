@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { useTableRelation } from '@composables/useTableRelation';
+import { getActiveEdges } from '@utilities/NodeEdgeHelper';
 import { computed } from 'vue';
 
-const { tableStore, currentActiveEdges } = useTableRelation();
+const { tableStore } = useTableRelation();
 const getAllEdges = computed(() => {
     const ActiveNode = tableStore.currentActiveNode;
     const CurrentTable = ActiveNode.data.table.name;
-    return currentActiveEdges.value
+    const currentActiveEdges = getActiveEdges(ActiveNode, tableStore.edges);
+    return currentActiveEdges
         .map((edge) => {
             const IsCurrentNodeParent = edge.data.referenced.table === CurrentTable;
             const Table = IsCurrentNodeParent
@@ -24,7 +26,8 @@ const getAllEdges = computed(() => {
         });
 });
 const onClickUpdateEdge = (edgeIndex: string) => {
-    const Index = currentActiveEdges.value.findIndex((edge) => edge.id === edgeIndex);
+    const currentActiveEdges = getActiveEdges(tableStore.currentActiveNode, tableStore.edges);
+    const Index = currentActiveEdges.findIndex((edge) => edge.id === edgeIndex);
     tableStore.currentActiveEdgeIndex = Index;
 };
 </script>

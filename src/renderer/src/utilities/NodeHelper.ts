@@ -1,4 +1,5 @@
 import dagre from 'dagre';
+import { TElement } from '@stores/TableStore';
 
 export function nodeAutolayout(nodes, edges, direction = 'TB') {
     const Nodes = nodes.slice();
@@ -33,3 +34,19 @@ export function nodeAutolayout(nodes, edges, direction = 'TB') {
 
     return { nodes: Nodes, edges: Edges };
 }
+
+/**
+ * Resets the active state of the current active node
+ */
+export const resetActiveNodeState = (currentActiveNode: TElement | Record<string, never>) => {
+    if (Object.keys(currentActiveNode).length !== 0) {
+        const DataObject = Object.assign(currentActiveNode.data, {
+            state: {
+                isActive: false,
+            },
+        });
+        return Object.assign(currentActiveNode, DataObject);
+    }
+
+    return currentActiveNode;
+};
