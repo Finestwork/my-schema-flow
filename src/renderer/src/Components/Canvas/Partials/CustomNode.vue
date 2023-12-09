@@ -8,6 +8,7 @@ import { jellyAnimation } from '@utilities/AnimateHelper';
 import { useTableStore } from '@stores/TableStore';
 import numeral from 'numeral';
 import { computed, ref, onMounted } from 'vue';
+import { useVueFlow } from '@vue-flow/core';
 import type { TTableData } from '@stores/TableStore';
 import type { PropType } from 'vue';
 
@@ -16,13 +17,13 @@ export type TState = {
         isActive: boolean;
     };
 };
-const props = defineProps({
-    data: {
-        type: Object as PropType<TTableData & TState>,
-        required: true,
-    },
-});
+export type TProps = {
+    id: string;
+    data: TTableData & TState;
+};
+const props = defineProps<TProps>();
 const tableStore = useTableStore();
+const { removeNodes, getNodes } = useVueFlow();
 const root = ref();
 const getColumns = computed(() => {
     return props.data.table.columns.map((column) => {
@@ -44,6 +45,12 @@ const getColumns = computed(() => {
         };
     });
 });
+const onClickDeleteNode = () => {
+    const Nodes = getNodes.value;
+    const Node = Nodes.find((node) => node.id === props.id);
+    if (!Node) return;
+    removeNodes([Node]);
+};
 onMounted(() => {
     if (!tableStore.isCreatingTable) return;
     jellyAnimation(root.value);
@@ -61,7 +68,7 @@ onMounted(() => {
     >
         <NodeToolbar :is-visible="props.data.state.isActive" :offset="5">
             <div class="justify-right flex">
-                <BaseToolbarButtonIcon>
+                <BaseToolbarButtonIcon @click="onClickDeleteNode">
                     <VTrashIcon />
                     <template #tooltip>Delete Table</template>
                 </BaseToolbarButtonIcon>

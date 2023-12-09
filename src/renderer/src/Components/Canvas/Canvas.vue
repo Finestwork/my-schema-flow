@@ -55,7 +55,7 @@ const {
                 >{{ currentZoom * 100 }}%</span
             >
             <template #node-custom="props">
-                <CustomNode v-bind="props" :data="props.data" />
+                <CustomNode v-bind="props" :data="props.data" :id="props.id" />
             </template>
             <CustomNodePlaceholder
                 ref="tablePlaceholder"
