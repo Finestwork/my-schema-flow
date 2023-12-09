@@ -19,7 +19,7 @@ const DefaultOptions = {
 
 export function useTooltipAnimation(
     source: Ref<HTMLElement>,
-    options: TTooltipAnimation = DefaultOptions,
+    options = DefaultOptions as TTooltipAnimation,
 ) {
     const slideUpAnimation = () => {
         const onEnter = (el: Element, done: () => void) => {

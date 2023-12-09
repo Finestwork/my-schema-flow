@@ -10,10 +10,10 @@ import { ref } from 'vue';
 
 const tablePlaceholder = ref();
 const vueFlowComponent = ref();
-const currentZoom = ref(0.5);
 
 const {
     tableStore,
+    settingsStore,
     getCanvasClass,
     shouldHidePlaceholder,
     onNodeClick,
@@ -24,6 +24,7 @@ const {
     onPaneClick,
     onPaneReady,
     onMove,
+    onViewportChangeEnd,
 } = useCanvas(tablePlaceholder);
 </script>
 
@@ -35,7 +36,7 @@ const {
             v-model:edges="tableStore.edges"
             :class="getCanvasClass"
             :default-edge-options="{ type: 'smoothstep' }"
-            :default-viewport="{ zoom: currentZoom }"
+            :default-viewport="{ zoom: settingsStore.zoomLevel }"
             :min-zoom="0.1"
             :max-zoom="1"
             :delete-key-code="null"
@@ -47,15 +48,16 @@ const {
             @pane-mouse-enter="onPaneMouseEnter"
             @pane-mouse-move="onPaneMouseMove"
             @pane-mouse-leave="onPaneMouseLeave"
+            @viewport-change-end="onViewportChangeEnd"
         >
             <Background class="h-full" pattern-color="#6381b8" />
             <MiniMap pannable zoomable />
-            <CanvasControls v-model:current-zoom="currentZoom" />
+            <CanvasControls />
             <span class="absolute left-2 top-2 text-xs font-semibold text-slate-500"
-                >{{ currentZoom * 100 }}%</span
+                >{{ settingsStore.zoomLevel * 100 }}%</span
             >
             <template #node-custom="props">
-                <CustomNode v-bind="props" :data="props.data" :id="props.id" />
+                <CustomNode v-bind="props" :id="props.id" :data="props.data" />
             </template>
             <CustomNodePlaceholder
                 ref="tablePlaceholder"

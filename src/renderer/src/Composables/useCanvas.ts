@@ -1,4 +1,5 @@
 import { useTableStore } from '@stores/TableStore';
+import { useSettingsStore } from '@stores/SettingsStore';
 import { useTablePlaceholder } from '@composables/useTablePlaceholder';
 import { resetActiveNodeState } from '@utilities/NodeHelper';
 import { useSortTableColumns } from '@composables/useSortTableColumns';
@@ -16,12 +17,13 @@ import type { MaybeRefOrGetter } from 'vue';
 
 export function useCanvas(tablePlaceholder: MaybeRefOrGetter) {
     const tableStore = useTableStore();
+    const settingsStore = useSettingsStore();
     const isDragging = ref(false);
     const isMouseEntered = ref(false);
     const { placeholderPosition, resetPlaceholderPosition, movePlaceholder } =
         useTablePlaceholder(tablePlaceholder);
     const { sortAllColumnsInTables } = useSortTableColumns();
-    const { addNodes } = useVueFlow();
+    const { addNodes, toObject } = useVueFlow();
     let dragTimeoutId = 0;
 
     const getCanvasClass = computed(() => {
@@ -114,9 +116,14 @@ export function useCanvas(tablePlaceholder: MaybeRefOrGetter) {
             movePlaceholder(clientX, clientY);
         }, 150);
     };
+    const onViewportChangeEnd = () => {
+        const CurrentInstance = toObject();
+        settingsStore.zoomLevel = +CurrentInstance.viewport.zoom.toFixed(1);
+    };
 
     return {
         tableStore,
+        settingsStore,
         isMouseEntered,
         isDragging,
         getCanvasClass,
@@ -129,5 +136,6 @@ export function useCanvas(tablePlaceholder: MaybeRefOrGetter) {
         onPaneClick,
         onPaneReady,
         onMove,
+        onViewportChangeEnd,
     };
 }

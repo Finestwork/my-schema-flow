@@ -10,5 +10,6 @@ export const useSettingsStore = defineStore('settingsStore', {
         currentNodeOrientation: 'TB',
         hideTableSettingsPanel: false,
         hideTableRelationSettingsPanel: false,
+        zoomLevel: 0.5,
     }),
 });

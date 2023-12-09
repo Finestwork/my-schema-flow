@@ -10,7 +10,6 @@ import numeral from 'numeral';
 import { computed, ref, onMounted } from 'vue';
 import { useVueFlow } from '@vue-flow/core';
 import type { TTableData } from '@stores/TableStore';
-import type { PropType } from 'vue';
 
 export type TState = {
     state: {
