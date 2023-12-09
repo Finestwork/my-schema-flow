@@ -4,10 +4,10 @@
 .dark .vue-flow__minimap{
     background-color: #2E324D;
 }
-.dark .vue-flow__minimap-mask {
-    fill: #222539;
-}
 
+.dark .vue-flow__minimap-mask {
+    fill: rgba(0,0,0,0.3);
+}
 .dark .vue-flow__minimap rect{
     fill: #414A6C;
 }
