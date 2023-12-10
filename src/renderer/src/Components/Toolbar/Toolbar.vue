@@ -17,7 +17,11 @@ const onClickCreateTable = () => {
 };
 const onClickRunAutoLayout = () => {
     useAutoLayout();
-    tableStore.edges.forEach(calculateEdgePosition);
+    tableStore.edges.forEach((edge) => {
+        const { targetHandle, sourceHandle } = calculateEdgePosition(edge);
+        edge.sourceHandle = sourceHandle;
+        edge.targetHandle = targetHandle;
+    });
 };
 </script>
 

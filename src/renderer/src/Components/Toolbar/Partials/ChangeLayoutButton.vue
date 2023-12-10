@@ -19,7 +19,11 @@ const onClickChangeLayoutOrientation = (orientation: 'TB' | 'LR' = 'TB') => {
     const { nodes, edges } = nodeAutolayout(tableStore.elements, tableStore.edges, orientation);
     tableStore.elements = nodes;
     tableStore.edges = edges;
-    tableStore.edges.forEach(calculateEdgePosition);
+    tableStore.edges.forEach((edge) => {
+        const { targetHandle, sourceHandle } = calculateEdgePosition(edge);
+        edge.sourceHandle = sourceHandle;
+        edge.targetHandle = targetHandle;
+    });
 };
 </script>
 
