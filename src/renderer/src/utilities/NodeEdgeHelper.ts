@@ -1,4 +1,5 @@
 import type { TEdge, TElement } from '@stores/TableStore';
+import { NodeId } from '@vue-flow/core/dist/context';
 
 /**
  * Calculate the position of the node and determine which node handle should be used
@@ -111,4 +112,20 @@ export const getConnectedNodes = (currentNode: TElement, edges: TEdge[]) => {
         related: Related,
         unrelated: Unrelated,
     };
+};
+
+export const extractNodeIdFromEdge = (edges: TEdge[]) => {
+    const NodeIds = [];
+    edges.forEach((edge) => {
+        const SourceNodeId = edge.sourceNode.id;
+        const TargetNodeId = edge.targetNode.id;
+        if (!NodeIds.includes(SourceNodeId)) {
+            NodeIds.push(SourceNodeId);
+        }
+        if (!NodeIds.includes(TargetNodeId)) {
+            NodeIds.push(TargetNodeId);
+        }
+    });
+
+    return NodeIds;
 };

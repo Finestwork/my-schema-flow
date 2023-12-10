@@ -9,7 +9,7 @@ import { VueFlow } from '@vue-flow/core';
 import { ref } from 'vue';
 
 const tablePlaceholder = ref();
-const vueFlowComponent = ref();
+const minimap = ref();
 
 const {
     tableStore,
@@ -25,13 +25,12 @@ const {
     onPaneReady,
     onMove,
     onViewportChangeEnd,
-} = useCanvas(tablePlaceholder);
+} = useCanvas(tablePlaceholder, minimap);
 </script>
 
 <template>
     <div class="relative">
         <VueFlow
-            ref="vueFlowComponent"
             v-model:nodes="tableStore.elements"
             v-model:edges="tableStore.edges"
             :class="getCanvasClass"
@@ -51,7 +50,7 @@ const {
             @viewport-change-end="onViewportChangeEnd"
         >
             <Background class="h-full" pattern-color="#6381b8" />
-            <MiniMap pannable zoomable />
+            <MiniMap ref="minimap" pannable zoomable />
             <CanvasControls />
             <span class="absolute left-2 top-2 text-xs font-semibold text-slate-500"
                 >{{ settingsStore.zoomLevel * 100 }}%</span

@@ -177,6 +177,11 @@ export const useTableStore = defineStore('tableStore', {
                     Edge.sourceNode.data.style.opacity = 0.5;
                 }
             });
+
+            return {
+                related: Nodes.related,
+                unrelated: Nodes.unrelated,
+            };
         },
         unHighlightNodes() {
             const Nodes = getConnectedNodes(this.currentActiveNode, this.edges);

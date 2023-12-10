@@ -3,19 +3,29 @@ import { useSettingsStore } from '@stores/SettingsStore';
 import { useTablePlaceholder } from '@composables/useTablePlaceholder';
 import { useSortTableColumns } from '@composables/useSortTableColumns';
 import { useAutoLayout } from '@composables/useAutoLayout';
-import { calculateEdgePosition, getActiveEdges } from '@utilities/NodeEdgeHelper';
+import {
+    calculateEdgePosition,
+    getActiveEdges,
+    extractNodeIdFromEdge,
+} from '@utilities/NodeEdgeHelper';
 import { useVueFlow } from '@vue-flow/core';
 import { computed, nextTick, ref } from 'vue';
 import { useDebounceFn } from '@vueuse/core';
 import type { MaybeRefOrGetter } from 'vue';
+import { useMinimap } from '@composables/useMinimap';
 
-export function useCanvas(tablePlaceholder: MaybeRefOrGetter) {
+export function useCanvas(tablePlaceholder: MaybeRefOrGetter, minimap: MaybeRefOrGetter) {
     const tableStore = useTableStore();
     const settingsStore = useSettingsStore();
     const isDragging = ref(false);
     const isMouseEntered = ref(false);
     const { placeholderPosition, resetPlaceholderPosition, movePlaceholder } =
         useTablePlaceholder(tablePlaceholder);
+    const {
+        nodeIds: minimapNodeIds,
+        highlightNodes: highlightMiniMapNodes,
+        unHighlightNodes: unHighlightNodesMinimapNodes,
+    } = useMinimap(minimap);
     const { sortAllColumnsInTables } = useSortTableColumns();
     const { addNodes, toObject } = useVueFlow();
     let dragTimeoutId = 0;
@@ -29,29 +39,29 @@ export function useCanvas(tablePlaceholder: MaybeRefOrGetter) {
     const shouldHidePlaceholder = computed(() => {
         return isDragging.value || !tableStore.isCreatingTable || !isMouseEntered.value;
     });
-    const onNodeClick = (event) => {
+
+    const _highlightNodes = (event) => {
         tableStore.unHighlightNodes();
+
         tableStore.currentActiveNode = { ...event.node };
         tableStore.currentActiveEdges = getActiveEdges(
             tableStore.currentActiveNode,
             tableStore.edges,
         );
-        tableStore.highlightNodes();
+
+        const HighlightedNodes = tableStore.highlightNodes();
+        minimapNodeIds.value = extractNodeIdFromEdge(HighlightedNodes.related);
+        highlightMiniMapNodes();
+    };
+    const onNodeClick = (event) => {
+        _highlightNodes(event);
     };
     const onNodeDrag = useDebounceFn((event) => {
-        tableStore.unHighlightNodes();
-
+        _highlightNodes(event);
         // If the current node is not the same with previously dragged node
         if (tableStore.currentActiveNode.id !== event.node.id) {
             tableStore.currentActiveEdgeIndex = -1;
         }
-        tableStore.currentActiveNode = { ...event.node };
-        tableStore.currentActiveNode.data.state.isActive = true;
-        tableStore.currentActiveEdges = getActiveEdges(
-            tableStore.currentActiveNode,
-            tableStore.edges,
-        );
-        tableStore.highlightNodes();
         tableStore.currentActiveEdges.forEach((edge) => {
             const { targetHandle, sourceHandle } = calculateEdgePosition(edge);
             edge.sourceHandle = sourceHandle;
@@ -70,6 +80,7 @@ export function useCanvas(tablePlaceholder: MaybeRefOrGetter) {
     };
     const onPaneClick = async () => {
         tableStore.unHighlightNodes();
+        unHighlightNodesMinimapNodes();
         tableStore.currentActiveNode = Object.assign({}, {});
         tableStore.currentActiveEdges = [];
         if (tableStore.currentActiveEdgeIndex !== -1) {

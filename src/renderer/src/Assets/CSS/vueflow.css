@@ -8,8 +8,11 @@
 .dark .vue-flow__minimap-mask {
     fill: rgba(0,0,0,0.3);
 }
-.dark .vue-flow__minimap rect{
+.dark .vue-flow__minimap-node{
     fill: #414A6C;
+}
+.dark .vue-flow__minimap-node.active{
+    fill: #3b82f6;
 }
 
 .add-crosshair .vue-flow__pane.draggable{
