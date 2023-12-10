@@ -42,6 +42,7 @@ export function useCanvas(tablePlaceholder: MaybeRefOrGetter, minimap: MaybeRefO
 
     const _highlightNodes = (event) => {
         tableStore.unHighlightNodes();
+        unHighlightNodesMinimapNodes();
 
         tableStore.currentActiveNode = { ...event.node };
         tableStore.currentActiveEdges = getActiveEdges(
