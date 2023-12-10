@@ -1,15 +1,9 @@
 import { useTableStore } from '@stores/TableStore';
 import { useSettingsStore } from '@stores/SettingsStore';
 import { useTablePlaceholder } from '@composables/useTablePlaceholder';
-import { resetActiveNodeState } from '@utilities/NodeHelper';
 import { useSortTableColumns } from '@composables/useSortTableColumns';
 import { useAutoLayout } from '@composables/useAutoLayout';
-import {
-    resetActiveEdgesState,
-    animateEdges,
-    calculateEdgePosition,
-    getActiveEdges,
-} from '@utilities/NodeEdgeHelper';
+import { calculateEdgePosition, getActiveEdges } from '@utilities/NodeEdgeHelper';
 import { useVueFlow } from '@vue-flow/core';
 import { computed, nextTick, ref } from 'vue';
 import { useDebounceFn } from '@vueuse/core';
@@ -36,19 +30,16 @@ export function useCanvas(tablePlaceholder: MaybeRefOrGetter) {
         return isDragging.value || !tableStore.isCreatingTable || !isMouseEntered.value;
     });
     const onNodeClick = (event) => {
-        tableStore.currentActiveNode = resetActiveNodeState(tableStore.currentActiveNode);
-        tableStore.currentActiveEdges = resetActiveEdgesState(tableStore.currentActiveEdges);
+        tableStore.unHighlightNodes();
         tableStore.currentActiveNode = { ...event.node };
-        tableStore.currentActiveNode.data.state.isActive = true;
         tableStore.currentActiveEdges = getActiveEdges(
             tableStore.currentActiveNode,
             tableStore.edges,
         );
-        tableStore.currentActiveEdges = animateEdges(tableStore.currentActiveEdges);
+        tableStore.highlightNodes();
     };
     const onNodeDrag = useDebounceFn((event) => {
-        tableStore.currentActiveNode = resetActiveNodeState(tableStore.currentActiveNode);
-        tableStore.currentActiveEdges = resetActiveEdgesState(tableStore.currentActiveEdges);
+        tableStore.unHighlightNodes();
 
         // If the current node is not the same with previously dragged node
         if (tableStore.currentActiveNode.id !== event.node.id) {
@@ -60,7 +51,7 @@ export function useCanvas(tablePlaceholder: MaybeRefOrGetter) {
             tableStore.currentActiveNode,
             tableStore.edges,
         );
-        tableStore.currentActiveEdges = animateEdges(tableStore.currentActiveEdges);
+        tableStore.highlightNodes();
         tableStore.currentActiveEdges.forEach((edge) => {
             const { targetHandle, sourceHandle } = calculateEdgePosition(edge);
             edge.sourceHandle = sourceHandle;
@@ -78,8 +69,7 @@ export function useCanvas(tablePlaceholder: MaybeRefOrGetter) {
         isMouseEntered.value = false;
     };
     const onPaneClick = async () => {
-        tableStore.currentActiveNode = resetActiveNodeState(tableStore.currentActiveNode);
-        tableStore.currentActiveEdges = resetActiveEdgesState(tableStore.currentActiveEdges);
+        tableStore.unHighlightNodes();
         tableStore.currentActiveNode = Object.assign({}, {});
         tableStore.currentActiveEdges = [];
         if (tableStore.currentActiveEdgeIndex !== -1) {

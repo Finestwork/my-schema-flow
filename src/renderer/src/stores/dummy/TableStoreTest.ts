@@ -21,6 +21,9 @@ const createElements = () => {
                 state: {
                     isActive: false,
                 },
+                style: {
+                    opacity: 1,
+                },
             },
         });
         index++;

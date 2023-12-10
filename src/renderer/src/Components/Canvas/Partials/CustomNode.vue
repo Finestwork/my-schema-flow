@@ -11,14 +11,17 @@ import { computed, ref, onMounted } from 'vue';
 import { useVueFlow } from '@vue-flow/core';
 import type { TTableData } from '@stores/TableStore';
 
-export type TState = {
+export type TAdditionalState = {
     state: {
         isActive: boolean;
+    };
+    style: {
+        opacity: number;
     };
 };
 export type TProps = {
     id: string;
-    data: TTableData & TState;
+    data: TTableData & TAdditionalState;
 };
 const props = defineProps<TProps>();
 const tableStore = useTableStore();
@@ -63,6 +66,9 @@ onMounted(() => {
         :class="{
             'dark:border-blue-500/30': props.data.state.isActive,
             'dark:border-slate-700': !props.data.state.isActive,
+        }"
+        :style="{
+            opacity: props.data.style.opacity,
         }"
     >
         <NodeToolbar :is-visible="props.data.state.isActive" :offset="5">

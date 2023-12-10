@@ -1,5 +1,8 @@
 import type { TEdge, TElement } from '@stores/TableStore';
 
+/**
+ * Calculate the position of the node and determine which node handle should be used
+ */
 export const calculateEdgePosition = (edge) => {
     const SourceNode = edge.sourceNode;
     const TargetNode = edge.targetNode;
@@ -53,6 +56,9 @@ export const calculateEdgePosition = (edge) => {
     }
 };
 
+/**
+ * Returns a filtered list of edges based on the given active node
+ */
 export const getActiveEdges = (
     currentActiveNode: TElement | Record<string, never>,
     edges: TEdge[],
@@ -61,6 +67,9 @@ export const getActiveEdges = (
     return edges.filter((edge) => edge.source === NodeId || edge.target === NodeId);
 };
 
+/**
+ * Resets the active edges state
+ */
 export const resetActiveEdgesState = (edge: TEdge[]) => {
     return edge.map((edge) => {
         return Object.assign(edge, {
@@ -70,6 +79,9 @@ export const resetActiveEdgesState = (edge: TEdge[]) => {
     });
 };
 
+/**
+ * Creates a new array of edges with updated styles and animation status.
+ */
 export const animateEdges = (currentActiveEdges: TEdge[]) => {
     return currentActiveEdges.map((edge) => {
         const StyleObject = Object.assign(edge, {
@@ -80,4 +92,23 @@ export const animateEdges = (currentActiveEdges: TEdge[]) => {
         });
         return Object.assign(edge, StyleObject);
     });
+};
+
+export const getConnectedNodes = (currentNode: TElement, edges: TEdge[]) => {
+    const CurrentNodeId = currentNode.id;
+    const Related = edges
+        .filter((edge) => {
+            return edge.target === CurrentNodeId || edge.source === CurrentNodeId;
+        })
+        .map((edge) => Object.assign({}, edge));
+    const Unrelated = edges
+        .filter((edge) => {
+            return edge.target !== CurrentNodeId && edge.source !== CurrentNodeId;
+        })
+        .map((edge) => Object.assign({}, edge));
+
+    return {
+        related: Related,
+        unrelated: Unrelated,
+    };
 };
