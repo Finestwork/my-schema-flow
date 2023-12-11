@@ -8,11 +8,9 @@ export function useWatchHistory() {
     const historyState = useHistoryStore();
     const { setEdges, setNodes } = useVueFlow();
     const updateNodes = () => {
-        setNodes((nodes) => {
-            return nodes.map((node) => {
-                const SavedNodes = historyState.currentValue.payload.nodes;
-                const RetrievedNode = SavedNodes.find((n) => n.id === node.id);
-                return klona(RetrievedNode);
+        setNodes(() => {
+            return historyState.currentValue.payload.nodes.map((node) => {
+                return klona(node);
             });
         });
         setEdges(() => {
