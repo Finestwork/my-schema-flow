@@ -1,5 +1,4 @@
-import { getConnectedNodes } from '@utilities/NodeEdgeHelper';
-import type { Edge, Node } from '@vue-flow/core';
+import type { GraphEdge, GraphNode } from '@vue-flow/core';
 import { defineStore } from 'pinia';
 import { v4 as uuidv4 } from 'uuid';
 import { TestEdges, TestElements } from '@renderer/stores/dummy/TableStoreTest';
@@ -32,8 +31,8 @@ export type TEdgeData = {
     referencing: TEdgeDataObject;
 };
 
-export type TElement = Node & { data: TTableData };
-export type TEdge = Edge & { data: TTableData };
+export type TElement = GraphNode & { data: TTableData };
+export type TEdge = GraphEdge & { data: TTableData };
 
 export const useTableStore = defineStore('tableStore', {
     state() {
@@ -144,61 +143,6 @@ export const useTableStore = defineStore('tableStore', {
                 isNull: columnData.isNull,
                 length: columnData.length,
                 keyConstraint: columnData.keyConstraint,
-            });
-        },
-        highlightNodes() {
-            const Nodes = getConnectedNodes(this.currentActiveNode, this.edges);
-            Nodes.related.forEach((edge) => {
-                const Edge = this.edges.find((element) => element.id === edge.id);
-                Edge.style = {
-                    stroke: '#3b82f6',
-                };
-                Edge.animated = true;
-                Edge.sourceNode.data.state.isActive = true;
-                Edge.targetNode.data.state.isActive = true;
-            });
-            Nodes.unrelated.forEach((edge) => {
-                const Edge = this.edges.find((element) => element.id === edge.id);
-                Edge.style = {
-                    opacity: 0.5,
-                };
-                const SourceId = Edge.sourceNode.id;
-                const TargetId = Edge.targetNode.id;
-                const SourceIndex = Nodes.related.findIndex(
-                    (edge) => edge.sourceNode.id === SourceId || edge.targetNode.id === SourceId,
-                );
-                const TargetIndex = Nodes.related.findIndex(
-                    (edge) => edge.sourceNode.id === TargetId || edge.targetNode.id === TargetId,
-                );
-                if (TargetIndex === -1) {
-                    Edge.targetNode.data.style.opacity = 0.5;
-                }
-                if (SourceIndex === -1) {
-                    Edge.sourceNode.data.style.opacity = 0.5;
-                }
-            });
-
-            return {
-                related: Nodes.related,
-                unrelated: Nodes.unrelated,
-            };
-        },
-        unHighlightNodes() {
-            const Nodes = getConnectedNodes(this.currentActiveNode, this.edges);
-            Nodes.related.forEach((edge) => {
-                const Edge = this.edges.find((element) => element.id === edge.id);
-                Edge.style = {};
-                Edge.animated = false;
-                Edge.sourceNode.data.state.isActive = false;
-                Edge.targetNode.data.state.isActive = false;
-            });
-            Nodes.unrelated.forEach((edge) => {
-                const Edge = this.edges.find((element) => element.id === edge.id);
-                Edge.style = {
-                    opacity: 1,
-                };
-                Edge.sourceNode.data.style.opacity = 1;
-                Edge.targetNode.data.style.opacity = 1;
             });
         },
     },

@@ -2,6 +2,8 @@
 import CanvasControls from '@components/Canvas/Partials/Controls.vue';
 import CustomNode from '@components/Canvas/Partials/CustomNode.vue';
 import CustomNodePlaceholder from '@components/Canvas/Partials/CustomNodePlaceholder.vue';
+import { useNodeCanvasEvents } from '@composables/useNodeCanvasEvents';
+import { useWatchHistory } from '@composables/useWatchHistory';
 import { useCanvas } from '@composables/useCanvas';
 import { Background } from '@vue-flow/background';
 import { MiniMap } from '@vue-flow/minimap';
@@ -16,8 +18,6 @@ const {
     settingsStore,
     getCanvasClass,
     shouldHidePlaceholder,
-    onNodeClick,
-    onNodeDrag,
     onPaneMouseMove,
     onPaneMouseEnter,
     onPaneMouseLeave,
@@ -26,6 +26,9 @@ const {
     onMove,
     onViewportChangeEnd,
 } = useCanvas(tablePlaceholder, minimap);
+
+useNodeCanvasEvents(minimap);
+useWatchHistory();
 </script>
 
 <template>
@@ -39,8 +42,6 @@ const {
             :min-zoom="0.1"
             :max-zoom="1"
             :delete-key-code="null"
-            @node-click="onNodeClick"
-            @node-drag="onNodeDrag"
             @move="onMove"
             @pane-click="onPaneClick"
             @pane-ready="onPaneReady"

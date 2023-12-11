@@ -37,6 +37,7 @@
     "dagre": "^0.8.5",
     "focus-trap": "^7.5.4",
     "html-to-image": "^1.11.11",
+    "klona": "^2.0.6",
     "lodash": "^4.17.21",
     "numeral": "^2.0.6",
     "pinia": "^2.1.7",

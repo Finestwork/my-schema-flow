@@ -1,33 +1,24 @@
 import { useTableStore } from '@stores/TableStore';
 import { useSettingsStore } from '@stores/SettingsStore';
+import { useHistoryStore } from '@stores/HistoryStore';
 import { useTablePlaceholder } from '@composables/useTablePlaceholder';
 import { useSortTableColumns } from '@composables/useSortTableColumns';
 import { useAutoLayout } from '@composables/useAutoLayout';
-import {
-    calculateEdgePosition,
-    getActiveEdges,
-    extractNodeIdFromEdge,
-} from '@utilities/NodeEdgeHelper';
+import { calculateEdgePosition } from '@utilities/NodeEdgeHelper';
 import { useVueFlow } from '@vue-flow/core';
 import { computed, nextTick, ref } from 'vue';
-import { useDebounceFn } from '@vueuse/core';
 import type { MaybeRefOrGetter } from 'vue';
-import { useMinimap } from '@composables/useMinimap';
 
 export function useCanvas(tablePlaceholder: MaybeRefOrGetter, minimap: MaybeRefOrGetter) {
     const tableStore = useTableStore();
     const settingsStore = useSettingsStore();
+    const historyStore = useHistoryStore();
     const isDragging = ref(false);
     const isMouseEntered = ref(false);
     const { placeholderPosition, resetPlaceholderPosition, movePlaceholder } =
         useTablePlaceholder(tablePlaceholder);
-    const {
-        nodeIds: minimapNodeIds,
-        highlightNodes: highlightMiniMapNodes,
-        unHighlightNodes: unHighlightNodesMinimapNodes,
-    } = useMinimap(minimap);
     const { sortAllColumnsInTables } = useSortTableColumns();
-    const { addNodes, toObject } = useVueFlow();
+    const { getNodes, getEdges, addNodes, toObject } = useVueFlow();
     let dragTimeoutId = 0;
 
     const getCanvasClass = computed(() => {
@@ -40,35 +31,6 @@ export function useCanvas(tablePlaceholder: MaybeRefOrGetter, minimap: MaybeRefO
         return isDragging.value || !tableStore.isCreatingTable || !isMouseEntered.value;
     });
 
-    const _highlightNodes = (event) => {
-        tableStore.unHighlightNodes();
-        unHighlightNodesMinimapNodes();
-
-        tableStore.currentActiveNode = { ...event.node };
-        tableStore.currentActiveEdges = getActiveEdges(
-            tableStore.currentActiveNode,
-            tableStore.edges,
-        );
-
-        const HighlightedNodes = tableStore.highlightNodes();
-        minimapNodeIds.value = extractNodeIdFromEdge(HighlightedNodes.related);
-        highlightMiniMapNodes();
-    };
-    const onNodeClick = (event) => {
-        _highlightNodes(event);
-    };
-    const onNodeDrag = useDebounceFn((event) => {
-        _highlightNodes(event);
-        // If the current node is not the same with previously dragged node
-        if (tableStore.currentActiveNode.id !== event.node.id) {
-            tableStore.currentActiveEdgeIndex = -1;
-        }
-        tableStore.currentActiveEdges.forEach((edge) => {
-            const { targetHandle, sourceHandle } = calculateEdgePosition(edge);
-            edge.sourceHandle = sourceHandle;
-            edge.targetHandle = targetHandle;
-        });
-    }, 150);
     const onPaneMouseMove = (event: MouseEvent) => {
         if (!tableStore.isCreatingTable) return;
         movePlaceholder(event.clientX, event.clientY);
@@ -80,8 +42,6 @@ export function useCanvas(tablePlaceholder: MaybeRefOrGetter, minimap: MaybeRefO
         isMouseEntered.value = false;
     };
     const onPaneClick = async () => {
-        tableStore.unHighlightNodes();
-        unHighlightNodesMinimapNodes();
         tableStore.currentActiveNode = Object.assign({}, {});
         tableStore.currentActiveEdges = [];
         if (tableStore.currentActiveEdgeIndex !== -1) {
@@ -99,13 +59,24 @@ export function useCanvas(tablePlaceholder: MaybeRefOrGetter, minimap: MaybeRefO
             resetPlaceholderPosition();
         }
     };
-    const onPaneReady = () => {
+    const onPaneReady = async () => {
         sortAllColumnsInTables();
         useAutoLayout();
         tableStore.edges.forEach((edge) => {
             const { targetHandle, sourceHandle } = calculateEdgePosition(edge);
             edge.sourceHandle = sourceHandle;
             edge.targetHandle = targetHandle;
+        });
+        await nextTick();
+        const ItemObject = {
+            description: 'Initial Load',
+            payload: {
+                nodes: getNodes.value,
+                edges: getEdges.value,
+            },
+        };
+        historyStore.addItem(ItemObject, {
+            shouldIncrement: false,
         });
     };
     const onMove = (event) => {
@@ -130,8 +101,6 @@ export function useCanvas(tablePlaceholder: MaybeRefOrGetter, minimap: MaybeRefO
         isDragging,
         getCanvasClass,
         shouldHidePlaceholder,
-        onNodeClick,
-        onNodeDrag,
         onPaneMouseMove,
         onPaneMouseEnter,
         onPaneMouseLeave,

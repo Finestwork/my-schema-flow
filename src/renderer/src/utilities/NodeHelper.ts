@@ -1,6 +1,9 @@
 import dagre from 'dagre';
 import { TElement } from '@stores/TableStore';
 
+/**
+ * Calculate node positions based on the node direction
+ */
 export function nodeAutolayout(nodes, edges, direction = 'TB') {
     const Nodes = nodes.slice();
     const Edges = edges.slice();
@@ -49,4 +52,11 @@ export const resetActiveNodeState = (currentActiveNode: TElement | Record<string
     }
 
     return currentActiveNode;
+};
+
+/**
+ * Finds node based on its id
+ */
+export const findNode = (id: string, nodes: TElement[]) => {
+    return nodes.find((node) => node.id === id);
 };

@@ -1,5 +1,6 @@
 import type { TEdge, TElement } from '@stores/TableStore';
 import { NodeId } from '@vue-flow/core/dist/context';
+import { klona } from 'klona';
 
 /**
  * Calculate the position of the node and determine which node handle should be used
@@ -65,7 +66,7 @@ export const getActiveEdges = (
     edges: TEdge[],
 ) => {
     const NodeId = currentActiveNode.id;
-    return edges.filter((edge) => edge.source === NodeId || edge.target === NodeId);
+    return klona(edges).filter((edge) => edge.source === NodeId || edge.target === NodeId);
 };
 
 /**
@@ -95,14 +96,17 @@ export const animateEdges = (currentActiveEdges: TEdge[]) => {
     });
 };
 
-export const getConnectedNodes = (currentNode: TElement, edges: TEdge[]) => {
+export const getConnectedNodes = (
+    currentNode: TElement | Record<string, never>,
+    edges: TEdge[],
+) => {
     const CurrentNodeId = currentNode.id;
-    const Related = edges
+    const Related = klona(edges)
         .filter((edge) => {
             return edge.target === CurrentNodeId || edge.source === CurrentNodeId;
         })
         .map((edge) => Object.assign({}, edge));
-    const Unrelated = edges
+    const Unrelated = klona(edges)
         .filter((edge) => {
             return edge.target !== CurrentNodeId && edge.source !== CurrentNodeId;
         })

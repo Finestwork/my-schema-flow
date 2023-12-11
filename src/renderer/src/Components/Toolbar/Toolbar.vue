@@ -5,6 +5,7 @@ import BaseButtonIcon from '@components/Toolbar/Partials/BaseButtonIcon.vue';
 import OpenFileButton from '@components/Toolbar/Partials/OpenFileButton.vue';
 import ChangeLayoutButton from '@components/Toolbar/Partials/ChangeLayoutButton.vue';
 import ExportButton from '@components/Toolbar/Partials/ExportButton.vue';
+import RedoUndoButton from '@components/Toolbar/Partials/RedoUndoButton.vue';
 import SaveButton from '@components/Toolbar/Partials/SaveButton.vue';
 import { useTableStore } from '@stores/TableStore';
 import { useAutoLayout } from '@composables/useAutoLayout';
@@ -41,6 +42,9 @@ const onClickRunAutoLayout = () => {
             <ExportButton />
         </div>
 
-        <SaveButton />
+        <div class="flex">
+            <RedoUndoButton class="mr-2" />
+            <SaveButton />
+        </div>
     </div>
 </template>
