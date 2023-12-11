@@ -1,17 +1,17 @@
 import { extractNodeIdFromEdge } from '@utilities/NodeEdgeHelper';
-import { toValue } from 'vue';
-import type { MaybeRefOrGetter } from 'vue';
 import type { TEdge } from '@stores/TableStore';
+import type { Ref } from 'vue';
+import type { MiniMap } from '@vue-flow/minimap';
 
-export function useMinimap(minimap: MaybeRefOrGetter) {
+export function useCanvasMinimap(minimap: Ref<typeof MiniMap>) {
     const unHighlightMinimapNodes = () => {
         const CurrentActiveNodes = minimap.value.$el.querySelectorAll('rect.active');
-        Array.from(CurrentActiveNodes).forEach((rect) => {
+        Array.from(CurrentActiveNodes).forEach((rect: Element) => {
             rect.classList.remove('active');
         });
     };
     const highlightMinimapNodes = (currentActiveEdges: TEdge[]) => {
-        const NodeIds = extractNodeIdFromEdge(toValue(currentActiveEdges));
+        const NodeIds = extractNodeIdFromEdge(currentActiveEdges);
         if (NodeIds.length === 0) return;
         NodeIds.forEach((id) => {
             const Rect = minimap.value.$el.querySelector(`rect[id='${id}']`);

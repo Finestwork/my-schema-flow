@@ -1,17 +1,18 @@
 import { useHistoryStore } from '@stores/HistoryStore';
-import { useMinimap } from '@composables/useMinimap';
+import { useCanvasMinimap } from '@composables/useCanvasMinimap';
 import { calculateEdgePosition } from '@utilities/NodeEdgeHelper';
 import { useVueFlow } from '@vue-flow/core';
 import { watch } from 'vue';
 import { klona } from 'klona/full';
-import type { MaybeRefOrGetter } from 'vue';
+import type { Ref } from 'vue';
+import { MiniMap } from '@vue-flow/minimap';
 
-export function useWatchHistory(minimap: MaybeRefOrGetter) {
+export function useWatchHistory(minimap: Ref<typeof MiniMap>) {
     const historyState = useHistoryStore();
 
     const { setEdges, setNodes } = useVueFlow();
     const updateNodes = () => {
-        const { highlightMinimapNodes, unHighlightMinimapNodes } = useMinimap(minimap);
+        const { highlightMinimapNodes, unHighlightMinimapNodes } = useCanvasMinimap(minimap);
         unHighlightMinimapNodes();
         setNodes(() => {
             return historyState.currentValue.payload.nodes.map((node) => klona(node));

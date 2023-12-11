@@ -1,21 +1,22 @@
 import { useTableStore } from '@stores/TableStore';
 import { useHistoryStore } from '@stores/HistoryStore';
+import { useCanvasMinimap } from '@composables/useCanvasMinimap';
 import {
     calculateEdgePosition,
     getActiveEdges,
     getConnectedNodes,
 } from '@utilities/NodeEdgeHelper';
-import { useMinimap } from '@composables/useMinimap';
 import { useDebounceFn } from '@vueuse/core';
 import { useVueFlow } from '@vue-flow/core';
 import { klona } from 'klona';
-import type { MaybeRefOrGetter } from 'vue';
+import type { Ref } from 'vue';
+import type { MiniMap } from '@vue-flow/minimap';
 import type { TElement, TEdge } from '@stores/TableStore';
 
-export function useNodeCanvasEvents(minimap: MaybeRefOrGetter) {
+export function useNodeCanvasEvents(minimap: Ref<typeof MiniMap>) {
     const tableStore = useTableStore();
     const historyStore = useHistoryStore();
-    const { unHighlightMinimapNodes, highlightMinimapNodes } = useMinimap(minimap);
+    const { unHighlightMinimapNodes, highlightMinimapNodes } = useCanvasMinimap(minimap);
     const {
         getEdges,
         getNodes,
