@@ -25,10 +25,9 @@ const {
     onPaneReady,
     onMove,
     onViewportChangeEnd,
-} = useCanvas(tablePlaceholder, minimap);
-
+} = useCanvas(tablePlaceholder);
 useNodeCanvasEvents(minimap);
-useWatchHistory();
+useWatchHistory(minimap);
 </script>
 
 <template>

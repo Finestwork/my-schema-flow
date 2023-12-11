@@ -9,7 +9,7 @@ import { useVueFlow } from '@vue-flow/core';
 import { computed, nextTick, ref } from 'vue';
 import type { MaybeRefOrGetter } from 'vue';
 
-export function useCanvas(tablePlaceholder: MaybeRefOrGetter, minimap: MaybeRefOrGetter) {
+export function useCanvas(tablePlaceholder: MaybeRefOrGetter) {
     const tableStore = useTableStore();
     const settingsStore = useSettingsStore();
     const historyStore = useHistoryStore();
@@ -73,6 +73,9 @@ export function useCanvas(tablePlaceholder: MaybeRefOrGetter, minimap: MaybeRefO
             payload: {
                 nodes: getNodes.value,
                 edges: getEdges.value,
+                currentActiveNode: tableStore.currentActiveNode,
+                currentActiveEdges: tableStore.currentActiveEdges,
+                currentActiveEdgeIndex: tableStore.currentActiveEdgeIndex,
             },
         };
         historyStore.addItem(ItemObject, {

@@ -7,6 +7,9 @@ export type TItem = {
     payload: {
         nodes: TElement[];
         edges: TEdge[];
+        currentActiveNode: TElement;
+        currentActiveEdges: TEdge[];
+        currentActiveEdgeIndex: number;
     };
 };
 
@@ -35,6 +38,9 @@ export const useHistoryStore = defineStore('historyState', {
                 payload: {
                     nodes: klona(item.payload.nodes),
                     edges: klona(item.payload.edges),
+                    currentActiveNode: klona(item.payload.currentActiveNode),
+                    currentActiveEdges: klona(item.payload.currentActiveEdges),
+                    currentActiveEdgeIndex: item.payload.currentActiveEdgeIndex,
                 },
             });
 

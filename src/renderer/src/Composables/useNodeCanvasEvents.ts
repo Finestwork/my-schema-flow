@@ -2,21 +2,20 @@ import { useTableStore } from '@stores/TableStore';
 import { useHistoryStore } from '@stores/HistoryStore';
 import {
     calculateEdgePosition,
-    extractNodeIdFromEdge,
     getActiveEdges,
     getConnectedNodes,
 } from '@utilities/NodeEdgeHelper';
-import { ref } from 'vue';
+import { useMinimap } from '@composables/useMinimap';
 import { useDebounceFn } from '@vueuse/core';
 import { useVueFlow } from '@vue-flow/core';
 import { klona } from 'klona';
-import type { Ref, MaybeRefOrGetter } from 'vue';
+import type { MaybeRefOrGetter } from 'vue';
 import type { TElement, TEdge } from '@stores/TableStore';
 
 export function useNodeCanvasEvents(minimap: MaybeRefOrGetter) {
     const tableStore = useTableStore();
     const historyStore = useHistoryStore();
-    const minimapNodeIds: Ref<Array<string>> = ref([]);
+    const { unHighlightMinimapNodes, highlightMinimapNodes } = useMinimap(minimap);
     const {
         getEdges,
         getNodes,
@@ -31,19 +30,10 @@ export function useNodeCanvasEvents(minimap: MaybeRefOrGetter) {
         y: -1,
     };
 
-    const _unhighlightMinimapNodes = () => {
-        minimapNodeIds.value.forEach((id) => {
-            const Rect = minimap.value.$el.querySelector(`rect[id='${id}']`);
-            if (!Rect) return;
-            Rect.classList.remove('active');
-        });
-        minimapNodeIds.value = [];
-    };
-
     const _handleNodeActiveState = (node: TElement) => {
-        _unhighlightMinimapNodes();
+        unHighlightMinimapNodes();
 
-        // Unhightlight the current active nodes
+        // Unhighlight the current active nodes
         const ConnectedNodes = getConnectedNodes(tableStore.currentActiveNode, getEdges.value);
         ConnectedNodes.related.forEach((edge: TEdge) => {
             const Edge = getEdges.value.find((ed: TEdge) => ed.id === edge.id);
@@ -104,19 +94,14 @@ export function useNodeCanvasEvents(minimap: MaybeRefOrGetter) {
         });
 
         // Display the minimap active state
-        minimapNodeIds.value = extractNodeIdFromEdge(tableStore.currentActiveEdges);
-        minimapNodeIds.value.forEach((id) => {
-            const Rect = minimap.value.$el.querySelector(`rect[id='${id}']`);
-            if (!Rect) return;
-            Rect.classList.add('active');
-        });
+        highlightMinimapNodes(tableStore.currentActiveEdges);
     };
 
     /**
      * Remove the active state of all nodes and edges
      */
     onPaneClick(() => {
-        _unhighlightMinimapNodes();
+        unHighlightMinimapNodes();
         getNodes.value.forEach((node) => {
             node.data.state.isActive = false;
             node.data.style.opacity = 1;
@@ -156,6 +141,9 @@ export function useNodeCanvasEvents(minimap: MaybeRefOrGetter) {
             payload: {
                 nodes: getNodes.value,
                 edges: getEdges.value,
+                currentActiveNode: tableStore.currentActiveNode,
+                currentActiveEdges: tableStore.currentActiveEdges,
+                currentActiveEdgeIndex: tableStore.currentActiveEdgeIndex,
             },
         };
         historyStore.addItem(ItemObj);
