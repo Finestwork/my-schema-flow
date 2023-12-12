@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Canvas from '@components/Canvas/Canvas.vue';
 import TableInfo from '@components/TableInfo/TableInfo.vue';
+import AppInfo from '@components/AppInfo/AppInfo.vue';
 import TitleBar from '@components/TitleBar/TitleBar.vue';
 import Toolbar from '@components/Toolbar/Toolbar.vue';
 import { useAutoLayout } from '@composables/useAutoLayout';
@@ -37,6 +38,7 @@ onUnmounted(() => {
     <TitleBar ref="titleBar" />
     <div ref="contentWrapper">
         <div class="flex h-[calc(100vh-40px)] justify-between dark:bg-dark-900">
+            <AppInfo />
             <div class="h-full w-full">
                 <Toolbar
                     @create-table="isCreatingTable = true"

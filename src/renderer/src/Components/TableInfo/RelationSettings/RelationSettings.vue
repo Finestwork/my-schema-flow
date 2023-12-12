@@ -6,7 +6,7 @@ import NoTableSelected from '@components/TableInfo/Shared/NoTableSelected.vue';
 import RelationCreateForm from '@components/TableInfo/RelationSettings/Partials/RelationCreateForm.vue';
 import RelationEditForm from '@components/TableInfo/RelationSettings/Partials/RelationEditForm.vue';
 import RelationList from '@components/TableInfo/RelationSettings/Partials/RelationList.vue';
-import SectionWrapper from '@components/TableInfo/Shared/SectionWrapper.vue';
+import VPanelSectionWrapper from '@components/Shared/Layouts/VPanelSectionWrapper.vue';
 import { useSettingsStore } from '@stores/SettingsStore';
 import { useTableRelation } from '@composables/useTableRelation';
 import { computed, reactive, ref } from 'vue';
@@ -18,9 +18,15 @@ const states = reactive({
     errors: [] as string[],
 });
 const { tableStore, noActiveEdge } = useTableRelation();
-const shouldDisplayCreateForm = computed(() => states.showCreateForm && noActiveEdge.value);
-const shouldDisplayEditForm = computed(() => !states.showCreateForm && !noActiveEdge.value);
-const shouldDisplayDefaultContent = computed(() => !states.showCreateForm && noActiveEdge.value);
+const shouldDisplayCreateForm = computed(
+    () => states.showCreateForm && noActiveEdge.value,
+);
+const shouldDisplayEditForm = computed(
+    () => !states.showCreateForm && !noActiveEdge.value,
+);
+const shouldDisplayDefaultContent = computed(
+    () => !states.showCreateForm && noActiveEdge.value,
+);
 const onError = (errors) => {
     states.errors = errors;
 };
@@ -31,7 +37,7 @@ const resetState = () => {
 </script>
 
 <template>
-    <SectionWrapper :show-form="showForm">
+    <VPanelSectionWrapper :show-form="showForm">
         <template #label>Table Relations</template>
         <div v-if="tableStore.hasActiveNode">
             <VAlertErrorList
@@ -58,5 +64,5 @@ const resetState = () => {
             </template>
         </div>
         <NoTableSelected v-else />
-    </SectionWrapper>
+    </VPanelSectionWrapper>
 </template>

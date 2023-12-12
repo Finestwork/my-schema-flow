@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import NoTableSelected from '@components/TableInfo/Shared/NoTableSelected.vue';
-import SectionWrapper from '@components/TableInfo/Shared/SectionWrapper.vue';
+import VPanelSectionWrapper from '@components/Shared/Layouts/VPanelSectionWrapper.vue';
 import AddColumnForm from '@components/TableInfo/TableSettings/Partials/AddColumnForm.vue';
 import EditColumnForm from '@components/TableInfo/TableSettings/Partials/EditColumnForm.vue';
 import FormControls from '@components/TableInfo/TableSettings/Partials/FormControls.vue';
@@ -16,8 +16,13 @@ const settingsStore = useSettingsStore();
 const showForm = ref(!settingsStore.hideTableSettingsPanel);
 const displayColumnForm = ref(false);
 const displayEditColumnForm = ref(false);
-const { activeColumnIndex, deleteColumn, cloneColumn, canCloneColumn, canDeleteColumn } =
-    useColumnActions();
+const {
+    activeColumnIndex,
+    deleteColumn,
+    cloneColumn,
+    canCloneColumn,
+    canDeleteColumn,
+} = useColumnActions();
 const onClickEditColumn = (index: number) => {
     displayEditColumnForm.value = true;
     activeColumnIndex.value = index;
@@ -35,7 +40,7 @@ watch(
 </script>
 
 <template>
-    <SectionWrapper v-model:show-form="showForm">
+    <VPanelSectionWrapper v-model:show-form="showForm">
         <template #label>Table Settings</template>
         <template v-if="tableStore.hasActiveNode">
             <template v-if="!displayColumnForm && !displayEditColumnForm">
@@ -70,5 +75,5 @@ watch(
             />
         </template>
         <NoTableSelected v-else />
-    </SectionWrapper>
+    </VPanelSectionWrapper>
 </template>

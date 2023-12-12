@@ -62,5 +62,8 @@ export const useHistoryStore = defineStore('history', {
     getters: {
         canUndo: (state) => state.currentIndex > 0,
         canRedo: (state) => state.currentIndex !== state.items.length - 1,
+        getHistoryDisplay(state) {
+            return state.items.map((item) => item.description);
+        },
     },
 });
