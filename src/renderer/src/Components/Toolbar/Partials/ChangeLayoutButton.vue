@@ -4,12 +4,9 @@ import VTBLayoutIcon from '@components/Shared/Icons/VTBLayoutIcon.vue';
 import VLayoutOrientationIcon from '@components/Shared/Icons/VLayoutOrientationIcon.vue';
 import BaseButtonDropdown from '@components/Toolbar/Partials/BaseButtonDropdown.vue';
 import VLRLayoutIcon from '@components/Shared/Icons/VLRLayoutIcon.vue';
-import { useTableStore } from '@stores/TableStore';
 import { useSettingsStore } from '@stores/SettingsStore';
-import { useVueFlow } from '@vue-flow/core';
 import { ref } from 'vue';
 
-const tableStore = useTableStore();
 const settingsStore = useSettingsStore();
 const showLayoutOrientationDropdown = ref(false);
 

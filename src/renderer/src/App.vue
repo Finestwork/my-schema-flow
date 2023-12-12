@@ -43,8 +43,8 @@ onUnmounted(() => {
                     @change-layout-orientation="runAutoLayout"
                 />
                 <Canvas
-                    class="h-[calc(100vh-49.4px-40px)] w-full"
                     v-model:is-creating-table="isCreatingTable"
+                    class="h-[calc(100vh-49.4px-40px)] w-full"
                 />
             </div>
             <TableInfo />

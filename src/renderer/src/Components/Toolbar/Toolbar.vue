@@ -22,11 +22,17 @@ const emits = defineEmits<{
                 <VTableIcon />
                 <template #tooltip>Create Table</template>
             </BaseButtonIcon>
-            <BaseButtonIcon class="mr-2" @click="emits('changeLayoutOrientation')">
+            <BaseButtonIcon
+                class="mr-2"
+                @click="emits('changeLayoutOrientation')"
+            >
                 <VAutoLayoutIcon />
                 <template #tooltip>Auto Layout</template>
             </BaseButtonIcon>
-            <ChangeLayoutButton class="mr-2" @click="emits('changeLayoutOrientation')" />
+            <ChangeLayoutButton
+                class="mr-2"
+                @change-layout-orientation="emits('changeLayoutOrientation')"
+            />
             <ExportButton />
         </div>
 
