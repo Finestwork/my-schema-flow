@@ -124,7 +124,12 @@ useWatchHistory(minimap);
                 >{{ settingsStore.zoomLevel * 100 }}%</span
             >
             <template #node-custom="props">
-                <CustomNode v-bind="props" :id="props.id" :data="props.data" />
+                <CustomNode
+                    v-bind="props"
+                    :id="props.id"
+                    :data="props.data"
+                    :is-creating-table="isCreatingTable"
+                />
             </template>
             <CustomNodePlaceholder
                 ref="tablePlaceholder"

@@ -22,6 +22,7 @@ export type TAdditionalState = {
 export type TProps = {
     id: string;
     data: TTableData & TAdditionalState;
+    isCreatingTable: boolean;
 };
 const props = defineProps<TProps>();
 const tableStore = useTableStore();
@@ -56,7 +57,7 @@ const onClickDeleteNode = () => {
     removeNodes([Node]);
 };
 onMounted(() => {
-    if (!tableStore.isCreatingTable) return;
+    if (!props.isCreatingTable) return;
     jellyAnimation(root.value);
 });
 </script>
