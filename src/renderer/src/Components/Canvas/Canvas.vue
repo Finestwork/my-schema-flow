@@ -10,6 +10,7 @@ import { useNodeCanvasEvents } from '@composables/useNodeCanvasEvents';
 import { useWatchHistory } from '@composables/useWatchHistory';
 import { useTablePlaceholder } from '@composables/useTablePlaceholder';
 import { useSortTableColumns } from '@composables/useSortTableColumns';
+import { useHistory } from '@composables/useHistory';
 import { Background } from '@vue-flow/background';
 import { MiniMap } from '@vue-flow/minimap';
 import { VueFlow, useVueFlow } from '@vue-flow/core';
@@ -21,16 +22,20 @@ const { isCreatingTable } = defineModels<{
 }>();
 const tableStore = useTableStore();
 const settingsStore = useSettingsStore();
-const historyStore = useHistoryStore();
 const tablePlaceholder = ref();
 const minimap = ref();
 const isDragging = ref(false);
 const isMouseEntered = ref(false);
-const { getEdges, getNodes, toObject, addNodes, onMove } = useVueFlow();
+const { toObject, addNodes, onMove } = useVueFlow();
 const { placeholderPosition, resetPlaceholderPosition, movePlaceholder } =
     useTablePlaceholder(tablePlaceholder);
 const { sortAllColumnsInTables } = useSortTableColumns();
 const { runAutoLayout } = useAutoLayout();
+const { addHistory } = useHistory({
+    onSave: {
+        shouldIncrement: false,
+    },
+});
 
 const onPaneMouseEnter = () => {
     isMouseEntered.value = true;
@@ -60,19 +65,7 @@ const onPaneReady = async () => {
     sortAllColumnsInTables();
     runAutoLayout();
     await nextTick();
-    const ItemObject = {
-        description: 'Initial Load',
-        payload: {
-            nodes: getNodes.value,
-            edges: getEdges.value,
-            currentActiveNode: tableStore.currentActiveNode,
-            currentActiveEdges: tableStore.currentActiveEdges,
-            currentActiveEdgeIndex: tableStore.currentActiveEdgeIndex,
-        },
-    };
-    historyStore.addItem(ItemObject, {
-        shouldIncrement: false,
-    });
+    addHistory();
 };
 const onPaneMouseMove = (event: MouseEvent) => {
     if (!isCreatingTable.value) return;
