@@ -16,7 +16,7 @@ export type TItem = {
 export type TAddOptions = {
     shouldIncrement?: boolean;
 };
-export const useHistoryStore = defineStore('historyState', {
+export const useHistoryStore = defineStore('history', {
     state: () => ({
         currentIndex: 0,
         items: [] as TItem[],

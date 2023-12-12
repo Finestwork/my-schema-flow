@@ -5,7 +5,7 @@ import { klona } from 'klona';
 /**
  * Calculate the position of the node and determine which node handle should be used
  */
-export const calculateEdgePosition = (edge) => {
+export const calculateEdgePosition = (edge: TEdge) => {
     const SourceNode = edge.sourceNode;
     const TargetNode = edge.targetNode;
     const nodeWidth = TargetNode.dimensions.width;

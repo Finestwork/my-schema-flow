@@ -2,16 +2,22 @@
 import CanvasControls from '@components/Canvas/Partials/Controls.vue';
 import CustomNode from '@components/Canvas/Partials/CustomNode.vue';
 import CustomNodePlaceholder from '@components/Canvas/Partials/CustomNodePlaceholder.vue';
+import { useSettingsStore } from '@stores/SettingsStore';
+import { useAutoLayout } from '@composables/useAutoLayout';
 import { useNodeCanvasEvents } from '@composables/useNodeCanvasEvents';
 import { useWatchHistory } from '@composables/useWatchHistory';
 import { useCanvas } from '@composables/useCanvas';
 import { Background } from '@vue-flow/background';
 import { MiniMap } from '@vue-flow/minimap';
-import { VueFlow } from '@vue-flow/core';
-import { ref } from 'vue';
+import { VueFlow, useVueFlow } from '@vue-flow/core';
+import { onMounted, ref } from 'vue';
+import { storeToRefs } from 'pinia';
 
 const tablePlaceholder = ref();
 const minimap = ref();
+const { currentNodeOrientation } = storeToRefs(useSettingsStore());
+const { runAutoLayout } = useAutoLayout(currentNodeOrientation);
+const { onPaneReady } = useVueFlow();
 
 const {
     tableStore,
@@ -22,12 +28,15 @@ const {
     onPaneMouseEnter,
     onPaneMouseLeave,
     onPaneClick,
-    onPaneReady,
+    onPaneReady: onCanvasReady,
     onMove,
     onViewportChangeEnd,
 } = useCanvas(tablePlaceholder);
 useNodeCanvasEvents(minimap);
 useWatchHistory(minimap);
+onPaneReady(() => {
+    runAutoLayout();
+});
 </script>
 
 <template>
@@ -43,7 +52,7 @@ useWatchHistory(minimap);
             :delete-key-code="null"
             @move="onMove"
             @pane-click="onPaneClick"
-            @pane-ready="onPaneReady"
+            @pane-ready="onCanvasReady"
             @pane-mouse-enter="onPaneMouseEnter"
             @pane-mouse-move="onPaneMouseMove"
             @pane-mouse-leave="onPaneMouseLeave"

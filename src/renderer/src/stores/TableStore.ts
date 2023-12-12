@@ -34,7 +34,7 @@ export type TEdgeData = {
 export type TElement = GraphNode & { data: TTableData };
 export type TEdge = GraphEdge & { data: TTableData };
 
-export const useTableStore = defineStore('tableStore', {
+export const useTableStore = defineStore('table', {
     state() {
         return {
             elements: TestElements as TElement[],

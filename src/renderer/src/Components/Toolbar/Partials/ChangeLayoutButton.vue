@@ -4,26 +4,22 @@ import VTBLayoutIcon from '@components/Shared/Icons/VTBLayoutIcon.vue';
 import VLayoutOrientationIcon from '@components/Shared/Icons/VLayoutOrientationIcon.vue';
 import BaseButtonDropdown from '@components/Toolbar/Partials/BaseButtonDropdown.vue';
 import VLRLayoutIcon from '@components/Shared/Icons/VLRLayoutIcon.vue';
-import { nodeAutolayout } from '@utilities/NodeHelper';
-import { calculateEdgePosition } from '@utilities/NodeEdgeHelper';
 import { useTableStore } from '@stores/TableStore';
 import { useSettingsStore } from '@stores/SettingsStore';
+import { useVueFlow } from '@vue-flow/core';
 import { ref } from 'vue';
 
 const tableStore = useTableStore();
 const settingsStore = useSettingsStore();
 const showLayoutOrientationDropdown = ref(false);
+
+const emits = defineEmits<{
+    (event: 'changeLayoutOrientation'): void;
+}>();
 const onClickChangeLayoutOrientation = (orientation: 'TB' | 'LR' = 'TB') => {
     showLayoutOrientationDropdown.value = false;
     settingsStore.currentNodeOrientation = orientation;
-    const { nodes, edges } = nodeAutolayout(tableStore.elements, tableStore.edges, orientation);
-    tableStore.elements = nodes;
-    tableStore.edges = edges;
-    tableStore.edges.forEach((edge) => {
-        const { targetHandle, sourceHandle } = calculateEdgePosition(edge);
-        edge.sourceHandle = sourceHandle;
-        edge.targetHandle = targetHandle;
-    });
+    emits('changeLayoutOrientation');
 };
 </script>
 

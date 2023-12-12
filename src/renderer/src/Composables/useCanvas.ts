@@ -3,7 +3,6 @@ import { useSettingsStore } from '@stores/SettingsStore';
 import { useHistoryStore } from '@stores/HistoryStore';
 import { useTablePlaceholder } from '@composables/useTablePlaceholder';
 import { useSortTableColumns } from '@composables/useSortTableColumns';
-import { useAutoLayout } from '@composables/useAutoLayout';
 import { calculateEdgePosition } from '@utilities/NodeEdgeHelper';
 import { useVueFlow } from '@vue-flow/core';
 import { computed, nextTick, ref } from 'vue';
@@ -61,7 +60,7 @@ export function useCanvas(tablePlaceholder: MaybeRefOrGetter) {
     };
     const onPaneReady = async () => {
         sortAllColumnsInTables();
-        useAutoLayout();
+        // useAutoLayout();
         tableStore.edges.forEach((edge) => {
             const { targetHandle, sourceHandle } = calculateEdgePosition(edge);
             edge.sourceHandle = sourceHandle;

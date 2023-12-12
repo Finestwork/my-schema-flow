@@ -8,21 +8,14 @@ import ExportButton from '@components/Toolbar/Partials/ExportButton.vue';
 import RedoUndoButton from '@components/Toolbar/Partials/RedoUndoButton.vue';
 import SaveButton from '@components/Toolbar/Partials/SaveButton.vue';
 import { useTableStore } from '@stores/TableStore';
-import { useAutoLayout } from '@composables/useAutoLayout';
-import { calculateEdgePosition } from '@utilities/NodeEdgeHelper';
 
+const emits = defineEmits<{
+    (event: 'changeLayoutOrientation'): void;
+}>();
 const tableStore = useTableStore();
 
 const onClickCreateTable = () => {
     tableStore.isCreatingTable = true;
-};
-const onClickRunAutoLayout = () => {
-    useAutoLayout();
-    tableStore.edges.forEach((edge) => {
-        const { targetHandle, sourceHandle } = calculateEdgePosition(edge);
-        edge.sourceHandle = sourceHandle;
-        edge.targetHandle = targetHandle;
-    });
 };
 </script>
 
@@ -34,11 +27,11 @@ const onClickRunAutoLayout = () => {
                 <VTableIcon />
                 <template #tooltip>Create Table</template>
             </BaseButtonIcon>
-            <BaseButtonIcon class="mr-2" @click="onClickRunAutoLayout">
+            <BaseButtonIcon class="mr-2" @click="emits('changeLayoutOrientation')">
                 <VAutoLayoutIcon />
                 <template #tooltip>Auto Layout</template>
             </BaseButtonIcon>
-            <ChangeLayoutButton class="mr-2" />
+            <ChangeLayoutButton class="mr-2" @click="emits('changeLayoutOrientation')" />
             <ExportButton />
         </div>
 
