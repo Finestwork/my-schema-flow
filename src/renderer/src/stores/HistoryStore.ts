@@ -7,7 +7,7 @@ export type TItem = {
     payload: {
         nodes: TElement[];
         edges: TEdge[];
-        currentActiveNode: TElement;
+        currentActiveNode: TElement | Record<string, never>;
         currentActiveEdges: TEdge[];
         currentActiveEdgeIndex: number;
     };

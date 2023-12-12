@@ -31,7 +31,9 @@ const getColumns = computed(() => {
     return props.data.table.columns.map((column) => {
         const Size = numeral(column.length).format('0a');
         const Type = column.type;
-        const MySqlDataType = mySqlDataTypes.filter((dataType) => dataType.name === Type)[0];
+        const MySqlDataType = mySqlDataTypes.filter(
+            (dataType) => dataType.name === Type,
+        )[0];
         let formattedType = '';
 
         if (MySqlDataType && MySqlDataType.hasSize && Size !== '') {
@@ -85,8 +87,10 @@ onMounted(() => {
         <span
             class="block py-2 text-center text-sm font-bold"
             :class="{
-                'dark:bg-blue-950/30 dark:text-blue-500': props.data.state.isActive,
-                'dark:bg-dark-700/50 dark:text-slate-400': !props.data.state.isActive,
+                'dark:bg-blue-950/30 dark:text-blue-500':
+                    props.data.state.isActive,
+                'dark:bg-dark-700/50 dark:text-slate-400':
+                    !props.data.state.isActive,
             }"
             >{{ props.data.table.name }}</span
         >
@@ -96,13 +100,17 @@ onMounted(() => {
                 :key="column.name"
                 class="flex justify-between px-2 py-2 text-xs font-bold"
             >
-                <span class="mr-2 w-4/12 grow truncate dark:text-slate-500">{{ column.name }}</span>
-                <span class="w-4/12 grow truncate text-left dark:text-slate-600">{{
-                    column.type
+                <span class="mr-2 w-4/12 grow truncate dark:text-slate-500">{{
+                    column.name
                 }}</span>
-                <span class="w-2/12 grow truncate text-center dark:text-rose-500">{{
-                    column.keyConstraint
-                }}</span>
+                <span
+                    class="w-4/12 grow truncate text-left dark:text-slate-600"
+                    >{{ column.type }}</span
+                >
+                <span
+                    class="w-2/12 grow truncate text-center dark:text-rose-500"
+                    >{{ column.keyConstraint }}</span
+                >
             </div>
         </div>
     </div>

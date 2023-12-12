@@ -31,8 +31,12 @@ export type TEdgeData = {
     referencing: TEdgeDataObject;
 };
 
-export type TElement = GraphNode & { data: TTableData };
-export type TEdge = GraphEdge & { data: TTableData };
+export type TElement = GraphNode & {
+    data: TTableData;
+};
+export type TEdge = GraphEdge & {
+    data: TTableData;
+};
 
 export const useTableStore = defineStore('table', {
     state() {
@@ -42,7 +46,6 @@ export const useTableStore = defineStore('table', {
             currentActiveNode: {} as TElement | Record<string, never>,
             currentActiveEdges: [] as TEdge[],
             currentActiveEdgeIndex: -1,
-            isCreatingTable: false,
         };
     },
     actions: {
@@ -51,7 +54,10 @@ export const useTableStore = defineStore('table', {
                 id: uuidv4(),
                 type: 'custom',
                 connectable: false,
-                position: { x: posX, y: posY },
+                position: {
+                    x: posX,
+                    y: posY,
+                },
                 data: {
                     table: {
                         name: `table_${this.elements.length + 1}`,
@@ -68,8 +74,16 @@ export const useTableStore = defineStore('table', {
             return NewElementObj;
         },
         addNewEdge(
-            referenced: { id: string; column: string; table: string },
-            referencing: { id: string; column: string; table: string },
+            referenced: {
+                id: string;
+                column: string;
+                table: string;
+            },
+            referencing: {
+                id: string;
+                column: string;
+                table: string;
+            },
         ) {
             const Edge = {
                 id: uuidv4(),
@@ -92,8 +106,16 @@ export const useTableStore = defineStore('table', {
         },
         updateNewEdge(
             edgeId: string,
-            referenced: { id: string; column: string; table: string },
-            referencing: { id: string; column: string; table: string },
+            referenced: {
+                id: string;
+                column: string;
+                table: string;
+            },
+            referencing: {
+                id: string;
+                column: string;
+                table: string;
+            },
         ) {
             const NewEdgeObject = {
                 id: uuidv4(),
@@ -132,7 +154,10 @@ export const useTableStore = defineStore('table', {
                 length: columnData.length,
                 keyConstraint: columnData.keyConstraint,
             };
-            this.currentActiveNode.data.table.columns = [...Columns, Object.assign({}, ColumnData)];
+            this.currentActiveNode.data.table.columns = [
+                ...Columns,
+                Object.assign({}, ColumnData),
+            ];
         },
         updateTableColumn(columnData: TTableColumnCreation, index: number) {
             const Columns = this.currentActiveNode.data.table.columns;

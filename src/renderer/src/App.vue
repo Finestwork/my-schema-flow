@@ -3,17 +3,14 @@ import Canvas from '@components/Canvas/Canvas.vue';
 import TableInfo from '@components/TableInfo/TableInfo.vue';
 import TitleBar from '@components/TitleBar/TitleBar.vue';
 import Toolbar from '@components/Toolbar/Toolbar.vue';
-import { useSettingsStore } from '@stores/SettingsStore';
 import { useAutoLayout } from '@composables/useAutoLayout';
 import { useIPCListeners } from '@composables/useIPCListeners';
 import { nextTick, onMounted, onUnmounted, ref } from 'vue';
-import { storeToRefs } from 'pinia';
 
 const titleBar = ref();
 const contentWrapper = ref();
-const { currentNodeOrientation } = storeToRefs(useSettingsStore());
-const { runAutoLayout } = useAutoLayout(currentNodeOrientation);
-
+const isCreatingTable = ref(false);
+const { runAutoLayout } = useAutoLayout();
 const { onFileSave, onFileOpened } = useIPCListeners();
 
 const updateHeight = () => {
@@ -41,8 +38,14 @@ onUnmounted(() => {
     <div ref="contentWrapper">
         <div class="flex h-[calc(100vh-40px)] justify-between dark:bg-dark-900">
             <div class="h-full w-full">
-                <Toolbar @change-layout-orientation="runAutoLayout" />
-                <Canvas class="h-[calc(100vh-49.4px-40px)] w-full" />
+                <Toolbar
+                    @create-table="isCreatingTable = true"
+                    @change-layout-orientation="runAutoLayout"
+                />
+                <Canvas
+                    class="h-[calc(100vh-49.4px-40px)] w-full"
+                    v-model:is-creating-table="isCreatingTable"
+                />
             </div>
             <TableInfo />
         </div>

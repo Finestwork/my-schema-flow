@@ -7,23 +7,18 @@ import ChangeLayoutButton from '@components/Toolbar/Partials/ChangeLayoutButton.
 import ExportButton from '@components/Toolbar/Partials/ExportButton.vue';
 import RedoUndoButton from '@components/Toolbar/Partials/RedoUndoButton.vue';
 import SaveButton from '@components/Toolbar/Partials/SaveButton.vue';
-import { useTableStore } from '@stores/TableStore';
 
 const emits = defineEmits<{
     (event: 'changeLayoutOrientation'): void;
+    (event: 'createTable'): void;
 }>();
-const tableStore = useTableStore();
-
-const onClickCreateTable = () => {
-    tableStore.isCreatingTable = true;
-};
 </script>
 
 <template>
     <div class="flex items-center justify-between px-2 py-3 dark:bg-dark-850">
         <div class="flex">
             <OpenFileButton class="mr-2" />
-            <BaseButtonIcon class="mr-2" @click="onClickCreateTable">
+            <BaseButtonIcon class="mr-2" @click="emits('createTable')">
                 <VTableIcon />
                 <template #tooltip>Create Table</template>
             </BaseButtonIcon>
