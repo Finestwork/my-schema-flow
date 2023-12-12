@@ -4,9 +4,8 @@ import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue';
 </script>
 <template>
     <OverlayScrollbarsComponent
-        class="h-full h-full w-[25%] overflow-y-scroll border-dark-600 bg-white dark:bg-dark-800"
+        class="h-full w-[25%] overflow-y-scroll border-dark-600 bg-white dark:bg-dark-800"
     >
         <History />
-        <div class="h-[500px]"></div>
     </OverlayScrollbarsComponent>
 </template>

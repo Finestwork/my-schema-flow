@@ -8,11 +8,9 @@ const historyStore = useHistoryStore();
 
 const onClickRedo = () => {
     historyStore.redo();
-    historyStore.runRedo = true;
 };
 const onClickUndo = () => {
     historyStore.undo();
-    historyStore.runUndo = true;
 };
 const onClickCheckHistory = () => {
     console.log(historyStore.items, historyStore.currentIndex);
@@ -20,10 +18,18 @@ const onClickCheckHistory = () => {
 </script>
 <template>
     <div class="flex items-center">
-        <button class="mr-2 text-white" type="button" @click="onClickCheckHistory">
+        <button
+            class="mr-2 text-white"
+            type="button"
+            @click="onClickCheckHistory"
+        >
             check history
         </button>
-        <BaseButtonIcon class="mr-2" :disabled="!historyStore.canUndo" @click="onClickUndo">
+        <BaseButtonIcon
+            class="mr-2"
+            :disabled="!historyStore.canUndo"
+            @click="onClickUndo"
+        >
             <VUndoIcon />
             <template #tooltip>Undo</template>
         </BaseButtonIcon>

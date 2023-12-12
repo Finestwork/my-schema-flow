@@ -20,9 +20,9 @@ export const useHistoryStore = defineStore('history', {
     state: () => ({
         currentIndex: 0,
         items: [] as TItem[],
+
+        // need to set manually, so it will not automatically trigger components that watch this property
         currentValue: null,
-        runUndo: false,
-        runRedo: false,
     }),
     actions: {
         addItem(item: TItem, options: TAddOptions = {}) {

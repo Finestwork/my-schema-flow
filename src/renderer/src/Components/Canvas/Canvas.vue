@@ -7,21 +7,22 @@ import { useSettingsStore } from '@stores/SettingsStore';
 import { useHistoryStore } from '@stores/HistoryStore';
 import { useAutoLayout } from '@composables/useAutoLayout';
 import { useNodeCanvasEvents } from '@composables/useNodeCanvasEvents';
-import { useWatchHistory } from '@composables/useWatchHistory';
 import { useTablePlaceholder } from '@composables/useTablePlaceholder';
 import { useSortTableColumns } from '@composables/useSortTableColumns';
 import { useHistory } from '@composables/useHistory';
+import { useCanvasMinimap } from '@composables/useCanvasMinimap';
 import { Background } from '@vue-flow/background';
 import { MiniMap } from '@vue-flow/minimap';
 import { VueFlow, useVueFlow } from '@vue-flow/core';
 import { useDebounceFn } from '@vueuse/core';
-import { nextTick, ref } from 'vue';
+import { nextTick, ref, watch } from 'vue';
 
 const { isCreatingTable } = defineModels<{
     isCreatingTable: boolean;
 }>();
 const tableStore = useTableStore();
 const settingsStore = useSettingsStore();
+const historyStore = useHistoryStore();
 const tablePlaceholder = ref();
 const minimap = ref();
 const isDragging = ref(false);
@@ -31,11 +32,13 @@ const { placeholderPosition, resetPlaceholderPosition, movePlaceholder } =
     useTablePlaceholder(tablePlaceholder);
 const { sortAllColumnsInTables } = useSortTableColumns();
 const { runAutoLayout } = useAutoLayout();
-const { addHistory } = useHistory({
+const { addHistory, updateNodesAndEdges } = useHistory({
     onSave: {
         shouldIncrement: false,
     },
 });
+const { highlightMinimapNodes, unHighlightMinimapNodes } =
+    useCanvasMinimap(minimap);
 
 const onPaneMouseEnter = () => {
     isMouseEntered.value = true;
@@ -88,7 +91,16 @@ onMove(() => {
     isDragging.value = true;
 });
 useNodeCanvasEvents(minimap);
-useWatchHistory(minimap);
+watch(
+    () => historyStore.currentValue,
+    (currentValue) => {
+        updateNodesAndEdges();
+        unHighlightMinimapNodes();
+        const CurrentActiveEdges =
+            currentValue?.payload?.currentActiveEdges ?? [];
+        highlightMinimapNodes(CurrentActiveEdges);
+    },
+);
 </script>
 
 <template>

@@ -5,6 +5,10 @@ import { ref } from 'vue';
 
 const history = useHistoryStore();
 const showForm = ref(true);
+const onClickChangeHistory = (index: number) => {
+    history.currentIndex = index;
+    history.currentValue = history.items[index];
+};
 </script>
 <template>
     <VPanelSectionWrapper :show-form="showForm">
@@ -20,6 +24,7 @@ const showForm = ref(true);
                     'dark:bg-blue-600/10 dark:bg-blue-600/10 dark:text-blue-500':
                         history.currentIndex === ind,
                 }"
+                @click="onClickChangeHistory(ind)"
             >
                 {{ item }}
             </button>
