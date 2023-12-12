@@ -50,7 +50,7 @@ const onPaneClick = async () => {
         tableStore.currentActiveEdgeIndex = -1;
     }
 
-    if (isCreatingTable) {
+    if (isCreatingTable.value) {
         const NewNode = tableStore.createNewElement(
             placeholderPosition.value.x,
             placeholderPosition.value.y,
