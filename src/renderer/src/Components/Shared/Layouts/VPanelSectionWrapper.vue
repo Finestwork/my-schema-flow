@@ -26,6 +26,7 @@ const onClickToggleSettings = () => {
     });
 };
 </script>
+
 <template>
     <div>
         <button

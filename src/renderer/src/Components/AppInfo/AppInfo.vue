@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import History from '@components/AppInfo/History/History.vue';
+import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue';
 </script>
 <template>
-    <div
-        class="scrollbar-slim h-full w-[25%] overflow-y-scroll border-r-2 border-dark-600 bg-white dark:bg-dark-800"
+    <OverlayScrollbarsComponent
+        class="h-full h-full w-[25%] overflow-y-scroll border-dark-600 bg-white dark:bg-dark-800"
     >
         <History />
-    </div>
+        <div class="h-[500px]"></div>
+    </OverlayScrollbarsComponent>
 </template>

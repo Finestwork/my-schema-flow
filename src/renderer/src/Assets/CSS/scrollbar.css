@@ -10,3 +10,13 @@
     border-radius: 2px;
     background: #191e2f;
 }
+
+.os-scrollbar .os-scrollbar-handle{
+    background-color: #649fff94 !important;
+}
+.os-scrollbar .os-scrollbar-handle:hover{
+    background-color: #2f7effb0 !important;
+}
+.os-scrollbar .os-scrollbar-track{
+    background-color: #39425fe8 !important;
+}
