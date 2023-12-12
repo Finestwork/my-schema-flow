@@ -45,7 +45,7 @@ export const useHistoryStore = defineStore('history', {
             });
 
             if (DefaultOptions.shouldIncrement) {
-                this.currentIndex++;
+                this.currentIndex = this.items.length - 1;
             }
         },
         redo() {
