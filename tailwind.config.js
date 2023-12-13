@@ -5,7 +5,7 @@ module.exports = {
     theme: {
         extend: {
             fontFamily: {
-                jetbrains: ['Jetbrains Mono', 'sans-serif'],
+                'neon-mono': ['NeonMono', 'sans-serif'],
             },
             colors: {
                 dark: {
