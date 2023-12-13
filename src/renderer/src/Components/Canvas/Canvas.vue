@@ -33,9 +33,7 @@ const { placeholderPosition, resetPlaceholderPosition, movePlaceholder } =
     useTablePlaceholder(tablePlaceholder);
 const { sortAllColumnsInTables } = useSortTableColumns();
 const { runAutoLayout } = useAutoLayout();
-const { addHistory, updateNodesAndEdges } = useHistory();
-const { highlightMinimapNodes, unHighlightMinimapNodes } =
-    useCanvasMinimap(minimap);
+const { addHistory } = useHistory();
 
 const onPaneMouseEnter = () => {
     isMouseEntered.value = true;
@@ -86,17 +84,7 @@ onMove(() => {
     isDragging.value = true;
 });
 useNodeCanvasEvents(minimap);
-useCanvasViewport();
-watch(
-    () => historyStore.currentValue,
-    (currentValue) => {
-        updateNodesAndEdges();
-        unHighlightMinimapNodes();
-        const CurrentActiveEdges =
-            currentValue?.payload?.currentActiveEdges ?? [];
-        highlightMinimapNodes(CurrentActiveEdges);
-    },
-);
+useCanvasViewport(minimap);
 </script>
 
 <template>
