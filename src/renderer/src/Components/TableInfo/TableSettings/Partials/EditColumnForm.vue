@@ -24,7 +24,8 @@ const tableStore = useTableStore();
 const autocompleteSearchTerm = ref('');
 const isSuccessfullyUpdated = ref(false);
 const columnErrors: Ref<Array<string>> = ref([]);
-const CurrentColumn = tableStore.currentActiveNode.data.table.columns[currentActiveIndex];
+const CurrentColumn =
+    tableStore.currentActiveNode.data.table.columns[currentActiveIndex];
 const keyConstraint = ref(CurrentColumn?.keyConstraint ?? '');
 const { activeColumnIndex, updateColumn, validateColumns } = useColumnActions();
 const columnData: TTableColumnCreation = reactive({
@@ -117,7 +118,10 @@ const onClickToggleForeignKey = (e: MouseEvent) => {
             >
                 Primary Key
             </ButtonSelect>
-            <ButtonSelect :is-active="keyConstraint === 'FK'" @click="onClickToggleForeignKey">
+            <ButtonSelect
+                :is-active="keyConstraint === 'FK'"
+                @click="onClickToggleForeignKey"
+            >
                 Foreign Key
             </ButtonSelect>
         </div>

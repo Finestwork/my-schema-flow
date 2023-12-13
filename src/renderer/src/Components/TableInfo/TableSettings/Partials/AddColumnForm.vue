@@ -110,7 +110,10 @@ const onClickToggleForeignKey = (e: MouseEvent) => {
             >
                 Primary Key
             </ButtonSelect>
-            <ButtonSelect :is-active="keyConstraint === 'FK'" @click="onClickToggleForeignKey">
+            <ButtonSelect
+                :is-active="keyConstraint === 'FK'"
+                @click="onClickToggleForeignKey"
+            >
                 Foreign Key
             </ButtonSelect>
         </div>

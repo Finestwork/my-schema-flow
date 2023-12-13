@@ -1,26 +1,19 @@
 import { useTableStore } from '@stores/TableStore';
 import { useHistoryStore } from '@stores/HistoryStore';
+import { calculateEdgePosition } from '@utilities/NodeEdgeHelper';
 import { useVueFlow } from '@vue-flow/core';
 import { toValue } from 'vue';
-import type { MaybeRefOrGetter } from 'vue';
-import type { TAddOptions } from '@stores/HistoryStore';
 import { klona } from 'klona/full';
-import { calculateEdgePosition } from '@utilities/NodeEdgeHelper';
+import type { TAddOptions } from '@stores/HistoryStore';
 
-export type TOptions = {
-    onSave: TAddOptions;
-};
-
-export function useHistory(
-    options: MaybeRefOrGetter<TOptions | Record<string, never>> = {},
-) {
+export function useHistory() {
     const tableStore = useTableStore();
     const historyStore = useHistoryStore();
     const { getNodes, getEdges, setNodes, setEdges } = useVueFlow();
 
-    const addHistory = () => {
+    const addHistory = (description: string, options: TAddOptions = {}) => {
         const ItemObject = {
-            description: 'Initial Load',
+            description: description,
             payload: {
                 nodes: getNodes.value,
                 edges: getEdges.value,
@@ -30,7 +23,8 @@ export function useHistory(
             },
         };
 
-        historyStore.addItem(ItemObject, toValue(options).onSave);
+        const OnSaveOptions = toValue(options)?.onSave ?? {};
+        historyStore.addItem(ItemObject, OnSaveOptions);
     };
 
     const updateNodesAndEdges = () => {

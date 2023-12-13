@@ -5,7 +5,8 @@ import type { MiniMap } from '@vue-flow/minimap';
 
 export function useCanvasMinimap(minimap: Ref<typeof MiniMap>) {
     const unHighlightMinimapNodes = () => {
-        const CurrentActiveNodes = minimap.value.$el.querySelectorAll('rect.active');
+        const CurrentActiveNodes =
+            minimap.value.$el.querySelectorAll('rect.active');
         Array.from(CurrentActiveNodes).forEach((rect: Element) => {
             rect.classList.remove('active');
         });

@@ -13,7 +13,9 @@ const floatingLayout = ref();
 const floatingElement = ref();
 const isActive = ref(false);
 const showTooltip = ref(false);
-const { activate, deactivate } = useFocusTrap(floatingElement, { allowOutsideClick: true });
+const { activate, deactivate } = useFocusTrap(floatingElement, {
+    allowOutsideClick: true,
+});
 const onClickToggleActiveState = () => {
     isActive.value = !isActive.value;
     showItems.value = !showItems.value;

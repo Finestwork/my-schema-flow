@@ -58,13 +58,19 @@ const onBtnKeydown = (e: KeyboardEvent) => {
             type="button"
             class="block h-[20px] w-[20px] rounded p-1 outline-none"
             :class="{
-                'dark:bg-blue-600 dark:hover:bg-blue-600/90 dark:focus:bg-blue-600/90': isChecked,
-                'dark:bg-dark-600/80 dark:hover:bg-dark-600 dark:focus:bg-dark-600': !isChecked,
+                'dark:bg-blue-600 dark:hover:bg-blue-600/90 dark:focus:bg-blue-600/90':
+                    isChecked,
+                'dark:bg-dark-600/80 dark:hover:bg-dark-600 dark:focus:bg-dark-600':
+                    !isChecked,
             }"
             @click="modelValue = !modelValue"
             @keydown="onBtnKeydown"
         >
-            <Transition @before-enter="onBeforeEnter" @enter="onEnter" @leave="onLeave">
+            <Transition
+                @before-enter="onBeforeEnter"
+                @enter="onEnter"
+                @leave="onLeave"
+            >
                 <VCheckIcon v-if="isChecked" class="stroke-white" />
             </Transition>
         </button>

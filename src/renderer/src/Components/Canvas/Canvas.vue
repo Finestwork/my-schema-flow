@@ -32,11 +32,7 @@ const { placeholderPosition, resetPlaceholderPosition, movePlaceholder } =
     useTablePlaceholder(tablePlaceholder);
 const { sortAllColumnsInTables } = useSortTableColumns();
 const { runAutoLayout } = useAutoLayout();
-const { addHistory, updateNodesAndEdges } = useHistory({
-    onSave: {
-        shouldIncrement: false,
-    },
-});
+const { addHistory, updateNodesAndEdges } = useHistory();
 const { highlightMinimapNodes, unHighlightMinimapNodes } =
     useCanvasMinimap(minimap);
 
@@ -58,7 +54,9 @@ const onPaneClick = async () => {
             placeholderPosition.value.x,
             placeholderPosition.value.y,
         );
+        const TableName = NewNode.data.table.name;
         addNodes([NewNode]);
+        addHistory(`${TableName} table is added`);
         await nextTick();
         isCreatingTable.value = false;
         resetPlaceholderPosition();
@@ -68,7 +66,7 @@ const onPaneReady = async () => {
     sortAllColumnsInTables();
     runAutoLayout();
     await nextTick();
-    addHistory();
+    addHistory('Initial load', { shouldIncrement: false });
 };
 const onPaneMouseMove = (event: MouseEvent) => {
     if (!isCreatingTable.value) return;

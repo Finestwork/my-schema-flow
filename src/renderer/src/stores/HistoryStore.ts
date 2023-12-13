@@ -43,7 +43,6 @@ export const useHistoryStore = defineStore('history', {
                     currentActiveEdgeIndex: item.payload.currentActiveEdgeIndex,
                 },
             });
-
             if (DefaultOptions.shouldIncrement) {
                 this.currentIndex = this.items.length - 1;
             }

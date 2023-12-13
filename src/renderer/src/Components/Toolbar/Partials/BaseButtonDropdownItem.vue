@@ -12,7 +12,8 @@ const props = withDefaults(defineProps<TButtonDropdownItem>(), {
         type="button"
         :class="{
             'dark:bg-blue-950/90': props.isActive,
-            'dark:hover:bg-blue-900/30 dark:focus:bg-blue-900/30': !props.isActive,
+            'dark:hover:bg-blue-900/30 dark:focus:bg-blue-900/30':
+                !props.isActive,
         }"
     >
         <span

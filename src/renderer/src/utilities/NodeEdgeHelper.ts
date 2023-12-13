@@ -66,7 +66,9 @@ export const getActiveEdges = (
     edges: TEdge[],
 ) => {
     const NodeId = currentActiveNode.id;
-    return klona(edges).filter((edge) => edge.source === NodeId || edge.target === NodeId);
+    return klona(edges).filter(
+        (edge) => edge.source === NodeId || edge.target === NodeId,
+    );
 };
 
 /**
@@ -103,12 +105,16 @@ export const getConnectedNodes = (
     const CurrentNodeId = currentNode.id;
     const Related = klona(edges)
         .filter((edge) => {
-            return edge.target === CurrentNodeId || edge.source === CurrentNodeId;
+            return (
+                edge.target === CurrentNodeId || edge.source === CurrentNodeId
+            );
         })
         .map((edge) => Object.assign({}, edge));
     const Unrelated = klona(edges)
         .filter((edge) => {
-            return edge.target !== CurrentNodeId && edge.source !== CurrentNodeId;
+            return (
+                edge.target !== CurrentNodeId && edge.source !== CurrentNodeId
+            );
         })
         .map((edge) => Object.assign({}, edge));
 

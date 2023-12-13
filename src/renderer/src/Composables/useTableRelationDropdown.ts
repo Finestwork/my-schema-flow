@@ -18,7 +18,9 @@ export function useTableRelationDropdown(states: TDropdownStates) {
      */
     const getAttributes = computed(() =>
         TableStore.getAttributesOfCurrentActiveNode.filter((attr) =>
-            attr.toLowerCase().includes(states.referencingColumnSearchTerm.toLowerCase()),
+            attr
+                .toLowerCase()
+                .includes(states.referencingColumnSearchTerm.toLowerCase()),
         ),
     );
 
@@ -42,9 +44,15 @@ export function useTableRelationDropdown(states: TDropdownStates) {
     const tableColumns = computed(() => {
         const CurrentActiveNode = TableStore.currentActiveNode;
         const CurrentColumnName = CurrentActiveNode.data.table.name;
-        const ColumnNames = TableStore.getAllColumnNames.map((column) => column.name);
-        return ColumnNames.filter((column) => column !== CurrentColumnName).filter((attr) =>
-            attr.toLowerCase().includes(states.referencedTableSearchTerm.toLowerCase()),
+        const ColumnNames = TableStore.getAllColumnNames.map(
+            (column) => column.name,
+        );
+        return ColumnNames.filter(
+            (column) => column !== CurrentColumnName,
+        ).filter((attr) =>
+            attr
+                .toLowerCase()
+                .includes(states.referencedTableSearchTerm.toLowerCase()),
         );
     });
     const isBtnDisabled = computed(() => {

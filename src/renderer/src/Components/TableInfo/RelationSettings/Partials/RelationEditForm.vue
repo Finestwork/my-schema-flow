@@ -49,7 +49,11 @@ const onClickUpdateRelation = async () => {
         column: states.referencingColumn,
         table: tableStore.currentActiveNode.data.table.name,
     };
-    tableStore.updateNewEdge(currentActiveEdge.value.id, ReferencedObj, ReferencingObj);
+    tableStore.updateNewEdge(
+        currentActiveEdge.value.id,
+        ReferencedObj,
+        ReferencingObj,
+    );
     await nextTick();
     tableStore.currentActiveEdgeIndex = -1;
 };
@@ -68,7 +72,10 @@ watch(
 </script>
 
 <template>
-    <BackButton class="mb-4 mt-2.5" @click="tableStore.currentActiveEdgeIndex = -1" />
+    <BackButton
+        class="mb-4 mt-2.5"
+        @click="tableStore.currentActiveEdgeIndex = -1"
+    />
     <AutoComplete
         id="referencingColumn"
         v-model:search-term="states.referencingColumnSearchTerm"
@@ -101,7 +108,11 @@ watch(
     </AutoComplete>
 
     <div class="mt-6">
-        <BaseButtonIcon class="mr-2" :disabled="isBtnDisabled" @click="onClickUpdateRelation">
+        <BaseButtonIcon
+            class="mr-2"
+            :disabled="isBtnDisabled"
+            @click="onClickUpdateRelation"
+        >
             <VEditIcon />
             <template #tooltip> Update Relation</template>
         </BaseButtonIcon>

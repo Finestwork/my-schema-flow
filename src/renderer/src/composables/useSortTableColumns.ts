@@ -13,7 +13,8 @@ export function useSortTableColumns() {
      * Sorts the column of active node from PK to FK
      */
     const sortActiveTableColumns = computed((): null | TTableColumn[] => {
-        const Columns = tableStore?.currentActiveNode?.data?.table?.columns ?? [];
+        const Columns =
+            tableStore?.currentActiveNode?.data?.table?.columns ?? [];
         return sortConstraintKeys(Columns);
     });
 

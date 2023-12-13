@@ -5,10 +5,17 @@ import { computed } from 'vue';
 export function getAutocomplete(searchTerm: Ref<string>) {
     const contents = computed(() => {
         return mySqlDataTypes
-            .filter((type) => type.name.toLowerCase().includes(searchTerm.value.toLowerCase()))
+            .filter((type) =>
+                type.name
+                    .toLowerCase()
+                    .includes(searchTerm.value.toLowerCase()),
+            )
             .map((type) => ({
                 name: type.name,
-                description: type.description === '' ? 'No description' : type.description,
+                description:
+                    type.description === ''
+                        ? 'No description'
+                        : type.description,
             }));
     });
 

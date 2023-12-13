@@ -1,5 +1,8 @@
 import { mySqlDataTypes } from '@renderer/database/MySqlDataTypes';
-import { TTableColumnCreation, useTableStore } from '@renderer/stores/TableStore';
+import {
+    TTableColumnCreation,
+    useTableStore,
+} from '@renderer/stores/TableStore';
 import { isBoolean, isEmpty, isNumber } from 'lodash';
 import { computed, ref } from 'vue';
 
@@ -19,7 +22,9 @@ export function useColumnActions() {
         } else {
             // Check if data type is valid in mysql
             const Index = mySqlDataTypes.findIndex(
-                (dataType) => dataType.name.toLowerCase() === columnData.type.toLowerCase(),
+                (dataType) =>
+                    dataType.name.toLowerCase() ===
+                    columnData.type.toLowerCase(),
             );
 
             if (Index === -1) {
@@ -27,7 +32,10 @@ export function useColumnActions() {
             }
         }
 
-        if (!isEmpty(columnData.length) && !isNumber(parseInt(<string>columnData.length))) {
+        if (
+            !isEmpty(columnData.length) &&
+            !isNumber(parseInt(<string>columnData.length))
+        ) {
             Errors.push('Data length must be a number.');
         }
 
@@ -38,7 +46,9 @@ export function useColumnActions() {
         // Check if there's an existing primary key
         const CurrentActiveNode = useTableStore().currentActiveNode;
         const Columns = CurrentActiveNode.data.table.columns;
-        const Index = Columns.findIndex((column) => column.keyConstraint === 'PK');
+        const Index = Columns.findIndex(
+            (column) => column.keyConstraint === 'PK',
+        );
         if (Index !== -1 && columnData.keyConstraint === 'PK') {
             Errors.push("There's an existing primary key already.");
         }

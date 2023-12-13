@@ -5,7 +5,8 @@ export const NumberOnly = {
     numberOnly(e: Event) {
         const Target = <HTMLInputElement>e.target;
         Target.value = formatNumeral(Target.value, {
-            numeralThousandsGroupStyle: 'thousand' as NumeralThousandGroupStyles.THOUSAND,
+            numeralThousandsGroupStyle:
+                'thousand' as NumeralThousandGroupStyles.THOUSAND,
         });
     },
     mounted(el: Element, binding) {

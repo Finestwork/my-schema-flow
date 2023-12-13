@@ -20,16 +20,20 @@ watch(
         await nextTick();
         if (showing) {
             if (!source.value || !float.value) return;
-            const Middlewares = [offset({ mainAxis: props.offsetY }), flip(), shift()];
-            computePosition(source.value, float.value, { middleware: Middlewares }).then(
-                ({ x, y }) => {
-                    if (!float.value) return;
-                    Object.assign(float.value.style, {
-                        left: `${x}px`,
-                        top: `${y}px`,
-                    });
-                },
-            );
+            const Middlewares = [
+                offset({ mainAxis: props.offsetY }),
+                flip(),
+                shift(),
+            ];
+            computePosition(source.value, float.value, {
+                middleware: Middlewares,
+            }).then(({ x, y }) => {
+                if (!float.value) return;
+                Object.assign(float.value.style, {
+                    left: `${x}px`,
+                    top: `${y}px`,
+                });
+            });
         }
     },
 );

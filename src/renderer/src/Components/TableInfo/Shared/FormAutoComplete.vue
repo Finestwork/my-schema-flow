@@ -83,7 +83,8 @@ watch(
             currentIndex.value = -1;
             return;
         }
-        floatingDropdownChildren.value = source.value.querySelectorAll('button');
+        floatingDropdownChildren.value =
+            source.value.querySelectorAll('button');
         const TextInput = source.value.querySelector('input');
         toggleDropdown(TextInput, floatingDropdown.value);
     },
@@ -94,7 +95,8 @@ watchDebounced(
     async (items) => {
         if (items.length === 0) currentIndex.value = -1;
         if (!source.value) return;
-        floatingDropdownChildren.value = source.value.querySelectorAll('button');
+        floatingDropdownChildren.value =
+            source.value.querySelectorAll('button');
     },
     { debounce: 150, flush: 'post' },
 );

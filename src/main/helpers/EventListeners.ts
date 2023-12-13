@@ -13,14 +13,19 @@ export default class EventListeners {
      */
     private saveFile() {
         ipcMain.on('saveFile', async (event, contents) => {
-            const CurrentBrowserWindow = BrowserWindow.fromWebContents(event.sender);
+            const CurrentBrowserWindow = BrowserWindow.fromWebContents(
+                event.sender,
+            );
             if (!CurrentBrowserWindow) return;
 
             const DialogOptions = {
                 title: 'Exporting a File',
                 filters: [{ name: 'spark', extensions: ['ss'] }],
             };
-            const Result = await dialog.showSaveDialog(CurrentBrowserWindow, DialogOptions);
+            const Result = await dialog.showSaveDialog(
+                CurrentBrowserWindow,
+                DialogOptions,
+            );
             if (Result.canceled) return;
             if (!Result.filePath) return;
             await writeFile(Result.filePath, contents);
@@ -42,11 +47,16 @@ export default class EventListeners {
                 title: 'Importing a File',
                 filters: [{ name: 'spark', extensions: ['ss'] }],
             };
-            const Result = await dialog.showOpenDialog(CurrentBrowser, DialogOptions);
+            const Result = await dialog.showOpenDialog(
+                CurrentBrowser,
+                DialogOptions,
+            );
             if (Result.canceled) return;
             if (!Result.filePaths) return;
 
-            const File = await readFile(Result.filePaths[0], { encoding: 'utf-8' });
+            const File = await readFile(Result.filePaths[0], {
+                encoding: 'utf-8',
+            });
             CurrentBrowser.webContents.send(
                 'filedOpened',
                 File,

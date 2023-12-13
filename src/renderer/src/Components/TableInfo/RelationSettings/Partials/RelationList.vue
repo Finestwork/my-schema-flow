@@ -10,7 +10,8 @@ const getAllEdges = computed(() => {
     const currentActiveEdges = getActiveEdges(ActiveNode, tableStore.edges);
     return currentActiveEdges
         .map((edge) => {
-            const IsCurrentNodeParent = edge.data.referenced.table === CurrentTable;
+            const IsCurrentNodeParent =
+                edge.data.referenced.table === CurrentTable;
             const Table = IsCurrentNodeParent
                 ? edge.data.referencing.table
                 : edge.data.referenced.table;
@@ -26,7 +27,10 @@ const getAllEdges = computed(() => {
         });
 });
 const onClickUpdateEdge = (edgeIndex: string) => {
-    const currentActiveEdges = getActiveEdges(tableStore.currentActiveNode, tableStore.edges);
+    const currentActiveEdges = getActiveEdges(
+        tableStore.currentActiveNode,
+        tableStore.edges,
+    );
     const Index = currentActiveEdges.findIndex((edge) => edge.id === edgeIndex);
     tableStore.currentActiveEdgeIndex = Index;
 };
@@ -42,7 +46,9 @@ const onClickUpdateEdge = (edgeIndex: string) => {
             @dblclick="onClickUpdateEdge(edge.id)"
         >
             <span class="w-4/12 truncate text-left">{{ edge.table }}</span>
-            <span class="mx-2 w-4/12 truncate text-left">{{ edge.column }}</span>
+            <span class="mx-2 w-4/12 truncate text-left">{{
+                edge.column
+            }}</span>
             <span class="w-2/12 truncate text-rose-500">{{
                 edge.isCurrentNodeParent ? 'Child' : 'Parent'
             }}</span>

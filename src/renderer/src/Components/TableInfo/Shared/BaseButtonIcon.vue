@@ -24,7 +24,8 @@ const props = withDefaults(defineProps<TProps>(), {
                     props.colorScheme === 'default' && !disabled,
                 'dark:hover:bg-rose-500 dark:focus:bg-rose-500':
                     props.colorScheme === 'danger' && !disabled,
-                'cursor-not-allowed dark:bg-dark-700 dark:stroke-slate-600': disabled,
+                'cursor-not-allowed dark:bg-dark-700 dark:stroke-slate-600':
+                    disabled,
             }"
             type="button"
             :disabled="disabled"

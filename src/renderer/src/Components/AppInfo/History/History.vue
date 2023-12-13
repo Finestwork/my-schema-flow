@@ -21,7 +21,7 @@ const onClickChangeHistory = (index: number) => {
                 :class="{
                     'dark:bg-dark-700 dark:hover:bg-blue-600/10 dark:hover:text-blue-500 dark:focus:bg-blue-600/10':
                         history.currentIndex !== ind,
-                    'dark:bg-blue-600/10 dark:bg-blue-600/10 dark:text-blue-500':
+                    'dark:bg-blue-600/10 dark:text-blue-500':
                         history.currentIndex === ind,
                 }"
                 @click="onClickChangeHistory(ind)"

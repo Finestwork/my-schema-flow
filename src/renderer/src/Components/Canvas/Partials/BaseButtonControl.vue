@@ -15,14 +15,16 @@ const props = withDefaults(defineProps<TProps>(), {
             type="button"
             :class="{
                 'cursor-not-allowed dark:bg-dark-800': props.disabled,
-                'group dark:bg-dark-700 dark:hover:bg-blue-600': !props.disabled,
+                'group dark:bg-dark-700 dark:hover:bg-blue-600':
+                    !props.disabled,
             }"
             :disabled="props.disabled"
         >
             <span
                 :class="{
                     'dark:stroke-slate-600': props.disabled,
-                    'dark:stroke-slate-500 group-hover:dark:stroke-white': !props.disabled,
+                    'dark:stroke-slate-500 group-hover:dark:stroke-white':
+                        !props.disabled,
                 }"
             >
                 <slot></slot>

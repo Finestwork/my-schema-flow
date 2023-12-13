@@ -13,7 +13,9 @@ const { sortActiveTableColumns } = useSortTableColumns();
 const onClickRemoveActiveState = (e: MouseEvent) => {
     const Target = <HTMLElement>e.target;
     const PreviousValue = currentIndex.value;
-    currentIndex.value = buttonColumns.value.findIndex((btn) => btn.contains(Target));
+    currentIndex.value = buttonColumns.value.findIndex((btn) =>
+        btn.contains(Target),
+    );
     if (currentIndex.value === PreviousValue) {
         currentIndex.value = -1;
         return;
@@ -44,7 +46,9 @@ const onClickRemoveActiveState = (e: MouseEvent) => {
                 }"
                 >{{ column.name }}</span
             >
-            <span class="w-full grow truncate text-left">{{ column.type }}</span>
+            <span class="w-full grow truncate text-left">{{
+                column.type
+            }}</span>
             <span class="w-full grow truncate text-center">{{
                 column.isNull ? 'Null' : 'Not Null'
             }}</span>

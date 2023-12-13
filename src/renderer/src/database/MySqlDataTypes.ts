@@ -46,27 +46,32 @@ export const stringDataTypes: TMysqlDataType[] = [
     },
     {
         name: 'BLOB',
-        description: 'For BLOBs (Binary Large OBjects). Holds up to 65,535 bytes of data',
+        description:
+            'For BLOBs (Binary Large OBjects). Holds up to 65,535 bytes of data',
         hasSize: true,
     },
     {
         name: 'MEDIUMTEXT',
-        description: 'Holds a string with a maximum length of 16,777,215 characters',
+        description:
+            'Holds a string with a maximum length of 16,777,215 characters',
         hasSize: false,
     },
     {
         name: 'MEDIUMBLOB',
-        description: 'For BLOBs (Binary Large OBjects). Holds up to 16,777,215 bytes of data',
+        description:
+            'For BLOBs (Binary Large OBjects). Holds up to 16,777,215 bytes of data',
         hasSize: false,
     },
     {
         name: 'LONGTEXT',
-        description: 'Holds a string with a maximum length of 4,294,967,295 characters',
+        description:
+            'Holds a string with a maximum length of 4,294,967,295 characters',
         hasSize: false,
     },
     {
         name: 'LONGBLOB',
-        description: 'For BLOBs (Binary Large OBjects). Holds up to 4,294,967,295 bytes of data',
+        description:
+            'For BLOBs (Binary Large OBjects). Holds up to 4,294,967,295 bytes of data',
         hasSize: false,
     },
     {
@@ -98,7 +103,8 @@ export const numericDataTypes: TMysqlDataType[] = [
     },
     {
         name: 'BOOL',
-        description: 'Zero is considered as false, nonzero values are considered as true.',
+        description:
+            'Zero is considered as false, nonzero values are considered as true.',
         hasSize: false,
     },
     {

@@ -23,7 +23,11 @@ export function useTooltipAnimation(
 ) {
     const slideUpAnimation = () => {
         const onEnter = (el: Element, done: () => void) => {
-            const Middlewares = [offset({ mainAxis: options?.offset?.y ?? 0 }), flip(), shift()];
+            const Middlewares = [
+                offset({ mainAxis: options?.offset?.y ?? 0 }),
+                flip(),
+                shift(),
+            ];
             computePosition(source.value, el as HTMLElement, {
                 placement: options.placement,
                 middleware: Middlewares,

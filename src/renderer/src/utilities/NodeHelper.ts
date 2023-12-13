@@ -41,7 +41,9 @@ export function nodeAutolayout(nodes, edges, direction = 'TB') {
 /**
  * Resets the active state of the current active node
  */
-export const resetActiveNodeState = (currentActiveNode: TElement | Record<string, never>) => {
+export const resetActiveNodeState = (
+    currentActiveNode: TElement | Record<string, never>,
+) => {
     if (Object.keys(currentActiveNode).length !== 0) {
         const DataObject = Object.assign(currentActiveNode.data, {
             state: {

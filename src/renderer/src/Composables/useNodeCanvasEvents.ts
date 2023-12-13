@@ -1,5 +1,4 @@
 import { useTableStore } from '@stores/TableStore';
-import { useHistoryStore } from '@stores/HistoryStore';
 import { useCanvasMinimap } from '@composables/useCanvasMinimap';
 import {
     calculateEdgePosition,
@@ -12,11 +11,13 @@ import { klona } from 'klona';
 import type { Ref } from 'vue';
 import type { MiniMap } from '@vue-flow/minimap';
 import type { TElement, TEdge } from '@stores/TableStore';
+import { useHistory } from '@composables/useHistory';
 
 export function useNodeCanvasEvents(minimap: Ref<typeof MiniMap>) {
     const tableStore = useTableStore();
-    const historyStore = useHistoryStore();
-    const { unHighlightMinimapNodes, highlightMinimapNodes } = useCanvasMinimap(minimap);
+    const { unHighlightMinimapNodes, highlightMinimapNodes } =
+        useCanvasMinimap(minimap);
+    const { addHistory } = useHistory();
     const {
         getEdges,
         getNodes,
@@ -35,7 +36,10 @@ export function useNodeCanvasEvents(minimap: Ref<typeof MiniMap>) {
         unHighlightMinimapNodes();
 
         // Unhighlight the current active nodes
-        const ConnectedNodes = getConnectedNodes(tableStore.currentActiveNode, getEdges.value);
+        const ConnectedNodes = getConnectedNodes(
+            tableStore.currentActiveNode,
+            getEdges.value,
+        );
         ConnectedNodes.related.forEach((edge: TEdge) => {
             const Edge = getEdges.value.find((ed: TEdge) => ed.id === edge.id);
             Edge.style = {};
@@ -60,7 +64,10 @@ export function useNodeCanvasEvents(minimap: Ref<typeof MiniMap>) {
         // Save the current active node
         const CurrentActiveNode = klona(node);
         tableStore.currentActiveNode = CurrentActiveNode;
-        tableStore.currentActiveEdges = getActiveEdges(CurrentActiveNode, getEdges.value);
+        tableStore.currentActiveEdges = getActiveEdges(
+            CurrentActiveNode,
+            getEdges.value,
+        );
 
         // Display the active state of all nodes
         const Nodes = getConnectedNodes(CurrentActiveNode, getEdges.value);
@@ -74,17 +81,23 @@ export function useNodeCanvasEvents(minimap: Ref<typeof MiniMap>) {
             Edge.targetNode.data.state.isActive = true;
         });
         Nodes.unrelated.forEach((ed: TEdge) => {
-            const Edge = getEdges.value.find((element: TEdge) => element.id === ed.id);
+            const Edge = getEdges.value.find(
+                (element: TEdge) => element.id === ed.id,
+            );
             Edge.style = {
                 opacity: 0.5,
             };
             const SourceId = Edge.sourceNode.id;
             const TargetId = Edge.targetNode.id;
             const SourceIndex = Nodes.related.findIndex(
-                (edge: TEdge) => edge.sourceNode.id === SourceId || edge.targetNode.id === SourceId,
+                (edge: TEdge) =>
+                    edge.sourceNode.id === SourceId ||
+                    edge.targetNode.id === SourceId,
             );
             const TargetIndex = Nodes.related.findIndex(
-                (edge: TEdge) => edge.sourceNode.id === TargetId || edge.targetNode.id === TargetId,
+                (edge: TEdge) =>
+                    edge.sourceNode.id === TargetId ||
+                    edge.targetNode.id === TargetId,
             );
             if (TargetIndex === -1) {
                 Edge.targetNode.data.style.opacity = 0.5;
@@ -137,24 +150,17 @@ export function useNodeCanvasEvents(minimap: Ref<typeof MiniMap>) {
         if (!positionChanged) return;
 
         _handleNodeActiveState(Node);
-        const ItemObj = {
-            description: `'${Node.data.table.name}' table was moved`,
-            payload: {
-                nodes: getNodes.value,
-                edges: getEdges.value,
-                currentActiveNode: tableStore.currentActiveNode,
-                currentActiveEdges: tableStore.currentActiveEdges,
-                currentActiveEdgeIndex: tableStore.currentActiveEdgeIndex,
-            },
-        };
-        historyStore.addItem(ItemObj);
+        addHistory(`'${Node.data.table.name}' table is moved`);
     });
 
     onNodeDrag(
         useDebounceFn(() => {
             tableStore.currentActiveEdges.forEach((edge) => {
-                const Edge = getEdges.value.find((ed: TEdge) => ed.id === edge.id);
-                const { targetHandle, sourceHandle } = calculateEdgePosition(Edge);
+                const Edge = getEdges.value.find(
+                    (ed: TEdge) => ed.id === edge.id,
+                );
+                const { targetHandle, sourceHandle } =
+                    calculateEdgePosition(Edge);
                 Edge.sourceHandle = sourceHandle;
                 Edge.targetHandle = targetHandle;
             });

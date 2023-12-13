@@ -71,7 +71,9 @@ export default class MainWindow {
         if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
             this._mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL']);
         } else {
-            this._mainWindow.loadFile(join(__dirname, '../renderer/index.html'));
+            this._mainWindow.loadFile(
+                join(__dirname, '../renderer/index.html'),
+            );
         }
     }
 }

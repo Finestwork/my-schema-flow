@@ -10,7 +10,9 @@ import type { GraphNode } from '@vue-flow/core';
 
 const showLayout = ref(false);
 const onClickExportToPng = (type: TSupportedTypes) => {
-    const Wrapper = <HTMLElement>document.querySelector('.vue-flow__transformationpane');
+    const Wrapper = <HTMLElement>(
+        document.querySelector('.vue-flow__transformationpane')
+    );
     exportTo(type, Wrapper, useTableStore().elements as GraphNode[]);
     showLayout.value = false;
 };

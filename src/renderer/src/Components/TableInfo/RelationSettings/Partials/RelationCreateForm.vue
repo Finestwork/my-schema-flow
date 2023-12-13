@@ -88,7 +88,11 @@ const onClickEstablishRelation = () => {
         <template #label> Referenced Column:</template>
     </AutoComplete>
 
-    <BaseButton class="mt-6" :disabled="isBtnDisabled" @click="onClickEstablishRelation">
+    <BaseButton
+        class="mt-6"
+        :disabled="isBtnDisabled"
+        @click="onClickEstablishRelation"
+    >
         <template #icon>
             <VAddIcon />
         </template>

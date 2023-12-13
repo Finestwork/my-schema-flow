@@ -16,6 +16,8 @@ const { items, colorScheme } = withDefaults(defineProps<TAlert>(), {
             'dark:bg-rose-500/90': colorScheme === 'danger',
         }"
     >
-        <li v-for="item in items" :key="item" class="mb-1.5 last-of-type:mb-0">{{ item }}</li>
+        <li v-for="item in items" :key="item" class="mb-1.5 last-of-type:mb-0">
+            {{ item }}
+        </li>
     </ul>
 </template>

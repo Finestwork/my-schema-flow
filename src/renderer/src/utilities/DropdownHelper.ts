@@ -1,7 +1,10 @@
 import { computePosition, flip, size } from '@floating-ui/dom';
 import { nextTick } from 'vue';
 
-export function toggleDropdown(source: HTMLElement, floatingDropdown: HTMLElement) {
+export function toggleDropdown(
+    source: HTMLElement,
+    floatingDropdown: HTMLElement,
+) {
     const Middlewares = [
         size({
             apply({ rects }) {

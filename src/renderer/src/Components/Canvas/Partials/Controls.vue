@@ -31,13 +31,19 @@ const onClickControlInteractive = () => {
 <template>
     <Controls>
         <template #control-zoom-in>
-            <BaseButtonControl :disabled="settingsStore.zoomLevel >= 1" @click="onClickZoomIn">
+            <BaseButtonControl
+                :disabled="settingsStore.zoomLevel >= 1"
+                @click="onClickZoomIn"
+            >
                 <VZoomInIcon />
                 <template #tooltip>Zoom In</template>
             </BaseButtonControl>
         </template>
         <template #control-zoom-out>
-            <BaseButtonControl :disabled="settingsStore.zoomLevel <= 0.1" @click="onClickZoomOut">
+            <BaseButtonControl
+                :disabled="settingsStore.zoomLevel <= 0.1"
+                @click="onClickZoomOut"
+            >
                 <VZoomOutIcon />
                 <template #tooltip>Zoom Out</template>
             </BaseButtonControl>
@@ -54,7 +60,11 @@ const onClickControlInteractive = () => {
                 <VLockIcon v-else />
 
                 <template #tooltip>
-                    {{ !isInteractive ? 'Unlock Interactivity' : 'Lock Interactivity' }}
+                    {{
+                        !isInteractive
+                            ? 'Unlock Interactivity'
+                            : 'Lock Interactivity'
+                    }}
                 </template>
             </BaseButtonControl>
         </template>
