@@ -2,12 +2,10 @@
 import VTrashIcon from '@components/Shared/Icons/VTrashIcon.vue';
 import CustomNodeHandles from '@components/Canvas/Partials/CustomNodeHandles.vue';
 import BaseToolbarButtonIcon from '@components/Canvas/Partials/BaseToolbarButtonIcon.vue';
-import { NodeToolbar } from '@vue-flow/node-toolbar';
-import { mySqlDataTypes } from '@renderer/database/MySqlDataTypes';
+import { formatColumnForNodeCanvas } from '@utilities/TableColumnHelper';
 import { jellyAnimation } from '@utilities/AnimateHelper';
-import { useTableStore } from '@stores/TableStore';
-import numeral from 'numeral';
 import { computed, ref, onMounted } from 'vue';
+import { NodeToolbar } from '@vue-flow/node-toolbar';
 import { useVueFlow } from '@vue-flow/core';
 import type { TTableData } from '@stores/TableStore';
 
@@ -25,30 +23,10 @@ export type TProps = {
     isCreatingTable: boolean;
 };
 const props = defineProps<TProps>();
-const tableStore = useTableStore();
 const { removeNodes, getNodes } = useVueFlow();
 const root = ref();
 const getColumns = computed(() => {
-    return props.data.table.columns.map((column) => {
-        const Size = numeral(column.length).format('0a');
-        const Type = column.type;
-        const MySqlDataType = mySqlDataTypes.filter(
-            (dataType) => dataType.name === Type,
-        )[0];
-        let formattedType = '';
-
-        if (MySqlDataType && MySqlDataType.hasSize && Size !== '') {
-            formattedType = `${Type}(${Size})`;
-        } else {
-            formattedType = `${Type})`;
-        }
-
-        return {
-            name: column.name,
-            type: formattedType,
-            keyConstraint: column.keyConstraint,
-        };
-    });
+    return formatColumnForNodeCanvas(props.data.table.columns);
 });
 const onClickDeleteNode = () => {
     const Nodes = getNodes.value;

@@ -98,6 +98,9 @@ export const animateEdges = (currentActiveEdges: TEdge[]) => {
     });
 };
 
+/**
+ * Get all related and unrelated nodes based on the given active node
+ */
 export const getConnectedNodes = (
     currentNode: TElement | Record<string, never>,
     edges: TEdge[],
@@ -124,14 +127,19 @@ export const getConnectedNodes = (
     };
 };
 
+/**
+ * Extract the node ids from the given edges
+ */
 export const extractNodeIdFromEdge = (edges: TEdge[]) => {
     const NodeIds = [];
     edges.forEach((edge) => {
         const SourceNodeId = edge.sourceNode.id;
         const TargetNodeId = edge.targetNode.id;
+
         if (!NodeIds.includes(SourceNodeId)) {
             NodeIds.push(SourceNodeId);
         }
+
         if (!NodeIds.includes(TargetNodeId)) {
             NodeIds.push(TargetNodeId);
         }
