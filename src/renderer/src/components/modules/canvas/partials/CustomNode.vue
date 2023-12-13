@@ -1,0 +1,93 @@
+<script setup lang="ts">
+import { formatColumnForNodeCanvas } from '@utilities/TableHelper';
+import { jellyAnimation } from '@utilities/AnimateHelper';
+import { computed, ref, onMounted } from 'vue';
+import { NodeToolbar } from '@vue-flow/node-toolbar';
+import { useVueFlow } from '@vue-flow/core';
+
+export type TTableColumn = {
+    id: number;
+    name: string;
+    type: string;
+    isNull: boolean;
+    length: '';
+    keyConstraint: 'PK' | 'FK' | '';
+};
+export type TAdditionalState = {
+    table: {
+        name: string;
+        columns: TTableColumn[];
+    };
+    state: {
+        isActive: boolean;
+    };
+    style: {
+        opacity: number;
+    };
+};
+export type TProps = {
+    id: string;
+    data: TAdditionalState;
+    isCreatingTable: boolean;
+};
+const props = defineProps<TProps>();
+const { removeNodes, getNodes } = useVueFlow();
+const root = ref();
+const getColumns = computed(() =>
+    formatColumnForNodeCanvas(props.data.table.columns),
+);
+const onClickDeleteNode = () => {
+    const Nodes = getNodes.value;
+    const Node = Nodes.find((node) => node.id === props.id);
+    if (!Node) return;
+    removeNodes([Node]);
+};
+onMounted(() => {
+    if (!props.isCreatingTable) return;
+    jellyAnimation(root.value);
+});
+</script>
+
+<template>
+    <div
+        ref="root"
+        class="relative min-h-[150px] w-[300px] overflow-hidden rounded-lg border-2 font-jetbrains hover:cursor-pointer dark:bg-dark-900"
+        :class="{
+            'dark:border-blue-500/30': props.data.state.isActive,
+            'dark:border-dark-700': !props.data.state.isActive,
+        }"
+        :style="{
+            opacity: props.data.style.opacity,
+        }"
+    >
+        <span
+            class="block py-2 text-center text-sm font-bold"
+            :class="{
+                'dark:bg-blue-950/30 dark:text-blue-500':
+                    props.data.state.isActive,
+                'dark:bg-dark-800 dark:text-dark-100':
+                    !props.data.state.isActive,
+            }"
+            >{{ props.data.table.name }}</span
+        >
+        <div class="py-2">
+            <div
+                v-for="column in getColumns"
+                :key="column.name"
+                class="flex justify-between px-2 py-2 text-xs font-bold"
+            >
+                <span class="mr-2 w-4/12 grow truncate dark:text-slate-400">{{
+                    column.name
+                }}</span>
+                <span
+                    class="w-4/12 grow truncate text-left dark:text-dark-50"
+                    >{{ column.type }}</span
+                >
+                <span
+                    class="w-2/12 grow truncate text-center dark:text-rose-500"
+                    >{{ column.keyConstraint }}</span
+                >
+            </div>
+        </div>
+    </div>
+</template>
