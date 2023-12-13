@@ -11,6 +11,7 @@ import { useTablePlaceholder } from '@composables/useTablePlaceholder';
 import { useSortTableColumns } from '@composables/useSortTableColumns';
 import { useHistory } from '@composables/useHistory';
 import { useCanvasMinimap } from '@composables/useCanvasMinimap';
+import { useCanvasViewport } from '@composables/useCanvasViewport';
 import { Background } from '@vue-flow/background';
 import { MiniMap } from '@vue-flow/minimap';
 import { VueFlow, useVueFlow } from '@vue-flow/core';
@@ -27,7 +28,7 @@ const tablePlaceholder = ref();
 const minimap = ref();
 const isDragging = ref(false);
 const isMouseEntered = ref(false);
-const { toObject, addNodes, onMove } = useVueFlow();
+const { addNodes, onMove } = useVueFlow();
 const { placeholderPosition, resetPlaceholderPosition, movePlaceholder } =
     useTablePlaceholder(tablePlaceholder);
 const { sortAllColumnsInTables } = useSortTableColumns();
@@ -72,10 +73,6 @@ const onPaneMouseMove = (event: MouseEvent) => {
     if (!isCreatingTable.value) return;
     movePlaceholder(event.clientX, event.clientY);
 };
-const onViewportChangeEnd = () => {
-    const CurrentInstance = toObject();
-    settingsStore.zoomLevel = +CurrentInstance.viewport.zoom.toFixed(1);
-};
 
 onMove(
     useDebounceFn((event) => {
@@ -89,6 +86,7 @@ onMove(() => {
     isDragging.value = true;
 });
 useNodeCanvasEvents(minimap);
+useCanvasViewport();
 watch(
     () => historyStore.currentValue,
     (currentValue) => {
@@ -124,7 +122,6 @@ watch(
             @pane-mouse-enter="onPaneMouseEnter"
             @pane-mouse-leave="onPaneMouseLeave"
             @pane-mouse-move="onPaneMouseMove"
-            @viewport-change-end="onViewportChangeEnd"
         >
             <Background class="h-full" pattern-color="#6381b8" />
             <MiniMap ref="minimap" pannable zoomable />
