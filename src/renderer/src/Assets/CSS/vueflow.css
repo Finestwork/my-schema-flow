@@ -7,14 +7,14 @@
 }
 
 .dark .vue-flow__minimap{
-    background-color: #2E324D;
+    background-color: #272F45;
 }
 
 .dark .vue-flow__minimap-mask {
     fill: rgba(0,0,0,0.3);
 }
 .dark .vue-flow__minimap-node{
-    fill: #414A6C;
+    fill: #333F5B;
 }
 .dark .vue-flow__minimap-node.active{
     fill: #3b82f6;
