@@ -10,8 +10,8 @@ import { useNodeCanvasEvents } from '@composables/useNodeCanvasEvents';
 import { useTablePlaceholder } from '@composables/useTablePlaceholder';
 import { useSortTableColumns } from '@composables/useSortTableColumns';
 import { useHistory } from '@composables/useHistory';
-import { useCanvasMinimap } from '@composables/useCanvasMinimap';
 import { useCanvasViewport } from '@composables/useCanvasViewport';
+import { useWatchHistoryValue } from '@composables/useWatchHistoryValue';
 import { Background } from '@vue-flow/background';
 import { MiniMap } from '@vue-flow/minimap';
 import { VueFlow, useVueFlow } from '@vue-flow/core';
@@ -84,7 +84,8 @@ onMove(() => {
     isDragging.value = true;
 });
 useNodeCanvasEvents(minimap);
-useCanvasViewport(minimap);
+useCanvasViewport();
+useWatchHistoryValue(minimap);
 </script>
 
 <template>
