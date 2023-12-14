@@ -44,8 +44,8 @@ export function nodeAutolayout(nodes, edges, direction = 'TB') {
 export const calculateEdgePosition = (edge: GraphEdge) => {
     const SourceNode = edge.sourceNode;
     const TargetNode = edge.targetNode;
-    const nodeWidth = TargetNode.dimensions.width;
-    const nodeHeight = TargetNode.dimensions.height;
+    const NodeWidth = TargetNode.dimensions.width;
+    const NodeHeight = TargetNode.dimensions.height;
 
     const createObject = (targetHandle, sourceHandle) => {
         return {
@@ -54,26 +54,26 @@ export const calculateEdgePosition = (edge: GraphEdge) => {
         };
     };
 
-    if (TargetNode.position.x + nodeWidth < SourceNode.position.x) {
+    if (TargetNode.position.x + NodeWidth < SourceNode.position.x) {
         // NorthWest
-        if (TargetNode.position.y + nodeHeight < SourceNode.position.y) {
+        if (TargetNode.position.y + NodeHeight < SourceNode.position.y) {
             return createObject('target-right', 'source-top');
         }
         // SouthWest
-        else if (TargetNode.position.y > SourceNode.position.y + nodeHeight) {
+        else if (TargetNode.position.y > SourceNode.position.y + NodeHeight) {
             return createObject('target-right', 'source-bottom');
         }
         // West
         else {
             return createObject('target-right', 'source-left');
         }
-    } else if (TargetNode.position.x > SourceNode.position.x + nodeWidth) {
+    } else if (TargetNode.position.x > SourceNode.position.x + NodeWidth) {
         // NorthEast
-        if (TargetNode.position.y + nodeHeight < SourceNode.position.y) {
+        if (TargetNode.position.y + NodeHeight < SourceNode.position.y) {
             return createObject('target-left', 'source-top');
         }
         // SouthEast
-        else if (TargetNode.position.y > SourceNode.position.y + nodeHeight) {
+        else if (TargetNode.position.y > SourceNode.position.y + NodeHeight) {
             return createObject('target-left', 'source-bottom');
         }
         // East
@@ -82,11 +82,11 @@ export const calculateEdgePosition = (edge: GraphEdge) => {
         }
     } else {
         // North
-        if (TargetNode.position.y + nodeHeight < SourceNode.position.y) {
+        if (TargetNode.position.y + NodeHeight < SourceNode.position.y) {
             return createObject('target-bottom', 'source-top');
         }
         // South
-        else if (TargetNode.position.y > SourceNode.position.y + nodeHeight) {
+        else if (TargetNode.position.y > SourceNode.position.y + NodeHeight) {
             return createObject('target-top', 'source-bottom');
         } else {
             return createObject('target-top', 'source-top');

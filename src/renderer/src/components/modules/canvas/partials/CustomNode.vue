@@ -33,7 +33,7 @@ onMounted(() => {
         ref="root"
         class="font-jetbrains relative min-h-[150px] w-[300px] overflow-hidden rounded-lg border-2 hover:cursor-pointer dark:bg-dark-900"
         :class="{
-            'dark:border-blue-500/30': props.data.state.isActive,
+            'dark:border-cyan-600 dark:bg-[#061419]': props.data.state.isActive,
             'dark:border-dark-700': !props.data.state.isActive,
         }"
         :style="{
@@ -43,7 +43,7 @@ onMounted(() => {
         <span
             class="block py-2 text-center text-sm font-bold"
             :class="{
-                'dark:bg-blue-950/30 dark:text-blue-500':
+                'dark:bg-cyan-950/30 dark:text-cyan-500':
                     props.data.state.isActive,
                 'dark:bg-dark-800 dark:text-dark-100':
                     !props.data.state.isActive,

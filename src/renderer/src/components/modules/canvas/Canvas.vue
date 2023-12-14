@@ -2,7 +2,8 @@
 import { TestNodes, TestEdges } from '@renderer/dummy/CanvasDummy'; // Delete this in production
 import CustomNode from '@components/modules/canvas/partials/CustomNode.vue';
 import { useSettingsStore } from '@stores/SettingsStore';
-import { nodeAutolayout } from '@utilities/CanvasHelper';
+import { useNodeDragEvent } from '@composables/useNodeDragEvent';
+import { nodeAutolayout, calculateEdgePosition } from '@utilities/CanvasHelper';
 import { VueFlow } from '@vue-flow/core';
 import { MiniMap } from '@vue-flow/minimap';
 import { Background } from '@vue-flow/background';
@@ -13,12 +14,18 @@ const testEdges = TestEdges;
 const settingsStore = useSettingsStore();
 const { getNodes, getEdges, onPaneReady } = useVueFlow();
 
+useNodeDragEvent();
 onPaneReady(() => {
     nodeAutolayout(
         getNodes.value,
         getEdges.value,
         settingsStore.currentOrientation,
     );
+    getEdges.value.forEach((edge) => {
+        const { sourceHandle, targetHandle } = calculateEdgePosition(edge);
+        edge.sourceHandle = sourceHandle;
+        edge.targetHandle = targetHandle;
+    });
 });
 </script>
 
