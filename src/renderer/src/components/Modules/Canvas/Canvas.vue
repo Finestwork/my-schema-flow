@@ -40,7 +40,7 @@ onPaneReady(() => {
 });
 onViewportChangeEnd(() => {
     const { viewport } = toObject();
-    settingsStore.zoomLevel = +viewport.zoom.toFixed(2);
+    settingsStore.zoomLevel = +viewport.zoom.toFixed(1);
 });
 </script>
 
@@ -62,7 +62,7 @@ onViewportChangeEnd(() => {
             <Background class="h-full" pattern-color="#6381b8" />
             <MiniMap ref="minimap" pannable zoomable />
             <span
-                class="absolute left-2 top-2 text-xs font-semibold text-slate-300"
+                class="absolute left-2 top-2 z-50 text-xs font-semibold text-slate-300"
                 >{{ settingsStore.getZoomLevelInPercentage }}%</span
             >
 
