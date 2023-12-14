@@ -3,8 +3,9 @@ import NodeDummy from '@renderer/dummy/NodeDummy';
 import { TEdgeData } from '@renderer/stores/TableStore';
 import { Edge } from '@vue-flow/core';
 import { v4 as uuidv4 } from 'uuid';
+import type { GraphNode } from '@vue-flow/core';
 
-const createNodes = () => {
+const createNodes = (): GraphNode[] => {
     const Elements: unknown[] = [];
     let index = 1;
     for (const table in NodeDummy) {

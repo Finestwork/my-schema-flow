@@ -2,32 +2,12 @@
 import { formatColumnForNodeCanvas } from '@utilities/TableHelper';
 import { jellyAnimation } from '@utilities/AnimateHelper';
 import { computed, ref, onMounted } from 'vue';
-import { NodeToolbar } from '@vue-flow/node-toolbar';
 import { useVueFlow } from '@vue-flow/core';
+import type { TNodeData } from '@stores/CanvasStore';
 
-export type TTableColumn = {
-    id: number;
-    name: string;
-    type: string;
-    isNull: boolean;
-    length: '';
-    keyConstraint: 'PK' | 'FK' | '';
-};
-export type TAdditionalState = {
-    table: {
-        name: string;
-        columns: TTableColumn[];
-    };
-    state: {
-        isActive: boolean;
-    };
-    style: {
-        opacity: number;
-    };
-};
 export type TProps = {
     id: string;
-    data: TAdditionalState;
+    data: TNodeData;
     isCreatingTable: boolean;
 };
 const props = defineProps<TProps>();
@@ -51,7 +31,7 @@ onMounted(() => {
 <template>
     <div
         ref="root"
-        class="relative min-h-[150px] w-[300px] overflow-hidden rounded-lg border-2 font-jetbrains hover:cursor-pointer dark:bg-dark-900"
+        class="font-jetbrains relative min-h-[150px] w-[300px] overflow-hidden rounded-lg border-2 hover:cursor-pointer dark:bg-dark-900"
         :class="{
             'dark:border-blue-500/30': props.data.state.isActive,
             'dark:border-dark-700': !props.data.state.isActive,

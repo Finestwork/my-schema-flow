@@ -1,12 +1,25 @@
 <script setup lang="ts">
 import { TestNodes, TestEdges } from '@renderer/dummy/CanvasDummy'; // Delete this in production
 import CustomNode from '@components/modules/canvas/partials/CustomNode.vue';
+import { useSettingsStore } from '@stores/SettingsStore';
+import { nodeAutolayout } from '@utilities/CanvasHelper';
 import { VueFlow } from '@vue-flow/core';
 import { MiniMap } from '@vue-flow/minimap';
 import { Background } from '@vue-flow/background';
+import { useVueFlow } from '@vue-flow/core';
 
 const testElements = TestNodes;
 const testEdges = TestEdges;
+const settingsStore = useSettingsStore();
+const { getNodes, getEdges, onPaneReady } = useVueFlow();
+
+onPaneReady(() => {
+    nodeAutolayout(
+        getNodes.value,
+        getEdges.value,
+        settingsStore.currentOrientation,
+    );
+});
 </script>
 
 <template>
@@ -26,7 +39,7 @@ const testEdges = TestEdges;
         <Background class="h-full" pattern-color="#6381b8" />
         <MiniMap ref="minimap" pannable zoomable />
         <span class="absolute left-2 top-2 text-xs font-semibold text-slate-500"
-            >100%</span
+            >{{ settingsStore.getZoomLevelInPercentage }}%</span
         >
 
         <template #node-custom="props">
