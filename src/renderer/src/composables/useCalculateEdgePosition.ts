@@ -7,7 +7,7 @@ import { useVueFlow } from '@vue-flow/core';
 
 export function useCalculateEdgePosition() {
     const canvasStore = useCanvasStore();
-    const { getEdges, setEdges, findEdge } = useVueFlow();
+    const { getEdges, setEdges } = useVueFlow();
     const calculateAllEdgesPosition = () => {
         setEdges((edges) => {
             return edges.map((edge) => {

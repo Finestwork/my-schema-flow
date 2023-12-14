@@ -36,7 +36,6 @@ export function useNodeDragEvent() {
         const positionChanged =
             position.x !== node.position.x && position.y !== node.position.y;
         if (!positionChanged) return;
-        _turnOnNodeActiveState(node);
         calculateActiveEdgesPosition();
     });
 
