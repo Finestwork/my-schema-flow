@@ -33,7 +33,7 @@ onPaneReady(() => {
 });
 onViewportChangeEnd(() => {
     const { viewport } = toObject();
-    settingsStore.zoomLevel = viewport.zoom;
+    settingsStore.zoomLevel = +viewport.zoom.toFixed(2);
 });
 </script>
 

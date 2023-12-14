@@ -12,7 +12,7 @@ import { ref } from 'vue';
 
 const settingsStore = useSettingsStore();
 const isInteractive = ref(true);
-const { zoomTo, fitView, setInteractive } = useVueFlow();
+const { zoomTo, fitView, toObject, setInteractive } = useVueFlow();
 const onClickZoomIn = () => {
     if (settingsStore.zoomLevel >= 1) return;
     settingsStore.zoomLevel = +(settingsStore.zoomLevel + 0.1).toFixed(2);
@@ -22,6 +22,13 @@ const onClickZoomOut = () => {
     if (settingsStore.zoomLevel <= 0.1) return;
     settingsStore.zoomLevel = +(settingsStore.zoomLevel - 0.1).toFixed(2);
     zoomTo(settingsStore.zoomLevel, { duration: 350 });
+};
+const onClickFitView = () => {
+    fitView();
+    setTimeout(() => {
+        const { viewport } = toObject();
+        settingsStore.zoomLevel = +viewport.zoom.toFixed(1);
+    }, 150);
 };
 const onClickControlInteractive = () => {
     setInteractive(!isInteractive.value);
@@ -50,7 +57,7 @@ const onClickControlInteractive = () => {
             </BaseButtonControl>
         </template>
         <template #control-fit-view>
-            <BaseButtonControl @click="fitView()">
+            <BaseButtonControl @click="onClickFitView">
                 <FullscreenIcon />
                 <template #tooltip>Fit to View</template>
             </BaseButtonControl>
