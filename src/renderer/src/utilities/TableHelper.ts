@@ -1,11 +1,11 @@
 import { mySqlDataTypes } from '@utilities/DatabaseHelper';
 import numeral from 'numeral';
-import type { TTableColumn } from '@renderer/stores/TableStore';
+import type { TNodeData } from '@stores/CanvasStore';
 
 /**
  * Sorts table column from pk to fk
  */
-export const sortConstraintKeys = (arr: TTableColumn[]) => {
+export const sortConstraintKeys = (arr: TNodeData.table.columns[]) => {
     return arr.slice().sort((a, b) => {
         if (a.keyConstraint === b.keyConstraint) {
             return 0;
@@ -23,7 +23,7 @@ export const sortConstraintKeys = (arr: TTableColumn[]) => {
 /**
  * Reformat the column array to make it compatible with the node canvas for display
  */
-export const formatColumnForNodeCanvas = (arr: TTableColumn[]) => {
+export const formatColumnForNodeCanvas = (arr: TNodeData.table.columns[]) => {
     return arr.map((column) => {
         const Size = numeral(column.length).format('0a');
         const Type = column.type;

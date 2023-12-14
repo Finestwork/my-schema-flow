@@ -13,9 +13,9 @@ export type TProps = {
 const props = defineProps<TProps>();
 const { removeNodes, getNodes } = useVueFlow();
 const root = ref();
-const getColumns = computed(() =>
-    formatColumnForNodeCanvas(props.data.table.columns),
-);
+const getColumns = computed(() => {
+    return formatColumnForNodeCanvas(props.data.table.columns);
+});
 const onClickDeleteNode = () => {
     const Nodes = getNodes.value;
     const Node = Nodes.find((node) => node.id === props.id);

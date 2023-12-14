@@ -4,6 +4,7 @@ import CustomNode from '@components/Modules/Canvas/Partials/CustomNode.vue';
 import Controls from '@components/Modules/Canvas/Partials/Controls.vue';
 import { useSettingsStore } from '@stores/SettingsStore';
 import { useNodeDragEvent } from '@composables/useNodeDragEvent';
+import { useSortTableColumn } from '@composables/useSortTableColumn';
 import { nodeAutolayout, calculateEdgePosition } from '@utilities/CanvasHelper';
 import { VueFlow } from '@vue-flow/core';
 import { MiniMap } from '@vue-flow/minimap';
@@ -17,6 +18,7 @@ const { getNodes, getEdges, toObject, onPaneReady, onViewportChangeEnd } =
     useVueFlow();
 
 useNodeDragEvent();
+useSortTableColumn();
 onPaneReady(() => {
     nodeAutolayout(
         getNodes.value,
