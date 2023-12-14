@@ -23,7 +23,7 @@ export function useNodeDragEvent() {
             canvasStore.removeNodeActiveState();
         }
         node.data.state.isActive = true;
-        canvasStore.currentActiveNode = node; // Do not need to create a shallow copy, so we can modify it directl
+        canvasStore.currentActiveNode = node; // Do not need to create a shallow copy, so we can modify it directly
         highlightNodes();
     };
 
@@ -36,6 +36,7 @@ export function useNodeDragEvent() {
         const positionChanged =
             position.x !== node.position.x && position.y !== node.position.y;
         if (!positionChanged) return;
+        canvasStore.currentActiveNode = node;
         calculateActiveEdgesPosition();
     });
 
