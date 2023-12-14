@@ -31,10 +31,10 @@ onMounted(() => {
 <template>
     <div
         ref="root"
-        class="font-jetbrains relative min-h-[150px] w-[300px] overflow-hidden rounded-lg border-2 hover:cursor-pointer dark:bg-dark-900"
+        class="relative min-h-[150px] w-[300px] overflow-hidden rounded-lg border-2 font-neon-mono hover:cursor-pointer"
         :class="{
             'dark:border-cyan-600 dark:bg-[#061419]': props.data.state.isActive,
-            'dark:border-dark-700': !props.data.state.isActive,
+            'dark:border-dark-700 dark:bg-dark-900': !props.data.state.isActive,
         }"
         :style="{
             opacity: props.data.style.opacity,
@@ -54,7 +54,7 @@ onMounted(() => {
             <div
                 v-for="column in getColumns"
                 :key="column.name"
-                class="flex justify-between px-2 py-2 text-xs font-bold"
+                class="flex justify-between px-2 py-3 text-sm font-bold"
             >
                 <span class="mr-2 w-4/12 grow truncate dark:text-slate-400">{{
                     column.name
