@@ -22,9 +22,11 @@ export type TNodeData = {
     };
 };
 
+export type TNode = GraphNode & { data: TNodeData };
+
 export const useCanvasStore = defineStore('canvas', {
     state: () => ({
-        currentActiveNode: {} as GraphNode & { data: TNodeData },
+        currentActiveNode: {} as TNode,
     }),
     actions: {
         removeNodeActiveState() {
