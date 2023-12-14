@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { TestNodes, TestEdges } from '@renderer/dummy/CanvasDummy'; // Delete this in production
 import CustomNode from '@components/Modules/Canvas/Partials/CustomNode.vue';
+import Controls from '@components/Modules/Canvas/Partials/Controls.vue';
 import { useSettingsStore } from '@stores/SettingsStore';
 import { useNodeDragEvent } from '@composables/useNodeDragEvent';
 import { nodeAutolayout, calculateEdgePosition } from '@utilities/CanvasHelper';
@@ -30,32 +31,36 @@ onPaneReady(() => {
 </script>
 
 <template>
-    <VueFlow
-        v-model:nodes="testElements"
-        v-model:edges="testEdges"
-        :default-edge-options="{
-            type: 'smoothstep',
-        }"
-        :default-viewport="{
-            zoom: 0.5,
-        }"
-        :min-zoom="0.1"
-        :max-zoom="1"
-        :delete-key-code="null"
-    >
-        <Background class="h-full" pattern-color="#6381b8" />
-        <MiniMap ref="minimap" pannable zoomable />
-        <span class="absolute left-2 top-2 text-xs font-semibold text-slate-500"
-            >{{ settingsStore.getZoomLevelInPercentage }}%</span
+    <div class="relative h-full">
+        <VueFlow
+            v-model:nodes="testElements"
+            v-model:edges="testEdges"
+            :default-edge-options="{
+                type: 'smoothstep',
+            }"
+            :default-viewport="{
+                zoom: 0.5,
+            }"
+            :min-zoom="0.1"
+            :max-zoom="1"
+            :delete-key-code="null"
         >
+            <Background class="h-full" pattern-color="#6381b8" />
+            <MiniMap ref="minimap" pannable zoomable />
+            <span
+                class="absolute left-2 top-2 text-xs font-semibold text-slate-500"
+                >{{ settingsStore.getZoomLevelInPercentage }}%</span
+            >
 
-        <template #node-custom="props">
-            <CustomNode
-                v-bind="props"
-                :id="props.id"
-                :data="props.data"
-                :is-creating-table="false"
-            />
-        </template>
-    </VueFlow>
+            <Controls />
+            <template #node-custom="props">
+                <CustomNode
+                    v-bind="props"
+                    :id="props.id"
+                    :data="props.data"
+                    :is-creating-table="false"
+                />
+            </template>
+        </VueFlow>
+    </div>
 </template>
