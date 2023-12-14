@@ -12,11 +12,14 @@
 }
 
 .os-scrollbar .os-scrollbar-handle{
-    background-color: #649fff94 !important;
+    background-color: #6dd7d0 !important;
 }
 .os-scrollbar .os-scrollbar-handle:hover{
-    background-color: #2f7effb0 !important;
+    background-color: #56eede !important;
 }
 .os-scrollbar .os-scrollbar-track{
-    background-color: #39425fe8 !important;
+    background-color: rgba(184, 191, 204, 0.13) !important;
+}
+.os-scrollbar .os-scrollbar-track:hover{
+    background-color: rgba(103, 108, 140, 0.13) !important;
 }

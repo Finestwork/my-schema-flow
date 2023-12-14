@@ -2,6 +2,7 @@
 import TitleBar from '@components/Modules/TitleBar/TitleBar.vue';
 import Canvas from '@components/Modules/Canvas/Canvas.vue';
 import TableInformation from '@components/Modules/TableInformation/TableInformation.vue';
+import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue';
 import { useDarkMode } from '@composables/useDarkMode';
 
 const { toggleDarkMode } = useDarkMode();
@@ -18,7 +19,9 @@ toggleDarkMode();
                 <Canvas />
             </div>
             <div class="w-full max-w-[250px] dark:bg-dark-900">
-                <TableInformation />
+                <OverlayScrollbarsComponent class="h-full overflow-y-scroll">
+                    <TableInformation />
+                </OverlayScrollbarsComponent>
             </div>
         </div>
     </div>
