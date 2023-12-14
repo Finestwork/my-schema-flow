@@ -26,4 +26,12 @@ export const useCanvasStore = defineStore('canvas', {
     state: () => ({
         currentActiveNode: {} as GraphNode & { data: TNodeData },
     }),
+    actions: {
+        removeNodeActiveState() {
+            if (Object.keys(this.currentActiveNode).length !== 0) {
+                this.currentActiveNode.data.state.isActive = false;
+            }
+            this.currentActiveNode = Object.assign({}, {}); // To make it reactive
+        },
+    },
 });

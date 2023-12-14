@@ -18,13 +18,18 @@ export function useNodeDragEvent() {
         const positionChanged =
             position.x !== node.position.x && position.y !== node.position.y;
         if (!positionChanged) return;
+
+        // If currently being dragged node is not the same with previously dragged node
+        // Remove the state of previously dragged node
+        if (canvasStore.currentActiveNode.id !== node.id) {
+            canvasStore.removeNodeActiveState();
+        }
         node.data.state.isActive = true;
         canvasStore.currentActiveNode = node; // Do not need to create a shallow copy, so we can modify it directly
     });
 
     onPaneClick(() => {
-        canvasStore.currentActiveNode.data.state.isActive = false;
-        canvasStore.currentActiveNode = Object.assign({}, {}); // To make it reactive
+        canvasStore.removeNodeActiveState();
     });
 
     return {
