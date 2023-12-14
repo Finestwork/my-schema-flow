@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import TitleBar from '@components/Modules/TitleBar/TitleBar.vue';
 import Canvas from '@components/Modules/Canvas/Canvas.vue';
+import TableInformation from '@components/Modules/TableInformation/TableInformation.vue';
 import { useDarkMode } from '@composables/useDarkMode';
 
 const { toggleDarkMode } = useDarkMode();
@@ -16,7 +17,9 @@ toggleDarkMode();
             <div class="w-full">
                 <Canvas />
             </div>
-            <div class="w-full max-w-[250px] dark:bg-dark-900"></div>
+            <div class="w-full max-w-[250px] dark:bg-dark-900">
+                <TableInformation />
+            </div>
         </div>
     </div>
 </template>
