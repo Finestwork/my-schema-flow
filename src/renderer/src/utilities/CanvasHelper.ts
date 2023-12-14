@@ -7,8 +7,8 @@ import type { GraphEdge } from '@vue-flow/core';
  * Calculate node positions based on the node direction
  */
 export function nodeAutolayout(nodes, edges, direction = 'TB') {
-    const Nodes = nodes.slice();
-    const Edges = edges.slice();
+    const Nodes = klona(nodes);
+    const Edges = klona(edges);
     const dagreGraph = new dagre.graphlib.Graph();
     const isHorizontal = direction === 'LR';
     dagreGraph.setDefaultEdgeLabel(() => ({}));
@@ -55,7 +55,6 @@ export const calculateEdgePosition = (edge: GraphEdge) => {
             sourceHandle,
         };
     };
-
     if (TargetNode.position.x + NodeWidth < SourceNode.position.x) {
         // NorthWest
         if (TargetNode.position.y + NodeHeight < SourceNode.position.y) {
@@ -123,4 +122,17 @@ export const getConnectedNodes = (
         related: Related,
         unrelated: Unrelated,
     };
+};
+
+/**
+ * Returns a filtered list of edges based on the given active node
+ */
+export const getActiveEdges = (
+    currentActiveNode: TNode | Record<string, never>,
+    edges: GraphEdge[],
+) => {
+    const NodeId = currentActiveNode.id;
+    return klona(edges).filter(
+        (edge) => edge.source === NodeId || edge.target === NodeId,
+    );
 };

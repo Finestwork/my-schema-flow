@@ -5,7 +5,8 @@ import Controls from '@components/Modules/Canvas/Partials/Controls.vue';
 import { useSettingsStore } from '@stores/SettingsStore';
 import { useNodeDragEvent } from '@composables/useNodeDragEvent';
 import { useSortTableColumn } from '@composables/useSortTableColumn';
-import { nodeAutolayout, calculateEdgePosition } from '@utilities/CanvasHelper';
+import { useCalculateEdgePosition } from '@composables/useCalculateEdgePosition';
+import { nodeAutolayout } from '@utilities/CanvasHelper';
 import { VueFlow } from '@vue-flow/core';
 import { MiniMap } from '@vue-flow/minimap';
 import { Background } from '@vue-flow/background';
@@ -14,22 +15,28 @@ import { useVueFlow } from '@vue-flow/core';
 const testElements = TestNodes;
 const testEdges = TestEdges;
 const settingsStore = useSettingsStore();
-const { getNodes, getEdges, toObject, onPaneReady, onViewportChangeEnd } =
-    useVueFlow();
+const {
+    getNodes,
+    getEdges,
+    setNodes,
+    setEdges,
+    toObject,
+    onPaneReady,
+    onViewportChangeEnd,
+} = useVueFlow();
+const { calculateAllEdgesPosition } = useCalculateEdgePosition();
 
 useNodeDragEvent();
 useSortTableColumn();
 onPaneReady(() => {
-    nodeAutolayout(
+    const { nodes, edges } = nodeAutolayout(
         getNodes.value,
         getEdges.value,
         settingsStore.currentOrientation,
     );
-    getEdges.value.forEach((edge) => {
-        const { sourceHandle, targetHandle } = calculateEdgePosition(edge);
-        edge.sourceHandle = sourceHandle;
-        edge.targetHandle = targetHandle;
-    });
+    setNodes(() => nodes);
+    setEdges(() => edges);
+    calculateAllEdgesPosition();
 });
 onViewportChangeEnd(() => {
     const { viewport } = toObject();

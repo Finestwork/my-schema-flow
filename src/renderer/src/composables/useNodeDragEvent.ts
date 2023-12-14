@@ -1,6 +1,7 @@
-import { useVueFlow } from '@vue-flow/core';
 import { useCanvasStore } from '@stores/CanvasStore';
 import { useConnectedNodes } from '@composables/useConnectedNodes';
+import { useCalculateEdgePosition } from '@composables/useCalculateEdgePosition';
+import { useVueFlow } from '@vue-flow/core';
 import type { TNode } from '@stores/CanvasStore';
 
 export function useNodeDragEvent() {
@@ -8,6 +9,7 @@ export function useNodeDragEvent() {
     const { onNodeDragStop, onNodeDragStart, onPaneClick, onNodeClick } =
         useVueFlow();
     const { highlightNodes, unhighlightNodes } = useConnectedNodes();
+    const { calculateActiveEdgesPosition } = useCalculateEdgePosition();
     let position = {
         x: -1,
         y: -1,
@@ -35,6 +37,7 @@ export function useNodeDragEvent() {
             position.x !== node.position.x && position.y !== node.position.y;
         if (!positionChanged) return;
         _turnOnNodeActiveState(node);
+        calculateActiveEdgesPosition();
     });
 
     onNodeClick((event) => {

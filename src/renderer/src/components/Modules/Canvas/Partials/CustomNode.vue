@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import CustomNodeHandles from '@components/Modules/Canvas/Partials/CustomNodeHandles.vue';
 import { formatColumnForNodeCanvas } from '@utilities/TableHelper';
 import { jellyAnimation } from '@utilities/AnimateHelper';
 import { computed, ref, onMounted } from 'vue';
@@ -40,6 +41,7 @@ onMounted(() => {
             opacity: props.data.style.opacity,
         }"
     >
+        <CustomNodeHandles />
         <span
             class="block py-2 text-center text-sm font-bold"
             :class="{
