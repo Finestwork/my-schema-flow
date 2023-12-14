@@ -17,7 +17,6 @@ export function useNodeDragEvent() {
             position.x !== Node.position.x && position.y !== Node.position.y;
         if (!positionChanged) return;
         Node.data.state.isActive = true;
-        console.log(Node.data);
     });
 
     return {

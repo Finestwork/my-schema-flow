@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import TitleBar from '@components/modules/title-bar/TitleBar.vue';
-import Canvas from '@components/modules/canvas/Canvas.vue';
+import TitleBar from '@components/Modules/TitleBar/TitleBar.vue';
+import Canvas from '@components/Modules/Canvas/Canvas.vue';
 </script>
 
 <template>

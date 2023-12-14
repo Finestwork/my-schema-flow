@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TestNodes, TestEdges } from '@renderer/dummy/CanvasDummy'; // Delete this in production
-import CustomNode from '@components/modules/canvas/partials/CustomNode.vue';
+import CustomNode from '@components/Modules/Canvas/Partials/CustomNode.vue';
 import { useSettingsStore } from '@stores/SettingsStore';
 import { useNodeDragEvent } from '@composables/useNodeDragEvent';
 import { nodeAutolayout, calculateEdgePosition } from '@utilities/CanvasHelper';
