@@ -10,7 +10,7 @@ export function useNodeDragEvent() {
         x: -1,
         y: -1,
     };
-    const _turnOnNodeActiveState = (node: TNodeData) => {
+    const _turnOnNodeActiveState = (node: TNode) => {
         // If currently being dragged node is not the same with previously dragged node
         // Remove the state of previously dragged node
         if (canvasStore.currentActiveNode.id !== node.id) {
