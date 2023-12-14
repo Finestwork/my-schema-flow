@@ -34,7 +34,7 @@ onMounted(() => {
         ref="root"
         class="relative min-h-[150px] w-[350px] overflow-hidden rounded-lg border-2 font-neon-mono hover:cursor-pointer"
         :class="{
-            'dark:border-cyan-600 dark:bg-[#061419]': props.data.state.isActive,
+            'dark:border-cyan-600 dark:bg-dark-900': props.data.state.isActive,
             'dark:border-dark-700 dark:bg-dark-900': !props.data.state.isActive,
         }"
         :style="{
@@ -58,24 +58,15 @@ onMounted(() => {
                 :key="column.name"
                 class="flex justify-between px-3 py-3 text-sm font-bold"
             >
+                <span class="mr-2 w-4/12 grow truncate dark:text-slate-400">{{
+                    column.name
+                }}</span>
                 <span
-                    class="mr-2 w-4/12 grow truncate"
-                    :class="{
-                        'dark:text-slate-400': !props.data.state.isActive,
-                        'dark:text-cyan-600': props.data.state.isActive,
-                    }"
-                    >{{ column.name }}</span
-                >
-                <span
-                    class="w-4/12 grow truncate text-left"
-                    :class="{
-                        'dark:text-dark-50': !props.data.state.isActive,
-                        'dark:text-cyan-200': props.data.state.isActive,
-                    }"
+                    class="w-4/12 grow truncate text-left dark:text-slate-600"
                     >{{ column.type }}</span
                 >
                 <span
-                    class="w-2/12 grow truncate text-center dark:text-rose-500"
+                    class="w-2/12 grow truncate text-center dark:text-cyan-500"
                     >{{ column.keyConstraint }}</span
                 >
             </div>
