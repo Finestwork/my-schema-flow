@@ -7,7 +7,8 @@ const toggleContent = ref(true);
 const chevron = ref();
 const { animateInactiveState, animateActiveState } =
     useChevronAnimation(chevron);
-const onClickToggleSection = () => {
+const onClickToggleSection = (e: MouseEvent) => {
+    (e.target as HTMLButtonElement).blur();
     toggleContent.value = !toggleContent.value;
     if (toggleContent.value) {
         animateActiveState();
