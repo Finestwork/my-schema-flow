@@ -13,7 +13,8 @@ import { useVueFlow } from '@vue-flow/core';
 const testElements = TestNodes;
 const testEdges = TestEdges;
 const settingsStore = useSettingsStore();
-const { getNodes, getEdges, onPaneReady } = useVueFlow();
+const { getNodes, getEdges, toObject, onPaneReady, onViewportChangeEnd } =
+    useVueFlow();
 
 useNodeDragEvent();
 onPaneReady(() => {
@@ -27,6 +28,10 @@ onPaneReady(() => {
         edge.sourceHandle = sourceHandle;
         edge.targetHandle = targetHandle;
     });
+});
+onViewportChangeEnd(() => {
+    const { viewport } = toObject();
+    settingsStore.zoomLevel = viewport.zoom;
 });
 </script>
 
