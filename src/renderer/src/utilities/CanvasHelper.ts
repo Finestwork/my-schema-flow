@@ -1,4 +1,6 @@
 import dagre from 'dagre';
+import { klona } from 'klona';
+import type { TNode } from '@stores/CanvasStore';
 import type { GraphEdge } from '@vue-flow/core';
 
 /**
@@ -92,4 +94,33 @@ export const calculateEdgePosition = (edge: GraphEdge) => {
             return createObject('target-top', 'source-top');
         }
     }
+};
+
+/**
+ * Get all related and unrelated nodes based on the given active node
+ */
+export const getConnectedNodes = (
+    currentNode: TNode | Record<string, never>,
+    edges: GraphEdge[],
+) => {
+    const CurrentNodeId = currentNode.id;
+    const Related = klona(edges)
+        .filter((edge) => {
+            return (
+                edge.target === CurrentNodeId || edge.source === CurrentNodeId
+            );
+        })
+        .map((edge) => Object.assign({}, edge));
+    const Unrelated = klona(edges)
+        .filter((edge) => {
+            return (
+                edge.target !== CurrentNodeId && edge.source !== CurrentNodeId
+            );
+        })
+        .map((edge) => Object.assign({}, edge));
+
+    return {
+        related: Related,
+        unrelated: Unrelated,
+    };
 };
