@@ -40,7 +40,7 @@ const onClickToggleSection = () => {
             </span>
         </button>
 
-        <div v-if="toggleContent">
+        <div class="px-2 py-2.5" v-if="toggleContent">
             <slot name="content"></slot>
         </div>
     </div>

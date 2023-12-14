@@ -36,4 +36,9 @@ export const useCanvasStore = defineStore('canvas', {
             this.currentActiveNode = Object.assign({}, {}); // To make it reactive
         },
     },
+    getters: {
+        hasActiveNode: (state) => {
+            return Object.keys(state.currentActiveNode).length !== 0;
+        },
+    },
 });
