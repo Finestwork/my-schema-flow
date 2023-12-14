@@ -9,7 +9,7 @@ const props = withDefaults(defineProps<TProps>(), {
 });
 </script>
 <template>
-    <VTooltip :offset-y="5">
+    <VTooltip :offset-y="8">
         <button
             class="h-[28px] w-[28px] p-2 outline-none"
             type="button"
@@ -32,11 +32,7 @@ const props = withDefaults(defineProps<TProps>(), {
         </button>
 
         <template #tooltip>
-            <span
-                class="rounded-lg px-2 py-2 text-[.6rem] font-semibold shadow-xl dark:bg-dark-800 dark:text-white"
-            >
-                <slot name="tooltip"></slot>
-            </span>
+            <slot name="tooltip"></slot>
         </template>
     </VTooltip>
 </template>

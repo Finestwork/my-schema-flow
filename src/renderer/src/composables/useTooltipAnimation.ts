@@ -1,6 +1,7 @@
-import { computePosition, offset, flip, shift } from '@floating-ui/dom';
+import { computePosition, offset, flip, shift, arrow } from '@floating-ui/dom';
 import anime from 'animejs/lib/anime.es.js';
-import type { Ref } from 'vue';
+import { toValue } from 'vue';
+import type { MaybeRefOrGetter, Ref } from 'vue';
 
 export type TTooltipAnimation = {
     offset?: {
@@ -8,6 +9,7 @@ export type TTooltipAnimation = {
         y?: number;
     };
     placement?: 'left' | 'right' | 'top' | 'bottom';
+    arrow?: MaybeRefOrGetter<HTMLElement>;
 };
 const DefaultOptions = {
     offset: {
@@ -28,11 +30,41 @@ export function useTooltipAnimation(
                 flip(),
                 shift(),
             ];
+
+            if ('arrow' in options) {
+                Middlewares.push(
+                    arrow({
+                        element: toValue(options.arrow),
+                    }),
+                );
+            }
             computePosition(source.value, el as HTMLElement, {
                 placement: options.placement,
                 middleware: Middlewares,
-            }).then(({ x, y, placement }) => {
+            }).then(({ x, y, placement, middlewareData }) => {
                 const InitialTop = placement === 'top' ? y - 15 : y + 15;
+
+                // Check arrow element existence
+                if ('arrow' in options) {
+                    const { x } = middlewareData.arrow;
+
+                    if (placement === 'top') {
+                        Object.assign(toValue(options.arrow).style, {
+                            left: x != null ? `${x}px` : '',
+                            bottom: '-8px', // Since border-width is .5rem or 8px
+                            transform: 'rotate(180deg) translateY(-50%)',
+                        });
+                    }
+
+                    if (placement === 'bottom') {
+                        Object.assign(toValue(options.arrow).style, {
+                            left: x != null ? `${x}px` : '',
+                            top: '-8px', // Since border-width is .5rem or 8px
+                            transform: 'translateY(-50%)',
+                        });
+                    }
+                }
+
                 Object.assign((<HTMLElement>el).style, {
                     left: `${x}px`,
                     top: `${InitialTop}px`,

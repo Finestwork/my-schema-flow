@@ -10,13 +10,15 @@ const props = withDefaults(defineProps<TTooltip>(), {
     offsetY: 0,
     placement: 'bottom',
 });
-const showTooltip = ref(false);
+const arrowEl = ref();
 const source = ref();
+const showTooltip = ref(false);
 const { slideUpAnimation } = useTooltipAnimation(source, {
     offset: {
         y: props.offsetY,
     },
     placement: props.placement,
+    arrow: arrowEl,
 });
 const { onEnter, onLeave } = slideUpAnimation();
 </script>
@@ -32,7 +34,14 @@ const { onEnter, onLeave } = slideUpAnimation();
 
         <Teleport to="body">
             <Transition @enter="onEnter" @leave="onLeave">
-                <span v-if="showTooltip" class="absolute left-0 top-0 z-50">
+                <span
+                    v-if="showTooltip"
+                    class="absolute z-50 rounded p-1.5 text-[.6rem] font-semibold shadow-xl dark:bg-dark-800 dark:text-white"
+                >
+                    <span
+                        ref="arrowEl"
+                        class="absolute block border-[.5rem] border-transparent dark:border-b-dark-800"
+                    ></span>
                     <slot name="tooltip"></slot>
                 </span>
             </Transition>
