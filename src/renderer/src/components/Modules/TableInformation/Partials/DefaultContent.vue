@@ -2,7 +2,7 @@
 import BaseColumnButton from '@components/Modules/TableInformation/Partials/BaseColumnButton.vue';
 import VPanelTextInput from '@components/Base/Forms/VPanelTextInput.vue';
 import { useCanvasStore } from '@stores/CanvasStore';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 
 export type TColumnList = {
     name: string;
@@ -10,6 +10,7 @@ export type TColumnList = {
     keyConstraint: string;
 };
 const canvasStore = useCanvasStore();
+const currentColumnIndex = ref(-1);
 const getColumns = computed((): Array<TColumnList> => {
     if (!canvasStore.hasActiveNode) return [];
     return canvasStore.currentActiveNode.data.table.columns.map((column) => ({
@@ -18,6 +19,14 @@ const getColumns = computed((): Array<TColumnList> => {
         keyConstraint: column.keyConstraint,
     }));
 });
+const onClickToggleActiveState = (e: MouseEvent, ind: number) => {
+    (e.target as HTMLButtonElement).blur();
+    if (currentColumnIndex.value === ind) {
+        currentColumnIndex.value = -1;
+        return;
+    }
+    currentColumnIndex.value = ind;
+};
 </script>
 <template>
     <div>
@@ -33,6 +42,8 @@ const getColumns = computed((): Array<TColumnList> => {
             v-for="(column, ind) in getColumns"
             :key="`${column.name}${ind}`"
             class="mb-2 last-of-type:mb-0"
+            :is-active="currentColumnIndex === ind"
+            @click="onClickToggleActiveState($event, ind)"
         >
             <template #column>
                 {{ column.name }}
