@@ -23,6 +23,7 @@
     "@electron-toolkit/preload": "^2.0.0",
     "@electron-toolkit/utils": "^2.0.0",
     "@floating-ui/dom": "^1.5.3",
+    "@floating-ui/vue": "^1.0.2",
     "@types/lodash": "^4.14.202",
     "@vue-flow/background": "^1.2.0",
     "@vue-flow/controls": "^1.1.0",
