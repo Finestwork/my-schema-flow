@@ -1,38 +1,43 @@
 <script setup lang="ts">
 import VPanelTextInput from '@components/Base/Forms/VPanelTextInput.vue';
-import { mySqlDataTypes } from '@utilities/DatabaseHelper';
+import { useDropdownFloatingLayout } from '@composables/useDropdownFloatingLayout';
+import { useDatabaseDropdown } from '@composables/useDatabaseDropdown';
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue';
 import { onClickOutside } from '@vueuse/core';
-import { size } from '@floating-ui/vue';
-import { useFloating } from '@floating-ui/vue';
 import { ref } from 'vue';
 
 const { modelValue } = defineModels<{
     modelValue: string;
 }>();
-const showDropdown = ref(false);
+const scrollbar = ref();
 const rootWrapper = ref();
+const dropdownBtn = ref();
 const reference = ref();
 const floating = ref();
-const { floatingStyles } = useFloating(reference, floating, {
-    middleware: [
-        size({
-            apply({ rects, elements }) {
-                // Change styles, e.g.
-                Object.assign(elements.floating.style, {
-                    width: `${rects.reference.width}px`,
-                });
-            },
-        }),
-    ],
-});
+
+const { floatingStyles } = useDropdownFloatingLayout(reference, floating);
+const {
+    showDropdown,
+    searchTerm,
+    currentIndex,
+    getMysqlDatTypes,
+    updateActiveIndex,
+    onKeyDownNavigateDropdown,
+} = useDatabaseDropdown(dropdownBtn, scrollbar, modelValue);
+
 const onClickToggleDropdown = (e: MouseEvent) => {
     const Target = e.target as HTMLElement;
+    if (!showDropdown.value) return;
 
     if (Target.tagName !== 'INPUT' && !floating.value.contains(Target)) {
         showDropdown.value = false;
     }
 };
+const onFocusShowDropdown = () => {
+    showDropdown.value = true;
+    updateActiveIndex();
+};
+
 onClickOutside(rootWrapper, () => {
     showDropdown.value = false;
 });
@@ -45,31 +50,47 @@ onClickOutside(rootWrapper, () => {
             ref="reference"
             v-model="modelValue"
             placeholder="Place column type here"
-            @focus="showDropdown = true"
+            @input="searchTerm = $event.target.value"
+            @focus="onFocusShowDropdown"
+            @keydown="onKeyDownNavigateDropdown"
         >
             <template #label>Column Type:</template>
         </VPanelTextInput>
         <div
             v-if="showDropdown"
             ref="floating"
-            class="absolute h-[200px] overflow-hidden"
+            class="absolute overflow-hidden"
             :style="floatingStyles"
+            @keydown="onKeyDownNavigateDropdown"
         >
             <OverlayScrollbarsComponent
-                class="h-full outline-none dark:bg-dark-800/50"
+                ref="scrollbar"
+                class="h-full max-h-[250px] outline-none dark:bg-dark-800/50"
             >
                 <button
-                    v-for="item in mySqlDataTypes"
+                    v-for="(item, ind) in getMysqlDatTypes"
+                    ref="dropdownBtn"
                     :key="item.name"
-                    class="group flex w-full justify-between px-2 py-1.5 text-xs font-bold hover:dark:bg-cyan-950 focus:dark:bg-cyan-950"
+                    class="group flex w-full justify-between px-2 py-1.5 text-xs font-bold outline-none hover:dark:bg-cyan-950 focus:dark:bg-cyan-950"
                     type="button"
+                    :class="{
+                        'dark:bg-cyan-950': currentIndex === ind,
+                    }"
                 >
                     <span
-                        class="w-full truncate text-left dark:text-slate-500 group-hover:dark:text-cyan-500 group-focus:dark:text-cyan-500"
+                        class="w-full truncate text-left group-hover:dark:text-cyan-500 group-focus:dark:text-cyan-500"
+                        :class="{
+                            'dark:text-cyan-500': currentIndex === ind,
+                            'dark:text-slate-500': currentIndex !== ind,
+                        }"
                         >{{ item.name }}</span
                     >
                     <span
-                        class="w-full truncate dark:text-slate-700 group-hover:dark:text-cyan-700 group-focus:dark:text-cyan-700"
+                        class="w-full truncate group-hover:dark:text-cyan-700 group-focus:dark:text-cyan-700"
+                        :class="{
+                            'dark:text-cyan-700': currentIndex === ind,
+                            'dark:text-slate-700': currentIndex !== ind,
+                        }"
                         >{{ item.description }}</span
                     >
                 </button>
