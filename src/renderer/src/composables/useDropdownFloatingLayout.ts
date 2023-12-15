@@ -1,4 +1,4 @@
-import { size, useFloating } from '@floating-ui/vue';
+import { size, flip, shift, useFloating } from '@floating-ui/vue';
 import type {
     FloatingElement,
     MaybeElement,
@@ -11,6 +11,8 @@ export function useDropdownFloatingLayout(
     floating: Readonly<Ref<MaybeElement<FloatingElement>>>,
 ) {
     const Middlewares = [
+        shift(),
+        flip(),
         size({
             apply({ rects, elements }) {
                 // Change styles, e.g.

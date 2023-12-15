@@ -6,24 +6,29 @@ import PanelFormColumnName from '@components/Shared/Forms/PanelFormColumnName.vu
 import PanelColumnTypeForm from '@components/Shared/Forms/PanelColumnTypeForm.vue';
 import PanelFormColumnLength from '@components/Shared/Forms/PanelFormColumnLength.vue';
 import PanelFormKeyConstraints from '@components/Shared/Forms/PanelFormKeyConstraints.vue';
-import { ref } from 'vue';
+import { reactive, ref } from 'vue';
 
 const { displayForm } = defineModels<{
     displayForm: boolean;
 }>();
-const columnName = ref('');
-const columnType = ref('');
-const columnLength = ref('');
-const keyConstraint = ref('PK');
+const formStates = reactive({
+    name: '',
+    type: '',
+    length: '',
+    keyConstraint: '',
+});
 </script>
 <template>
     <div class="mt-3">
         <PanelBackButton @click="displayForm = false" />
         <div class="mt-4">
-            <PanelFormColumnName v-model="columnName" class="mb-2" />
-            <PanelColumnTypeForm v-model="columnType" class="mb-2" />
-            <PanelFormColumnLength v-model="columnLength" class="mb-2" />
-            <PanelFormKeyConstraints v-model="keyConstraint" class="mb-6" />
+            <PanelFormColumnName v-model="formStates.name" class="mb-2" />
+            <PanelColumnTypeForm v-model="formStates.type" class="mb-2" />
+            <PanelFormColumnLength v-model="formStates.length" class="mb-2" />
+            <PanelFormKeyConstraints
+                v-model="formStates.keyConstraint"
+                class="mb-6"
+            />
             <VPanelActionButton>
                 <template #icon>
                     <AddIcon />
