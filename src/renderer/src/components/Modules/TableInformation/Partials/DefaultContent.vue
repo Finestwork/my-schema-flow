@@ -25,6 +25,15 @@ const getColumns = computed((): Array<TColumnList> => {
         keyConstraint: column.keyConstraint,
     }));
 });
+const canCloneColumn = computed((): boolean => {
+    if (!canvasStore.hasActiveNode || currentColumnIndex.value === -1)
+        return false;
+    const ActiveNode = canvasStore.currentActiveNode;
+    const CurrentColumn =
+        ActiveNode.data.table.columns[currentColumnIndex.value];
+
+    return CurrentColumn.keyConstraint !== 'PK';
+});
 const onClickToggleActiveState = (e: MouseEvent, ind: number) => {
     (e.target as HTMLButtonElement).blur();
     if (currentColumnIndex.value === ind) {
@@ -68,7 +77,7 @@ const onClickCopyColumn = () => {
             </BaseButtonIcon>
             <BaseButtonIcon
                 class="mr-1"
-                :disabled="currentColumnIndex === -1"
+                :disabled="!canCloneColumn"
                 @click="onClickCopyColumn"
             >
                 <CopyIcon />
