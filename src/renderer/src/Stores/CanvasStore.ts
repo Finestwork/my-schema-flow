@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import type { GraphNode } from '@vue-flow/core';
+import { sortConstraintKeys } from '@utilities/TableHelper';
 
 export type TTableColumn = {
     id: number;
@@ -34,6 +35,11 @@ export const useCanvasStore = defineStore('canvas', {
                 this.currentActiveNode.data.state.isActive = false;
             }
             this.currentActiveNode = Object.assign({}, {}); // To make it reactive
+        },
+        sortActiveNodeColumns() {
+            const Columns = this.currentActiveNode.data.table.columns;
+            this.currentActiveNode.data.table.columns =
+                sortConstraintKeys(Columns);
         },
     },
     getters: {

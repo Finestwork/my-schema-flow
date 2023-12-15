@@ -10,6 +10,9 @@ const props = withDefaults(defineProps<TProps>(), {
     colorScheme: 'primary',
     disabled: false,
 });
+const emits = defineEmits<{
+    (e: 'click', e: MouseEvent): void;
+}>();
 </script>
 <template>
     <VTooltip :offset-y="10">
@@ -24,6 +27,7 @@ const props = withDefaults(defineProps<TProps>(), {
                 'cursor-not-allowed dark:bg-dark-800/90 dark:stroke-slate-700':
                     props.disabled,
             }"
+            @click="emits('click', $event)"
         >
             <slot></slot>
         </button>

@@ -6,7 +6,9 @@ import VPanelTextInput from '@components/Base/Forms/VPanelTextInput.vue';
 import BaseColumnButton from '@components/Modules/TableInformation/Partials/BaseColumnButton.vue';
 import BaseButtonIcon from '@components/Modules/TableInformation/Partials/BaseButtonIcon.vue';
 import { useCanvasStore } from '@stores/CanvasStore';
+import { sortConstraintKeys } from '@utilities/TableHelper';
 import { computed, ref } from 'vue';
+import { klona } from 'klona';
 
 export type TColumnList = {
     name: string;
@@ -30,6 +32,13 @@ const onClickToggleActiveState = (e: MouseEvent, ind: number) => {
         return;
     }
     currentColumnIndex.value = ind;
+};
+const onClickCopyColumn = () => {
+    const CurrentActiveNode = canvasStore.currentActiveNode;
+    const Columns = CurrentActiveNode.data.table.columns;
+    const CopiedColumn = klona(Columns[currentColumnIndex.value]);
+    Columns.push(CopiedColumn);
+    canvasStore.sortActiveNodeColumns();
 };
 </script>
 <template>
@@ -61,7 +70,11 @@ const onClickToggleActiveState = (e: MouseEvent, ind: number) => {
                 <AddIcon />
                 <template #tooltip>Add Column</template>
             </BaseButtonIcon>
-            <BaseButtonIcon class="mr-1" :disabled="currentColumnIndex === -1">
+            <BaseButtonIcon
+                class="mr-1"
+                :disabled="currentColumnIndex === -1"
+                @click="onClickCopyColumn"
+            >
                 <CopyIcon />
                 <template #tooltip>Copy Column</template>
             </BaseButtonIcon>
