@@ -13,6 +13,9 @@ export type TColumnList = {
     type: string;
     keyConstraint: string;
 };
+const { addColumn } = defineModels<{
+    addColumn: boolean;
+}>();
 const canvasStore = useCanvasStore();
 const currentColumnIndex = ref(-1);
 const getColumns = computed((): Array<TColumnList> => {
@@ -70,7 +73,7 @@ const onClickDeleteColumn = () => {
         </BaseColumnButton>
 
         <div class="mt-2.5">
-            <BaseButtonIcon class="mr-1">
+            <BaseButtonIcon class="mr-1" @click="addColumn = true">
                 <AddIcon />
                 <template #tooltip>Add Column</template>
             </BaseButtonIcon>

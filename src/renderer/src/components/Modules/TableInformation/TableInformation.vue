@@ -1,15 +1,27 @@
 <script setup lang="ts">
 import VPanelSectionWrapper from '@components/Base/Layouts/VPanelSectionWrapper.vue';
 import DefaultContent from '@components/Modules/TableInformation/Partials/DefaultContent.vue';
+import AddFormContent from '@components/Modules/TableInformation/Partials/AddFormContent.vue';
 import { useCanvasStore } from '@stores/CanvasStore';
+import { ref } from 'vue';
 
 const canvasStore = useCanvasStore();
+const displayAddColumnForm = ref(false);
 </script>
 <template>
     <VPanelSectionWrapper>
         <template #label>Table Information</template>
         <template #content>
-            <DefaultContent v-if="canvasStore.hasActiveNode" />
+            <div v-if="canvasStore.hasActiveNode">
+                <DefaultContent
+                    v-if="!displayAddColumnForm"
+                    v-model:add-column="displayAddColumnForm"
+                />
+                <AddFormContent
+                    v-if="displayAddColumnForm"
+                    v-model:display-form="displayAddColumnForm"
+                />
+            </div>
         </template>
     </VPanelSectionWrapper>
 </template>
