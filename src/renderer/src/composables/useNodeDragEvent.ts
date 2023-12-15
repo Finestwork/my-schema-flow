@@ -9,7 +9,8 @@ export function useNodeDragEvent() {
     const { onNodeDragStop, onNodeDragStart, onPaneClick, onNodeClick } =
         useVueFlow();
     const { highlightNodes, unhighlightNodes } = useConnectedNodes();
-    const { calculateActiveEdgesPosition } = useCalculateEdgePosition();
+    const { calculateActiveEdgesPosition, calculateAllEdgesPosition } =
+        useCalculateEdgePosition();
     let position = {
         x: -1,
         y: -1,
@@ -36,8 +37,18 @@ export function useNodeDragEvent() {
         const positionChanged =
             position.x !== node.position.x && position.y !== node.position.y;
         if (!positionChanged) return;
-        canvasStore.currentActiveNode = node;
-        calculateActiveEdgesPosition();
+
+        if (!canvasStore.hasActiveNode) {
+            canvasStore.currentActiveNode = node; // No need to create a deep copy, so we can modify it directly
+            _turnOnNodeActiveState(node);
+        }
+
+        if (canvasStore.hasActiveNode) {
+            calculateActiveEdgesPosition();
+            return;
+        }
+
+        calculateAllEdgesPosition();
     });
 
     onNodeClick((event) => {
