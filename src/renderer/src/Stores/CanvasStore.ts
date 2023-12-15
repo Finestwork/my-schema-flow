@@ -50,6 +50,11 @@ export const useCanvasStore = defineStore('canvas', {
             this.currentActiveNode.data.table.columns =
                 sortConstraintKeys(Columns);
         },
+        removeColumnInActiveNode(removeIndex: number) {
+            const CurrentActiveNode = this.currentActiveNode;
+            const Columns = CurrentActiveNode.data.table.columns;
+            Columns.splice(removeIndex, 1);
+        },
     },
     getters: {
         hasActiveNode: (state) => {

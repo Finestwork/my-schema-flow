@@ -6,9 +6,7 @@ import VPanelTextInput from '@components/Base/Forms/VPanelTextInput.vue';
 import BaseColumnButton from '@components/Modules/TableInformation/Partials/BaseColumnButton.vue';
 import BaseButtonIcon from '@components/Modules/TableInformation/Partials/BaseButtonIcon.vue';
 import { useCanvasStore } from '@stores/CanvasStore';
-import { sortConstraintKeys } from '@utilities/TableHelper';
 import { computed, ref } from 'vue';
-import { klona } from 'klona';
 
 export type TColumnList = {
     name: string;
@@ -42,8 +40,9 @@ const onClickToggleActiveState = (e: MouseEvent, ind: number) => {
     }
     currentColumnIndex.value = ind;
 };
-const onClickCopyColumn = () => {
-    canvasStore.cloneColumnInActiveNode(currentColumnIndex.value);
+const onClickDeleteColumn = () => {
+    canvasStore.removeColumnInActiveNode(currentColumnIndex.value);
+    currentColumnIndex.value = -1;
 };
 </script>
 <template>
@@ -78,7 +77,7 @@ const onClickCopyColumn = () => {
             <BaseButtonIcon
                 class="mr-1"
                 :disabled="!canCloneColumn"
-                @click="onClickCopyColumn"
+                @click="canvasStore.cloneColumnInActiveNode(currentColumnIndex)"
             >
                 <CopyIcon />
                 <template #tooltip>Copy Column</template>
@@ -86,6 +85,7 @@ const onClickCopyColumn = () => {
             <BaseButtonIcon
                 color-scheme="danger"
                 :disabled="currentColumnIndex === -1"
+                @click="onClickDeleteColumn"
             >
                 <TrashIcon />
                 <template #tooltip>Delete Column</template>
