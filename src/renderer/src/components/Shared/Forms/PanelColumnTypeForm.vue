@@ -66,7 +66,7 @@ onClickOutside(rootWrapper, () => {
         <div
             v-if="showDropdown"
             ref="floating"
-            class="absolute overflow-hidden"
+            class="absolute overflow-hidden shadow-sm dark:bg-dark-900"
             :style="floatingStyles"
             @keydown="onKeyDownNavigateDropdown"
         >
@@ -94,7 +94,7 @@ onClickOutside(rootWrapper, () => {
                         >{{ item.name }}</span
                     >
                     <span
-                        class="w-full truncate group-hover:dark:text-cyan-700 group-focus:dark:text-cyan-700"
+                        class="w-full truncate text-left group-hover:dark:text-cyan-700 group-focus:dark:text-cyan-700"
                         :class="{
                             'dark:text-cyan-700': currentIndex === ind,
                             'dark:text-slate-700': currentIndex !== ind,
