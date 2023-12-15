@@ -37,6 +37,13 @@ const onFocusShowDropdown = () => {
     showDropdown.value = true;
     updateActiveIndex();
 };
+const onClickChooseDataType = (index: number) => {
+    currentIndex.value = index;
+    const Name = getMysqlDatTypes.value[index].name;
+    modelValue.value = Name;
+    searchTerm.value = Name;
+    showDropdown.value = false;
+};
 
 onClickOutside(rootWrapper, () => {
     showDropdown.value = false;
@@ -76,6 +83,7 @@ onClickOutside(rootWrapper, () => {
                     :class="{
                         'dark:bg-cyan-950': currentIndex === ind,
                     }"
+                    @click="onClickChooseDataType(ind)"
                 >
                     <span
                         class="w-full truncate text-left group-hover:dark:text-cyan-500 group-focus:dark:text-cyan-500"
