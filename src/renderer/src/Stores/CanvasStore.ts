@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import type { GraphNode } from '@vue-flow/core';
 import { sortConstraintKeys } from '@utilities/TableHelper';
+import { klona } from 'klona';
 
 export type TTableColumn = {
     id: number;
@@ -36,8 +37,16 @@ export const useCanvasStore = defineStore('canvas', {
             }
             this.currentActiveNode = Object.assign({}, {}); // To make it reactive
         },
-        sortActiveNodeColumns() {
-            const Columns = this.currentActiveNode.data.table.columns;
+        cloneColumnInActiveNode(cloneIndex: number) {
+            const CurrentActiveNode = this.currentActiveNode;
+            const Columns = CurrentActiveNode.data.table.columns;
+            const CopiedColumn = klona(Columns[cloneIndex]);
+
+            // If a column is a primary key, do not copy it; there should only be one primary key
+            if (CopiedColumn.keyConstraint === 'PK') {
+                return;
+            }
+            Columns.push(CopiedColumn);
             this.currentActiveNode.data.table.columns =
                 sortConstraintKeys(Columns);
         },

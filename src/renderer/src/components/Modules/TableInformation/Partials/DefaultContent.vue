@@ -34,11 +34,7 @@ const onClickToggleActiveState = (e: MouseEvent, ind: number) => {
     currentColumnIndex.value = ind;
 };
 const onClickCopyColumn = () => {
-    const CurrentActiveNode = canvasStore.currentActiveNode;
-    const Columns = CurrentActiveNode.data.table.columns;
-    const CopiedColumn = klona(Columns[currentColumnIndex.value]);
-    Columns.push(CopiedColumn);
-    canvasStore.sortActiveNodeColumns();
+    canvasStore.cloneColumnInActiveNode(currentColumnIndex.value);
 };
 </script>
 <template>
