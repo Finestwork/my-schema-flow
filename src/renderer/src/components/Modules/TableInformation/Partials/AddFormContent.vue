@@ -19,13 +19,14 @@ const { displayForm } = defineModels<{
 const canvasStore = useCanvasStore();
 const errors = ref([]);
 const isSuccessfullyCreated = ref(false);
-const formStates = reactive({
+const initialState = {
     name: '',
     type: '',
     length: '',
     keyConstraint: '',
     isNull: false,
-});
+};
+const formStates = reactive({ ...initialState });
 const onClickAddColumn = () => {
     errors.value = [];
     isSuccessfullyCreated.value = false;
@@ -33,6 +34,7 @@ const onClickAddColumn = () => {
     if (errors.value.length !== 0) return;
     canvasStore.addColumnInActiveNode(formStates);
     isSuccessfullyCreated.value = true;
+    Object.assign(formStates, initialState);
 };
 </script>
 <template>
