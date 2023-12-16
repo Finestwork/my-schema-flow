@@ -1,5 +1,5 @@
 import { mySqlDataTypes } from '@utilities/DatabaseHelper';
-import { isString, isEmpty } from 'lodash';
+import { isBoolean, isEmpty } from 'lodash';
 import type { TNode } from '@stores/CanvasStore';
 
 export type TAddColumnForm = {
@@ -7,6 +7,7 @@ export type TAddColumnForm = {
     type: string;
     length: string;
     keyConstraint: string;
+    isNull: string;
 };
 
 /**
@@ -39,6 +40,10 @@ export const validateColumns = (
         if (Index === -1) {
             Errors.push('Data type is invalid.');
         }
+    }
+
+    if (!isBoolean(data.isNull)) {
+        Errors.push('Null property must be a boolean.');
     }
 
     return Errors.map((error) => `• ${error}`);
