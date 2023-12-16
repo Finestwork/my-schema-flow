@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import VPanelSectionWrapper from '@components/Base/Layouts/VPanelSectionWrapper.vue';
+import NoTableSelected from '@components/Shared/EmptyStates/NoTableSelected.vue';
 import DefaultContent from '@components/Modules/TableInformation/Partials/DefaultContent.vue';
 import FormContentAdd from '@components/Modules/TableInformation/Partials/FormContentAdd.vue';
 import FormContentEdit from '@components/Modules/TableInformation/Partials/FormContentEdit.vue';
 import { useCanvasStore } from '@stores/CanvasStore';
-import { ref } from 'vue';
 
 const canvasStore = useCanvasStore();
 const { displayAddColumnForm, displayEditColumnForm, currentColumnIndex } =
@@ -35,6 +35,7 @@ const { displayAddColumnForm, displayEditColumnForm, currentColumnIndex } =
                     v-model:current-column-index="currentColumnIndex"
                 />
             </div>
+            <NoTableSelected v-else />
         </template>
     </VPanelSectionWrapper>
 </template>
