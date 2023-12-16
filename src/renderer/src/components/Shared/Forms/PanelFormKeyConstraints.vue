@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import PanelFormKeyConstraintsButton from '@components/Shared/Forms/PanelFormKeyConstraintsButton.vue';
+import PanelFormSelectButton from '@components/Shared/Forms/PanelFormSelectButton.vue';
 
 const { modelValue } = defineModels<{
     modelValue: 'PK' | 'FK';
@@ -19,19 +19,19 @@ const onClickToggleModelValue = (type: string, e: MouseEvent) => {
             >Key Constraints:</span
         >
         <div class="mt-1.5 flex">
-            <PanelFormKeyConstraintsButton
+            <PanelFormSelectButton
                 class="mr-2"
                 :is-active="modelValue === 'PK'"
                 @click="onClickToggleModelValue('PK', $event)"
             >
                 Primary Key
-            </PanelFormKeyConstraintsButton>
-            <PanelFormKeyConstraintsButton
+            </PanelFormSelectButton>
+            <PanelFormSelectButton
                 :is-active="modelValue === 'FK'"
                 @click="onClickToggleModelValue('FK', $event)"
             >
                 Foreign Key
-            </PanelFormKeyConstraintsButton>
+            </PanelFormSelectButton>
         </div>
     </div>
 </template>
