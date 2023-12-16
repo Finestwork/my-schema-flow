@@ -25,7 +25,7 @@ const formStates = reactive({
     isNull: false,
 });
 const onClickAddColumn = () => {
-    errors.value = validateColumns(formStates, canvasStore);
+    errors.value = validateColumns(formStates, canvasStore.currentActiveNode);
 };
 </script>
 <template>

@@ -46,5 +46,21 @@ export const validateColumns = (
         Errors.push('Null property must be a boolean.');
     }
 
+    // Check if there's an existing primary key
+    const Columns = currentNode.data.table.columns;
+    const PKIndex = Columns.findIndex(
+        (column) => column.keyConstraint === 'PK',
+    );
+    if (PKIndex !== -1) {
+        Errors.push('There should be only one primary key.');
+    } else {
+        // If there's no primary key, then check if null property is enabled
+        if (data.isNull) {
+            Errors.push(
+                'Null property must not be enabled because column is a primary key.',
+            );
+        }
+    }
+
     return Errors.map((error) => `• ${error}`);
 };
