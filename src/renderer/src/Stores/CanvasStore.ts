@@ -37,6 +37,15 @@ export const useCanvasStore = defineStore('canvas', {
             this.currentActiveNode.data.table.columns =
                 sortConstraintKeys(Columns);
         },
+        updateColumnInActiveNode(
+            data: Omit<TTableColumn, 'id', 'keyConstraint'>,
+            index: number,
+        ) {
+            const Columns = this.currentActiveNode.data.table.columns;
+            Columns[index] = klona(data);
+            this.currentActiveNode.data.table.columns =
+                sortConstraintKeys(Columns);
+        },
         removeNodeActiveState() {
             if (Object.keys(this.currentActiveNode).length !== 0) {
                 this.currentActiveNode.data.state.isActive = false;

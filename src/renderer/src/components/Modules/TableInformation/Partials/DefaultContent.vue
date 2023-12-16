@@ -13,11 +13,14 @@ export type TColumnList = {
     type: string;
     keyConstraint: string;
 };
-const { addColumn } = defineModels<{
-    addColumn: boolean;
+const emits = defineEmits<{
+    (e: 'addColumn', value: Event): void;
+    (e: 'editColumn', value: Event): void;
+}>();
+const { currentColumnIndex } = defineModels<{
+    currentColumnIndex: number;
 }>();
 const canvasStore = useCanvasStore();
-const currentColumnIndex = ref(-1);
 const getColumns = computed((): Array<TColumnList> => {
     if (!canvasStore.hasActiveNode) return [];
     return canvasStore.currentActiveNode.data.table.columns.map((column) => ({
@@ -47,6 +50,10 @@ const onClickDeleteColumn = () => {
     canvasStore.removeColumnInActiveNode(currentColumnIndex.value);
     currentColumnIndex.value = -1;
 };
+const onDoubleClickEditColumn = (e: Event, index: number) => {
+    emits('editColumn', e);
+    currentColumnIndex.value = index;
+};
 </script>
 <template>
     <div>
@@ -64,6 +71,7 @@ const onClickDeleteColumn = () => {
             class="mb-2 last-of-type:mb-0"
             :is-active="currentColumnIndex === ind"
             @click="onClickToggleActiveState($event, ind)"
+            @dblclick="onDoubleClickEditColumn($event, ind)"
         >
             <template #column>
                 {{ column.name }}
@@ -73,7 +81,7 @@ const onClickDeleteColumn = () => {
         </BaseColumnButton>
 
         <div class="mt-2.5">
-            <BaseButtonIcon class="mr-1" @click="addColumn = true">
+            <BaseButtonIcon class="mr-1" @click="emits('editColumn', $event)">
                 <AddIcon />
                 <template #tooltip>Add Column</template>
             </BaseButtonIcon>
