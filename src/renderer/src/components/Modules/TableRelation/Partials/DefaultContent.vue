@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import VPanelActionButton from '@components/Base/Buttons/VPanelActionButton.vue';
+import AddIcon from '@components/Shared/Icons/AddIcon.vue';
 import BaseButton from '@components/Modules/TableRelation/Partials/BaseButton.vue';
 import { useCanvasStore } from '@stores/CanvasStore';
 import { getNodeRelationship } from '@utilities/CanvasHelper';
@@ -50,5 +52,11 @@ const getRelations = computed(() => {
             <template #column>{{ relation.column }}</template>
             <template #relation>{{ relation.relation }}</template>
         </BaseButton>
+        <VPanelActionButton class="mt-4">
+            <template #icon>
+                <AddIcon />
+            </template>
+            <template #text>Add Relation</template>
+        </VPanelActionButton>
     </div>
 </template>
