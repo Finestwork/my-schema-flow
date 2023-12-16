@@ -4,7 +4,7 @@ import { useDropdownFloatingLayout } from '@composables/useDropdownFloatingLayou
 import { useDatabaseDropdown } from '@composables/useDatabaseDropdown';
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue';
 import { onClickOutside } from '@vueuse/core';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 
 const { modelValue } = defineModels<{
     modelValue: string;
@@ -48,6 +48,15 @@ const onClickChooseDataType = (index: number) => {
 onClickOutside(rootWrapper, () => {
     showDropdown.value = false;
 });
+
+watch(
+    () => modelValue.value,
+    (value) => {
+        if (value.trim() === '') {
+            searchTerm.value = '';
+        }
+    },
+);
 </script>
 
 <template>
