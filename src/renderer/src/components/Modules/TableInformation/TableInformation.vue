@@ -3,10 +3,11 @@ import VPanelSectionWrapper from '@components/Base/Layouts/VPanelSectionWrapper.
 import DefaultContent from '@components/Modules/TableInformation/Partials/DefaultContent.vue';
 import AddFormContent from '@components/Modules/TableInformation/Partials/AddFormContent.vue';
 import { useCanvasStore } from '@stores/CanvasStore';
-import { ref } from 'vue';
 
 const canvasStore = useCanvasStore();
-const displayAddColumnForm = ref(false);
+const { displayAddColumnForm } = defineModels<{
+    displayAddColumnForm: boolean;
+}>();
 </script>
 <template>
     <VPanelSectionWrapper>
