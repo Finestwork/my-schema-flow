@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import VPanelActionButton from '@components/Base/Buttons/VPanelActionButton.vue';
 import VAlertList from '@components/Base/Alerts/VAlertList.vue';
+import VAlert from '@components/Base/Alerts/VAlert.vue';
 import AddIcon from '@components/Shared/Icons/AddIcon.vue';
 import PanelBackButton from '@components/Shared/Buttons/PanelBackButton.vue';
 import PanelFormColumnName from '@components/Shared/Forms/PanelFormColumnName.vue';
@@ -17,6 +18,7 @@ const { displayForm } = defineModels<{
 }>();
 const canvasStore = useCanvasStore();
 const errors = ref([]);
+const isSuccessfullyCreated = ref(false);
 const formStates = reactive({
     name: '',
     type: '',
@@ -26,9 +28,11 @@ const formStates = reactive({
 });
 const onClickAddColumn = () => {
     errors.value = [];
+    isSuccessfullyCreated.value = false;
     errors.value = validateColumns(formStates, canvasStore.currentActiveNode);
     if (errors.value.length !== 0) return;
     canvasStore.addColumnInActiveNode(formStates);
+    isSuccessfullyCreated.value = true;
 };
 </script>
 <template>
@@ -41,6 +45,9 @@ const onClickAddColumn = () => {
                 class="mb-2.5 mt-6"
                 :items="errors"
             />
+            <VAlert v-if="isSuccessfullyCreated" class="mb-2.5 mt-6">
+                You have successfully added a new column!
+            </VAlert>
             <PanelFormColumnName v-model="formStates.name" class="mb-3" />
             <PanelColumnTypeForm v-model="formStates.type" class="mb-3" />
             <PanelFormColumnLength v-model="formStates.length" class="mb-3" />
