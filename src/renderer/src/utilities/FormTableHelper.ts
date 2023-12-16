@@ -1,3 +1,4 @@
+import { mySqlDataTypes } from '@utilities/DatabaseHelper';
 import { isString, isEmpty } from 'lodash';
 import type { TNode } from '@stores/CanvasStore';
 
@@ -6,6 +7,14 @@ export type TAddColumnForm = {
     type: string;
     length: string;
     keyConstraint: string;
+};
+
+/**
+ * Parses the table length from a string to an integer.
+ */
+export const parseTableLength = (length: string) => {
+    const Length = length.split(',').join(''); // Since length can be a string like '10,230'
+    return parseInt(Length);
 };
 
 export const validateColumns = (
@@ -20,6 +29,16 @@ export const validateColumns = (
 
     if (isEmpty(data.type)) {
         Errors.push('Column type cannot be empty.');
+    } else {
+        // Check if a data type is valid in mysql
+        const Index = mySqlDataTypes.findIndex(
+            (dataType) =>
+                dataType.name.toLowerCase() === data.type.toLowerCase(),
+        );
+
+        if (Index === -1) {
+            Errors.push('Data type is invalid.');
+        }
     }
 
     return Errors.map((error) => `• ${error}`);
