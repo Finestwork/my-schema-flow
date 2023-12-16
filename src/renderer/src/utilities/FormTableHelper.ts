@@ -7,7 +7,7 @@ export type TAddColumnForm = {
     type: string;
     length: string;
     keyConstraint: string;
-    isNull: string;
+    isNull: boolean;
 };
 
 /**
