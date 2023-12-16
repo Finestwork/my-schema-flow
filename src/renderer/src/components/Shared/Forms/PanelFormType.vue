@@ -36,6 +36,9 @@ const onClickToggleDropdown = (e: MouseEvent) => {
 const onFocusShowDropdown = () => {
     showDropdown.value = true;
     updateActiveIndex();
+    if (modelValue.value.trim() !== '') {
+        searchTerm.value = modelValue.value;
+    }
 };
 const onClickChooseDataType = (index: number) => {
     currentIndex.value = index;
@@ -51,7 +54,7 @@ onClickOutside(rootWrapper, () => {
 
 watch(
     () => modelValue.value,
-    (value) => {
+    (value: string) => {
         if (value.trim() === '') {
             searchTerm.value = '';
         }
