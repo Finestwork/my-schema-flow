@@ -1,14 +1,7 @@
 import { mySqlDataTypes } from '@utilities/DatabaseHelper';
 import { isBoolean, isEmpty } from 'lodash';
 import type { TNode } from '@stores/CanvasStore';
-
-export type TAddColumnForm = {
-    name: string;
-    type: string;
-    length: string;
-    keyConstraint: string;
-    isNull: boolean;
-};
+import type { TTableColumn } from '@stores/CanvasStore';
 
 /**
  * Parses the table length from a string to an integer.
@@ -19,7 +12,7 @@ export const parseTableLength = (length: string) => {
 };
 
 export const validateColumns = (
-    data: TAddColumnForm,
+    data: Omit<TTableColumn, 'id'>,
     currentNode: TNode,
 ): Array<string> => {
     const Errors = [];
@@ -51,7 +44,7 @@ export const validateColumns = (
     const PKIndex = Columns.findIndex(
         (column) => column.keyConstraint === 'PK',
     );
-    if (PKIndex !== -1) {
+    if (PKIndex !== -1 && data.keyConstraint === 'PK') {
         Errors.push('There should be only one primary key.');
     } else {
         // If there's no primary key, then check if null property is enabled

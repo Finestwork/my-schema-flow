@@ -8,8 +8,8 @@ export type TTableColumn = {
     name: string;
     type: string;
     isNull: boolean;
-    length: '';
-    keyConstraint: 'PK' | 'FK' | '';
+    length: string;
+    keyConstraint: 'PK' | 'FK' | string;
 };
 export type TNodeData = {
     table: {
@@ -31,6 +31,12 @@ export const useCanvasStore = defineStore('canvas', {
         currentActiveNode: {} as TNode,
     }),
     actions: {
+        addColumnInActiveNode(data: Omit<TTableColumn, 'id', 'keyConstraint'>) {
+            const Columns = this.currentActiveNode.data.table.columns;
+            Columns.push(klona(data));
+            this.currentActiveNode.data.table.columns =
+                sortConstraintKeys(Columns);
+        },
         removeNodeActiveState() {
             if (Object.keys(this.currentActiveNode).length !== 0) {
                 this.currentActiveNode.data.state.isActive = false;

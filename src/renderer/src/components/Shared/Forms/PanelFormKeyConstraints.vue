@@ -2,7 +2,7 @@
 import PanelFormSelectButton from '@components/Shared/Forms/PanelFormSelectButton.vue';
 
 const { modelValue } = defineModels<{
-    modelValue: 'PK' | 'FK' | '';
+    modelValue: 'PK' | 'FK' | string;
 }>();
 const onClickToggleModelValue = (type: string, e: MouseEvent) => {
     (e.target as HTMLButtonElement).blur();
