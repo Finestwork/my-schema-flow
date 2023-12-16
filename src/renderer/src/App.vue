@@ -2,6 +2,7 @@
 import TitleBar from '@components/Modules/TitleBar/TitleBar.vue';
 import Canvas from '@components/Modules/Canvas/Canvas.vue';
 import TableInformation from '@components/Modules/TableInformation/TableInformation.vue';
+import TableRelations from '@components/Modules/TableRelation/TableRelations.vue';
 import { useDetectActiveNodeChange } from '@composables/useDetectActiveNodeChange';
 import { useDarkMode } from '@composables/useDarkMode';
 import { useVueFlow } from '@vue-flow/core';
@@ -9,7 +10,7 @@ import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue';
 import { reactive, ref } from 'vue';
 
 const { activeNodeChanged } = useDetectActiveNodeChange();
-const { onPaneClick } = useVueFlow();
+const { getNodes, getEdges, onPaneClick } = useVueFlow();
 const { toggleDarkMode } = useDarkMode();
 const toggleDisplayForms = reactive({
     addColumn: false,
@@ -45,6 +46,7 @@ activeNodeChanged(resetStates);
                         "
                         v-model:current-column-index="currentColumnIndex"
                     />
+                    <TableRelations :edges="getEdges" :nodes="getNodes" />
                 </OverlayScrollbarsComponent>
             </div>
         </div>

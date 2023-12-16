@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
-import type { GraphNode } from '@vue-flow/core';
 import { sortConstraintKeys } from '@utilities/TableHelper';
 import { klona } from 'klona';
+import type { GraphNode, GraphEdge } from '@vue-flow/core';
 
 export type TTableColumn = {
     id: number;
@@ -24,7 +24,17 @@ export type TNodeData = {
     };
 };
 
+export type TEdgeData = {
+    referenced: {
+        column: string;
+    };
+    referencing: {
+        column: string;
+    };
+};
+
 export type TNode = GraphNode & { data: TNodeData };
+export type TEdge = GraphEdge & { data: TEdgeData };
 
 export const useCanvasStore = defineStore('canvas', {
     state: () => ({

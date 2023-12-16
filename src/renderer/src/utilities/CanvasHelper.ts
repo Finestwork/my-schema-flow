@@ -136,3 +136,23 @@ export const getActiveEdges = (
         (edge) => edge.source === NodeId || edge.target === NodeId,
     );
 };
+
+/**
+ * Returns a filtered list of edges based on the given active node
+ */
+export const getNodeRelationship = (
+    currentActiveNode: TElement | Record<string, never>,
+    edges: TEdge[],
+) => {
+    const NodeId = currentActiveNode.id;
+    return klona(edges).filter(
+        (edge) => edge.source === NodeId || edge.target === NodeId,
+    );
+};
+
+/**
+ * Find node by id
+ */
+export const findNode = (id: string, nodes: Array<TNode>) => {
+    return nodes.find((node) => node.id === id);
+};
