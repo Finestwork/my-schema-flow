@@ -18,6 +18,7 @@ export default defineConfig({
                 '@stores': resolve('src/renderer/src/stores'),
                 '@composables': resolve('src/renderer/src/composables'),
                 '@utilities': resolve('src/renderer/src/utilities'),
+                '@symbols': resolve('src/renderer/src/symbols'),
             },
         },
         plugins: [

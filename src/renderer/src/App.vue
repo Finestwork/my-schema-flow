@@ -3,26 +3,29 @@ import TitleBar from '@components/Modules/TitleBar/TitleBar.vue';
 import Canvas from '@components/Modules/Canvas/Canvas.vue';
 import TableInformation from '@components/Modules/TableInformation/TableInformation.vue';
 import TableRelations from '@components/Modules/TableRelation/TableRelations.vue';
+import { getEdgesKey, getNodesKey } from '@symbols/Canvas';
 import { useDetectActiveNodeChange } from '@composables/useDetectActiveNodeChange';
 import { useDarkMode } from '@composables/useDarkMode';
 import { useVueFlow } from '@vue-flow/core';
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue';
-import { reactive, ref } from 'vue';
+import { reactive, ref, provide } from 'vue';
 
-const { activeNodeChanged } = useDetectActiveNodeChange();
-const { getNodes, getEdges, onPaneClick } = useVueFlow();
-const { toggleDarkMode } = useDarkMode();
 const toggleDisplayForms = reactive({
     addColumn: false,
     editColumn: false,
 });
 const currentColumnIndex = ref(-1);
-toggleDarkMode();
+const { activeNodeChanged } = useDetectActiveNodeChange();
+const { getNodes, getEdges, onPaneClick } = useVueFlow();
+const { toggleDarkMode } = useDarkMode();
 const resetStates = () => {
     toggleDisplayForms.addColumn = false;
     toggleDisplayForms.editColumn = false;
     currentColumnIndex.value = -1;
 };
+provide(getNodesKey, getNodes);
+provide(getEdgesKey, getEdges);
+toggleDarkMode();
 onPaneClick(resetStates);
 activeNodeChanged(resetStates);
 </script>
@@ -46,7 +49,7 @@ activeNodeChanged(resetStates);
                         "
                         v-model:current-column-index="currentColumnIndex"
                     />
-                    <TableRelations :edges="getEdges" :nodes="getNodes" />
+                    <TableRelations />
                 </OverlayScrollbarsComponent>
             </div>
         </div>

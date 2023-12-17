@@ -25,6 +25,9 @@
             ],
             "@utilities/*": [
                 "src/renderer/src/utilities/*"
+            ],
+            "@symbols/*": [
+                "src/renderer/src/symbols/*"
             ]
         }
     }

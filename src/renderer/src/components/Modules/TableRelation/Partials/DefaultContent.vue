@@ -3,21 +3,28 @@ import VPanelActionButton from '@components/Base/Buttons/VPanelActionButton.vue'
 import AddIcon from '@components/Shared/Icons/AddIcon.vue';
 import BaseButton from '@components/Modules/TableRelation/Partials/BaseButton.vue';
 import { useCanvasStore } from '@stores/CanvasStore';
+import { getEdgesKey, getNodesKey } from '@symbols/Canvas';
 import { getNodeRelationship } from '@utilities/CanvasHelper';
 import { findNode } from '@utilities/CanvasHelper';
-import { computed } from 'vue';
-import type { TProps } from '@components/Modules/TableRelation/TableRelations.vue';
+import { computed, inject } from 'vue';
 
-const props = defineProps<TProps>();
+const emits = defineEmits<{
+    (e: 'addForm', value: Event): void;
+}>();
 const canvasStore = useCanvasStore();
+const canvasEdges = inject(getEdgesKey);
+const canvasNodes = inject(getNodesKey);
 const getRelations = computed(() => {
     const ActiveNode = canvasStore.currentActiveNode;
-    const currentActiveEdges = getNodeRelationship(ActiveNode, props.edges);
+    const currentActiveEdges = getNodeRelationship(
+        ActiveNode,
+        canvasEdges?.value,
+    );
 
     return currentActiveEdges
         .map((edge) => {
-            const SourceNode = findNode(edge.source, props.nodes);
-            const TargetNode = findNode(edge.target, props.nodes);
+            const SourceNode = findNode(edge.source, canvasNodes?.value);
+            const TargetNode = findNode(edge.target, canvasNodes?.value);
             const IsParent = edge.target === ActiveNode.id;
 
             const Table = IsParent
@@ -52,8 +59,8 @@ const getRelations = computed(() => {
             <template #column>{{ relation.column }}</template>
             <template #relation>{{ relation.relation }}</template>
         </BaseButton>
-        <VPanelActionButton class="mt-4">
-            <template #icon>
+        <VPanelActionButton class="mt-4" @click="emits('addForm', $event)">
+            <template #icon="">
                 <AddIcon />
             </template>
             <template #text>Add Relation</template>
