@@ -24,6 +24,7 @@ const referencedColumn = ref('');
             v-model="referencedColumn"
             v-model:referenced-table="referencedTable"
             class="mb-5"
+            :disabled="referencedTable.trim() === ''"
         />
         <VPanelActionButton>
             <template #icon>

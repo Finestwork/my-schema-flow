@@ -7,8 +7,11 @@ import { computed, inject, watch } from 'vue';
 
 export type TProps = {
     referencedTable: string;
+    disabled?: boolean;
 };
-const props = defineProps<TProps>();
+const props = withDefaults(defineProps<TProps>(), {
+    disabled: false,
+});
 const { modelValue } = defineModels<{
     modelValue: string;
 }>();
@@ -36,6 +39,7 @@ watch(
         v-model="modelValue"
         placeholder="Place referenced column here"
         :dropdown-items="getColumns"
+        :disabled="props.disabled"
     >
         <template #label>Referenced Column:</template>
     </VPanelAutoComplete>

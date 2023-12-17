@@ -7,8 +7,11 @@ import { ref } from 'vue';
 export type TProps = {
     id: string;
     placeholder: string;
+    disabled?: boolean;
 };
-const props = defineProps<TProps>();
+const props = withDefaults(defineProps<TProps>(), {
+    disabled: false,
+});
 const { modelValue, showDropdown } = defineModels<{
     modelValue: string;
     showDropdown: boolean;
@@ -44,6 +47,7 @@ onClickOutside(rootWrapper, () => {
             ref="reference"
             v-model="modelValue"
             :placeholder="placeholder"
+            :disabled="props.disabled"
             @input="emits('onInput', $event)"
             @focus="emits('onInputFocus', $event)"
             @keydown="emits('onInputKeydown', $event)"

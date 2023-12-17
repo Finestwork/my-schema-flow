@@ -5,9 +5,12 @@ import { nextTick, ref, watch } from 'vue';
 export type TProps = {
     id: string;
     placeholder: string;
+    disabled?: boolean;
 };
 
-const props = defineProps<TProps>();
+const props = withDefaults(defineProps<TProps>(), {
+    disabled: false,
+});
 const { modelValue, dropdownItems } = defineModels<{
     modelValue: string;
     dropdownItems: Array<string>;
@@ -117,6 +120,7 @@ watch(
         v-model="modelValue"
         v-model:show-dropdown="showDropdown"
         :placeholder="placeholder"
+        :disabled="props.disabled"
         @on-input="onInput"
         @on-input-focus="onFocusShowDropdown"
         @on-input-keydown="onKeyDownNavigateDropdown"
