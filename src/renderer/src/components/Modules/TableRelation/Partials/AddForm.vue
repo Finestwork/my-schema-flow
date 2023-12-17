@@ -11,7 +11,7 @@ const getNodes = inject(getNodesKey);
 
 <template>
     <div>
-        <PanelFormReferencingColumn v-model="referencingColumn" />
+        <PanelFormReferencingColumn v-model="referencingColumn" class="mb-2" />
         <PanelFormReferencedColumn v-model="referencedColumn" />
     </div>
 </template>
