@@ -1,65 +1,163 @@
 <script setup lang="ts">
-import VPanelTextInput from '@components/Base/Forms/VPanelTextInput.vue';
-import { useDropdownFloatingLayout } from '@composables/useDropdownFloatingLayout';
-import { onClickOutside } from '@vueuse/core';
-import { ref } from 'vue';
+import VPanelAutoCompleteWrapper from '@components/Base/Forms/VPanelAutoCompleteWrapper.vue';
+import { nextTick, ref, watch } from 'vue';
 
 export type TProps = {
     id: string;
     placeholder: string;
 };
+
 const props = defineProps<TProps>();
-const { modelValue, showDropdown } = defineModels<{
+const { modelValue, dropdownItems } = defineModels<{
     modelValue: string;
-    showDropdown: boolean;
+    dropdownItems: Array<string>;
 }>();
-const emits = defineEmits<{
-    (e: 'onInput', value: Event): void;
-    (e: 'onInputFocus', value: Event): void;
-    (e: 'onInputKeydown', value: Event): void;
-    (e: 'onKeyDownNavigateDropdown', value: Event): void;
-}>();
-const rootWrapper = ref();
-const reference = ref();
-const floating = ref();
+const scrollbar = ref();
+const dropdownBtn = ref();
+const searchTerm = ref('');
+const showDropdown = ref(false);
+const currentIndex = ref(0);
 
-const { floatingStyles } = useDropdownFloatingLayout(reference, floating);
-const onClickToggleDropdown = (e: MouseEvent) => {
-    const Target = e.target as HTMLElement;
-    if (!showDropdown.value) return;
-
-    if (Target.tagName !== 'INPUT' && !floating.value.contains(Target)) {
-        showDropdown.value = false;
+const _updateScrollPosition = () => {
+    const CurrentElement = dropdownBtn.value[currentIndex.value];
+    scrollbar.value.scrollTop = CurrentElement.offsetTop;
+};
+const _findIndex = () => {
+    const NewIndex = dropdownItems.value.findIndex((item) =>
+        item.toLowerCase().includes(modelValue.value.toLowerCase()),
+    );
+    if (NewIndex !== -1) {
+        currentIndex.value = NewIndex;
     }
 };
-onClickOutside(rootWrapper, () => {
+
+const onClickChooseDataType = (index: number) => {
+    currentIndex.value = index;
+    const Name = dropdownItems.value[index];
+    modelValue.value = Name;
+    searchTerm.value = Name;
     showDropdown.value = false;
-});
+};
+
+const onInput = (e: Event) => {
+    const Target = e.target as HTMLInputElement;
+    searchTerm.value = Target.value;
+};
+const onFocusShowDropdown = async () => {
+    showDropdown.value = true;
+    // Make sure that search term keeps track of modelValue
+    if (modelValue.value.trim() !== '') {
+        searchTerm.value = modelValue.value;
+    }
+
+    await nextTick();
+    _findIndex();
+};
+const onKeyDownNavigateDropdown = (e: KeyboardEvent) => {
+    const Input = e.target as HTMLInputElement;
+
+    if (e.key === 'Backspace') {
+        _findIndex();
+        if (searchTerm.value.trim() === '') {
+            return;
+        }
+    }
+
+    if (e.key === 'ArrowUp') {
+        if (dropdownBtn.value.length === 1) return;
+        if (currentIndex.value <= 0) {
+            currentIndex.value = dropdownBtn.value.length - 1;
+        } else {
+            currentIndex.value--;
+        }
+        modelValue.value = dropdownItems.value[currentIndex.value];
+        _updateScrollPosition();
+
+        // Need to add delay so that selection cursor will be at the end
+        setTimeout(() => {
+            const Length = Input.value.length;
+            Input.setSelectionRange(Length, Length);
+        }, 1);
+        return;
+    }
+
+    if (e.key === 'ArrowDown') {
+        if (dropdownBtn.value.length === 1) return;
+        if (currentIndex.value === dropdownBtn.value.length - 1) {
+            currentIndex.value = 0;
+        } else {
+            currentIndex.value++;
+        }
+        modelValue.value = dropdownItems.value[currentIndex.value];
+        _updateScrollPosition();
+        return;
+    }
+
+    if (e.key === 'Enter') {
+        const CurrentColumn = dropdownItems.value[currentIndex.value];
+
+        if (!CurrentColumn) {
+            searchTerm.value = modelValue.value;
+        } else {
+            modelValue.value = CurrentColumn;
+            searchTerm.value = CurrentColumn;
+        }
+
+        showDropdown.value = false;
+        (e.target as HTMLInputElement).blur();
+    }
+};
+
+watch(
+    () => modelValue.value,
+    (value: string) => {
+        if (value.trim() === '') {
+            searchTerm.value = '';
+        }
+    },
+);
 </script>
 
 <template>
-    <div ref="rootWrapper" @click="onClickToggleDropdown">
-        <VPanelTextInput
-            :id="props.id"
-            ref="reference"
-            v-model="modelValue"
-            :placeholder="placeholder"
-            @input="emits('onInput', $event)"
-            @focus="emits('onInputFocus', $event)"
-            @keydown="emits('onInputKeydown', $event)"
-        >
-            <template #label>
-                <slot name="label"></slot>
-            </template>
-        </VPanelTextInput>
-        <div
-            v-if="showDropdown"
-            ref="floating"
-            class="absolute overflow-hidden shadow-sm dark:bg-dark-900"
-            :style="floatingStyles"
-            @keydown="emits('onKeyDownNavigateDropdown', $event)"
-        >
-            <slot name="float"></slot>
-        </div>
-    </div>
+    <VPanelAutoCompleteWrapper
+        :id="props.id"
+        v-model="modelValue"
+        v-model:show-dropdown="showDropdown"
+        :placeholder="placeholder"
+        @on-input="onInput"
+        @on-input-focus="onFocusShowDropdown"
+        @on-input-keydown="onKeyDownNavigateDropdown"
+        @on-key-down-navigate-dropdown="onKeyDownNavigateDropdown"
+    >
+        <template #label>
+            <slot name="label"></slot>
+        </template>
+        <template #float>
+            <div
+                ref="scrollbar"
+                class="scrollbar-slim h-full max-h-[250px] overflow-y-scroll outline-none dark:bg-dark-800/50"
+            >
+                <button
+                    v-for="(item, ind) in dropdownItems"
+                    ref="dropdownBtn"
+                    :key="ind"
+                    class="group flex w-full justify-between px-2 py-1.5 text-xs font-bold outline-none hover:dark:bg-cyan-950 focus:dark:bg-cyan-950"
+                    type="button"
+                    :class="{
+                        'dark:bg-cyan-950': currentIndex === ind,
+                    }"
+                    @click="onClickChooseDataType(ind)"
+                >
+                    <span
+                        class="w-full truncate text-left group-hover:dark:text-cyan-500 group-focus:dark:text-cyan-500"
+                        :class="{
+                            'dark:text-cyan-500': currentIndex === ind,
+                            'dark:text-slate-500': currentIndex !== ind,
+                        }"
+                        >{{ item }}</span
+                    >
+                </button>
+            </div>
+        </template>
+    </VPanelAutoCompleteWrapper>
 </template>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import VPanelAutoComplete from '@components/Base/Forms/VPanelAutoComplete.vue';
+import VPanelAutoComplete from '@components/Base/Forms/VPanelAutoCompleteWrapper.vue';
 import { useSearchMySQLDataTypes } from '@composables/useSearchMySQLDataTypes';
 import { nextTick, ref } from 'vue';
 import { watch } from 'vue';

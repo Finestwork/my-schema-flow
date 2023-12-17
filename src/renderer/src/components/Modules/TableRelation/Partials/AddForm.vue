@@ -6,7 +6,6 @@ import { ref, inject } from 'vue';
 
 const referencingColumn = ref('');
 const referencedColumn = ref('');
-const getNodes = inject(getNodesKey);
 </script>
 
 <template>
