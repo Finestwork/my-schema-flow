@@ -5,7 +5,11 @@ import DefaultContent from '@components/Modules/TableRelation/Partials/DefaultCo
 import AddForm from '@components/Modules/TableRelation/Partials/AddForm.vue';
 import { useCanvasStore } from '@stores/CanvasStore';
 import { ref } from 'vue';
+import type { TRelationFormData } from '@composables/useTableRelation';
 
+const emits = defineEmits<{
+    (e: 'addRelation', data: TRelationFormData): void;
+}>();
 const canvasStore = useCanvasStore();
 const displayAddForm = ref(false);
 </script>
@@ -22,6 +26,7 @@ const displayAddForm = ref(false);
                 <AddForm
                     v-if="displayAddForm"
                     @go-back="displayAddForm = false"
+                    @add-relation="emits('addRelation', $event)"
                 />
             </div>
             <NoTableSelected v-else />

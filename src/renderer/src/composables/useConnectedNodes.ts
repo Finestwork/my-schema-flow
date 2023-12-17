@@ -5,7 +5,7 @@ import type { GraphEdge } from '@vue-flow/core';
 
 export function useConnectedNodes() {
     const canvasStore = useCanvasStore();
-    const { getNodes, getEdges } = useVueFlow();
+    const { getEdges } = useVueFlow();
     const highlightNodes = () => {
         const nodes = getConnectedNodes(
             canvasStore.currentActiveNode,
@@ -19,6 +19,8 @@ export function useConnectedNodes() {
                 stroke: '#22d3ee',
             };
             Edge.animated = true;
+            Edge.sourceNode.data.style.opacity = 1;
+            Edge.targetNode.data.style.opacity = 1;
             Edge.sourceNode.data.state.isActive = true;
             Edge.targetNode.data.state.isActive = true;
         });

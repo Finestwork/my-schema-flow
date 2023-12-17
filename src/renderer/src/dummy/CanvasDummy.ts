@@ -41,14 +41,10 @@ const createEdges = () => {
             target: NodeDummy[edge.target.table].id,
             data: {
                 referenced: {
-                    id: NodeDummy[edge.source.table].id,
                     column: edge.source.column,
-                    table: edge.source.table,
                 },
                 referencing: {
-                    id: NodeDummy[edge.target.table].id,
                     column: edge.target.column,
-                    table: edge.target.table,
                 },
             },
         };

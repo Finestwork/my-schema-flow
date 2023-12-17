@@ -3,6 +3,7 @@ import TitleBar from '@components/Modules/TitleBar/TitleBar.vue';
 import Canvas from '@components/Modules/Canvas/Canvas.vue';
 import TableInformation from '@components/Modules/TableInformation/TableInformation.vue';
 import TableRelations from '@components/Modules/TableRelation/TableRelations.vue';
+import { useTableRelation } from '@composables/useTableRelation';
 import { getEdgesKey, getNodesKey } from '@symbols/Canvas';
 import { useDetectActiveNodeChange } from '@composables/useDetectActiveNodeChange';
 import { useDarkMode } from '@composables/useDarkMode';
@@ -18,6 +19,7 @@ const currentColumnIndex = ref(-1);
 const { activeNodeChanged } = useDetectActiveNodeChange();
 const { getNodes, getEdges, onPaneClick } = useVueFlow();
 const { toggleDarkMode } = useDarkMode();
+const { addRelation } = useTableRelation();
 const resetStates = () => {
     toggleDisplayForms.addColumn = false;
     toggleDisplayForms.editColumn = false;
@@ -49,7 +51,7 @@ activeNodeChanged(resetStates);
                         "
                         v-model:current-column-index="currentColumnIndex"
                     />
-                    <TableRelations />
+                    <TableRelations @add-relation="addRelation" />
                 </OverlayScrollbarsComponent>
             </div>
         </div>

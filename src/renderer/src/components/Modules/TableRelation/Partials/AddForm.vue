@@ -5,14 +5,27 @@ import PanelFormReferencingColumn from '@components/Shared/Forms/PanelFormRefere
 import PanelFormReferencedTable from '@components/Shared/Forms/PanelFormReferencedTable.vue';
 import PanelFormReferencedColumn from '@components/Shared/Forms/PanelFormReferencedColumn.vue';
 import VPanelActionButton from '@components/Base/Buttons/VPanelActionButton.vue';
-import { ref } from 'vue';
+import { nextTick, ref } from 'vue';
+import type { TRelationFormData } from '@composables/useTableRelation';
 
 const emits = defineEmits<{
     (e: 'goBack'): void;
+    (e: 'addRelation', data: TRelationFormData): void;
 }>();
 const referencingColumn = ref('');
 const referencedTable = ref('');
 const referencedColumn = ref('');
+const onClickAddRelation = async () => {
+    emits('addRelation', {
+        referencingColumn: referencingColumn.value,
+        referencedTable: referencedTable.value,
+        referencedColumn: referencedColumn.value,
+    });
+    await nextTick();
+    referencingColumn.value = '';
+    referencedTable.value = '';
+    referencedColumn.value = '';
+};
 </script>
 
 <template>
@@ -26,7 +39,7 @@ const referencedColumn = ref('');
             class="mb-5"
             :disabled="referencedTable.trim() === ''"
         />
-        <VPanelActionButton>
+        <VPanelActionButton @click="onClickAddRelation">
             <template #icon>
                 <AddIcon />
             </template>
