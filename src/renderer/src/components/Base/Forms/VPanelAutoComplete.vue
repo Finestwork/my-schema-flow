@@ -45,7 +45,8 @@ const onInput = (e: Event) => {
 };
 const onFocusShowDropdown = async () => {
     showDropdown.value = true;
-    // Make sure that search term keeps track of modelValue
+
+    // Just in case when the user forgets to select an item
     if (modelValue.value.trim() !== '') {
         searchTerm.value = modelValue.value;
     }
@@ -54,8 +55,6 @@ const onFocusShowDropdown = async () => {
     _findIndex();
 };
 const onKeyDownNavigateDropdown = (e: KeyboardEvent) => {
-    const Input = e.target as HTMLInputElement;
-
     if (e.key === 'Backspace') {
         _findIndex();
         if (searchTerm.value.trim() === '') {
@@ -64,6 +63,7 @@ const onKeyDownNavigateDropdown = (e: KeyboardEvent) => {
     }
 
     if (e.key === 'ArrowUp') {
+        e.preventDefault(); // Prevent selection range from jumping to the left when navigating
         if (dropdownBtn.value.length === 1) return;
         if (currentIndex.value <= 0) {
             currentIndex.value = dropdownBtn.value.length - 1;
@@ -72,12 +72,6 @@ const onKeyDownNavigateDropdown = (e: KeyboardEvent) => {
         }
         modelValue.value = dropdownItems.value[currentIndex.value];
         _updateScrollPosition();
-
-        // Need to add delay so that selection cursor will be at the end
-        setTimeout(() => {
-            const Length = Input.value.length;
-            Input.setSelectionRange(Length, Length);
-        }, 1);
         return;
     }
 
@@ -95,7 +89,6 @@ const onKeyDownNavigateDropdown = (e: KeyboardEvent) => {
 
     if (e.key === 'Enter') {
         const CurrentColumn = dropdownItems.value[currentIndex.value];
-
         if (!CurrentColumn) {
             searchTerm.value = modelValue.value;
         } else {
