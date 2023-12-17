@@ -8,7 +8,7 @@ const { modelValue } = defineModels<{
 
 <template>
     <VPanelTextInput
-        id="referencingColumn"
+        id="addRelationReferencingColumn"
         v-model="modelValue"
         placeholder="Place referencing column here"
     >

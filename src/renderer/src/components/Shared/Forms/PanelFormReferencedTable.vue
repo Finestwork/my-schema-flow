@@ -9,7 +9,7 @@ const { modelValue } = defineModels<{
 }>();
 const canvasStore = useCanvasStore();
 const getNodes = inject(getNodesKey);
-const getColumns = computed(() => {
+const getTables = computed(() => {
     const CurrentTable = canvasStore.currentActiveNode.data.table.name;
     return getNodes.value
         .map((node) => node.data.table.name)
@@ -27,10 +27,10 @@ watch(
 
 <template>
     <VPanelAutoComplete
-        id="addColumnTypeForm"
+        id="addRelationReferencedTable"
         v-model="modelValue"
         placeholder="Place referenced table here"
-        :dropdown-items="getColumns"
+        :dropdown-items="getTables"
     >
         <template #label>Referenced Table:</template>
     </VPanelAutoComplete>

@@ -156,3 +156,10 @@ export const getNodeRelationship = (
 export const findNode = (id: string, nodes: Array<TNode>) => {
     return nodes.find((node) => node.id === id);
 };
+
+/**
+ * Find node by table name
+ */
+export const findNodeByTableName = (name: string, nodes: Array<TNode>) => {
+    return nodes.find((node) => node.data.table.name === name);
+};
