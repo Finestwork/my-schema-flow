@@ -1,17 +1,35 @@
 <script setup lang="ts">
-import VPanelTextInput from '@components/Base/Forms/VPanelTextInput.vue';
+import VPanelAutoComplete from '@components/Base/Forms/VPanelAutoComplete.vue';
+import { useCanvasStore } from '@stores/CanvasStore';
+import { computed, watch } from 'vue';
 
 const { modelValue } = defineModels<{
     modelValue: string;
 }>();
+const canvasStore = useCanvasStore();
+const getColumns = computed(() => {
+    if (!canvasStore.hasActiveNode) return [];
+    return canvasStore.currentActiveNode.data.table.columns.map(
+        (column) => column.name,
+    );
+});
+
+// Everytime active node changes, reset model value
+watch(
+    () => canvasStore.currentActiveNode,
+    () => {
+        modelValue.value = '';
+    },
+);
 </script>
 
 <template>
-    <VPanelTextInput
+    <VPanelAutoComplete
         id="addRelationReferencingColumn"
         v-model="modelValue"
         placeholder="Place referencing column here"
+        :dropdown-items="getColumns"
     >
         <template #label>Referencing Column:</template>
-    </VPanelTextInput>
+    </VPanelAutoComplete>
 </template>
