@@ -2,6 +2,7 @@ import { mySqlDataTypes } from '@utilities/DatabaseHelper';
 import { isBoolean, isEmpty } from 'lodash';
 import type { TNode } from '@stores/CanvasStore';
 import type { TTableColumn } from '@stores/CanvasStore';
+import type { TRelationFormData } from '@composables/useTableRelation';
 
 /**
  * Parses the table length from a string to an integer.
@@ -51,6 +52,59 @@ export const validateColumns = (
         if (data.isNull) {
             Errors.push(
                 'Null property must not be enabled because column is a primary key.',
+            );
+        }
+    }
+
+    return Errors.map((error) => `• ${error}`);
+};
+
+export const validateTableRelations = (
+    data: TRelationFormData,
+    currentActiveNode: TNode,
+    nodes: Array<TNode>,
+) => {
+    const Errors = [];
+    let referencedNode = undefined;
+
+    if (isEmpty(data.referencingColumn)) {
+        Errors.push('Referencing column should not be empty.');
+    } else {
+        const TableName = currentActiveNode.data.table.name;
+        const Columns = currentActiveNode.data.table.columns;
+        const Column = Columns.find(
+            (column) => column.name === data.referencingColumn,
+        );
+        if (!Column) {
+            Errors.push(
+                `Referencing column not found in '${TableName}' table.`,
+            );
+        }
+    }
+
+    if (isEmpty(data.referencedTable)) {
+        Errors.push('Referenced table should not be empty.');
+    } else {
+        referencedNode = nodes.find(
+            (node) => node.data.table.name === data.referencedTable,
+        );
+        if (!referencedNode) {
+            Errors.push(`Referenced table not found.`);
+        }
+    }
+
+    if (isEmpty(data.referencedColumn)) {
+        Errors.push('Referenced column should not be empty.');
+    } else {
+        if (!referencedNode) return;
+        const Columns = referencedNode.data.table.columns;
+        const Column = Columns.find(
+            (column) => column.name === data.referencedColumn,
+        );
+
+        if (!Column) {
+            Errors.push(
+                `Referenced column not found in '${data.referencedTable}' table.`,
             );
         }
     }

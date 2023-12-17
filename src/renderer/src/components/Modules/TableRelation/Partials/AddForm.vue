@@ -1,26 +1,42 @@
 <script setup lang="ts">
+import VAlertList from '@components/Base/Alerts/VAlertList.vue';
 import AddIcon from '@components/Shared/Icons/AddIcon.vue';
 import PanelBackButton from '@components/Shared/Buttons/PanelBackButton.vue';
 import PanelFormReferencingColumn from '@components/Shared/Forms/PanelFormReferencingColumn.vue';
 import PanelFormReferencedTable from '@components/Shared/Forms/PanelFormReferencedTable.vue';
 import PanelFormReferencedColumn from '@components/Shared/Forms/PanelFormReferencedColumn.vue';
 import VPanelActionButton from '@components/Base/Buttons/VPanelActionButton.vue';
-import { nextTick, ref } from 'vue';
+import { useCanvasStore } from '@stores/CanvasStore';
+import { getNodesKey } from '@symbols/Canvas';
+import { validateTableRelations } from '@utilities/FormTableHelper';
+import { nextTick, ref, inject } from 'vue';
+import type { Ref } from 'vue';
 import type { TRelationFormData } from '@composables/useTableRelation';
 
 const emits = defineEmits<{
     (e: 'goBack'): void;
     (e: 'addRelation', data: TRelationFormData): void;
 }>();
+const canvasStore = useCanvasStore();
+const errors: Ref<Array<string>> = ref([]);
 const referencingColumn = ref('');
 const referencedTable = ref('');
 const referencedColumn = ref('');
+const getNodes = inject(getNodesKey);
 const onClickAddRelation = async () => {
-    emits('addRelation', {
+    errors.value = [];
+    const RelationObj = {
         referencingColumn: referencingColumn.value,
         referencedTable: referencedTable.value,
         referencedColumn: referencedColumn.value,
-    });
+    };
+    errors.value = validateTableRelations(
+        RelationObj,
+        canvasStore.currentActiveNode,
+        getNodes.value,
+    );
+    if (errors.value.length !== 0) return;
+    emits('addRelation', RelationObj);
     await nextTick();
     referencingColumn.value = '';
     referencedTable.value = '';
@@ -30,6 +46,12 @@ const onClickAddRelation = async () => {
 
 <template>
     <div>
+        <VAlertList
+            v-if="errors.length !== 0"
+            class="mb-3 mt-4"
+            type="danger"
+            :items="errors"
+        />
         <PanelBackButton class="mb-4 mt-2" @click="emits('goBack')" />
         <PanelFormReferencingColumn v-model="referencingColumn" class="mb-2" />
         <PanelFormReferencedTable v-model="referencedTable" class="mb-2" />
