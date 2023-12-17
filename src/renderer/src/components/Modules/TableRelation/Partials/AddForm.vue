@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import AddIcon from '@components/Shared/Icons/AddIcon.vue';
 import PanelFormReferencingColumn from '@components/Shared/Forms/PanelFormReferencingColumn.vue';
 import PanelFormReferencedTable from '@components/Shared/Forms/PanelFormReferencedTable.vue';
 import PanelFormReferencedColumn from '@components/Shared/Forms/PanelFormReferencedColumn.vue';
+import VPanelActionButton from '@components/Base/Buttons/VPanelActionButton.vue';
 import { ref } from 'vue';
 
 const referencingColumn = ref('');
@@ -16,6 +18,13 @@ const referencedColumn = ref('');
         <PanelFormReferencedColumn
             v-model="referencedColumn"
             v-model:referenced-table="referencedTable"
+            class="mb-5"
         />
+        <VPanelActionButton>
+            <template #icon>
+                <AddIcon />
+            </template>
+            <template #text>Add Relation</template>
+        </VPanelActionButton>
     </div>
 </template>
