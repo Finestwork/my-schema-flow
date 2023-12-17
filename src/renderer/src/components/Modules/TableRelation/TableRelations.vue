@@ -19,7 +19,10 @@ const displayAddForm = ref(false);
                     v-if="!displayAddForm"
                     @add-form="displayAddForm = true"
                 />
-                <AddForm v-if="displayAddForm" />
+                <AddForm
+                    v-if="displayAddForm"
+                    @go-back="displayAddForm = false"
+                />
             </div>
             <NoTableSelected v-else />
         </template>
