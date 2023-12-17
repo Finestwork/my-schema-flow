@@ -20,6 +20,7 @@ const getNodes = inject(getNodesKey);
 const getColumns = computed(() => {
     if (props.referencedTable.trim() === '') return [];
     const Node = findNodeByTableName(props.referencedTable, getNodes.value);
+    if (!Node) return [];
     const Columns = Node.data.table.columns;
     return Columns.map((column) => column.name);
 });
