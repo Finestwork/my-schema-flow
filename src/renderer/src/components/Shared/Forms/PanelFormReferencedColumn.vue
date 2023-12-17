@@ -7,11 +7,13 @@ const { modelValue } = defineModels<{
 </script>
 
 <template>
-    <VPanelTextInput
-        id="referencingColumn"
-        v-model="modelValue"
-        placeholder="Place referencing column here"
-    >
-        <template #label>Referencing Column:</template>
-    </VPanelTextInput>
+    <div>
+        <VPanelTextInput
+            id="referencingColumn"
+            v-model="modelValue"
+            placeholder="Place referencing column here"
+        >
+            <template #label>Referencing Column:</template>
+        </VPanelTextInput>
+    </div>
 </template>

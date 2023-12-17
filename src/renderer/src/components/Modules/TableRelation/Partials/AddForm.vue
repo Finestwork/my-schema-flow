@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import PanelFormReferencingColumn from '@components/Shared/Forms/PanelFormReferencingColumn.vue';
 import PanelFormReferencedColumn from '@components/Shared/Forms/PanelFormReferencedColumn.vue';
+import { getNodesKey } from '@symbols/Canvas';
 import { ref, inject } from 'vue';
 
 const referencingColumn = ref('');
 const referencedColumn = ref('');
-const getNodes = inject('getNodes');
+const getNodes = inject(getNodesKey);
 </script>
 
 <template>

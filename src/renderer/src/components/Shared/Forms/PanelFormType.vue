@@ -1,56 +1,107 @@
 <script setup lang="ts">
-import VPanelTextInput from '@components/Base/Forms/VPanelTextInput.vue';
-import { useDropdownFloatingLayout } from '@composables/useDropdownFloatingLayout';
-import { useDatabaseDropdown } from '@composables/useDatabaseDropdown';
-import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue';
-import { onClickOutside } from '@vueuse/core';
-import { ref, watch } from 'vue';
+import VPanelAutoComplete from '@components/Base/Forms/VPanelAutoComplete.vue';
+import { useSearchMySQLDataTypes } from '@composables/useSearchMySQLDataTypes';
+import { nextTick, ref } from 'vue';
+import { watch } from 'vue';
 
 const { modelValue } = defineModels<{
     modelValue: string;
 }>();
 const scrollbar = ref();
-const rootWrapper = ref();
 const dropdownBtn = ref();
-const reference = ref();
-const floating = ref();
+const showDropdown = ref(false);
+const currentIndex = ref(0);
+const { searchTerm, getMysqlDataTypes } = useSearchMySQLDataTypes();
 
-const { floatingStyles } = useDropdownFloatingLayout(reference, floating);
-const {
-    showDropdown,
-    searchTerm,
-    currentIndex,
-    getMysqlDatTypes,
-    updateActiveIndex,
-    onKeyDownNavigateDropdown,
-} = useDatabaseDropdown(dropdownBtn, scrollbar, modelValue);
-
-const onClickToggleDropdown = (e: MouseEvent) => {
-    const Target = e.target as HTMLElement;
-    if (!showDropdown.value) return;
-
-    if (Target.tagName !== 'INPUT' && !floating.value.contains(Target)) {
-        showDropdown.value = false;
+const _updateScrollPosition = () => {
+    const CurrentElement = dropdownBtn.value[currentIndex.value];
+    scrollbar.value.scrollTop = CurrentElement.offsetTop;
+};
+const _findIndex = () => {
+    const NewIndex = getMysqlDataTypes.value.findIndex((item) =>
+        item.name.toLowerCase().includes(modelValue.value.toLowerCase()),
+    );
+    if (NewIndex !== -1) {
+        currentIndex.value = NewIndex;
     }
 };
-const onFocusShowDropdown = () => {
-    showDropdown.value = true;
-    updateActiveIndex();
-    if (modelValue.value.trim() !== '') {
-        searchTerm.value = modelValue.value;
-    }
-};
+
 const onClickChooseDataType = (index: number) => {
     currentIndex.value = index;
-    const Name = getMysqlDatTypes.value[index].name;
+    const Name = getMysqlDataTypes.value[index].name;
     modelValue.value = Name;
     searchTerm.value = Name;
     showDropdown.value = false;
 };
 
-onClickOutside(rootWrapper, () => {
-    showDropdown.value = false;
-});
+const onInput = (e: Event) => {
+    const Target = e.target as HTMLInputElement;
+    searchTerm.value = Target.value;
+};
+const onFocusShowDropdown = async () => {
+    showDropdown.value = true;
+    // Make sure that search term keeps track of modelValue
+    if (modelValue.value.trim() !== '') {
+        searchTerm.value = modelValue.value;
+    }
+
+    await nextTick();
+    _findIndex();
+};
+const onKeyDownNavigateDropdown = (e: KeyboardEvent) => {
+    const Input = e.target as HTMLInputElement;
+
+    if (e.key === 'Backspace') {
+        _findIndex();
+        if (searchTerm.value.trim() === '') {
+            return;
+        }
+    }
+
+    if (e.key === 'ArrowUp') {
+        if (dropdownBtn.value.length === 1) return;
+        if (currentIndex.value <= 0) {
+            currentIndex.value = dropdownBtn.value.length - 1;
+        } else {
+            currentIndex.value--;
+        }
+        modelValue.value = getMysqlDataTypes.value[currentIndex.value].name;
+        _updateScrollPosition();
+
+        // Need to add delay so that selection will be at the end
+        setTimeout(() => {
+            const Length = Input.value.length;
+            Input.setSelectionRange(Length, Length);
+        }, 1);
+        return;
+    }
+
+    if (e.key === 'ArrowDown') {
+        if (dropdownBtn.value.length === 1) return;
+        if (currentIndex.value === dropdownBtn.value.length - 1) {
+            currentIndex.value = 0;
+        } else {
+            currentIndex.value++;
+        }
+        modelValue.value = getMysqlDataTypes.value[currentIndex.value].name;
+        _updateScrollPosition();
+        return;
+    }
+
+    if (e.key === 'Enter') {
+        const CurrentDatabaseName = getMysqlDataTypes.value[currentIndex.value];
+
+        if (!CurrentDatabaseName) {
+            searchTerm.value = modelValue.value;
+        } else {
+            modelValue.value = CurrentDatabaseName.name;
+            searchTerm.value = CurrentDatabaseName.name;
+        }
+
+        showDropdown.value = false;
+        (e.target as HTMLInputElement).blur();
+    }
+};
 
 watch(
     () => modelValue.value,
@@ -63,33 +114,26 @@ watch(
 </script>
 
 <template>
-    <div ref="rootWrapper" @click="onClickToggleDropdown">
-        <VPanelTextInput
-            id="addColumnTypeForm"
-            ref="reference"
-            v-model="modelValue"
-            placeholder="Place column type here"
-            @input="searchTerm = $event.target.value"
-            @focus="onFocusShowDropdown"
-            @keydown="onKeyDownNavigateDropdown"
-        >
-            <template #label>Column Type:</template>
-        </VPanelTextInput>
-        <div
-            v-if="showDropdown"
-            ref="floating"
-            class="absolute overflow-hidden shadow-sm dark:bg-dark-900"
-            :style="floatingStyles"
-            @keydown="onKeyDownNavigateDropdown"
-        >
-            <OverlayScrollbarsComponent
+    <VPanelAutoComplete
+        id="addColumnTypeForm"
+        v-model="modelValue"
+        v-model:show-dropdown="showDropdown"
+        placeholder="Place column type here"
+        @on-input="onInput"
+        @on-input-focus="onFocusShowDropdown"
+        @on-input-keydown="onKeyDownNavigateDropdown"
+        @on-key-down-navigate-dropdown="onKeyDownNavigateDropdown"
+    >
+        <template #label>Column Type:</template>
+        <template #float>
+            <div
                 ref="scrollbar"
-                class="h-full max-h-[250px] outline-none dark:bg-dark-800/50"
+                class="scrollbar-slim h-full max-h-[250px] overflow-y-scroll outline-none dark:bg-dark-800/50"
             >
                 <button
-                    v-for="(item, ind) in getMysqlDatTypes"
+                    v-for="(item, ind) in getMysqlDataTypes"
                     ref="dropdownBtn"
-                    :key="item.name"
+                    :key="ind"
                     class="group flex w-full justify-between px-2 py-1.5 text-xs font-bold outline-none hover:dark:bg-cyan-950 focus:dark:bg-cyan-950"
                     type="button"
                     :class="{
@@ -114,7 +158,7 @@ watch(
                         >{{ item.description }}</span
                     >
                 </button>
-            </OverlayScrollbarsComponent>
-        </div>
-    </div>
+            </div>
+        </template>
+    </VPanelAutoComplete>
 </template>
