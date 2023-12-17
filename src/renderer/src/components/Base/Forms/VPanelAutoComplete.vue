@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import VPanelAutoCompleteWrapper from '@components/Base/Forms/VPanelAutoCompleteWrapper.vue';
-import { nextTick, ref, watch } from 'vue';
+import { computed, nextTick, ref, watch } from 'vue';
 
 export type TProps = {
     id: string;
@@ -20,6 +20,11 @@ const dropdownBtn = ref();
 const searchTerm = ref('');
 const showDropdown = ref(false);
 const currentIndex = ref(0);
+const getDropdownItems = computed(() => {
+    return dropdownItems.value.filter((item) =>
+        item.toLowerCase().includes(searchTerm.value.toLowerCase()),
+    );
+});
 
 const _updateScrollPosition = () => {
     const CurrentElement = dropdownBtn.value[currentIndex.value];
@@ -135,7 +140,7 @@ watch(
                 class="scrollbar-slim h-full max-h-[250px] overflow-y-scroll outline-none dark:bg-dark-800/50"
             >
                 <button
-                    v-for="(item, ind) in dropdownItems"
+                    v-for="(item, ind) in getDropdownItems"
                     ref="dropdownBtn"
                     :key="ind"
                     class="group flex w-full justify-between px-2 py-1.5 text-xs font-bold outline-none hover:dark:bg-cyan-950 focus:dark:bg-cyan-950"
