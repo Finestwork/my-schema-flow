@@ -4,7 +4,7 @@ import NoTableSelected from '@components/Shared/EmptyStates/NoTableSelected.vue'
 import DefaultContent from '@components/Modules/TableRelation/Partials/DefaultContent.vue';
 import AddForm from '@components/Modules/TableRelation/Partials/AddForm.vue';
 import { useCanvasStore } from '@stores/CanvasStore';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import type { TRelationFormData } from '@composables/useTableRelation';
 
 const emits = defineEmits<{
@@ -12,6 +12,13 @@ const emits = defineEmits<{
 }>();
 const canvasStore = useCanvasStore();
 const displayAddForm = ref(false);
+
+watch(
+    () => canvasStore.currentActiveNode,
+    () => {
+        displayAddForm.value = false;
+    },
+);
 </script>
 
 <template>
