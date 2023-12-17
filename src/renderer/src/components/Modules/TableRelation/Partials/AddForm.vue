@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import VAlertList from '@components/Base/Alerts/VAlertList.vue';
+import VAlert from '@components/Base/Alerts/VAlert.vue';
 import AddIcon from '@components/Shared/Icons/AddIcon.vue';
 import PanelBackButton from '@components/Shared/Buttons/PanelBackButton.vue';
 import PanelFormReferencingColumn from '@components/Shared/Forms/PanelFormReferencingColumn.vue';
@@ -22,9 +23,11 @@ const errors: Ref<Array<string>> = ref([]);
 const referencingColumn = ref('');
 const referencedTable = ref('');
 const referencedColumn = ref('');
+const isSuccessfullyCreated = ref(false);
 const getNodes = inject(getNodesKey);
 const onClickAddRelation = async () => {
     errors.value = [];
+    isSuccessfullyCreated.value = false;
     const RelationObj = {
         referencingColumn: referencingColumn.value,
         referencedTable: referencedTable.value,
@@ -41,6 +44,7 @@ const onClickAddRelation = async () => {
     referencingColumn.value = '';
     referencedTable.value = '';
     referencedColumn.value = '';
+    isSuccessfullyCreated.value = true;
 };
 </script>
 
@@ -48,10 +52,13 @@ const onClickAddRelation = async () => {
     <div>
         <VAlertList
             v-if="errors.length !== 0"
-            class="mb-3 mt-4"
+            class="my-4"
             type="danger"
             :items="errors"
         />
+        <VAlert class="my-4" v-if="isSuccessfullyCreated">
+            You have successfully added a new table relation!
+        </VAlert>
         <PanelBackButton class="mb-4 mt-2" @click="emits('goBack')" />
         <PanelFormReferencingColumn v-model="referencingColumn" class="mb-2" />
         <PanelFormReferencedTable v-model="referencedTable" class="mb-2" />
