@@ -29,9 +29,9 @@ watch(
     <VPanelAutoComplete
         id="addColumnTypeForm"
         v-model="modelValue"
-        placeholder="Place column type here"
+        placeholder="Place referenced table here"
         :dropdown-items="getColumns"
     >
-        <template #label>Referenced Column:</template>
+        <template #label>Referenced Table:</template>
     </VPanelAutoComplete>
 </template>
