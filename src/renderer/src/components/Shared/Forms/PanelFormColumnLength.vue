@@ -8,8 +8,8 @@ const { modelValue } = defineModels<{
 
 <template>
     <VPanelTextInputNumber
-        v-model="modelValue"
         id="addColumnLengthForm"
+        v-model="modelValue"
         placeholder="Place column length here"
     >
         <template #label>Column Length:</template>

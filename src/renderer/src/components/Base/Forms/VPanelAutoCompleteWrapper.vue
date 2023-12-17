@@ -55,9 +55,9 @@ onClickOutside(rootWrapper, () => {
                 class="block w-full rounded border-2 p-1.5 text-xs font-semibold outline-none transition-shadow duration-150 ease-in-out dark:bg-dark-900"
                 type="text"
                 :class="{
-                    'focus:ring-4 focus:ring-cyan-500/30 dark:border-slate-700 dark:text-slate-500 dark:hover:border-cyan-700 hover:dark:text-slate-300 dark:focus:border-cyan-500 focus:dark:text-slate-300':
+                    'focus:ring-4 focus:ring-cyan-500/30 dark:border-slate-700 dark:text-slate-500 dark:placeholder-slate-600 dark:hover:border-cyan-700 hover:dark:text-slate-300 dark:focus:border-cyan-500 focus:dark:text-slate-300':
                         !props.disabled,
-                    'cursor-not-allowed dark:border-slate-800 dark:placeholder-slate-700':
+                    'cursor-not-allowed dark:border-slate-800 dark:placeholder-slate-800':
                         props.disabled,
                 }"
                 :placeholder="props.placeholder"
