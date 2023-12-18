@@ -3,6 +3,7 @@ import VAlertList from '@components/Base/Alerts/VAlertList.vue';
 import VAlert from '@components/Base/Alerts/VAlert.vue';
 import AddIcon from '@components/Shared/Icons/AddIcon.vue';
 import PanelBackButton from '@components/Shared/Buttons/PanelBackButton.vue';
+import PanelFormCurrentTableLabel from '@components/Shared/Forms/PanelFormCurrentTableLabel.vue';
 import PanelFormReferencingColumn from '@components/Shared/Forms/PanelFormReferencingColumn.vue';
 import PanelFormReferencedTable from '@components/Shared/Forms/PanelFormReferencedTable.vue';
 import PanelFormReferencedColumn from '@components/Shared/Forms/PanelFormReferencedColumn.vue';
@@ -61,6 +62,7 @@ const onClickEditRelation = async () => {
             You have successfully updated a table relation!
         </VAlert>
         <PanelBackButton class="mb-4 mt-2" @click="emits('goBack')" />
+        <PanelFormCurrentTableLabel class="mb-2" />
         <PanelFormReferencingColumn v-model="referencingColumn" class="mb-2" />
         <PanelFormReferencedTable v-model="referencedTable" class="mb-2" />
         <PanelFormReferencedColumn
