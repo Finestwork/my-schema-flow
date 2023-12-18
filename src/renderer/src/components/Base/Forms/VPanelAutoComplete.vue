@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import VPanelAutoCompleteWrapper from '@components/Base/Forms/VPanelAutoCompleteWrapper.vue';
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue';
-import { computed, ref, watch } from 'vue';
+import { computed, nextTick, ref, watch } from 'vue';
 
 export type TProps = {
     id: string;
@@ -31,8 +31,9 @@ const _updateScrollPosition = () => {
     const CurrentElement = dropdownBtn.value[currentIndex.value];
     scrollbar.value.scrollTop = CurrentElement.offsetTop;
 };
-const _findIndex = () => {
-    currentIndex.value = dropdownItems.value.findIndex((item) =>
+const _findIndex = async () => {
+    await nextTick();
+    currentIndex.value = getDropdownItems.value.findIndex((item) =>
         item.toLowerCase().includes(modelValue.value.toLowerCase()),
     );
 };
@@ -74,7 +75,7 @@ const onKeyDownNavigateDropdown = (e: KeyboardEvent) => {
 
     if (e.key === 'ArrowUp') {
         e.preventDefault(); // Prevent selection range from jumping to the left when navigating
-        if (dropdownBtn.value.length === 0) return;
+        if (dropdownBtn.value.length <= 1) return;
         if (currentIndex.value <= 0) {
             currentIndex.value = dropdownBtn.value.length - 1;
         } else {
@@ -85,7 +86,7 @@ const onKeyDownNavigateDropdown = (e: KeyboardEvent) => {
     }
 
     if (e.key === 'ArrowDown') {
-        if (dropdownBtn.value.length === 0) return;
+        if (dropdownBtn.value.length <= 1) return;
         if (currentIndex.value === dropdownBtn.value.length - 1) {
             currentIndex.value = 0;
         } else {
@@ -108,7 +109,7 @@ const onKeyDownNavigateDropdown = (e: KeyboardEvent) => {
         (e.target as HTMLInputElement).blur();
     }
 };
-const onKeyupNavigateDropdown = (e: KeyboardEvent) => {
+const onKeyupUpdateIndex = (e: KeyboardEvent) => {
     if (e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'Enter')
         return;
 
@@ -139,7 +140,7 @@ watch(
         @on-input="onInput"
         @on-input-focus="onFocusShowDropdown"
         @on-input-keydown="onKeyDownNavigateDropdown"
-        @on-input-keyup="onKeyupNavigateDropdown"
+        @on-input-keyup="onKeyupUpdateIndex"
         @on-key-down-navigate-dropdown="onKeyDownNavigateDropdown"
     >
         <template #label>
