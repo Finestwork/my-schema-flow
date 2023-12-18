@@ -17,7 +17,7 @@ const emits = defineEmits<{
 const canvasStore = useCanvasStore();
 const displayAddForm = ref(false);
 const displayEditForm = ref(false);
-const currentEdge: Ref<TEditEdgeData> = ref({});
+const currentEdge: Ref<TEditEdgeData | Record<string, never>> = ref({});
 const onClickHideRelationForm = () => {
     displayEditForm.value = false;
     Object.assign(currentEdge, {});
