@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import VPanelAutoCompleteWrapper from '@components/Base/Forms/VPanelAutoCompleteWrapper.vue';
-import { computed, nextTick, ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 
 export type TProps = {
     id: string;
@@ -31,12 +31,9 @@ const _updateScrollPosition = () => {
     scrollbar.value.scrollTop = CurrentElement.offsetTop;
 };
 const _findIndex = () => {
-    const NewIndex = dropdownItems.value.findIndex((item) =>
+    currentIndex.value = dropdownItems.value.findIndex((item) =>
         item.toLowerCase().includes(modelValue.value.toLowerCase()),
     );
-    if (NewIndex !== -1) {
-        currentIndex.value = NewIndex;
-    }
 };
 
 const onClickChooseDataType = (index: number) => {
@@ -51,7 +48,7 @@ const onInput = (e: Event) => {
     const Target = e.target as HTMLInputElement;
     searchTerm.value = Target.value;
 };
-const onFocusShowDropdown = async () => {
+const onFocusShowDropdown = () => {
     showDropdown.value = true;
 
     // Just in case when the user forgets to select an item
@@ -59,7 +56,6 @@ const onFocusShowDropdown = async () => {
         searchTerm.value = modelValue.value;
     }
 
-    await nextTick();
     _findIndex();
 };
 const onKeyDownNavigateDropdown = (e: KeyboardEvent) => {
@@ -72,14 +68,12 @@ const onKeyDownNavigateDropdown = (e: KeyboardEvent) => {
     };
     if (e.key === 'Backspace') {
         _findIndex();
-        if (searchTerm.value.trim() === '') {
-            return;
-        }
+        return;
     }
 
     if (e.key === 'ArrowUp') {
         e.preventDefault(); // Prevent selection range from jumping to the left when navigating
-        if (dropdownBtn.value.length === 1) return;
+        if (dropdownBtn.value.length === 0) return;
         if (currentIndex.value <= 0) {
             currentIndex.value = dropdownBtn.value.length - 1;
         } else {
@@ -90,7 +84,7 @@ const onKeyDownNavigateDropdown = (e: KeyboardEvent) => {
     }
 
     if (e.key === 'ArrowDown') {
-        if (dropdownBtn.value.length === 1) return;
+        if (dropdownBtn.value.length === 0) return;
         if (currentIndex.value === dropdownBtn.value.length - 1) {
             currentIndex.value = 0;
         } else {
@@ -111,6 +105,16 @@ const onKeyDownNavigateDropdown = (e: KeyboardEvent) => {
 
         showDropdown.value = false;
         (e.target as HTMLInputElement).blur();
+    }
+};
+const onKeyupNavigateDropdown = (e: KeyboardEvent) => {
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'Enter')
+        return;
+
+    _findIndex();
+    if (searchTerm.value.trim() === '') {
+        currentIndex.value = -1;
+        return;
     }
 };
 
@@ -134,6 +138,7 @@ watch(
         @on-input="onInput"
         @on-input-focus="onFocusShowDropdown"
         @on-input-keydown="onKeyDownNavigateDropdown"
+        @on-input-keyup="onKeyupNavigateDropdown"
         @on-key-down-navigate-dropdown="onKeyDownNavigateDropdown"
     >
         <template #label>

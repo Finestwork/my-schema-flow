@@ -19,6 +19,7 @@ const emits = defineEmits<{
     (e: 'onInput', value: Event): void;
     (e: 'onInputFocus', value: Event): void;
     (e: 'onInputKeydown', value: Event): void;
+    (e: 'onInputKeyup', value: Event): void;
     (e: 'onKeyDownNavigateDropdown', value: Event): void;
 }>();
 const rootWrapper = ref();
@@ -65,6 +66,7 @@ onClickOutside(rootWrapper, () => {
                 @input="emits('onInput', $event)"
                 @focus="emits('onInputFocus', $event)"
                 @keydown="emits('onInputKeydown', $event)"
+                @keyup="emits('onInputKeyup', $event)"
             />
         </div>
         <div
