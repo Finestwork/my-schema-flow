@@ -63,6 +63,13 @@ const onFocusShowDropdown = async () => {
     _findIndex();
 };
 const onKeyDownNavigateDropdown = (e: KeyboardEvent) => {
+    const assignDataTypeValue = () => {
+        if (getDropdownItems.value.length === 0) return;
+        const DataType = dropdownItems.value[currentIndex.value];
+        if (!DataType) return;
+        modelValue.value = DataType;
+        _updateScrollPosition();
+    };
     if (e.key === 'Backspace') {
         _findIndex();
         if (searchTerm.value.trim() === '') {
@@ -78,8 +85,7 @@ const onKeyDownNavigateDropdown = (e: KeyboardEvent) => {
         } else {
             currentIndex.value--;
         }
-        modelValue.value = dropdownItems.value[currentIndex.value];
-        _updateScrollPosition();
+        assignDataTypeValue();
         return;
     }
 
@@ -90,8 +96,7 @@ const onKeyDownNavigateDropdown = (e: KeyboardEvent) => {
         } else {
             currentIndex.value++;
         }
-        modelValue.value = dropdownItems.value[currentIndex.value];
-        _updateScrollPosition();
+        assignDataTypeValue();
         return;
     }
 

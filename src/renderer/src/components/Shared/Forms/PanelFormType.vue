@@ -49,7 +49,13 @@ const onFocusShowDropdown = async () => {
     _findIndex();
 };
 const onKeyDownNavigateDropdown = (e: KeyboardEvent) => {
-    const Input = e.target as HTMLInputElement;
+    const assignDataTypeValue = () => {
+        const DataType = getMysqlDataTypes.value[currentIndex.value];
+        if (DataType) {
+            modelValue.value = DataType.name;
+            _updateScrollPosition();
+        }
+    };
 
     if (e.key === 'Backspace') {
         _findIndex();
@@ -59,20 +65,14 @@ const onKeyDownNavigateDropdown = (e: KeyboardEvent) => {
     }
 
     if (e.key === 'ArrowUp') {
+        e.preventDefault();
         if (dropdownBtn.value.length === 1) return;
         if (currentIndex.value <= 0) {
             currentIndex.value = dropdownBtn.value.length - 1;
         } else {
             currentIndex.value--;
         }
-        modelValue.value = getMysqlDataTypes.value[currentIndex.value].name;
-        _updateScrollPosition();
-
-        // Need to add delay so that selection will be at the end
-        setTimeout(() => {
-            const Length = Input.value.length;
-            Input.setSelectionRange(Length, Length);
-        }, 1);
+        assignDataTypeValue();
         return;
     }
 
@@ -83,8 +83,7 @@ const onKeyDownNavigateDropdown = (e: KeyboardEvent) => {
         } else {
             currentIndex.value++;
         }
-        modelValue.value = getMysqlDataTypes.value[currentIndex.value].name;
-        _updateScrollPosition();
+        assignDataTypeValue();
         return;
     }
 
