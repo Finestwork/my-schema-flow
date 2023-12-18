@@ -10,7 +10,7 @@ import type { TRelationFormData } from '@composables/useTableRelation';
 
 const emits = defineEmits<{
     (e: 'addRelation', data: TRelationFormData): void;
-    (e: 'editRelation'): void;
+    (e: 'updateRelation', data: TRelationFormData): void;
 }>();
 const canvasStore = useCanvasStore();
 const displayAddForm = ref(false);
@@ -43,7 +43,7 @@ watch(
                 <EditForm
                     v-if="!displayAddForm && displayEditForm"
                     @go-back="displayEditForm = false"
-                    @edit-relation="emits('editRelation')"
+                    @update-relation="emits('updateRelation', $event)"
                 />
             </div>
             <NoTableSelected v-else />

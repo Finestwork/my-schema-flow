@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import VAlertList from '@components/Base/Alerts/VAlertList.vue';
 import VAlert from '@components/Base/Alerts/VAlert.vue';
-import AddIcon from '@components/Shared/Icons/AddIcon.vue';
+import EditIcon from '@components/Shared/Icons/EditIcon.vue';
 import PanelBackButton from '@components/Shared/Buttons/PanelBackButton.vue';
 import PanelFormCurrentTableLabel from '@components/Shared/Forms/PanelFormCurrentTableLabel.vue';
 import PanelFormReferencingColumn from '@components/Shared/Forms/PanelFormReferencingColumn.vue';
@@ -17,7 +17,7 @@ import type { TRelationFormData } from '@composables/useTableRelation';
 
 const emits = defineEmits<{
     (e: 'goBack'): void;
-    (e: 'editRelation', data: TRelationFormData): void;
+    (e: 'updateRelation', data: TRelationFormData): void;
 }>();
 const canvasStore = useCanvasStore();
 const errors: Ref<Array<string>> = ref([]);
@@ -33,7 +33,7 @@ const referencedColumn = ref(
     canvasStore.currentActiveEdge.data.referenced.column,
 );
 const isSuccessfullyUpdated = ref(false);
-const onClickEditRelation = async () => {
+const onClickUpdateRelation = async () => {
     errors.value = [];
     isSuccessfullyUpdated.value = false;
     const RelationObj = {
@@ -47,7 +47,7 @@ const onClickEditRelation = async () => {
         getNodes.value,
     );
     if (errors.value.length !== 0) return;
-    emits('editRelation', RelationObj);
+    emits('updateRelation', RelationObj);
     await nextTick();
     isSuccessfullyUpdated.value = true;
 };
@@ -78,11 +78,11 @@ const onClickHideForm = () => {
             class="mb-5"
             :disabled="referencedTable.trim() === ''"
         />
-        <VPanelActionButton @click="onClickEditRelation">
+        <VPanelActionButton @click="onClickUpdateRelation">
             <template #icon>
-                <AddIcon />
+                <EditIcon />
             </template>
-            <template #text>Add Relation</template>
+            <template #text>Update Relation</template>
         </VPanelActionButton>
     </div>
 </template>

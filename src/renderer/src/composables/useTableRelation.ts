@@ -14,8 +14,8 @@ export type TRelationFormData = {
 export function useTableRelation() {
     const canvasStore = useCanvasStore();
     const { calculateActiveEdgesPosition } = useCalculateEdgePosition();
-    const { highlightNodes } = useConnectedNodes();
-    const { addEdges, getNodes } = useVueFlow();
+    const { highlightNodes, unhighlightNodes } = useConnectedNodes();
+    const { addEdges, getNodes, setEdges } = useVueFlow();
 
     const addRelation = (relationData: TRelationFormData) => {
         const ReferencedNode = findNodeByTableName(
@@ -40,7 +40,37 @@ export function useTableRelation() {
         highlightNodes();
     };
 
+    const updateRelation = (relationData: TRelationFormData) => {
+        unhighlightNodes();
+        const ReferencingNode = canvasStore.currentActiveEdge.targetNode;
+        const ReferencedNode = findNodeByTableName(
+            relationData.referencedTable,
+            getNodes.value,
+        );
+        setEdges((edges) => {
+            return edges.map((edge) => {
+                if (edge.id === canvasStore.currentActiveEdge.id) {
+                    edge.target = ReferencingNode.id;
+                    edge.source = ReferencedNode.id;
+                    edge.data = {
+                        referenced: {
+                            column: relationData.referencedColumn,
+                        },
+                        referencing: {
+                            column: relationData.referencingColumn,
+                        },
+                    };
+                }
+
+                return edge;
+            });
+        });
+        calculateActiveEdgesPosition();
+        highlightNodes();
+    };
+
     return {
         addRelation,
+        updateRelation,
     };
 }

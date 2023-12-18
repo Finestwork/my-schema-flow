@@ -19,7 +19,7 @@ const currentColumnIndex = ref(-1);
 const { activeNodeChanged } = useDetectActiveNodeChange();
 const { getNodes, getEdges, onPaneClick } = useVueFlow();
 const { toggleDarkMode } = useDarkMode();
-const { addRelation } = useTableRelation();
+const { addRelation, updateRelation } = useTableRelation();
 const resetStates = () => {
     toggleDisplayForms.addColumn = false;
     toggleDisplayForms.editColumn = false;
@@ -51,7 +51,10 @@ activeNodeChanged(resetStates);
                         "
                         v-model:current-column-index="currentColumnIndex"
                     />
-                    <TableRelations @add-relation="addRelation" />
+                    <TableRelations
+                        @add-relation="addRelation"
+                        @update-relation="updateRelation"
+                    />
                 </OverlayScrollbarsComponent>
             </div>
         </div>
