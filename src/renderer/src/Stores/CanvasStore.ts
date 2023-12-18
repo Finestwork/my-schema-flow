@@ -39,6 +39,7 @@ export type TEdge = GraphEdge & { data: TEdgeData };
 export const useCanvasStore = defineStore('canvas', {
     state: () => ({
         currentActiveNode: {} as TNode,
+        currentActiveEdge: {} as TEdge | Record<string, never>,
     }),
     actions: {
         addColumnInActiveNode(data: Omit<TTableColumn, 'id', 'keyConstraint'>) {
@@ -84,6 +85,16 @@ export const useCanvasStore = defineStore('canvas', {
     getters: {
         hasActiveNode: (state) => {
             return Object.keys(state.currentActiveNode).length !== 0;
+        },
+        hasActiveEdge: (state) => {
+            return Object.keys(state.currentActiveEdge).length !== 0;
+        },
+        isActiveNodeParent(state) {
+            if (!state.hasActiveEdge) return false;
+            return (
+                state.currentActiveEdge.sourceNode.id ===
+                state.currentActiveNode.id
+            );
         },
     },
 });

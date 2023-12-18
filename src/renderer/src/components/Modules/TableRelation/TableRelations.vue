@@ -7,29 +7,20 @@ import EditForm from '@components/Modules/TableRelation/Partials/EditForm.vue';
 import { useCanvasStore } from '@stores/CanvasStore';
 import { ref, watch } from 'vue';
 import type { TRelationFormData } from '@composables/useTableRelation';
-import type { TEditEdgeData } from '@components/Modules/TableRelation/Partials/DefaultContent.vue';
-import type { Ref } from 'vue';
 
 const emits = defineEmits<{
     (e: 'addRelation', data: TRelationFormData): void;
-    (e: 'editRelation', data: TEditEdgeData): void;
+    (e: 'editRelation'): void;
 }>();
 const canvasStore = useCanvasStore();
 const displayAddForm = ref(false);
 const displayEditForm = ref(false);
-const currentEdge: Ref<TEditEdgeData | Record<string, never>> = ref({});
-const onClickHideRelationForm = () => {
-    displayEditForm.value = false;
-    Object.assign(currentEdge, {});
-};
-const onClickEditForm = (payload: TEditEdgeData) => {
-    currentEdge.value = payload;
-    displayEditForm.value = true;
-};
 watch(
     () => canvasStore.currentActiveNode,
     () => {
         displayAddForm.value = false;
+        displayEditForm.value = false;
+        canvasStore.currentActiveEdge = Object.assign({}, {});
     },
 );
 </script>
@@ -42,7 +33,7 @@ watch(
                 <DefaultContent
                     v-if="!displayAddForm && !displayEditForm"
                     @add-form="displayAddForm = true"
-                    @edit-form="onClickEditForm"
+                    @edit-form="displayEditForm = true"
                 />
                 <AddForm
                     v-if="displayAddForm && !displayEditForm"
@@ -51,9 +42,8 @@ watch(
                 />
                 <EditForm
                     v-if="!displayAddForm && displayEditForm"
-                    v-bind="currentEdge"
-                    @go-back="onClickHideRelationForm"
-                    @edit-relation="emits('editRelation', $event)"
+                    @go-back="displayEditForm = false"
+                    @edit-relation="emits('editRelation')"
                 />
             </div>
             <NoTableSelected v-else />

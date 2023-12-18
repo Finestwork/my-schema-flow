@@ -10,6 +10,14 @@ const { modelValue } = defineModels<{
 const canvasStore = useCanvasStore();
 const getNodes = inject(getNodesKey);
 const getTables = computed(() => {
+    if (canvasStore.hasActiveEdge) {
+        const ReferencedTable =
+            canvasStore.currentActiveEdge.targetNode.data.table.name;
+        return getNodes.value
+            .map((node) => node.data.table.name)
+            .filter((name) => name !== ReferencedTable);
+    }
+
     const CurrentTable = canvasStore.currentActiveNode.data.table.name;
     return getNodes.value
         .map((node) => node.data.table.name)

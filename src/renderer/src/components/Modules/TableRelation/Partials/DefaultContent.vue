@@ -3,22 +3,13 @@ import VPanelActionButton from '@components/Base/Buttons/VPanelActionButton.vue'
 import AddIcon from '@components/Shared/Icons/AddIcon.vue';
 import BaseButton from '@components/Modules/TableRelation/Partials/BaseButton.vue';
 import { useCanvasStore } from '@stores/CanvasStore';
-import { getNodeRelationship } from '@utilities/CanvasHelper';
+import { findNode, getNodeRelationship } from '@utilities/CanvasHelper';
 import { getEdgesKey, getNodesKey } from '@symbols/Canvas';
-import { findNode } from '@utilities/CanvasHelper';
 import { computed, inject } from 'vue';
-
-export type TEditEdgeData = {
-    id: string;
-    table: string;
-    column: string;
-    relation: string;
-    isCurrentNodeParent: boolean;
-};
 
 const emits = defineEmits<{
     (e: 'addForm', value: Event): void;
-    (e: 'editForm', value: TEditEdgeData): void;
+    (e: 'editForm'): void;
 }>();
 const canvasStore = useCanvasStore();
 const canvasEdges = inject(getEdgesKey);
@@ -54,6 +45,12 @@ const getRelations = computed(() => {
             return edge.isCurrentNodeParent ? 1 : -1;
         });
 });
+const onClickEditForm = (edgeId: string) => {
+    canvasStore.currentActiveEdge = canvasEdges?.value.find(
+        (edge) => edge.id === edgeId,
+    ); // No need to create shallow copy
+    emits('editForm');
+};
 </script>
 
 <template>
@@ -63,7 +60,7 @@ const getRelations = computed(() => {
             :key="relation.id"
             class="mb-2 last-of-type:mb-0"
             type="button"
-            @dblclick="emits('editForm', relation)"
+            @dblclick="onClickEditForm(relation.id)"
         >
             <template #table>{{ relation.table }}</template>
             <template #column>{{ relation.column }}</template>

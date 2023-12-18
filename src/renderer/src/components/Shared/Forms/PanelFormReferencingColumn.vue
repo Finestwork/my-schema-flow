@@ -8,7 +8,11 @@ const { modelValue } = defineModels<{
 }>();
 const canvasStore = useCanvasStore();
 const getColumns = computed(() => {
-    if (!canvasStore.hasActiveNode) return [];
+    if (canvasStore.hasActiveEdge) {
+        return canvasStore.currentActiveEdge.targetNode.data.table.columns.map(
+            (column) => column.name,
+        );
+    }
     return canvasStore.currentActiveNode.data.table.columns.map(
         (column) => column.name,
     );

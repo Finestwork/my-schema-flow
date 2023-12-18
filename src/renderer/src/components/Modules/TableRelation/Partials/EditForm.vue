@@ -9,14 +9,12 @@ import PanelFormReferencedTable from '@components/Shared/Forms/PanelFormReferenc
 import PanelFormReferencedColumn from '@components/Shared/Forms/PanelFormReferencedColumn.vue';
 import VPanelActionButton from '@components/Base/Buttons/VPanelActionButton.vue';
 import { useCanvasStore } from '@stores/CanvasStore';
-import { getNodesKey, getEdgesKey } from '@symbols/Canvas';
+import { getNodesKey } from '@symbols/Canvas';
 import { validateTableRelations } from '@utilities/FormTableHelper';
 import { nextTick, ref, inject } from 'vue';
 import type { Ref } from 'vue';
 import type { TRelationFormData } from '@composables/useTableRelation';
-import type { TEditEdgeData } from '@components/Modules/TableRelation/Partials/DefaultContent.vue';
 
-const props = defineProps<TEditEdgeData>();
 const emits = defineEmits<{
     (e: 'goBack'): void;
     (e: 'editRelation', data: TRelationFormData): void;
@@ -24,11 +22,16 @@ const emits = defineEmits<{
 const canvasStore = useCanvasStore();
 const errors: Ref<Array<string>> = ref([]);
 const getNodes = inject(getNodesKey);
-const getEdges = inject(getEdgesKey);
-const currentEdge = getEdges.value.find((edge) => edge.id === props.id);
-const referencingColumn = ref(currentEdge.data.referencing.column);
-const referencedTable = ref(currentEdge.sourceNode.data.table.name);
-const referencedColumn = ref(currentEdge.data.referenced.column);
+
+const referencingColumn = ref(
+    canvasStore.currentActiveEdge.data.referencing.column,
+);
+const referencedTable = ref(
+    canvasStore.currentActiveEdge.sourceNode.data.table.name,
+);
+const referencedColumn = ref(
+    canvasStore.currentActiveEdge.data.referenced.column,
+);
 const isSuccessfullyUpdated = ref(false);
 const onClickEditRelation = async () => {
     errors.value = [];
@@ -48,6 +51,10 @@ const onClickEditRelation = async () => {
     await nextTick();
     isSuccessfullyUpdated.value = true;
 };
+const onClickHideForm = () => {
+    canvasStore.currentActiveEdge = Object.assign({}, {});
+    emits('goBack');
+};
 </script>
 
 <template>
@@ -61,7 +68,7 @@ const onClickEditRelation = async () => {
         <VAlert v-if="isSuccessfullyUpdated" class="my-4">
             You have successfully updated a table relation!
         </VAlert>
-        <PanelBackButton class="mb-4 mt-2" @click="emits('goBack')" />
+        <PanelBackButton class="mb-4 mt-2" @click="onClickHideForm" />
         <PanelFormCurrentTableLabel class="mb-2" />
         <PanelFormReferencingColumn v-model="referencingColumn" class="mb-2" />
         <PanelFormReferencedTable v-model="referencedTable" class="mb-2" />
