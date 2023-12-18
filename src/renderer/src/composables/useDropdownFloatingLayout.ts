@@ -4,6 +4,7 @@ import type {
     MaybeElement,
     ReferenceElement,
 } from '@floating-ui/vue';
+import { onMounted, onUnmounted } from 'vue';
 import type { Ref } from 'vue';
 
 export function useDropdownFloatingLayout(
@@ -22,9 +23,15 @@ export function useDropdownFloatingLayout(
             },
         }),
     ];
-
-    const { floatingStyles } = useFloating(reference, floating, {
+    const { floatingStyles, update } = useFloating(reference, floating, {
         middleware: Middlewares,
+    });
+
+    onMounted(() => {
+        window.addEventListener('resize', update);
+    });
+    onUnmounted(() => {
+        window.removeEventListener('resize', update);
     });
 
     return {
