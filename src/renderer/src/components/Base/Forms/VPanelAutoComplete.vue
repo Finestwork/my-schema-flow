@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import VPanelAutoCompleteWrapper from '@components/Base/Forms/VPanelAutoCompleteWrapper.vue';
+import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue';
 import { computed, ref, watch } from 'vue';
 
 export type TProps = {
@@ -147,28 +148,32 @@ watch(
         <template #float>
             <div
                 ref="scrollbar"
-                class="scrollbar-slim h-full max-h-[250px] overflow-y-scroll outline-none dark:bg-dark-800/50"
+                class="h-full outline-none dark:bg-dark-800/50"
             >
-                <button
-                    v-for="(item, ind) in getDropdownItems"
-                    ref="dropdownBtn"
-                    :key="ind"
-                    class="group flex w-full justify-between px-2 py-1.5 text-xs font-bold outline-none hover:dark:bg-cyan-950 focus:dark:bg-cyan-950"
-                    type="button"
-                    :class="{
-                        'dark:bg-cyan-950': currentIndex === ind,
-                    }"
-                    @click="onClickChooseDataType(ind)"
+                <OverlayScrollbarsComponent
+                    class="max-h-[250px] overflow-y-scroll"
                 >
-                    <span
-                        class="w-full truncate text-left group-hover:dark:text-cyan-500 group-focus:dark:text-cyan-500"
+                    <button
+                        v-for="(item, ind) in getDropdownItems"
+                        ref="dropdownBtn"
+                        :key="ind"
+                        class="group flex w-full justify-between px-2 py-1.5 text-xs font-bold outline-none hover:dark:bg-cyan-950 focus:dark:bg-cyan-950"
+                        type="button"
                         :class="{
-                            'dark:text-cyan-500': currentIndex === ind,
-                            'dark:text-slate-500': currentIndex !== ind,
+                            'dark:bg-cyan-950': currentIndex === ind,
                         }"
-                        >{{ item }}</span
+                        @click="onClickChooseDataType(ind)"
                     >
-                </button>
+                        <span
+                            class="w-full truncate text-left group-hover:dark:text-cyan-500 group-focus:dark:text-cyan-500"
+                            :class="{
+                                'dark:text-cyan-500': currentIndex === ind,
+                                'dark:text-slate-500': currentIndex !== ind,
+                            }"
+                            >{{ item }}</span
+                        >
+                    </button>
+                </OverlayScrollbarsComponent>
             </div>
         </template>
     </VPanelAutoCompleteWrapper>
