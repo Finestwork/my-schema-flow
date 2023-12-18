@@ -97,7 +97,7 @@ const onKeyDownNavigateDropdown = (e: KeyboardEvent) => {
     }
 
     if (e.key === 'Enter') {
-        const CurrentColumn = dropdownItems.value[currentIndex.value];
+        const CurrentColumn = getDropdownItems.value[currentIndex.value];
         if (!CurrentColumn) {
             searchTerm.value = modelValue.value;
         } else {
