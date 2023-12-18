@@ -4,6 +4,7 @@ import { useConnectedNodes } from '@composables/useConnectedNodes';
 import { findNodeByTableName } from '@utilities/CanvasHelper';
 import { useVueFlow } from '@vue-flow/core';
 import { v4 as uuidv4 } from 'uuid';
+import { nextTick } from 'vue';
 
 export type TRelationFormData = {
     referencingColumn: string;
@@ -40,7 +41,7 @@ export function useTableRelation() {
         highlightNodes();
     };
 
-    const updateRelation = (relationData: TRelationFormData) => {
+    const updateRelation = async (relationData: TRelationFormData) => {
         unhighlightNodes();
         const ReferencingNode = canvasStore.currentActiveEdge.targetNode;
         const ReferencedNode = findNodeByTableName(
@@ -65,6 +66,7 @@ export function useTableRelation() {
                 return edge;
             });
         });
+        await nextTick();
         calculateActiveEdgesPosition();
         highlightNodes();
     };
