@@ -5,7 +5,7 @@ const canvasStore = useCanvasStore();
 </script>
 <template>
     <div class="text-xs font-semibold">
-        <span class="block dark:text-slate-300">Current Table:</span>
+        <span class="block dark:text-slate-300">Referencing Table:</span>
         <span
             class="block truncate dark:text-slate-500 dark:placeholder-slate-600"
             >{{ canvasStore.currentActiveNode.data.table.name }}</span
