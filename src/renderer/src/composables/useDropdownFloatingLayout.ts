@@ -36,5 +36,6 @@ export function useDropdownFloatingLayout(
 
     return {
         floatingStyles,
+        update,
     };
 }

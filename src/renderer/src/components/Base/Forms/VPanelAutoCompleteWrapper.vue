@@ -26,7 +26,7 @@ const rootWrapper = ref();
 const input = ref();
 const floating = ref();
 
-const { floatingStyles } = useDropdownFloatingLayout(input, floating);
+const { floatingStyles, update } = useDropdownFloatingLayout(input, floating);
 const onClickToggleDropdown = (e: MouseEvent) => {
     const Target = e.target as HTMLElement;
     if (!showDropdown.value) return;
@@ -34,6 +34,10 @@ const onClickToggleDropdown = (e: MouseEvent) => {
     if (Target.tagName !== 'INPUT' && !floating.value.contains(Target)) {
         showDropdown.value = false;
     }
+};
+const onInput = (e: Event) => {
+    update();
+    emits('onInput', e);
 };
 onClickOutside(rootWrapper, () => {
     showDropdown.value = false;
@@ -63,7 +67,7 @@ onClickOutside(rootWrapper, () => {
                 }"
                 :placeholder="props.placeholder"
                 :disabled="props.disabled"
-                @input="emits('onInput', $event)"
+                @input="onInput"
                 @focus="emits('onInputFocus', $event)"
                 @keydown="emits('onInputKeydown', $event)"
                 @keyup="emits('onInputKeyup', $event)"
