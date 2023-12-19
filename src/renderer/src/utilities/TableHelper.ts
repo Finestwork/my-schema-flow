@@ -1,6 +1,8 @@
 import { mySqlDataTypes } from '@utilities/DatabaseHelper';
+import { findNode } from '@utilities/CanvasHelper';
 import numeral from 'numeral';
-import type { TNodeData } from '@stores/CanvasStore';
+import type { TEdge, TNode, TNodeData } from '@stores/CanvasStore';
+import { klona } from 'klona/json';
 
 /**
  * Sorts table column from pk to fk
@@ -44,4 +46,34 @@ export const formatColumnForNodeCanvas = (arr: TNodeData.table.columns[]) => {
             keyConstraint: column.keyConstraint,
         };
     });
+};
+
+export const getRelationList = (
+    currentActiveEdges: Array<TEdge>,
+    nodes: Array<TNode>,
+    activeNodeId: string,
+) => {
+    return klona(currentActiveEdges)
+        .map((edge) => {
+            const SourceNode = findNode(edge.source, nodes);
+            const TargetNode = findNode(edge.target, nodes);
+            const IsParent = edge.target === activeNodeId;
+
+            const Table = IsParent
+                ? SourceNode.data.table.name
+                : TargetNode.data.table.name;
+            const Column = IsParent
+                ? edge.data.referencing.column
+                : edge.data.referenced.column;
+            return {
+                id: edge.id,
+                table: Table,
+                column: Column,
+                relation: IsParent ? 'Parent' : 'Child',
+                isCurrentNodeParent: IsParent,
+            };
+        })
+        .sort((edge) => {
+            return edge.isCurrentNodeParent ? 1 : -1;
+        });
 };
