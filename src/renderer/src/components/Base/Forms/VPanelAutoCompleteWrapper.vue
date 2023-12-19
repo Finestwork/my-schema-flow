@@ -54,8 +54,8 @@ onClickOutside(rootWrapper, () => {
                 <slot name="label"></slot>
             </label>
             <input
-                ref="input"
                 :id="props.id"
+                ref="input"
                 v-model="modelValue"
                 class="block w-full rounded border-2 p-1.5 text-xs font-semibold outline-none transition-shadow duration-150 ease-in-out dark:bg-dark-900"
                 type="text"

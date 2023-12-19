@@ -119,6 +119,13 @@ const onKeyupUpdateIndex = (e: KeyboardEvent) => {
         return;
     }
 };
+const onBlurHideDropdown = (e: FocusEvent) => {
+    const RelatedTarget = e.relatedTarget as HTMLElement;
+    if (!RelatedTarget) return;
+    if (!scrollbar.value.contains(RelatedTarget)) {
+        showDropdown.value = false;
+    }
+};
 
 watch(
     () => modelValue.value,
@@ -164,6 +171,7 @@ watch(
                             'dark:bg-cyan-950': currentIndex === ind,
                         }"
                         @click="onClickChooseDataType(ind)"
+                        @blur="onBlurHideDropdown"
                     >
                         <span
                             class="w-full truncate text-left group-hover:dark:text-cyan-500 group-focus:dark:text-cyan-500"
