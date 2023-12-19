@@ -4,11 +4,13 @@
         type="button"
     >
         <span
+            v-if="$slots.icon"
             class="mr-2 block w-[12px] dark:stroke-slate-300 group-hover:dark:stroke-cyan-500 group-focus:dark:stroke-cyan-500"
         >
             <slot name="icon"></slot>
         </span>
         <span
+            v-if="$slots.text"
             class="text-[.6rem] dark:text-slate-300 group-hover:dark:text-cyan-500 group-focus:dark:text-cyan-500"
         >
             <slot name="text"></slot>
