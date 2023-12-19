@@ -3,7 +3,6 @@ import { useConnectedNodes } from '@composables/useConnectedNodes';
 import { useCalculateEdgePosition } from '@composables/useCalculateEdgePosition';
 import { useVueFlow } from '@vue-flow/core';
 import type { TNode } from '@stores/CanvasStore';
-import { klona } from 'klona/json';
 
 export function useNodeDragEvent() {
     const canvasStore = useCanvasStore();
@@ -25,9 +24,7 @@ export function useNodeDragEvent() {
             canvasStore.removeNodeActiveState();
         }
         node.data.state.isActive = true;
-
-        // Need to create a deep copy because some components are watching or using this as a computed property
-        canvasStore.currentActiveNode = klona(node);
+        canvasStore.currentActiveNode = node; // No need to create shallow copy so we can directly mutate the object
         highlightNodes();
     };
 

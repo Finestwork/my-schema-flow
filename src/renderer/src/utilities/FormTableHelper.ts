@@ -45,11 +45,12 @@ export const validateColumns = (
     const PKIndex = Columns.findIndex(
         (column) => column.keyConstraint === 'PK',
     );
+
     if (PKIndex !== -1 && data.keyConstraint === 'PK') {
         Errors.push('There should be only one primary key.');
     } else {
         // If there's no primary key, then check if null property is enabled
-        if (data.isNull) {
+        if (data.isNull && !isEmpty(data.keyConstraint)) {
             Errors.push(
                 'Null property must not be enabled because column is a primary key.',
             );

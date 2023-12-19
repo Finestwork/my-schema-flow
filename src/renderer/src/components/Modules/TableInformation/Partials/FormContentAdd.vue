@@ -54,11 +54,8 @@ const onClickAddColumn = () => {
             <PanelColumnTypeForm v-model="formStates.type" class="mb-3" />
             <PanelFormColumnLength v-model="formStates.length" class="mb-3" />
             <PanelFormNull v-model="formStates.isNull" class="mb-3" />
-            <PanelFormKeyConstraints
-                v-model="formStates.keyConstraint"
-                class="mb-6"
-            />
-            <VPanelActionButton @click="onClickAddColumn">
+            <PanelFormKeyConstraints v-model="formStates.keyConstraint" />
+            <VPanelActionButton class="mb-3 mt-6" @click="onClickAddColumn">
                 <template #icon>
                     <AddIcon />
                 </template>

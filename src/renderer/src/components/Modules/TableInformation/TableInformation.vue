@@ -14,6 +14,7 @@ const { displayAddColumnForm, displayEditColumnForm, currentColumnIndex } =
         currentColumnIndex: number;
     }>();
 </script>
+
 <template>
     <VPanelSectionWrapper>
         <template #label>Table Information</template>

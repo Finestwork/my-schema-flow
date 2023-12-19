@@ -58,9 +58,9 @@ const onDoubleClickEditColumn = (e: Event, index: number) => {
 <template>
     <div>
         <VPanelTextInput
+            id="columnTextInput"
             v-model="canvasStore.currentActiveNode.data.table.name"
             class="mb-4"
-            id="columnTextInput"
             placeholder="Place table's name here"
         >
             <template #label> Table's Name:</template>
@@ -81,7 +81,7 @@ const onDoubleClickEditColumn = (e: Event, index: number) => {
         </BaseColumnButton>
 
         <div class="mt-2.5">
-            <BaseButtonIcon class="mr-1" @click="emits('editColumn', $event)">
+            <BaseButtonIcon class="mr-1" @click="emits('addColumn', $event)">
                 <AddIcon />
                 <template #tooltip>Add Column</template>
             </BaseButtonIcon>
