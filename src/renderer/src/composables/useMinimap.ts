@@ -7,8 +7,13 @@ import type { Ref } from 'vue';
 
 export function useMinimap(minimap: Ref<typeof MiniMap>) {
     const canvasStore = useCanvasStore();
-    const { getEdges, onNodeDragStop, onNodeClick, onNodeDragStart } =
-        useVueFlow();
+    const {
+        getEdges,
+        onNodeDragStop,
+        onNodeClick,
+        onNodeDragStart,
+        onPaneClick,
+    } = useVueFlow();
     let position = {
         x: -1,
         y: -1,
@@ -36,6 +41,14 @@ export function useMinimap(minimap: Ref<typeof MiniMap>) {
             }
         });
     };
+
+    onPaneClick(() => {
+        const MinimapWrapper = toValue(minimap);
+        const MinimapNodes = MinimapWrapper.$el.querySelectorAll(
+            '.vue-flow__minimap-node',
+        );
+        MinimapNodes.forEach((node) => node.classList.remove('active'));
+    });
 
     onNodeClick(_highlightMinimapNodes);
 
