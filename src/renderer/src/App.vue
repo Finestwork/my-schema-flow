@@ -37,7 +37,7 @@ activeNodeChanged(resetStates);
     <div class="text-black">
         <TitleBar />
         <Toolbar />
-        <div class="flex h-[calc(100vh-42px)] w-full dark:bg-dark-900">
+        <div class="flex h-[calc(100vh-42px-52px)] w-full dark:bg-dark-900">
             <div class="w-full max-w-[250px] dark:bg-dark-900"></div>
             <div class="w-full">
                 <Canvas />
