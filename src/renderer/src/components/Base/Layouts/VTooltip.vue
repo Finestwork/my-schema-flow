@@ -5,10 +5,12 @@ import { ref } from 'vue';
 export type TTooltip = {
     offsetY?: number;
     placement?: 'top' | 'bottom' | 'left' | 'right';
+    canShowTooltip?: boolean;
 };
 const props = withDefaults(defineProps<TTooltip>(), {
     offsetY: 0,
     placement: 'bottom',
+    canShowTooltip: true,
 });
 const arrowEl = ref();
 const source = ref();
@@ -21,13 +23,21 @@ const { slideUpAnimation } = useTooltipAnimation(source, {
     arrow: arrowEl,
 });
 const { onEnter, onLeave } = slideUpAnimation();
+const onMouseEnterShowTooltip = () => {
+    if (props.canShowTooltip) {
+        showTooltip.value = true;
+    }
+};
+defineExpose({
+    showTooltip,
+});
 </script>
 
 <template>
     <div
         ref="source"
         class="inline-flex"
-        @mouseenter="showTooltip = true"
+        @mouseenter="onMouseEnterShowTooltip"
         @mouseleave="showTooltip = false"
     >
         <slot></slot>

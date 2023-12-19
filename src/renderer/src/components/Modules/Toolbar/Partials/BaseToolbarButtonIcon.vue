@@ -9,10 +9,10 @@ const props = withDefaults(defineProps<TButtonProps>(), {
 });
 </script>
 <template>
-    <VTooltip :offset-y="10">
+    <VTooltip :offset-y="11">
         <button
             type="button"
-            class="flex h-[25px] w-[25px] rounded p-1.5 outline-none"
+            class="flex h-[25px] w-[25px] items-center justify-center rounded p-1.5 outline-none"
             :class="{
                 'cursor-not-allowed dark:bg-dark-700 dark:stroke-dark-600':
                     props.disabled,
