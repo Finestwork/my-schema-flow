@@ -13,6 +13,9 @@
 .dark .vue-flow__minimap{
     background-color: #272F45;
 }
+.dark .vue-flow__minimap-node.active{
+    fill: red;
+}
 
 .dark .vue-flow__minimap-mask {
     fill: rgba(0,0,0,0.3);

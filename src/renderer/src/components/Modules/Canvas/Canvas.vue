@@ -6,15 +6,18 @@ import { useSettingsStore } from '@stores/SettingsStore';
 import { useNodeDragEvent } from '@composables/useNodeDragEvent';
 import { useSortTableColumn } from '@composables/useSortTableColumn';
 import { useCalculateEdgePosition } from '@composables/useCalculateEdgePosition';
+import { useMinimap } from '@composables/useMinimap';
 import { nodeAutolayout } from '@utilities/CanvasHelper';
 import { VueFlow } from '@vue-flow/core';
 import { MiniMap } from '@vue-flow/minimap';
 import { Background } from '@vue-flow/background';
 import { useVueFlow } from '@vue-flow/core';
+import { ref } from 'vue';
 
 const testElements = TestNodes;
 const testEdges = TestEdges;
 const settingsStore = useSettingsStore();
+const minimap = ref();
 const {
     getNodes,
     getEdges,
@@ -28,6 +31,7 @@ const { calculateAllEdgesPosition } = useCalculateEdgePosition();
 
 useNodeDragEvent();
 useSortTableColumn();
+useMinimap(minimap);
 onPaneReady(() => {
     const { nodes, edges } = nodeAutolayout(
         getNodes.value,
