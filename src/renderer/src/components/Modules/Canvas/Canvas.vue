@@ -62,6 +62,7 @@ onViewportChangeEnd(() => {
             :min-zoom="0.1"
             :max-zoom="1"
             :delete-key-code="null"
+            :nodes-focusable="false"
         >
             <Background class="h-full" pattern-color="#6381b8" />
             <MiniMap ref="minimap" pannable zoomable />
