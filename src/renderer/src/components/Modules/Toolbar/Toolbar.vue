@@ -3,13 +3,17 @@ import AddNewTableButton from '@components/Modules/Toolbar/Partials/AddNewTableB
 import AutoLayoutButton from '@components/Modules/Toolbar/Partials/AutoLayoutButton.vue';
 import ChangeOrientationButton from '@components/Modules/Toolbar/Partials/ChangeOrientationButton.vue';
 import ExportButton from '@components/Modules/Toolbar/Partials/ExportButton.vue';
+import SaveButton from '@components/Modules/Toolbar/Partials/SaveButton.vue';
 </script>
 
 <template>
-    <div class="flex items-center p-2 dark:bg-dark-900">
-        <AddNewTableButton class="mr-1.5" />
-        <AutoLayoutButton class="mr-1.5" />
-        <ChangeOrientationButton class="mr-1.5" />
-        <ExportButton />
+    <div class="flex items-center justify-between px-2 py-3 dark:bg-dark-900">
+        <div>
+            <AddNewTableButton class="mr-1.5" />
+            <AutoLayoutButton class="mr-1.5" />
+            <ChangeOrientationButton class="mr-1.5" />
+            <ExportButton />
+        </div>
+        <SaveButton />
     </div>
 </template>
