@@ -8,8 +8,8 @@ const { modelValue } = defineModels<{
 
 <template>
     <VPanelTextInput
-        v-model="modelValue"
         id="addColumnNameForm"
+        v-model="modelValue"
         placeholder="Place column name here"
     >
         <template #label>Column Name:</template>

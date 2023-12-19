@@ -41,7 +41,7 @@ const onClickToggleSection = (e: MouseEvent) => {
             </span>
         </button>
 
-        <div class="px-2 py-2.5" v-if="toggleContent">
+        <div v-if="toggleContent" class="px-2 py-2.5">
             <slot name="content"></slot>
         </div>
     </div>

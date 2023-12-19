@@ -57,7 +57,7 @@ const onClickAddRelation = async () => {
             type="danger"
             :items="errors"
         />
-        <VAlert class="my-4" v-if="isSuccessfullyCreated">
+        <VAlert v-if="isSuccessfullyCreated" class="my-4">
             You have successfully added a new table relation!
         </VAlert>
         <PanelBackButton class="mb-4 mt-2" @click="emits('goBack')" />
