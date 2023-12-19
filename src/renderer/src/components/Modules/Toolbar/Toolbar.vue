@@ -3,6 +3,7 @@ import AddNewTableButton from '@components/Modules/Toolbar/Partials/AddNewTableB
 import AutoLayoutButton from '@components/Modules/Toolbar/Partials/AutoLayoutButton.vue';
 import ChangeOrientationButton from '@components/Modules/Toolbar/Partials/ChangeOrientationButton.vue';
 import ExportButton from '@components/Modules/Toolbar/Partials/ExportButton.vue';
+import UndoButton from '@components/Modules/Toolbar/Partials/UndoButton.vue';
 import RedoButton from '@components/Modules/Toolbar/Partials/RedoButton.vue';
 import SaveButton from '@components/Modules/Toolbar/Partials/SaveButton.vue';
 </script>
@@ -15,7 +16,8 @@ import SaveButton from '@components/Modules/Toolbar/Partials/SaveButton.vue';
             <ChangeOrientationButton class="mr-1.5" />
             <ExportButton />
         </div>
-        <div>
+        <div class="flex items-center">
+            <UndoButton class="mr-1.5" />
             <RedoButton class="mr-2" />
             <SaveButton />
         </div>
