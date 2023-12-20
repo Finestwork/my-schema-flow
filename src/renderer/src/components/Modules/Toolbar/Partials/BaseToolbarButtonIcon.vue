@@ -14,9 +14,6 @@ const emits = defineEmits<{
 }>();
 const onClick = (e: MouseEvent) => {
     emits('click', e);
-    setTimeout(() => {
-        (e.target as HTMLElement).blur();
-    }, 150);
 };
 </script>
 <template>
