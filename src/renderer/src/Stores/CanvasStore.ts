@@ -40,6 +40,7 @@ export const useCanvasStore = defineStore('canvas', {
     state: () => ({
         currentActiveNode: {} as TNode,
         currentActiveEdge: {} as TEdge | Record<string, never>,
+        isCreatingTable: false,
     }),
     actions: {
         addColumnInActiveNode(data: Omit<TTableColumn, 'id', 'keyConstraint'>) {

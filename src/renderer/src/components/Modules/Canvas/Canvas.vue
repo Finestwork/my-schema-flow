@@ -2,6 +2,7 @@
 import { TestNodes, TestEdges } from '@renderer/dummy/CanvasDummy'; // Delete this in production
 import CustomNode from '@components/Modules/Canvas/Partials/CustomNode.vue';
 import Controls from '@components/Modules/Canvas/Partials/Controls.vue';
+import CustomNodePlaceholder from '@components/Modules/Canvas/Partials/CustomNodePlaceholder.vue';
 import { useSettingsStore } from '@stores/SettingsStore';
 import { useNodeDragEvents } from '@composables/useNodeDragEvents';
 import { useEdgeEvents } from '@composables/useEdgeEvents';
@@ -18,6 +19,7 @@ const testElements = TestNodes;
 const testEdges = TestEdges;
 const settingsStore = useSettingsStore();
 const minimap = ref();
+const placeholder = ref();
 const { toObject, onPaneReady, onViewportChangeEnd } = useVueFlow();
 const { autoLayout } = useNodeAutoLayout();
 
@@ -56,6 +58,7 @@ onViewportChangeEnd(() => {
             >
 
             <Controls />
+            <CustomNodePlaceholder ref="placeholder" />
             <template #node-custom="props">
                 <CustomNode
                     v-bind="props"

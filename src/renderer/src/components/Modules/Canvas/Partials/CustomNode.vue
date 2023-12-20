@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import CustomNodeHandles from '@components/Modules/Canvas/Partials/CustomNodeHandles.vue';
+import { useCanvasStore } from '@stores/CanvasStore';
 import { formatColumnForNodeCanvas } from '@utilities/TableHelper';
 import { jellyAnimation } from '@utilities/AnimateHelper';
 import { computed, ref, onMounted } from 'vue';
@@ -9,9 +10,9 @@ import type { TNodeData } from '@stores/CanvasStore';
 export type TProps = {
     id: string;
     data: TNodeData;
-    isCreatingTable: boolean;
 };
 const props = defineProps<TProps>();
+const canvasStore = useCanvasStore();
 const { removeNodes, getNodes } = useVueFlow();
 const root = ref();
 const getColumns = computed(() => {
@@ -24,7 +25,7 @@ const onClickDeleteNode = () => {
     removeNodes([Node]);
 };
 onMounted(() => {
-    if (!props.isCreatingTable) return;
+    if (!canvasStore.isCreatingTable) return;
     jellyAnimation(root.value);
 });
 </script>
