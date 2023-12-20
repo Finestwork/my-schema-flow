@@ -6,6 +6,7 @@ import type { GraphNode, GraphEdge } from '@vue-flow/core';
 export type TTableColumn = {
     id: number;
     name: string;
+    originalColumnName?: string;
     type: string;
     isNull: boolean;
     length: string;

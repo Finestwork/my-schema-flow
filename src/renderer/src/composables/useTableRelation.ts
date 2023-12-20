@@ -12,6 +12,11 @@ export type TRelationFormData = {
     referencedColumn: string;
 };
 
+export type TUpdateColumn = {
+    originalName: string;
+    newName: string;
+};
+
 export function useTableRelation() {
     const canvasStore = useCanvasStore();
     const { calculateActiveEdgesPosition } = useCalculateEdgePosition();
@@ -71,8 +76,25 @@ export function useTableRelation() {
         highlightNodes();
     };
 
+    const updateColumnRelation = (data: TUpdateColumn) => {
+        setEdges((edges) => {
+            return edges.map((edge) => {
+                if (edge.data.referenced.column === data.originalName) {
+                    edge.data.referenced.column = data.newName;
+                }
+
+                if (edge.data.referencing.column === data.originalName) {
+                    edge.data.referencing.column = data.newName;
+                }
+
+                return edge;
+            });
+        });
+    };
+
     return {
         addRelation,
         updateRelation,
+        updateColumnRelation,
     };
 }

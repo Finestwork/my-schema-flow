@@ -46,14 +46,33 @@ export const validateColumns = (
         (column) => column.keyConstraint === 'PK',
     );
 
-    if (PKIndex !== -1 && data.keyConstraint === 'PK') {
-        Errors.push('There should be only one primary key.');
+    // originalColumnName is only set when editing a column
+    if ('originalColumnName' in data) {
+        const CheckUniqueness =
+            PKIndex !== -1 &&
+            data.keyConstraint === 'PK' &&
+            data.originalColumnName !== Columns[PKIndex].name;
+
+        if (CheckUniqueness) {
+            Errors.push('There should be only one primary key.');
+        } else {
+            // If there's no primary key, then check if null property is enabled
+            if (data.isNull && !isEmpty(data.keyConstraint)) {
+                Errors.push(
+                    'Null property must not be enabled because column is a primary key.',
+                );
+            }
+        }
     } else {
-        // If there's no primary key, then check if null property is enabled
-        if (data.isNull && !isEmpty(data.keyConstraint)) {
-            Errors.push(
-                'Null property must not be enabled because column is a primary key.',
-            );
+        if (PKIndex !== -1 && data.keyConstraint === 'PK') {
+            Errors.push('There should be only one primary key.');
+        } else {
+            // If there's no primary key, then check if null property is enabled
+            if (data.isNull && !isEmpty(data.keyConstraint)) {
+                Errors.push(
+                    'Null property must not be enabled because column is a primary key.',
+                );
+            }
         }
     }
 

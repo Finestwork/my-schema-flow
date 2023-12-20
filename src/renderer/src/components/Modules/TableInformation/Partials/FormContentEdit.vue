@@ -12,10 +12,14 @@ import PanelFormNull from '@components/Shared/Forms/PanelFormNull.vue';
 import { useCanvasStore } from '@stores/CanvasStore';
 import { validateColumns } from '@utilities/FormTableHelper';
 import { reactive, ref } from 'vue';
+import type { TUpdateColumn } from '@composables/useTableRelation';
 
 const { displayForm, currentColumnIndex } = defineModels<{
     displayForm: boolean;
     currentColumnIndex: number;
+}>();
+const emits = defineEmits<{
+    (e: 'updateColumnRelation', value: TUpdateColumn): void;
 }>();
 const canvasStore = useCanvasStore();
 const column = Object.assign(
@@ -26,6 +30,7 @@ const errors = ref([]);
 const isSuccessfullyCreated = ref(false);
 const formStates = reactive({
     name: column?.name ?? '',
+    originalColumnName: column?.name ?? '',
     type: column?.type ?? '',
     length: column?.length ?? '',
     keyConstraint: column?.keyConstraint ?? '',
@@ -36,6 +41,11 @@ const onClickUpdateColumn = () => {
     isSuccessfullyCreated.value = false;
     errors.value = validateColumns(formStates, canvasStore.currentActiveNode);
     if (errors.value.length !== 0) return;
+    emits('updateColumnRelation', {
+        originalName: formStates.originalColumnName,
+        newName: formStates.name,
+    });
+    formStates.originalColumnName = formStates.name;
     canvasStore.updateColumnInActiveNode(formStates, currentColumnIndex.value);
     isSuccessfullyCreated.value = true;
 };

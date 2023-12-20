@@ -24,7 +24,8 @@ const currentColumnIndex = ref(-1);
 const { activeNodeChanged } = useDetectActiveNodeChange();
 const { getNodes, getEdges, onPaneClick } = useVueFlow();
 const { toggleDarkMode } = useDarkMode();
-const { addRelation, updateRelation } = useTableRelation();
+const { addRelation, updateRelation, updateColumnRelation } =
+    useTableRelation();
 const { autoLayout } = useNodeAutoLayout();
 const { exportAsImage } = useImageExport();
 const { undoHistory, redoHistory, jumpHistory } = useHistory();
@@ -67,6 +68,7 @@ activeNodeChanged(resetStates);
                             toggleDisplayForms.editColumn
                         "
                         v-model:current-column-index="currentColumnIndex"
+                        @update-column-relation="updateColumnRelation"
                     />
                     <TableRelations
                         @add-relation="addRelation"

@@ -5,6 +5,7 @@ import DefaultContent from '@components/Modules/TableInformation/Partials/Defaul
 import FormContentAdd from '@components/Modules/TableInformation/Partials/FormContentAdd.vue';
 import FormContentEdit from '@components/Modules/TableInformation/Partials/FormContentEdit.vue';
 import { useCanvasStore } from '@stores/CanvasStore';
+import type { TUpdateColumn } from '@composables/useTableRelation';
 
 const canvasStore = useCanvasStore();
 const { displayAddColumnForm, displayEditColumnForm, currentColumnIndex } =
@@ -13,6 +14,9 @@ const { displayAddColumnForm, displayEditColumnForm, currentColumnIndex } =
         displayEditColumnForm: boolean;
         currentColumnIndex: number;
     }>();
+const emits = defineEmits<{
+    (e: 'updateColumnRelation', value: TUpdateColumn): void;
+}>();
 </script>
 
 <template>
@@ -34,6 +38,9 @@ const { displayAddColumnForm, displayEditColumnForm, currentColumnIndex } =
                     v-if="!displayAddColumnForm && displayEditColumnForm"
                     v-model:display-form="displayEditColumnForm"
                     v-model:current-column-index="currentColumnIndex"
+                    @update-column-relation="
+                        emits('updateColumnRelation', $event)
+                    "
                 />
             </div>
             <NoTableSelected v-else />

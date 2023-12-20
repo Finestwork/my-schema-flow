@@ -24,8 +24,9 @@ export function useTableRelationList(
 
     // computed property can't be used because edges are being updated always
     watch(
-        () => canvasStore.currentActiveNode,
+        () => [canvasStore.currentActiveNode, edges.value],
         () => {
+            console.log('ww');
             const CurrentActiveEdges = getNodeRelationship(
                 canvasStore.currentActiveNode,
                 edges.value,
