@@ -9,6 +9,7 @@ import { useEdgeEvents } from '@composables/useEdgeEvents';
 import { useSortTableColumn } from '@composables/useSortTableColumn';
 import { useNodeAutoLayout } from '@composables/useNodeAutoLayout';
 import { useMinimap } from '@composables/useMinimap';
+import { useHistory } from '@composables/useHistory';
 import { VueFlow } from '@vue-flow/core';
 import { MiniMap } from '@vue-flow/minimap';
 import { Background } from '@vue-flow/background';
@@ -20,6 +21,7 @@ const testEdges = TestEdges;
 const settingsStore = useSettingsStore();
 const minimap = ref();
 const placeholder = ref();
+const { createHistory } = useHistory();
 const { toObject, onPaneReady, onViewportChangeEnd } = useVueFlow();
 const { autoLayout } = useNodeAutoLayout();
 
@@ -27,7 +29,10 @@ useNodeDragEvents();
 useEdgeEvents();
 useSortTableColumn();
 useMinimap(minimap);
-onPaneReady(autoLayout);
+onPaneReady(() => {
+    autoLayout();
+    createHistory('Initial Load');
+});
 onViewportChangeEnd(() => {
     const { viewport } = toObject();
     settingsStore.zoomLevel = +viewport.zoom.toFixed(1);

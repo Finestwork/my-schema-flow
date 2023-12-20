@@ -4,6 +4,7 @@ import Canvas from '@components/Modules/Canvas/Canvas.vue';
 import TableInformation from '@components/Modules/TableInformation/TableInformation.vue';
 import TableRelations from '@components/Modules/TableRelation/TableRelations.vue';
 import Toolbar from '@components/Modules/Toolbar/Toolbar.vue';
+import History from '@components/Modules/HIstory/History.vue';
 import { useTableRelation } from '@composables/useTableRelation';
 import { useDetectActiveNodeChange } from '@composables/useDetectActiveNodeChange';
 import { useDarkMode } from '@composables/useDarkMode';
@@ -46,7 +47,9 @@ activeNodeChanged(resetStates);
             @export-image="exportAsImage"
         />
         <div class="flex h-[calc(100vh-42px-52px)] w-full dark:bg-dark-900">
-            <div class="w-full max-w-[250px] dark:bg-dark-900"></div>
+            <div class="w-full max-w-[250px] dark:bg-dark-900">
+                <History />
+            </div>
             <div class="w-full">
                 <Canvas />
             </div>
