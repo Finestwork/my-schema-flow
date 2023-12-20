@@ -14,7 +14,7 @@ import { VueFlow } from '@vue-flow/core';
 import { MiniMap } from '@vue-flow/minimap';
 import { Background } from '@vue-flow/background';
 import { useVueFlow } from '@vue-flow/core';
-import { ref } from 'vue';
+import { nextTick, ref } from 'vue';
 
 const testElements = TestNodes;
 const testEdges = TestEdges;
@@ -29,8 +29,9 @@ useNodeDragEvents();
 useEdgeEvents();
 useSortTableColumn();
 useMinimap(minimap);
-onPaneReady(() => {
+onPaneReady(async () => {
     autoLayout();
+    await nextTick();
     createHistory('Initial Load');
 });
 onViewportChangeEnd(() => {
