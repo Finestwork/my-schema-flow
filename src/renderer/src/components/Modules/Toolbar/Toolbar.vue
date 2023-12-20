@@ -13,6 +13,7 @@ const emits = defineEmits<{
     (e: 'changeOrientation'): void;
     (e: 'exportImage', value: TImageExport): void;
     (e: 'undo'): void;
+    (e: 'redo'): void;
 }>();
 </script>
 
@@ -32,7 +33,7 @@ const emits = defineEmits<{
         </div>
         <div class="flex items-center">
             <UndoButton class="mr-1.5" @undo="emits('undo')" />
-            <RedoButton class="mr-2" />
+            <RedoButton class="mr-2" @redo="emits('redo')" />
             <SaveButton />
         </div>
     </div>

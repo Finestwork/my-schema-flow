@@ -3,11 +3,11 @@ import BaseToolbarButtonIcon from '@components/Modules/Toolbar/Partials/BaseTool
 import UndoIcon from '@components/Shared/Icons/UndoIcon.vue';
 import { useHistoryStore } from '@stores/HistoryStore';
 
-const historyStore = useHistoryStore();
 const emits = defineEmits<{
     (e: 'undo'): void;
 }>();
-const onClickUndo = () => {
+const historyStore = useHistoryStore();
+const onClickUndoHistory = () => {
     historyStore.undo();
     emits('undo');
 };
@@ -16,7 +16,7 @@ const onClickUndo = () => {
 <template>
     <BaseToolbarButtonIcon
         :disabled="!historyStore.canUndo"
-        @click="onClickUndo"
+        @click="onClickUndoHistory"
     >
         <UndoIcon />
         <template #tooltip>Undo</template>

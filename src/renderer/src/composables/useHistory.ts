@@ -26,8 +26,16 @@ export function useHistory() {
         setEdges(() => CurrentValue.payload.edges);
     };
 
+    const redoHistory = () => {
+        const CurrentValue = klona(historyStore.currentValue);
+        canvasStore.currentActiveNode = CurrentValue.payload.currentActiveNode;
+        setNodes(() => CurrentValue.payload.nodes);
+        setEdges(() => CurrentValue.payload.edges);
+    };
+
     return {
         createHistory,
         undoHistory,
+        redoHistory,
     };
 }
