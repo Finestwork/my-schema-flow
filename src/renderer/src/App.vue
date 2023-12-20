@@ -27,7 +27,7 @@ const { toggleDarkMode } = useDarkMode();
 const { addRelation, updateRelation } = useTableRelation();
 const { autoLayout } = useNodeAutoLayout();
 const { exportAsImage } = useImageExport();
-const { undoHistory, redoHistory } = useHistory();
+const { undoHistory, redoHistory, jumpHistory } = useHistory();
 const resetStates = () => {
     toggleDisplayForms.addColumn = false;
     toggleDisplayForms.editColumn = false;
@@ -52,7 +52,7 @@ activeNodeChanged(resetStates);
         />
         <div class="flex h-[calc(100vh-42px-52px)] w-full dark:bg-dark-900">
             <div class="w-full max-w-[250px] dark:bg-dark-900">
-                <History />
+                <History @jump-history="jumpHistory" />
             </div>
             <div class="w-full">
                 <Canvas />

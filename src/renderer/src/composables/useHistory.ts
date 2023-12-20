@@ -43,9 +43,15 @@ export function useHistory() {
         _applyChanges();
     };
 
+    const jumpHistory = (index: number) => {
+        historyStore.jump(index);
+        _applyChanges();
+    };
+
     return {
         createHistory,
         undoHistory,
         redoHistory,
+        jumpHistory,
     };
 }

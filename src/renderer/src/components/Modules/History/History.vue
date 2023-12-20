@@ -2,6 +2,9 @@
 import VPanelSectionWrapper from '@components/Base/Layouts/VPanelSectionWrapper.vue';
 import { useHistoryStore } from '@stores/HistoryStore';
 
+const emits = defineEmits<{
+    (e: 'jumpHistory', index: number);
+}>();
 const historyStore = useHistoryStore();
 </script>
 
@@ -20,6 +23,7 @@ const historyStore = useHistoryStore();
                         ind !== historyStore.currentIndex,
                 }"
                 type="button"
+                @click="emits('jumpHistory', ind)"
             >
                 {{ history }}
             </button>

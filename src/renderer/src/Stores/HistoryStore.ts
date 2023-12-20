@@ -43,6 +43,10 @@ export const useHistoryStore = defineStore('history', {
                 this.currentIndex = this.items.length - 1;
             }
         },
+        jump(index: number) {
+            this.currentIndex = index;
+            this.currentValue = this.items[index];
+        },
         redo() {
             if (this.currentIndex === this.items.length - 1) return; // Point is at the last item
             this.currentIndex++;
