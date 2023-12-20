@@ -7,6 +7,9 @@ export type TButtonProps = {
 const props = withDefaults(defineProps<TButtonProps>(), {
     disabled: false,
 });
+const emits = defineEmits<{
+    (e: 'click', value: MouseEvent): void;
+}>();
 </script>
 <template>
     <VTooltip :offset-y="11">
@@ -20,6 +23,7 @@ const props = withDefaults(defineProps<TButtonProps>(), {
                     !props.disabled,
             }"
             :disabled="props.disabled"
+            @click="emits('click', $event)"
         >
             <slot></slot>
         </button>

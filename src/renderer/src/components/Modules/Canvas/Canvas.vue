@@ -6,9 +6,8 @@ import { useSettingsStore } from '@stores/SettingsStore';
 import { useNodeDragEvents } from '@composables/useNodeDragEvents';
 import { useEdgeEvents } from '@composables/useEdgeEvents';
 import { useSortTableColumn } from '@composables/useSortTableColumn';
-import { useCalculateEdgePosition } from '@composables/useCalculateEdgePosition';
+import { useNodeAutoLayout } from '@composables/useNodeAutoLayout';
 import { useMinimap } from '@composables/useMinimap';
-import { nodeAutolayout } from '@utilities/CanvasHelper';
 import { VueFlow } from '@vue-flow/core';
 import { MiniMap } from '@vue-flow/minimap';
 import { Background } from '@vue-flow/background';
@@ -19,31 +18,14 @@ const testElements = TestNodes;
 const testEdges = TestEdges;
 const settingsStore = useSettingsStore();
 const minimap = ref();
-const {
-    getNodes,
-    getEdges,
-    setNodes,
-    setEdges,
-    toObject,
-    onPaneReady,
-    onViewportChangeEnd,
-} = useVueFlow();
-const { calculateAllEdgesPosition } = useCalculateEdgePosition();
+const { toObject, onPaneReady, onViewportChangeEnd } = useVueFlow();
+const { autoLayout } = useNodeAutoLayout();
 
 useNodeDragEvents();
 useEdgeEvents();
 useSortTableColumn();
 useMinimap(minimap);
-onPaneReady(() => {
-    const { nodes, edges } = nodeAutolayout(
-        getNodes.value,
-        getEdges.value,
-        settingsStore.currentOrientation,
-    );
-    setNodes(() => nodes);
-    setEdges(() => edges);
-    calculateAllEdgesPosition();
-});
+onPaneReady(autoLayout);
 onViewportChangeEnd(() => {
     const { viewport } = toObject();
     settingsStore.zoomLevel = +viewport.zoom.toFixed(1);

@@ -7,6 +7,7 @@ import Toolbar from '@components/Modules/Toolbar/Toolbar.vue';
 import { useTableRelation } from '@composables/useTableRelation';
 import { useDetectActiveNodeChange } from '@composables/useDetectActiveNodeChange';
 import { useDarkMode } from '@composables/useDarkMode';
+import { useNodeAutoLayout } from '@composables/useNodeAutoLayout';
 import { getEdgesKey, getNodesKey } from '@symbols/Canvas';
 import { useVueFlow } from '@vue-flow/core';
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue';
@@ -21,6 +22,7 @@ const { activeNodeChanged } = useDetectActiveNodeChange();
 const { getNodes, getEdges, onPaneClick } = useVueFlow();
 const { toggleDarkMode } = useDarkMode();
 const { addRelation, updateRelation } = useTableRelation();
+const { autoLayout } = useNodeAutoLayout();
 const resetStates = () => {
     toggleDisplayForms.addColumn = false;
     toggleDisplayForms.editColumn = false;
@@ -36,7 +38,7 @@ activeNodeChanged(resetStates);
 <template>
     <div class="text-black">
         <TitleBar />
-        <Toolbar />
+        <Toolbar @run-layout="autoLayout" />
         <div class="flex h-[calc(100vh-42px-52px)] w-full dark:bg-dark-900">
             <div class="w-full max-w-[250px] dark:bg-dark-900"></div>
             <div class="w-full">

@@ -6,13 +6,20 @@ import ExportButton from '@components/Modules/Toolbar/Partials/ExportButton.vue'
 import UndoButton from '@components/Modules/Toolbar/Partials/UndoButton.vue';
 import RedoButton from '@components/Modules/Toolbar/Partials/RedoButton.vue';
 import SaveButton from '@components/Modules/Toolbar/Partials/SaveButton.vue';
+
+const emits = defineEmits<{
+    (e: 'runLayout', value: MouseEvent): void;
+}>();
 </script>
 
 <template>
     <div class="flex items-center justify-between px-2 py-3 dark:bg-dark-900">
         <div>
             <AddNewTableButton class="mr-1.5" />
-            <AutoLayoutButton class="mr-1.5" />
+            <AutoLayoutButton
+                class="mr-1.5"
+                @click="emits('runLayout', $event)"
+            />
             <ChangeOrientationButton class="mr-1.5" />
             <ExportButton />
         </div>
