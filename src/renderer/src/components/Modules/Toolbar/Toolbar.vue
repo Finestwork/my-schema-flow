@@ -12,6 +12,7 @@ const emits = defineEmits<{
     (e: 'runLayout', value: MouseEvent): void;
     (e: 'changeOrientation'): void;
     (e: 'exportImage', value: TImageExport): void;
+    (e: 'undo'): void;
 }>();
 </script>
 
@@ -30,7 +31,7 @@ const emits = defineEmits<{
             <ExportButton @export-image="emits('exportImage', $event)" />
         </div>
         <div class="flex items-center">
-            <UndoButton class="mr-1.5" />
+            <UndoButton class="mr-1.5" @undo="emits('undo')" />
             <RedoButton class="mr-2" />
             <SaveButton />
         </div>

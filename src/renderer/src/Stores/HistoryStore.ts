@@ -39,7 +39,7 @@ export const useHistoryStore = defineStore('history', {
                     currentActiveNode: klona(item.payload.currentActiveNode),
                 },
             });
-            if (DefaultOptions.shouldIncrement) {
+            if (this.items.length > 1) {
                 this.currentIndex = this.items.length - 1;
             }
         },

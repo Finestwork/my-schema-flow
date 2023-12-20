@@ -6,7 +6,7 @@ import { klona } from 'klona/full';
 export function useHistory() {
     const historyStore = useHistoryStore();
     const canvasStore = useCanvasStore();
-    const { getNodes, getEdges } = useVueFlow();
+    const { getNodes, getEdges, setEdges, setNodes } = useVueFlow();
     const createHistory = (label: string) => {
         const Item = {
             label,
@@ -19,7 +19,15 @@ export function useHistory() {
         historyStore.addItem(Item);
     };
 
+    const undoHistory = () => {
+        const CurrentValue = klona(historyStore.currentValue);
+        canvasStore.currentActiveNode = CurrentValue.payload.currentActiveNode;
+        setNodes(() => CurrentValue.payload.nodes);
+        setEdges(() => CurrentValue.payload.edges);
+    };
+
     return {
         createHistory,
+        undoHistory,
     };
 }

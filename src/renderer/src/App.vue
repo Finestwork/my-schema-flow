@@ -4,12 +4,13 @@ import Canvas from '@components/Modules/Canvas/Canvas.vue';
 import TableInformation from '@components/Modules/TableInformation/TableInformation.vue';
 import TableRelations from '@components/Modules/TableRelation/TableRelations.vue';
 import Toolbar from '@components/Modules/Toolbar/Toolbar.vue';
-import History from '@components/Modules/HIstory/History.vue';
+import History from '@components/Modules/History/History.vue';
 import { useTableRelation } from '@composables/useTableRelation';
 import { useDetectActiveNodeChange } from '@composables/useDetectActiveNodeChange';
 import { useDarkMode } from '@composables/useDarkMode';
 import { useNodeAutoLayout } from '@composables/useNodeAutoLayout';
 import { useImageExport } from '@composables/useImageExport';
+import { useHistory } from '@composables/useHistory';
 import { getEdgesKey, getNodesKey } from '@symbols/Canvas';
 import { useVueFlow } from '@vue-flow/core';
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue';
@@ -26,6 +27,7 @@ const { toggleDarkMode } = useDarkMode();
 const { addRelation, updateRelation } = useTableRelation();
 const { autoLayout } = useNodeAutoLayout();
 const { exportAsImage } = useImageExport();
+const { undoHistory } = useHistory();
 const resetStates = () => {
     toggleDisplayForms.addColumn = false;
     toggleDisplayForms.editColumn = false;
@@ -45,6 +47,7 @@ activeNodeChanged(resetStates);
             @run-layout="autoLayout"
             @change-orientation="autoLayout"
             @export-image="exportAsImage"
+            @undo="undoHistory"
         />
         <div class="flex h-[calc(100vh-42px-52px)] w-full dark:bg-dark-900">
             <div class="w-full max-w-[250px] dark:bg-dark-900">
