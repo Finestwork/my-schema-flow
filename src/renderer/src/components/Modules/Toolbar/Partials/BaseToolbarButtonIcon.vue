@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import VTooltip from '@components/Base/Layouts/VTooltip.vue';
-import { nextTick } from 'vue';
 
 export type TButtonProps = {
     disabled?: boolean;
@@ -13,10 +12,11 @@ const props = withDefaults(defineProps<TButtonProps>(), {
 const emits = defineEmits<{
     (e: 'click', value: MouseEvent): void;
 }>();
-const onClick = async (e: MouseEvent) => {
+const onClick = (e: MouseEvent) => {
     emits('click', e);
-    await nextTick();
-    (e.target as HTMLElement).blur();
+    setTimeout(() => {
+        (e.target as HTMLElement).blur();
+    }, 150);
 };
 </script>
 <template>
@@ -29,7 +29,7 @@ const onClick = async (e: MouseEvent) => {
                     props.disabled && !props.isActive,
                 'dark:bg-dark-700/60 dark:stroke-dark-300 dark:hover:bg-cyan-950/60 hover:dark:stroke-cyan-500 dark:focus:bg-cyan-950/60 focus:dark:stroke-cyan-500':
                     !props.disabled && !props.isActive,
-                'dark:bg-cyan-950/60 dark:stroke-cyan-500':
+                'dark:bg-cyan-600 dark:stroke-cyan-50':
                     props.isActive && !props.disabled,
             }"
             :disabled="props.disabled"
