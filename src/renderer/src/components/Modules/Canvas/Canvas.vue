@@ -3,7 +3,8 @@ import { TestNodes, TestEdges } from '@renderer/dummy/CanvasDummy'; // Delete th
 import CustomNode from '@components/Modules/Canvas/Partials/CustomNode.vue';
 import Controls from '@components/Modules/Canvas/Partials/Controls.vue';
 import { useSettingsStore } from '@stores/SettingsStore';
-import { useNodeDragEvent } from '@composables/useNodeDragEvent';
+import { useNodeDragEvents } from '@composables/useNodeDragEvents';
+import { useEdgeEvents } from '@composables/useEdgeEvents';
 import { useSortTableColumn } from '@composables/useSortTableColumn';
 import { useCalculateEdgePosition } from '@composables/useCalculateEdgePosition';
 import { useMinimap } from '@composables/useMinimap';
@@ -29,7 +30,8 @@ const {
 } = useVueFlow();
 const { calculateAllEdgesPosition } = useCalculateEdgePosition();
 
-useNodeDragEvent();
+useNodeDragEvents();
+useEdgeEvents();
 useSortTableColumn();
 useMinimap(minimap);
 onPaneReady(() => {

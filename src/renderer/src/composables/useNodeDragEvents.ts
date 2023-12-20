@@ -4,7 +4,7 @@ import { useCalculateEdgePosition } from '@composables/useCalculateEdgePosition'
 import { useVueFlow } from '@vue-flow/core';
 import type { TNode } from '@stores/CanvasStore';
 
-export function useNodeDragEvent() {
+export function useNodeDragEvents() {
     const canvasStore = useCanvasStore();
     const { onNodeDragStop, onNodeDragStart, onPaneClick, onNodeClick } =
         useVueFlow();
