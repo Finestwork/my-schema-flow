@@ -2,10 +2,12 @@ import { useCanvasStore } from '@stores/CanvasStore';
 import { useConnectedNodes } from '@composables/useConnectedNodes';
 import { useCalculateEdgePosition } from '@composables/useCalculateEdgePosition';
 import { useVueFlow } from '@vue-flow/core';
+import { useHistory } from '@composables/useHistory';
 import type { TNode } from '@stores/CanvasStore';
 
 export function useNodeDragEvents() {
     const canvasStore = useCanvasStore();
+    const { createHistory } = useHistory();
     const { onNodeDragStop, onNodeDragStart, onPaneClick, onNodeClick } =
         useVueFlow();
     const { highlightNodes, unhighlightNodes } = useConnectedNodes();
@@ -42,10 +44,12 @@ export function useNodeDragEvents() {
 
         if (canvasStore.hasActiveNode) {
             calculateActiveEdgesPosition();
-            return;
+        } else {
+            calculateAllEdgesPosition();
         }
 
-        calculateAllEdgesPosition();
+        const CurrentNodeName = Node.data.table.name;
+        createHistory(`Table Moved: ${CurrentNodeName}`);
     });
 
     onNodeClick((event) => {
