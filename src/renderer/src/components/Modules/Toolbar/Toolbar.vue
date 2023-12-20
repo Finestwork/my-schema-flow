@@ -9,6 +9,7 @@ import SaveButton from '@components/Modules/Toolbar/Partials/SaveButton.vue';
 
 const emits = defineEmits<{
     (e: 'runLayout', value: MouseEvent): void;
+    (e: 'changeOrientation'): void;
 }>();
 </script>
 
@@ -20,7 +21,10 @@ const emits = defineEmits<{
                 class="mr-1.5"
                 @click="emits('runLayout', $event)"
             />
-            <ChangeOrientationButton class="mr-1.5" />
+            <ChangeOrientationButton
+                class="mr-1.5"
+                @change-orientation="emits('changeOrientation')"
+            />
             <ExportButton />
         </div>
         <div class="flex items-center">

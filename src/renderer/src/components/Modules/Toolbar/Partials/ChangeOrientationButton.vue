@@ -4,6 +4,16 @@ import BaseButtonDropdownItem from '@components/Modules/Toolbar/Partials/BaseBut
 import HorizontalLayoutIcon from '@components/Shared/Icons/HorizontalLayoutIcon.vue';
 import VerticalLayoutIcon from '@components/Shared/Icons/VerticalLayoutIcon.vue';
 import ChangeOrientationIcon from '@components/Shared/Icons/ChangeOrientationIcon.vue';
+import { useSettingsStore } from '@stores/SettingsStore';
+
+const settingsStore = useSettingsStore();
+const emits = defineEmits<{
+    (e: 'changeOrientation'): void;
+}>();
+const onClickChangeOrientation = (orientation: 'TB' | 'LR') => {
+    settingsStore.currentOrientation = orientation;
+    emits('changeOrientation');
+};
 </script>
 
 <template>
@@ -11,13 +21,19 @@ import ChangeOrientationIcon from '@components/Shared/Icons/ChangeOrientationIco
         <ChangeOrientationIcon />
         <template #tooltip>Change Layout Orientation</template>
         <template #float>
-            <BaseButtonDropdownItem>
+            <BaseButtonDropdownItem
+                :is-active="settingsStore.currentOrientation === 'LR'"
+                @click="onClickChangeOrientation('LR')"
+            >
                 <template #icon>
                     <HorizontalLayoutIcon />
                 </template>
                 <template #text>Horizontal Layout</template>
             </BaseButtonDropdownItem>
-            <BaseButtonDropdownItem>
+            <BaseButtonDropdownItem
+                :is-active="settingsStore.currentOrientation === 'TB'"
+                @click="onClickChangeOrientation('TB')"
+            >
                 <template #icon>
                     <VerticalLayoutIcon />
                 </template>

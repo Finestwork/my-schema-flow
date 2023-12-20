@@ -38,7 +38,7 @@ activeNodeChanged(resetStates);
 <template>
     <div class="text-black">
         <TitleBar />
-        <Toolbar @run-layout="autoLayout" />
+        <Toolbar @run-layout="autoLayout" @change-orientation="autoLayout" />
         <div class="flex h-[calc(100vh-42px-52px)] w-full dark:bg-dark-900">
             <div class="w-full max-w-[250px] dark:bg-dark-900"></div>
             <div class="w-full">
