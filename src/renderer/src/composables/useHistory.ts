@@ -20,6 +20,7 @@ export function useHistory() {
     };
 
     const undoHistory = () => {
+        historyStore.undo();
         const CurrentValue = klona(historyStore.currentValue);
         canvasStore.currentActiveNode = CurrentValue.payload.currentActiveNode;
         setNodes(() => CurrentValue.payload.nodes);
@@ -27,6 +28,7 @@ export function useHistory() {
     };
 
     const redoHistory = () => {
+        historyStore.redo();
         const CurrentValue = klona(historyStore.currentValue);
         canvasStore.currentActiveNode = CurrentValue.payload.currentActiveNode;
         setNodes(() => CurrentValue.payload.nodes);

@@ -7,16 +7,12 @@ const emits = defineEmits<{
     (e: 'redo'): void;
 }>();
 const historyStore = useHistoryStore();
-const onClickRedoHistory = () => {
-    historyStore.redo();
-    emits('redo');
-};
 </script>
 
 <template>
     <BaseToolbarButtonIcon
         :disabled="!historyStore.canRedo"
-        @click="onClickRedoHistory"
+        @click="emits('redo')"
     >
         <RedoIcon />
         <template #tooltip>Redo</template>

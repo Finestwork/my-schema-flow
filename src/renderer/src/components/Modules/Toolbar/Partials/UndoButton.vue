@@ -7,16 +7,12 @@ const emits = defineEmits<{
     (e: 'undo'): void;
 }>();
 const historyStore = useHistoryStore();
-const onClickUndoHistory = () => {
-    historyStore.undo();
-    emits('undo');
-};
 </script>
 
 <template>
     <BaseToolbarButtonIcon
         :disabled="!historyStore.canUndo"
-        @click="onClickUndoHistory"
+        @click="emits('undo')"
     >
         <UndoIcon />
         <template #tooltip>Undo</template>
