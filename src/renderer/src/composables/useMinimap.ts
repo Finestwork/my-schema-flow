@@ -1,12 +1,14 @@
 import { useCanvasStore } from '@stores/CanvasStore';
+import { useHistoryStore } from '@stores/HistoryStore';
 import { getConnectedNodes } from '@utilities/CanvasHelper';
 import { useVueFlow } from '@vue-flow/core';
-import { toValue } from 'vue';
+import { toValue, watch } from 'vue';
 import type { MiniMap } from '@vue-flow/minimap';
 import type { Ref } from 'vue';
 
 export function useMinimap(minimap: Ref<typeof MiniMap>) {
     const canvasStore = useCanvasStore();
+    const historyStore = useHistoryStore();
     const {
         getEdges,
         onNodeDragStop,
@@ -64,4 +66,11 @@ export function useMinimap(minimap: Ref<typeof MiniMap>) {
             return;
         _highlightMinimapNodes();
     });
+
+    watch(
+        () => historyStore.currentValue,
+        () => {
+            _highlightMinimapNodes();
+        },
+    );
 }

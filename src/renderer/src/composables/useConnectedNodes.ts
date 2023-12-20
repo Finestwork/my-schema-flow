@@ -5,7 +5,24 @@ import type { GraphEdge } from '@vue-flow/core';
 
 export function useConnectedNodes() {
     const canvasStore = useCanvasStore();
-    const { getEdges } = useVueFlow();
+    const { getEdges, setNodes, setEdges } = useVueFlow();
+
+    const resetNodesAndEdges = () => {
+        setNodes((nodes) => {
+            return nodes.map((node) => {
+                node.data.style.opacity = 1;
+                node.data.state.isActive = false;
+                return node;
+            });
+        });
+        setEdges((edges) => {
+            return edges.map((edge) => {
+                edge.style = {};
+                edge.animated = false;
+                return edge;
+            });
+        });
+    };
     const highlightNodes = () => {
         const nodes = getConnectedNodes(
             canvasStore.currentActiveNode,
@@ -78,6 +95,7 @@ export function useConnectedNodes() {
     };
 
     return {
+        resetNodesAndEdges,
         highlightNodes,
         unhighlightNodes,
     };
