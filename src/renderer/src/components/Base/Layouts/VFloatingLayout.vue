@@ -22,6 +22,7 @@ const { slideUpAnimation } = useTooltipAnimation(source, {
 });
 const { activate, deactivate } = useFocusTrap(float, {
     allowOutsideClick: true,
+    returnFocusOnDeactivate: false,
 });
 const { onEnter, onLeave } = slideUpAnimation();
 

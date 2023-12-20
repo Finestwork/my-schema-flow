@@ -17,6 +17,9 @@ const onClick = (e: MouseEvent) => {
     tooltip.value.showTooltip = !showFloatingLayout.value;
     emits('click', e);
 };
+defineExpose({
+    showFloatingLayout,
+});
 onClickOutside(reference, () => {
     showFloatingLayout.value = false;
 });
@@ -32,7 +35,13 @@ onClickOutside(reference, () => {
             <button
                 ref="reference"
                 type="button"
-                class="flex h-[25px] items-center justify-center rounded p-1.5 outline-none dark:bg-dark-700/60 dark:stroke-dark-300 dark:hover:bg-cyan-950/60 hover:dark:stroke-cyan-500 dark:focus:bg-cyan-950/60 focus:dark:stroke-cyan-500"
+                class="flex h-[25px] items-center justify-center rounded p-1.5 outline-none"
+                :class="{
+                    'dark:bg-dark-700/60 dark:stroke-dark-300 dark:hover:bg-cyan-950/60 hover:dark:stroke-cyan-500 dark:focus:bg-cyan-950/60 focus:dark:stroke-cyan-500':
+                        !showFloatingLayout,
+                    'dark:bg-cyan-950/60 dark:stroke-cyan-500':
+                        showFloatingLayout,
+                }"
                 @click="onClick"
             >
                 <span class="block w-[14px]">

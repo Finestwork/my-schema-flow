@@ -10,7 +10,7 @@ const emits = defineEmits<{
 </script>
 
 <template>
-    <BaseButtonDropdown>
+    <BaseButtonDropdown ref="btn">
         <ExportImageIcon />
         <template #tooltip>Export As Image</template>
         <template #float>
