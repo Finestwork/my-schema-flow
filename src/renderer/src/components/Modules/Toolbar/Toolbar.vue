@@ -6,10 +6,12 @@ import ExportButton from '@components/Modules/Toolbar/Partials/ExportButton.vue'
 import UndoButton from '@components/Modules/Toolbar/Partials/UndoButton.vue';
 import RedoButton from '@components/Modules/Toolbar/Partials/RedoButton.vue';
 import SaveButton from '@components/Modules/Toolbar/Partials/SaveButton.vue';
+import type { TExportTypes as TImageExport } from '@utilities/ExportHelper';
 
 const emits = defineEmits<{
     (e: 'runLayout', value: MouseEvent): void;
     (e: 'changeOrientation'): void;
+    (e: 'exportImage', value: TImageExport): void;
 }>();
 </script>
 
@@ -25,7 +27,7 @@ const emits = defineEmits<{
                 class="mr-1.5"
                 @change-orientation="emits('changeOrientation')"
             />
-            <ExportButton />
+            <ExportButton @export-image="emits('exportImage', $event)" />
         </div>
         <div class="flex items-center">
             <UndoButton class="mr-1.5" />

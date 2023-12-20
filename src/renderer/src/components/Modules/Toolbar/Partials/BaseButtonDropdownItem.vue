@@ -1,6 +1,6 @@
 <script setup lang="ts">
 export type TProps = {
-    isActive: boolean;
+    isActive?: boolean;
 };
 const props = withDefaults(defineProps<TProps>(), {
     isActive: false,
@@ -11,7 +11,7 @@ const props = withDefaults(defineProps<TProps>(), {
         class="group flex w-full items-center px-1.5 py-2 outline-none"
         type="button"
         :class="{
-            'hover:dark:bg-dark-700/20 focus:dark:bg-dark-700/20':
+            'hover:dark:bg-dark-700/40 focus:dark:bg-dark-700/40':
                 !props.isActive,
             'dark:bg-cyan-950/50': props.isActive,
         }"
