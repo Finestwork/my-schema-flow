@@ -6,6 +6,7 @@ import { inject } from 'vue';
 
 const isCreatingTable = inject(isCreatingTableKey);
 </script>
+
 <template>
     <VToolbarButtonIcon
         :is-active="isCreatingTable"
