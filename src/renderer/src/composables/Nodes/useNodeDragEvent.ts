@@ -10,7 +10,7 @@ export function useNodeDragEvent() {
     const { createHistory } = useHistory();
     const { onNodeDragStop, onNodeDragStart, onPaneClick, onNodeClick } =
         useVueFlow();
-    const { activateState, deactivateState } = useNodeStateHandler();
+    const { activateState, resetState } = useNodeStateHandler();
     const { calculateActiveEdgesPosition, calculateAllEdgesPosition } =
         useEdgePositionCalculator();
     let position = {
@@ -18,7 +18,6 @@ export function useNodeDragEvent() {
         y: -1,
     };
     const _turnOnNodeActiveState = (node: TNode) => {
-        deactivateState();
         canvasStore.currentActiveNode = node; // No need to create shallow copy, so we can directly mutate the object
         activateState();
     };
@@ -50,7 +49,7 @@ export function useNodeDragEvent() {
     });
 
     onPaneClick(() => {
-        deactivateState();
+        resetState();
     });
 
     return {

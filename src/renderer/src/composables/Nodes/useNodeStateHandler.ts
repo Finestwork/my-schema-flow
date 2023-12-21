@@ -10,8 +10,10 @@ export function useNodeStateHandler() {
     const resetState = () => {
         setNodes((nodes) => {
             return nodes.map((node) => {
-                node.data.style.opacity = 1;
-                node.data.state.isActive = false;
+                node.data.states = {
+                    isActive: false,
+                    isFaded: false,
+                };
                 return node;
             });
         });
@@ -24,102 +26,68 @@ export function useNodeStateHandler() {
         });
     };
     const activateState = () => {
-        const nodes = getConnectedNodes(
+        const NodeIds = new Set();
+        const { related } = getConnectedNodes(
             canvasStore.currentActiveNode,
             getEdges.value,
         );
-        nodes.related.forEach((edge: GraphEdge) => {
-            const Edge = getEdges.value.find(
-                (ed: GraphEdge) => ed.id === edge.id,
-            );
-            Edge.style = {
-                stroke: '#22d3ee',
-            };
-            Edge.animated = true;
-            Edge.sourceNode.data.states = {
-                isActive: true,
-                isFaded: false,
-            };
-            Edge.targetNode.data.states = {
-                isActive: true,
-                isFaded: false,
-            };
-        });
-        nodes.unrelated.forEach((ed: GraphEdge) => {
-            const Edge = getEdges.value.find(
-                (element: GraphEdge) => element.id === ed.id,
-            );
-            Edge.style = {
-                opacity: 0.5,
-            };
-            const SourceId = Edge.sourceNode.id;
-            const TargetId = Edge.targetNode.id;
-            const SourceIndex = nodes.related.findIndex(
-                (edge: GraphEdge) =>
-                    edge.sourceNode.id === SourceId ||
-                    edge.targetNode.id === SourceId,
-            );
-            const TargetIndex = nodes.related.findIndex(
-                (edge: GraphEdge) =>
-                    edge.sourceNode.id === TargetId ||
-                    edge.targetNode.id === TargetId,
-            );
-            if (TargetIndex === -1) {
-                Edge.targetNode.data.states = {
-                    isActive: false,
-                    isFaded: true,
-                };
-            }
 
-            if (SourceIndex === -1) {
-                Edge.sourceNode.data.states = {
+        canvasStore.currentActiveNode.data.states = {
+            isActive: true,
+            isFaded: false,
+        };
+
+        setEdges((edges) => {
+            return edges.map((edge) => {
+                const RelatedIndex = related.findIndex((e) => e.id === edge.id);
+
+                if (RelatedIndex !== -1) {
+                    edge.style = {
+                        stroke: '#22d3ee',
+                    };
+                    edge.animated = true;
+                    NodeIds.add(edge.targetNode.id);
+                    NodeIds.add(edge.sourceNode.id);
+                    return edge;
+                }
+
+                edge.style = {
+                    stroke: '#272F45',
+                };
+                edge.animated = false;
+                edge.sourceNode.data.states = {
                     isActive: false,
                     isFaded: true,
                 };
-            }
+                edge.targetNode.data.states = {
+                    isActive: false,
+                    isFaded: true,
+                };
+
+                return edge;
+            });
         });
-    };
-    const deactivateState = () => {
-        const ConnectedNodes = getConnectedNodes(
-            canvasStore.currentActiveNode,
-            getEdges.value,
-        );
-        ConnectedNodes.related.forEach((edge: GraphEdge) => {
-            const Edge = getEdges.value.find(
-                (ed: GraphEdge) => ed.id === edge.id,
-            );
-            Edge.style = {};
-            Edge.animated = false;
-            Edge.sourceNode.data.states = {
-                isActive: false,
-                isFaded: false,
-            };
-            Edge.targetNode.data.states = {
-                isActive: false,
-                isFaded: false,
-            };
-        });
-        ConnectedNodes.unrelated.forEach((edge: GraphEdge) => {
-            const Edge = getEdges.value.find(
-                (ed: GraphEdge) => ed.id === edge.id,
-            );
-            Edge.style = {
-                opacity: 1,
-            };
-            Edge.sourceNode.data.states = {
-                isActive: false,
-                isFaded: false,
-            };
-            Edge.targetNode.data.states = {
-                isActive: false,
-                isFaded: false,
-            };
+
+        setNodes((nodes) => {
+            return nodes.map((node) => {
+                const NodeIndex = Array.from(NodeIds).findIndex(
+                    (id) => id === node.id,
+                );
+
+                if (NodeIndex !== -1) {
+                    node.data.states = {
+                        isActive: true,
+                        isFaded: false,
+                    };
+                }
+
+                return node;
+            });
         });
     };
 
     return {
         resetState,
         activateState,
-        deactivateState,
     };
 }
