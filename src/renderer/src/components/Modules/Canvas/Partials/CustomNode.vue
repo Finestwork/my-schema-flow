@@ -1,31 +1,17 @@
 <script setup lang="ts">
 import CustomNodeHandles from '@components/Modules/Canvas/Partials/CustomNodeHandles.vue';
-import { useCanvasStore } from '@stores/Canvas';
 import { formatColumnForNodeCanvas } from '@utilities/TableHelper';
 import { jellyAnimation } from '@utilities/AnimateHelper';
 import { computed, ref, onMounted } from 'vue';
-import { useVueFlow } from '@vue-flow/core';
-import type { TNodeData } from '@stores/Canvas';
+import type { TNode } from '@stores/Canvas';
 
-export type TProps = {
-    id: string;
-    data: TNodeData;
-};
-const props = defineProps<TProps>();
-const canvasStore = useCanvasStore();
-const { removeNodes, getNodes } = useVueFlow();
+const props = defineProps<TNode>();
 const root = ref();
 const getColumns = computed(() => {
     return formatColumnForNodeCanvas(props.data.table.columns);
 });
-const onClickDeleteNode = () => {
-    const Nodes = getNodes.value;
-    const Node = Nodes.find((node) => node.id === props.id);
-    if (!Node) return;
-    removeNodes([Node]);
-};
+
 onMounted(() => {
-    if (!canvasStore.isCreatingTable) return;
     jellyAnimation(root.value);
 });
 </script>

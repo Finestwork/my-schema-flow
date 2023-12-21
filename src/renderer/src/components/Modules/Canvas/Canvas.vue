@@ -35,12 +35,7 @@ const testEdges = TestEdges;
             <Controls />
             <CustomNodePlaceholder ref="placeholder" />
             <template #node-custom="props">
-                <CustomNode
-                    v-bind="props"
-                    :id="props.id"
-                    :data="props.data"
-                    :is-creating-table="false"
-                />
+                <CustomNode v-bind="props" />
             </template>
         </VueFlow>
     </div>
