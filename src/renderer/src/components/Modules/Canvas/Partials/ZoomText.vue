@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useSettingsStore } from '@stores/SettingsStore';
+import { useSettingsStore } from '@stores/Settings';
 
 const settingsStore = useSettingsStore();
 </script>

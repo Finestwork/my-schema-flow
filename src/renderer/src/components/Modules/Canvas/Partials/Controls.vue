@@ -5,7 +5,7 @@ import UnlockIcon from '@components/Shared/Icons/UnlockIcon.vue';
 import ZoomInIcon from '@components/Shared/Icons/ZoomInIcon.vue';
 import ZoomOutIcon from '@components/Shared/Icons/ZoomOutIcon.vue';
 import FullscreenIcon from '@components/Shared/Icons/FullscreenIcon.vue';
-import { useSettingsStore } from '@stores/SettingsStore';
+import { useSettingsStore } from '@stores/Settings';
 import { Controls } from '@vue-flow/controls';
 import { useVueFlow } from '@vue-flow/core';
 import { ref } from 'vue';

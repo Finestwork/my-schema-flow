@@ -4,7 +4,7 @@ import VToolbarButtonDropdownItem from '@components/Base/Dropdowns/VToolbarButto
 import HorizontalLayoutIcon from '@components/Shared/Icons/HorizontalLayoutIcon.vue';
 import VerticalLayoutIcon from '@components/Shared/Icons/VerticalLayoutIcon.vue';
 import ChangeOrientationIcon from '@components/Shared/Icons/ChangeOrientationIcon.vue';
-import { useSettingsStore } from '@stores/SettingsStore';
+import { useSettingsStore } from '@stores/Settings';
 
 const settingsStore = useSettingsStore();
 const onClickChangeOrientation = (orientation: 'TB' | 'LR') => {

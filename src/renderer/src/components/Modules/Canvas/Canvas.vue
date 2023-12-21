@@ -4,14 +4,27 @@ import CustomNode from '@components/Modules/Canvas/Partials/CustomNode.vue';
 import CustomNodePlaceholder from '@components/Modules/Canvas/Partials/CustomNodePlaceholder.vue';
 import Controls from '@components/Modules/Canvas/Partials/Controls.vue';
 import ZoomText from '@components/Modules/Canvas/Partials/ZoomText.vue';
+import { useHistory } from '@composables/Miscellaneous/useHistory';
+import { useNodeAutoLayout } from '@composables/Nodes/useAutoLayout';
 import { useNodeDragEvent } from '@composables/Nodes/useNodeDragEvent';
+import { useEdgePositionCalculator } from '@composables/Edges/useEdgePositionCalculator';
 import { Background } from '@vue-flow/background';
 import { MiniMap } from '@vue-flow/minimap';
-import { VueFlow } from '@vue-flow/core';
+import { VueFlow, useVueFlow } from '@vue-flow/core';
+import { nextTick } from 'vue';
 
 const testElements = TestNodes;
 const testEdges = TestEdges;
+const { createHistory } = useHistory();
+const { autoLayout } = useNodeAutoLayout();
+const { onPaneReady } = useVueFlow();
 useNodeDragEvent();
+onPaneReady(async () => {
+    autoLayout();
+    await nextTick();
+    useEdgePositionCalculator();
+    createHistory('Initial Load');
+});
 </script>
 
 <template>
