@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import VPanelWrapper from '@components/Base/Wrappers/VPanelWrapper.vue';
 import TitleBar from '@components/Modules/TitleBar/TitleBar.vue';
 import Toolbar from '@components/Modules/Toolbar/Toolbar.vue';
 import Canvas from '@components/Modules/Canvas/Canvas.vue';
+import HistoryPanel from '@components/Modules/HistoryPanel/HistoryPanel.vue';
 import { vueFlowKey } from '@symbols/VueFlow';
 import { isCreatingTableKey } from '@symbols/Canvas';
 import { useVueFlow } from '@vue-flow/core';
@@ -15,7 +17,11 @@ provide(isCreatingTableKey, isCreatingTable);
 <template>
     <TitleBar />
     <Toolbar />
-    <div class="h-[calc(100vh-52px-40px)]">
-        <Canvas />
+    <div class="flex h-[calc(100vh-52px-40px)]">
+        <VPanelWrapper class="h-full w-full max-w-[200px]">
+            <HistoryPanel />
+        </VPanelWrapper>
+        <Canvas class="w-full" />
+        <VPanelWrapper class="h-full w-full max-w-[250px]"> </VPanelWrapper>
     </div>
 </template>
