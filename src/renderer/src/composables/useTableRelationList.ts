@@ -26,7 +26,6 @@ export function useTableRelationList(
     watch(
         () => [canvasStore.currentActiveNode, edges.value],
         () => {
-            console.log('ww');
             const CurrentActiveEdges = getNodeRelationship(
                 canvasStore.currentActiveNode,
                 edges.value,
