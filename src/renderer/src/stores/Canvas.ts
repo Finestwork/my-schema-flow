@@ -17,11 +17,9 @@ export type TNodeData = {
         name: string;
         columns: TTableColumn[];
     };
-    state: {
+    states: {
         isActive: boolean;
-    };
-    style: {
-        opacity: number;
+        isFaded: boolean;
     };
 };
 
@@ -57,12 +55,6 @@ export const useCanvasStore = defineStore('canvas', {
             Columns[index] = klona(data);
             this.currentActiveNode.data.table.columns =
                 sortConstraintKeys(Columns);
-        },
-        removeNodeActiveState() {
-            if (Object.keys(this.currentActiveNode).length !== 0) {
-                this.currentActiveNode.data.state.isActive = false;
-            }
-            this.currentActiveNode = Object.assign({}, {}); // To make it reactive
         },
         cloneColumnInActiveNode(cloneIndex: number) {
             const CurrentActiveNode = this.currentActiveNode;

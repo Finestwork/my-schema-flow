@@ -36,10 +36,14 @@ export function useNodeStateHandler() {
                 stroke: '#22d3ee',
             };
             Edge.animated = true;
-            Edge.sourceNode.data.style.opacity = 1;
-            Edge.targetNode.data.style.opacity = 1;
-            Edge.sourceNode.data.state.isActive = true;
-            Edge.targetNode.data.state.isActive = true;
+            Edge.sourceNode.data.states = {
+                isActive: true,
+                isFaded: false,
+            };
+            Edge.targetNode.data.states = {
+                isActive: true,
+                isFaded: false,
+            };
         });
         nodes.unrelated.forEach((ed: GraphEdge) => {
             const Edge = getEdges.value.find(
@@ -61,10 +65,17 @@ export function useNodeStateHandler() {
                     edge.targetNode.id === TargetId,
             );
             if (TargetIndex === -1) {
-                Edge.targetNode.data.style.opacity = 0.5;
+                Edge.targetNode.data.states = {
+                    isActive: false,
+                    isFaded: true,
+                };
             }
+
             if (SourceIndex === -1) {
-                Edge.sourceNode.data.style.opacity = 0.5;
+                Edge.sourceNode.data.states = {
+                    isActive: false,
+                    isFaded: true,
+                };
             }
         });
     };
@@ -79,8 +90,14 @@ export function useNodeStateHandler() {
             );
             Edge.style = {};
             Edge.animated = false;
-            Edge.sourceNode.data.state.isActive = false;
-            Edge.targetNode.data.state.isActive = false;
+            Edge.sourceNode.data.states = {
+                isActive: false,
+                isFaded: false,
+            };
+            Edge.targetNode.data.states = {
+                isActive: false,
+                isFaded: false,
+            };
         });
         ConnectedNodes.unrelated.forEach((edge: GraphEdge) => {
             const Edge = getEdges.value.find(
@@ -89,8 +106,14 @@ export function useNodeStateHandler() {
             Edge.style = {
                 opacity: 1,
             };
-            Edge.sourceNode.data.style.opacity = 1;
-            Edge.targetNode.data.style.opacity = 1;
+            Edge.sourceNode.data.states = {
+                isActive: false,
+                isFaded: false,
+            };
+            Edge.targetNode.data.states = {
+                isActive: false,
+                isFaded: false,
+            };
         });
     };
 

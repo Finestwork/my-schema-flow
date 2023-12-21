@@ -19,13 +19,6 @@ export function useNodeDragEvent() {
     };
     const _turnOnNodeActiveState = (node: TNode) => {
         deactivateState();
-
-        // If currently being dragged node is not the same with previously dragged node
-        // Remove the state of previously dragged node
-        if (canvasStore.currentActiveNode.id !== node.id) {
-            canvasStore.removeNodeActiveState();
-        }
-        node.data.state.isActive = true;
         canvasStore.currentActiveNode = node; // No need to create shallow copy, so we can directly mutate the object
         activateState();
     };
@@ -58,7 +51,6 @@ export function useNodeDragEvent() {
 
     onPaneClick(() => {
         deactivateState();
-        canvasStore.removeNodeActiveState();
     });
 
     return {

@@ -19,11 +19,9 @@ const createNodes = (): GraphNode[] => {
                     name: NodeDummy[table].name,
                     columns: NodeDummy[table].columns,
                 },
-                state: {
+                states: {
                     isActive: false,
-                },
-                style: {
-                    opacity: 1,
+                    isFaded: false,
                 },
             },
         });
