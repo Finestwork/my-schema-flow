@@ -31,6 +31,9 @@
             ],
             "@symbols/*": [
                 "src/renderer/src/symbols/*"
+            ],
+            "@dummy/*": [
+                "src/renderer/src/dummy/*"
             ]
         }
     }
