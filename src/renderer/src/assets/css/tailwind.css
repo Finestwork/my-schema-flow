@@ -11,7 +11,9 @@
 @layer utilities {
     .drag-title-bar {
         -webkit-app-region: drag;
-        user-select: none;
+    }
+    .no-drag-title-bar {
+        -webkit-app-region: no-drag;
     }
 }
 
