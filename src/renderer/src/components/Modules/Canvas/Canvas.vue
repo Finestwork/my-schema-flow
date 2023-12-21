@@ -4,12 +4,14 @@ import CustomNode from '@components/Modules/Canvas/Partials/CustomNode.vue';
 import CustomNodePlaceholder from '@components/Modules/Canvas/Partials/CustomNodePlaceholder.vue';
 import Controls from '@components/Modules/Canvas/Partials/Controls.vue';
 import ZoomText from '@components/Modules/Canvas/Partials/ZoomText.vue';
+import { useNodeDragEvent } from '@composables/Nodes/useNodeDragEvent';
 import { Background } from '@vue-flow/background';
 import { MiniMap } from '@vue-flow/minimap';
 import { VueFlow } from '@vue-flow/core';
 
 const testElements = TestNodes;
 const testEdges = TestEdges;
+useNodeDragEvent();
 </script>
 
 <template>
@@ -35,7 +37,7 @@ const testEdges = TestEdges;
             <Controls />
             <CustomNodePlaceholder ref="placeholder" />
             <template #node-custom="props">
-                <CustomNode v-bind="props" />
+                <CustomNode :id="props.id" :data="props.data" />
             </template>
         </VueFlow>
     </div>

@@ -2,16 +2,23 @@
 import CustomNodeHandles from '@components/Modules/Canvas/Partials/CustomNodeHandles.vue';
 import { formatColumnForNodeCanvas } from '@utilities/TableHelper';
 import { jellyAnimation } from '@utilities/AnimateHelper';
-import { computed, ref, onMounted } from 'vue';
-import type { TNode } from '@stores/Canvas';
+import { isCreatingTableKey } from '@symbols/Canvas';
+import { computed, ref, onMounted, inject } from 'vue';
+import type { TNodeData } from '@stores/Canvas';
 
-const props = defineProps<TNode>();
+export type TProps = {
+    id: string;
+    data: TNodeData;
+};
+const props = defineProps<TProps>();
+const isCreatingTable = inject(isCreatingTableKey);
 const root = ref();
 const getColumns = computed(() => {
     return formatColumnForNodeCanvas(props.data.table.columns);
 });
 
 onMounted(() => {
+    if (!isCreatingTable.value) return;
     jellyAnimation(root.value);
 });
 </script>
