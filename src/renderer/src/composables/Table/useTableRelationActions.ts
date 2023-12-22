@@ -2,9 +2,9 @@ import { useCanvasStore } from '@stores/Canvas';
 import { useEdgePositionCalculator } from '@composables/Edges/useEdgePositionCalculator';
 import { useNodeStateHandler } from '@composables/Nodes/useNodeStateHandler';
 import { findNodeByTableName } from '@utilities/CanvasHelper';
-import { useVueFlow } from '@vue-flow/core';
+import { vueFlowKey } from '@symbols/VueFlow';
 import { v4 as uuidv4 } from 'uuid';
-import { nextTick } from 'vue';
+import { nextTick, inject } from 'vue';
 
 export type TRelationFormData = {
     referencingColumn: string;
@@ -21,7 +21,7 @@ export function useTableRelationActions() {
     const canvasStore = useCanvasStore();
     const { calculateActiveEdgesPosition } = useEdgePositionCalculator();
     const { resetState, activateState } = useNodeStateHandler();
-    const { addEdges, getNodes, setEdges } = useVueFlow();
+    const { addEdges, getNodes, setEdges } = inject(vueFlowKey);
 
     const addRelation = (relationData: TRelationFormData) => {
         const ReferencedNode = findNodeByTableName(
@@ -66,8 +66,10 @@ export function useTableRelationActions() {
                             column: relationData.referencingColumn,
                         },
                     };
-                }
 
+                    // The Current active node will now be the referencing node
+                    canvasStore.currentActiveNode = ReferencingNode;
+                }
                 return edge;
             });
         });

@@ -8,19 +8,19 @@ import PanelFormCurrentTableLabel from '@components/Shared/Forms/PanelFormCurren
 import PanelFormReferencingColumn from '@components/Shared/Forms/PanelFormReferencingColumn.vue';
 import PanelFormReferencedTable from '@components/Shared/Forms/PanelFormReferencedTable.vue';
 import PanelFormReferencedColumn from '@components/Shared/Forms/PanelFormReferencedColumn.vue';
+import { useTableRelationActions } from '@composables/Table/useTableRelationActions';
 import { useCanvasStore } from '@stores/Canvas';
 import { vueFlowKey } from '@symbols/VueFlow';
 import { validateTableRelations } from '@utilities/FormTableHelper';
 import { nextTick, ref, inject } from 'vue';
 import type { Ref } from 'vue';
-import type { TRelationFormData } from '@composables/useTableRelation';
 
 const emits = defineEmits<{
     (e: 'goBack'): void;
-    (e: 'updateRelation', data: TRelationFormData): void;
 }>();
 const canvasStore = useCanvasStore();
 const errors: Ref<Array<string>> = ref([]);
+const { updateRelation } = useTableRelationActions();
 const { getNodes } = inject(vueFlowKey);
 
 const referencingColumn = ref(
@@ -47,7 +47,7 @@ const onClickUpdateRelation = async () => {
         getNodes.value,
     );
     if (errors.value.length !== 0) return;
-    emits('updateRelation', RelationObj);
+    updateRelation(RelationObj);
     await nextTick();
     isSuccessfullyUpdated.value = true;
 };

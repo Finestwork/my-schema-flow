@@ -42,7 +42,6 @@ watch(
                 <EditForm
                     v-if="!displayAddForm && displayEditForm"
                     @go-back="displayEditForm = false"
-                    @update-relation="emits('updateRelation', $event)"
                 />
             </div>
             <NoTableSelected v-else />
