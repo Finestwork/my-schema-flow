@@ -6,7 +6,7 @@ import AddIcon from '@components/Shared/Icons/AddIcon.vue';
 import CopyIcon from '@components/Shared/Icons/CopyIcon.vue';
 import TrashIcon from '@components/Shared/Icons/TrashIcon.vue';
 import { useCanvasStore } from '@stores/Canvas';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 
 export type TColumnList = {
     name: string;
@@ -15,12 +15,10 @@ export type TColumnList = {
 };
 const emits = defineEmits<{
     (e: 'addColumn', value: Event): void;
-    (e: 'editColumn', value: Event): void;
-}>();
-const { currentColumnIndex } = defineModels<{
-    currentColumnIndex: number;
+    (e: 'editColumn', value: number): void;
 }>();
 const canvasStore = useCanvasStore();
+const currentActiveIndex = ref(-1);
 const getColumns = computed((): Array<TColumnList> => {
     if (!canvasStore.hasActiveNode) return [];
     return canvasStore.currentActiveNode.data.table.columns.map((column) => ({
@@ -30,29 +28,25 @@ const getColumns = computed((): Array<TColumnList> => {
     }));
 });
 const canCloneColumn = computed((): boolean => {
-    if (!canvasStore.hasActiveNode || currentColumnIndex.value === -1)
+    if (!canvasStore.hasActiveNode || currentActiveIndex.value === -1)
         return false;
     const ActiveNode = canvasStore.currentActiveNode;
     const CurrentColumn =
-        ActiveNode.data.table.columns[currentColumnIndex.value];
+        ActiveNode.data.table.columns[currentActiveIndex.value];
 
     return CurrentColumn.keyConstraint !== 'PK';
 });
 const onClickToggleActiveState = (e: MouseEvent, ind: number) => {
     (e.target as HTMLButtonElement).blur();
-    if (currentColumnIndex.value === ind) {
-        currentColumnIndex.value = -1;
+    if (currentActiveIndex.value === ind) {
+        currentActiveIndex.value = -1;
         return;
     }
-    currentColumnIndex.value = ind;
+    currentActiveIndex.value = ind;
 };
 const onClickDeleteColumn = () => {
-    canvasStore.removeColumnInActiveNode(currentColumnIndex.value);
-    currentColumnIndex.value = -1;
-};
-const onDoubleClickEditColumn = (e: Event, index: number) => {
-    emits('editColumn', e);
-    currentColumnIndex.value = index;
+    canvasStore.removeColumnInActiveNode(currentActiveIndex.value);
+    currentActiveIndex.value = -1;
 };
 </script>
 <template>
@@ -69,9 +63,9 @@ const onDoubleClickEditColumn = (e: Event, index: number) => {
             v-for="(column, ind) in getColumns"
             :key="`${column.name}${ind}`"
             class="mb-2 last-of-type:mb-0"
-            :is-active="currentColumnIndex === ind"
+            :is-active="currentActiveIndex === ind"
             @click="onClickToggleActiveState($event, ind)"
-            @dblclick="onDoubleClickEditColumn($event, ind)"
+            @dblclick="emits('editColumn', ind)"
         >
             <template #column>
                 {{ column.name }}
@@ -88,14 +82,14 @@ const onDoubleClickEditColumn = (e: Event, index: number) => {
             <VPanelButtonIcon
                 class="mr-1"
                 :disabled="!canCloneColumn"
-                @click="canvasStore.cloneColumnInActiveNode(currentColumnIndex)"
+                @click="canvasStore.cloneColumnInActiveNode(currentActiveIndex)"
             >
                 <CopyIcon />
                 <template #tooltip>Copy Column</template>
             </VPanelButtonIcon>
             <VPanelButtonIcon
                 color-scheme="danger"
-                :disabled="currentColumnIndex === -1"
+                :disabled="currentActiveIndex === -1"
                 @click="onClickDeleteColumn"
             >
                 <TrashIcon />
