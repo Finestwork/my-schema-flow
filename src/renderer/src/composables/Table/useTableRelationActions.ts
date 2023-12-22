@@ -20,7 +20,7 @@ export type TUpdateColumn = {
 export function useTableRelationActions() {
     const canvasStore = useCanvasStore();
     const { calculateActiveEdgesPosition } = useEdgePositionCalculator();
-    const { resetState, activateState } = useNodeStateHandler();
+    const { activateState } = useNodeStateHandler();
     const { addEdges, getNodes, setEdges } = inject(vueFlowKey);
 
     const addRelation = (relationData: TRelationFormData) => {
