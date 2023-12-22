@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import VPanelSectionWrapper from '@components/Base/Wrappers/VPanelSectionWrapper.vue';
 import DefaultContent from '@components/Modules/TableInformationSection/Partials/DefaultContent.vue';
+import NoTableSelected from '@components/Shared/EmptyStates/NoTableSelected.vue';
 import { useCanvasStore } from '@stores/Canvas';
 import { ref } from 'vue';
 
@@ -14,6 +15,7 @@ const currentColumnIndex = ref(-1);
             <div v-if="canvasStore.hasActiveNode">
                 <DefaultContent :current-column-index="currentColumnIndex" />
             </div>
+            <NoTableSelected v-else />
         </template>
     </VPanelSectionWrapper>
 </template>
