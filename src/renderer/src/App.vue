@@ -5,6 +5,7 @@ import Toolbar from '@components/Modules/Toolbar/Toolbar.vue';
 import Canvas from '@components/Modules/Canvas/Canvas.vue';
 import HistorySection from '@components/Modules/HistorySection/HistorySection.vue';
 import TableInformationSection from '@components/Modules/TableInformationSection/TableInformationSection.vue';
+import TableRelations from '@components/Modules/TableRelations/TableRelations.vue';
 import { vueFlowKey } from '@symbols/VueFlow';
 import { isCreatingTableKey } from '@symbols/Canvas';
 import { useVueFlow } from '@vue-flow/core';
@@ -25,6 +26,7 @@ provide(isCreatingTableKey, isCreatingTable);
         <Canvas class="w-full" />
         <VPanelWrapper class="h-full w-full max-w-[250px]">
             <TableInformationSection />
+            <TableRelations />
         </VPanelWrapper>
     </div>
 </template>

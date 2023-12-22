@@ -10,9 +10,10 @@ import PanelFormColumnLength from '@components/Shared/Forms/PanelFormColumnLengt
 import PanelFormKeyConstraints from '@components/Shared/Forms/PanelFormKeyConstraints.vue';
 import PanelFormNull from '@components/Shared/Forms/PanelFormNull.vue';
 import { useCanvasStore } from '@stores/Canvas';
+import { useUpdateEdgeData } from '@composables/Edges/useUpdateEdgeData';
 import { validateColumns } from '@utilities/FormTableHelper';
 import { reactive, ref } from 'vue';
-import type { TUpdateColumn } from '@composables/Miscellaneous/useTableRelationActions';
+import type { TUpdateColumn } from '@composables/Table/useTableRelationActions';
 
 const props = defineProps<{
     currentColumnIndex: number;
@@ -36,6 +37,7 @@ const formStates = reactive({
     keyConstraint: column?.keyConstraint ?? '',
     isNull: column?.isNull ?? false,
 });
+const { updateColumnBasedOnActiveNode } = useUpdateEdgeData();
 const onClickUpdateColumn = () => {
     errors.value = [];
     isSuccessfullyCreated.value = false;
@@ -45,6 +47,7 @@ const onClickUpdateColumn = () => {
         originalName: formStates.originalColumnName,
         newName: formStates.name,
     });
+    updateColumnBasedOnActiveNode(formStates.name);
     formStates.originalColumnName = formStates.name;
     canvasStore.updateColumnInActiveNode(formStates, props.currentColumnIndex);
     isSuccessfullyCreated.value = true;
