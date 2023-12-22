@@ -38,7 +38,6 @@ watch(
                 <AddForm
                     v-if="displayAddForm && !displayEditForm"
                     @go-back="displayAddForm = false"
-                    @add-relation="emits('addRelation', $event)"
                 />
                 <EditForm
                     v-if="!displayAddForm && displayEditForm"

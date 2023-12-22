@@ -1,6 +1,6 @@
-import { useCanvasStore } from '@stores/CanvasStore';
-import { useCalculateEdgePosition } from '@composables/useCalculateEdgePosition';
-import { useConnectedNodes } from '@composables/useConnectedNodes';
+import { useCanvasStore } from '@stores/Canvas';
+import { useEdgePositionCalculator } from '@composables/Edges/useEdgePositionCalculator';
+import { useNodeStateHandler } from '@composables/Nodes/useNodeStateHandler';
 import { findNodeByTableName } from '@utilities/CanvasHelper';
 import { useVueFlow } from '@vue-flow/core';
 import { v4 as uuidv4 } from 'uuid';
@@ -19,8 +19,8 @@ export type TUpdateColumn = {
 
 export function useTableRelationActions() {
     const canvasStore = useCanvasStore();
-    const { calculateActiveEdgesPosition } = useCalculateEdgePosition();
-    const { highlightNodes, unhighlightNodes } = useConnectedNodes();
+    const { calculateActiveEdgesPosition } = useEdgePositionCalculator();
+    const { resetState, activateState } = useNodeStateHandler();
     const { addEdges, getNodes, setEdges } = useVueFlow();
 
     const addRelation = (relationData: TRelationFormData) => {
@@ -43,11 +43,11 @@ export function useTableRelationActions() {
         };
         addEdges([EdgeObj]);
         calculateActiveEdgesPosition();
-        highlightNodes();
+        activateState();
     };
 
     const updateRelation = async (relationData: TRelationFormData) => {
-        unhighlightNodes();
+        resetState();
         const ReferencingNode = canvasStore.currentActiveEdge.targetNode;
         const ReferencedNode = findNodeByTableName(
             relationData.referencedTable,
@@ -73,7 +73,7 @@ export function useTableRelationActions() {
         });
         await nextTick();
         calculateActiveEdgesPosition();
-        highlightNodes();
+        activateState();
     };
 
     const updateColumnRelation = (data: TUpdateColumn) => {
