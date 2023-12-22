@@ -9,16 +9,19 @@ import { klona } from 'klona/json';
  */
 export const sortConstraintKeys = (arr: TNodeData.table.columns[]) => {
     return arr.slice().sort((a, b) => {
-        if (a.keyConstraint === b.keyConstraint) {
-            return 0;
+        if (a.keyConstraint === 'PK' && b.keyConstraint !== 'PK') {
+            return -1;
         }
-        if (b.keyConstraint === 'PK') {
-            return a.keyConstraint === null ? -1 : 1;
+        if (a.keyConstraint !== 'PK' && b.keyConstraint === 'PK') {
+            return 1;
         }
-        if (a.keyConstraint === 'FK') {
-            return b.keyConstraint === null ? 1 : -1;
+        if (a.keyConstraint === 'FK' && b.keyConstraint !== 'FK') {
+            return -1;
         }
-        return 1;
+        if (a.keyConstraint !== 'FK' && b.keyConstraint === 'FK') {
+            return 1;
+        }
+        return 0;
     });
 };
 

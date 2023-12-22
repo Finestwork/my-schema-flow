@@ -10,6 +10,7 @@ import PanelFormColumnLength from '@components/Shared/Forms/PanelFormColumnLengt
 import PanelFormKeyConstraints from '@components/Shared/Forms/PanelFormKeyConstraints.vue';
 import PanelFormNull from '@components/Shared/Forms/PanelFormNull.vue';
 import { useCanvasStore } from '@stores/Canvas';
+import { useSortNodes } from '@composables/Nodes/useSortNodes';
 import { validateColumns } from '@utilities/FormTableHelper';
 import { reactive, ref } from 'vue';
 
@@ -27,6 +28,7 @@ const initialState = {
     isNull: false,
 };
 const formStates = reactive({ ...initialState });
+const { sortNodeColumns } = useSortNodes();
 const onClickAddColumn = () => {
     errors.value = [];
     isSuccessfullyCreated.value = false;
@@ -35,6 +37,9 @@ const onClickAddColumn = () => {
     canvasStore.addColumnInActiveNode(formStates);
     isSuccessfullyCreated.value = true;
     Object.assign(formStates, initialState);
+    setTimeout(() => {
+        sortNodeColumns();
+    }, 2000);
 };
 </script>
 
