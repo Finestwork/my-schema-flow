@@ -47,7 +47,6 @@ export function useTableRelationActions() {
     };
 
     const updateRelation = async (relationData: TRelationFormData) => {
-        resetState();
         const ReferencingNode = canvasStore.currentActiveEdge.targetNode;
         const ReferencedNode = findNodeByTableName(
             relationData.referencedTable,
@@ -68,14 +67,14 @@ export function useTableRelationActions() {
                     };
 
                     // The Current active node will now be the referencing node
-                    canvasStore.currentActiveNode = ReferencingNode;
+                    canvasStore.currentActiveNode = edge.targetNode;
                 }
                 return edge;
             });
         });
         await nextTick();
-        calculateActiveEdgesPosition();
         activateState();
+        calculateActiveEdgesPosition();
     };
 
     const updateColumnRelation = (data: TUpdateColumn) => {

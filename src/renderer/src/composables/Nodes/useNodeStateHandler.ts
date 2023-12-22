@@ -79,6 +79,11 @@ export function useNodeStateHandler() {
                         isActive: true,
                         isFaded: false,
                     };
+                } else {
+                    node.data.states = {
+                        isActive: false,
+                        isFaded: true,
+                    };
                 }
 
                 return node;

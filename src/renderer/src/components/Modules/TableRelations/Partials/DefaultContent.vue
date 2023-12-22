@@ -15,17 +15,10 @@ const canvasStore = useCanvasStore();
 const { getEdges } = inject(vueFlowKey);
 const { relationList } = useTableRelationList();
 
-const onClickEditForm = (edgeId: string, relation: string) => {
+const onClickEditForm = (edgeId: string) => {
     canvasStore.currentActiveEdge = getEdges.value.find(
         (edge) => edge.id === edgeId,
     ); // No need to create shallow copy
-
-    // If the current active column is a child, make it the active node
-    // So it will be highlighted once successfully updated the column
-    if (relation === 'Child') {
-        canvasStore.currentActiveNode =
-            canvasStore.currentActiveEdge.targetNode;
-    }
 
     emits('editForm');
 };
@@ -38,7 +31,7 @@ const onClickEditForm = (edgeId: string, relation: string) => {
             :key="relation.id"
             class="mb-2 last-of-type:mb-0"
             type="button"
-            @dblclick="onClickEditForm(relation.id, relation.relation)"
+            @dblclick="onClickEditForm(relation.id)"
         >
             <template #table>{{ relation.table }}</template>
             <template #column>{{ relation.column }}</template>
