@@ -12,17 +12,21 @@ export function useTableRelationList() {
         canvasStore.currentActiveNode,
         getEdges.value,
     );
-    const relationList = ref();
+    const relationList = ref([]);
     const updateRelationList = () => {
         const InitialRelationList = getRelationList(
             CurrentActiveEdges,
             getNodes.value,
             canvasStore.currentActiveNode.id,
         );
-        InitialRelationList.value = InitialRelationList;
+        relationList.value = InitialRelationList;
     };
 
-    watch(() => [getEdges.value], updateRelationList);
+    updateRelationList();
+    watch(
+        () => [getEdges.value, canvasStore.currentActiveNode],
+        updateRelationList,
+    );
 
     return {
         relationList,
