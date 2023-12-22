@@ -3,7 +3,8 @@ import VPanelWrapper from '@components/Base/Wrappers/VPanelWrapper.vue';
 import TitleBar from '@components/Modules/TitleBar/TitleBar.vue';
 import Toolbar from '@components/Modules/Toolbar/Toolbar.vue';
 import Canvas from '@components/Modules/Canvas/Canvas.vue';
-import HistoryPanel from '@components/Modules/HistoryPanel/HistoryPanel.vue';
+import HistorySection from '@components/Modules/HistorySection/HistorySection.vue';
+import TableInformationSection from '@components/Modules/TableInformationSection/TableInformationSection.vue';
 import { vueFlowKey } from '@symbols/VueFlow';
 import { isCreatingTableKey } from '@symbols/Canvas';
 import { useVueFlow } from '@vue-flow/core';
@@ -19,9 +20,11 @@ provide(isCreatingTableKey, isCreatingTable);
     <Toolbar />
     <div class="flex h-[calc(100vh-52px-40px)]">
         <VPanelWrapper class="h-full w-full max-w-[200px]">
-            <HistoryPanel />
+            <HistorySection />
         </VPanelWrapper>
         <Canvas class="w-full" />
-        <VPanelWrapper class="h-full w-full max-w-[250px]"> </VPanelWrapper>
+        <VPanelWrapper class="h-full w-full max-w-[250px]">
+            <TableInformationSection />
+        </VPanelWrapper>
     </div>
 </template>
