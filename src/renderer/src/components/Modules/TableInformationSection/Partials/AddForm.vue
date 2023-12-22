@@ -37,9 +37,7 @@ const onClickAddColumn = () => {
     canvasStore.addColumnInActiveNode(formStates);
     isSuccessfullyCreated.value = true;
     Object.assign(formStates, initialState);
-    setTimeout(() => {
-        sortNodeColumns();
-    }, 2000);
+    sortNodeColumns();
 };
 </script>
 
