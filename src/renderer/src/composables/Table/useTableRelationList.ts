@@ -2,22 +2,27 @@ import { useCanvasStore } from '@stores/Canvas';
 import { getNodeRelationship } from '@utilities/CanvasHelper';
 import { getRelationList } from '@utilities/TableHelper';
 import { vueFlowKey } from '@symbols/VueFlow';
-import { inject, computed } from 'vue';
+import { inject, ref, watch } from 'vue';
 
 export function useTableRelationList() {
     const canvasStore = useCanvasStore();
     const { getNodes, getEdges } = inject(vueFlowKey);
-    const relationList = computed(() => {
-        const CurrentActiveEdges = getNodeRelationship(
-            canvasStore.currentActiveNode,
-            getEdges.value,
-        );
-        return getRelationList(
+
+    const CurrentActiveEdges = getNodeRelationship(
+        canvasStore.currentActiveNode,
+        getEdges.value,
+    );
+    const relationList = ref();
+    const updateRelationList = () => {
+        const InitialRelationList = getRelationList(
             CurrentActiveEdges,
             getNodes.value,
             canvasStore.currentActiveNode.id,
         );
-    });
+        InitialRelationList.value = InitialRelationList;
+    };
+
+    watch(() => [getEdges.value], updateRelationList);
 
     return {
         relationList,
