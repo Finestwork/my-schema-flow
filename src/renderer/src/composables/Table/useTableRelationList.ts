@@ -3,6 +3,14 @@ import { getNodeRelationship } from '@utilities/CanvasHelper';
 import { getRelationList } from '@utilities/TableHelper';
 import { vueFlowKey } from '@symbols/VueFlow';
 import { inject, ref, watch } from 'vue';
+import type { Ref } from 'vue';
+
+export type TRelationList = {
+    id: string;
+    table: string;
+    column: string;
+    relation: string;
+};
 
 export function useTableRelationList() {
     const canvasStore = useCanvasStore();
@@ -12,14 +20,13 @@ export function useTableRelationList() {
         canvasStore.currentActiveNode,
         getEdges.value,
     );
-    const relationList = ref([]);
+    const relationList: Ref<Array<TRelationList>> = ref([]);
     const updateRelationList = () => {
-        const InitialRelationList = getRelationList(
+        relationList.value = getRelationList(
             CurrentActiveEdges,
             getNodes.value,
             canvasStore.currentActiveNode.id,
         );
-        relationList.value = InitialRelationList;
     };
 
     updateRelationList();

@@ -46,6 +46,15 @@ export function useTableRelationActions() {
         activateState();
     };
 
+    const deleteRelation = () => {
+        setEdges((edges) => {
+            return edges.filter(
+                (edge) => edge.id !== canvasStore.currentActiveEdge.id,
+            );
+        });
+        canvasStore.currentActiveEdge = Object.assign({}, {});
+        activateState();
+    };
     const updateRelation = async (relationData: TRelationFormData) => {
         const ReferencingNode = canvasStore.currentActiveEdge.targetNode;
         const ReferencedNode = findNodeByTableName(
@@ -95,6 +104,7 @@ export function useTableRelationActions() {
 
     return {
         addRelation,
+        deleteRelation,
         updateRelation,
         updateColumnRelation,
     };

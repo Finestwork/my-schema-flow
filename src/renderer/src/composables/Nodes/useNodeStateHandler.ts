@@ -32,11 +32,6 @@ export function useNodeStateHandler() {
             getEdges.value,
         );
 
-        canvasStore.currentActiveNode.data.states = {
-            isActive: true,
-            isFaded: false,
-        };
-
         setEdges((edges) => {
             return edges.map((edge) => {
                 const RelatedIndex = related.findIndex((e) => e.id === edge.id);
@@ -67,7 +62,6 @@ export function useNodeStateHandler() {
                 return edge;
             });
         });
-
         setNodes((nodes) => {
             return nodes.map((node) => {
                 const NodeIndex = Array.from(NodeIds).findIndex(
@@ -89,6 +83,10 @@ export function useNodeStateHandler() {
                 return node;
             });
         });
+        canvasStore.currentActiveNode.data.states = {
+            isActive: true,
+            isFaded: false,
+        };
     };
 
     return {

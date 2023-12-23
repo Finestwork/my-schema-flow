@@ -26,18 +26,20 @@ const onClickEditForm = (edgeId: string) => {
 
 <template>
     <div>
-        <VPanelRelationButton
-            v-for="relation in relationList"
-            :key="relation.id"
-            class="mb-2 last-of-type:mb-0"
-            type="button"
-            @dblclick="onClickEditForm(relation.id)"
-        >
-            <template #table>{{ relation.table }}</template>
-            <template #column>{{ relation.column }}</template>
-            <template #relation>{{ relation.relation }}</template>
-        </VPanelRelationButton>
-        <VPanelActionButton class="mt-4" @click="emits('addForm', $event)">
+        <div v-if="relationList.length !== 0" class="mb-4">
+            <VPanelRelationButton
+                v-for="relation in relationList"
+                :key="relation.id"
+                class="mb-2 last-of-type:mb-0"
+                type="button"
+                @dblclick="onClickEditForm(relation.id)"
+            >
+                <template #table>{{ relation.table }}</template>
+                <template #column>{{ relation.column }}</template>
+                <template #relation>{{ relation.relation }}</template>
+            </VPanelRelationButton>
+        </div>
+        <VPanelActionButton @click="emits('addForm', $event)">
             <template #icon="">
                 <AddIcon />
             </template>

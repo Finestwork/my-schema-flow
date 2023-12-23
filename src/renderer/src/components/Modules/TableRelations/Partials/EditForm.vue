@@ -3,6 +3,7 @@ import VAlertList from '@components/Base/Alerts/VAlertList.vue';
 import VAlert from '@components/Base/Alerts/VAlert.vue';
 import VPanelActionButton from '@components/Base/Buttons/VPanelActionButton.vue';
 import EditIcon from '@components/Shared/Icons/EditIcon.vue';
+import TrashIcon from '@components/Shared/Icons/TrashIcon.vue';
 import PanelBackButton from '@components/Shared/Buttons/PanelBackButton.vue';
 import PanelFormCurrentTableLabel from '@components/Shared/Forms/PanelFormCurrentTableLabel.vue';
 import PanelFormReferencingColumn from '@components/Shared/Forms/PanelFormReferencingColumn.vue';
@@ -20,7 +21,7 @@ const emits = defineEmits<{
 }>();
 const canvasStore = useCanvasStore();
 const errors: Ref<Array<string>> = ref([]);
-const { updateRelation } = useTableRelationActions();
+const { updateRelation, deleteRelation } = useTableRelationActions();
 const { getNodes } = inject(vueFlowKey);
 
 const referencingColumn = ref(
@@ -33,6 +34,10 @@ const referencedColumn = ref(
     canvasStore.currentActiveEdge.data.referenced.column,
 );
 const isSuccessfullyUpdated = ref(false);
+const onClickHideForm = () => {
+    canvasStore.currentActiveEdge = Object.assign({}, {});
+    emits('goBack');
+};
 const onClickUpdateRelation = async () => {
     errors.value = [];
     isSuccessfullyUpdated.value = false;
@@ -51,8 +56,8 @@ const onClickUpdateRelation = async () => {
     await nextTick();
     isSuccessfullyUpdated.value = true;
 };
-const onClickHideForm = () => {
-    canvasStore.currentActiveEdge = Object.assign({}, {});
+const onClickDeleteRelation = () => {
+    deleteRelation();
     emits('goBack');
 };
 </script>
@@ -78,11 +83,20 @@ const onClickHideForm = () => {
             class="mb-5"
             :disabled="referencedTable.trim() === ''"
         />
-        <VPanelActionButton @click="onClickUpdateRelation">
+        <VPanelActionButton class="mb-2" @click="onClickUpdateRelation">
             <template #icon>
                 <EditIcon />
             </template>
             <template #text>Update Relation</template>
+        </VPanelActionButton>
+        <VPanelActionButton
+            color-scheme="danger"
+            @click="onClickDeleteRelation"
+        >
+            <template #icon>
+                <TrashIcon />
+            </template>
+            <template #text>Delete Relation</template>
         </VPanelActionButton>
     </div>
 </template>
