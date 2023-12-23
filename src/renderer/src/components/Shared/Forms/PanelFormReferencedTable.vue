@@ -8,18 +8,19 @@ const { modelValue } = defineModels<{
     modelValue: string;
 }>();
 const canvasStore = useCanvasStore();
-const { getNodes } = inject(vueFlowKey);
+const VueFlow = inject(vueFlowKey);
 const getTables = computed(() => {
+    if (!VueFlow) return [];
     if (canvasStore.hasActiveEdge) {
         const ReferencedTable =
             canvasStore.currentActiveEdge.targetNode.data.table.name;
-        return getNodes.value
+        return VueFlow.getNodes.value
             .map((node) => node.data.table.name)
             .filter((name) => name !== ReferencedTable);
     }
 
     const CurrentTable = canvasStore.currentActiveNode.data.table.name;
-    return getNodes.value
+    return VueFlow.getNodes.value
         .map((node) => node.data.table.name)
         .filter((name) => name !== CurrentTable);
 });

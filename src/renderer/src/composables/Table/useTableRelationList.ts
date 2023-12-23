@@ -14,26 +14,25 @@ export type TRelationList = {
 
 export function useTableRelationList() {
     const canvasStore = useCanvasStore();
-    const { getNodes, getEdges } = inject(vueFlowKey);
+    const VueFlow = inject(vueFlowKey);
 
     const relationList: Ref<Array<TRelationList>> = ref([]);
     const updateRelationList = () => {
+        if (!VueFlow) return;
+
         const CurrentActiveEdges = getNodeRelationship(
             canvasStore.currentActiveNode,
-            getEdges.value,
+            VueFlow.getEdges.value,
         );
         relationList.value = getRelationList(
             CurrentActiveEdges,
-            getNodes.value,
+            VueFlow.getNodes.value,
             canvasStore.currentActiveNode.id,
         );
     };
 
     updateRelationList();
-    watch(
-        () => [getEdges.value, canvasStore.currentActiveNode],
-        updateRelationList,
-    );
+    watch(() => [VueFlow, canvasStore.currentActiveNode], updateRelationList);
 
     return {
         relationList,

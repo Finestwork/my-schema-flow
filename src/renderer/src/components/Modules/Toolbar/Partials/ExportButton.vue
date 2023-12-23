@@ -7,12 +7,18 @@ import { vueFlowKey } from '@symbols/VueFlow';
 import { inject } from 'vue';
 import type { TExportTypes } from '@utilities/ExportHelper';
 
-const { vueFlowRef, getNodes } = inject(vueFlowKey);
+const VueFlow = inject(vueFlowKey);
 const onClickExportAsImage = (type: TExportTypes) => {
-    const Wrapper: HTMLElement = vueFlowRef.value?.querySelector(
-        '.vue-flow__transformationpane',
-    );
-    exportAsImage(type, Wrapper, getNodes.value);
+    if (!VueFlow) return;
+
+    if (VueFlow.vueFlowRef.value) {
+        const Wrapper = VueFlow.vueFlowRef.value.querySelector(
+            '.vue-flow__transformationpane',
+        );
+        if (!Wrapper) return;
+
+        exportAsImage(type, Wrapper as HTMLElement, VueFlow.getNodes.value);
+    }
 };
 </script>
 

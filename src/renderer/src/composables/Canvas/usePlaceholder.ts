@@ -9,6 +9,16 @@ export function usePlaceholder(placeholder: Ref<HTMLElement>) {
     const canShow = ref(false);
     const isDragging = ref(false);
     const isCreatingTable = inject(isCreatingTableKey);
+    const VueFlow = inject(vueFlowKey);
+    const { createNode } = useCreateNode();
+
+    if (!VueFlow) {
+        return {
+            canShow,
+            isDragging,
+        };
+    }
+
     const {
         vueFlowRef,
         onPaneReady,
@@ -18,10 +28,10 @@ export function usePlaceholder(placeholder: Ref<HTMLElement>) {
         onMove,
         onMoveEnd,
         onPaneClick,
-    } = inject(vueFlowKey);
-    const { createNode } = useCreateNode();
+    } = VueFlow;
 
     const _movePlaceholder = async (clientX: number, clientY: number) => {
+        if (!vueFlowRef.value) return;
         await nextTick(); // Since custom placeholder uses v-if, it needs to be rendered first
         const { left, top } = vueFlowRef.value.getBoundingClientRect();
         Object.assign(toValue(placeholder).style, {
@@ -31,13 +41,14 @@ export function usePlaceholder(placeholder: Ref<HTMLElement>) {
     };
 
     onPaneReady(() => {
+        if (!vueFlowRef.value) return;
         draggableContainer.value = vueFlowRef.value.querySelector(
             '.vue-flow__pane.vue-flow__container.draggable',
         );
     });
 
     onPaneMouseEnter(() => {
-        if (!isCreatingTable.value) {
+        if (isCreatingTable && !isCreatingTable.value) {
             Object.assign(draggableContainer.value.style, {
                 cursor: null,
             });
@@ -49,12 +60,12 @@ export function usePlaceholder(placeholder: Ref<HTMLElement>) {
         canShow.value = true;
     });
     onPaneMouseLeave(() => {
-        if (!isCreatingTable.value) return;
+        if (isCreatingTable && !isCreatingTable.value) return;
         canShow.value = false;
     });
 
     onMove(() => {
-        if (!isCreatingTable.value) return;
+        if (isCreatingTable && !isCreatingTable.value) return;
         if (!isDragging.value) {
             isDragging.value = true;
             canShow.value = false;
@@ -65,7 +76,7 @@ export function usePlaceholder(placeholder: Ref<HTMLElement>) {
     });
 
     onMoveEnd((event) => {
-        if (!isCreatingTable.value) return;
+        if (isCreatingTable && !isCreatingTable.value) return;
         const MouseEv = event.event.sourceEvent;
         const { clientX, clientY } = MouseEv;
         isDragging.value = false;
@@ -78,7 +89,7 @@ export function usePlaceholder(placeholder: Ref<HTMLElement>) {
 
     onPaneMouseMove(({ clientX, clientY }) => {
         if (
-            !isCreatingTable.value ||
+            (isCreatingTable && !isCreatingTable.value) ||
             !vueFlowRef.value ||
             !toValue(placeholder)
         )
@@ -87,7 +98,8 @@ export function usePlaceholder(placeholder: Ref<HTMLElement>) {
     });
 
     onPaneClick(async ({ clientX, clientY }) => {
-        if (!isCreatingTable.value) return;
+        if (!isCreatingTable || (isCreatingTable && !isCreatingTable.value))
+            return;
         createNode(clientX, clientY);
         await nextTick();
         isCreatingTable.value = false;

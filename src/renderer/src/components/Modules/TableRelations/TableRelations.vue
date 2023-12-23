@@ -6,12 +6,7 @@ import AddForm from '@components/Modules/TableRelations/Partials/AddForm.vue';
 import EditForm from '@components/Modules/TableRelations/Partials/EditForm.vue';
 import { useCanvasStore } from '@stores/Canvas';
 import { ref, watch } from 'vue';
-import type { TRelationFormData } from '@composables/Table/useTableRelationActions';
 
-const emits = defineEmits<{
-    (e: 'addRelation', data: TRelationFormData): void;
-    (e: 'updateRelation', data: TRelationFormData): void;
-}>();
 const canvasStore = useCanvasStore();
 const displayAddForm = ref(false);
 const displayEditForm = ref(false);

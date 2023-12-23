@@ -3,10 +3,11 @@ import { vueFlowKey } from '@symbols/VueFlow';
 import { inject } from 'vue';
 
 export function useSortNodes() {
-    const { setNodes } = inject(vueFlowKey);
+    const VueFlow = inject(vueFlowKey);
 
     const sortNodeColumns = () => {
-        setNodes((nodes) => {
+        if (!VueFlow) return;
+        VueFlow.setNodes((nodes) => {
             return nodes.map((node) => {
                 node.data.table.columns = sortConstraintKeys(
                     node.data.table.columns,

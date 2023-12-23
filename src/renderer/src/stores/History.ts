@@ -18,19 +18,10 @@ export const useHistoryStore = defineStore('history', {
     state: () => ({
         currentIndex: 0,
         items: [] as Array<TItem>,
-
-        // need to set manually, so it will not automatically trigger components that watch this property
-        currentValue: null,
+        currentValue: null as TItem | null,
     }),
     actions: {
-        addItem(item: TItem, options: TAddOptions = {}) {
-            const DefaultOptions = Object.assign(
-                {
-                    shouldIncrement: true,
-                },
-                options,
-            );
-
+        addItem(item: TItem) {
             this.items.push({
                 label: item.label,
                 payload: {

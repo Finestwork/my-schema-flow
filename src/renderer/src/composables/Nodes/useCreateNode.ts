@@ -5,14 +5,17 @@ import { v4 as uuidv4 } from 'uuid';
 
 export function useCreateNode() {
     const { createHistory } = useHistory();
-    const { getNodes, project, addNodes, vueFlowRef } = inject(vueFlowKey);
+    const VueFlow = inject(vueFlowKey);
     const createNode = (clientX: number, clientY: number) => {
-        const { left, top } = vueFlowRef.value.getBoundingClientRect();
-        const Position = project({
+        if (!VueFlow) return;
+        if (VueFlow.vueFlowRef.value === null) return;
+
+        const { left, top } = VueFlow.vueFlowRef.value.getBoundingClientRect();
+        const Position = VueFlow.project({
             x: clientX - left,
             y: clientY - top,
         });
-        const TableName = `table_${getNodes.value.length}`;
+        const TableName = `table_${VueFlow.getNodes.value.length}`;
         const NewTable = {
             id: uuidv4(),
             type: 'custom',
@@ -32,7 +35,7 @@ export function useCreateNode() {
                 },
             },
         };
-        addNodes([NewTable]);
+        VueFlow.addNodes([NewTable]);
         createHistory(`Table Created: ${TableName}`);
     };
 

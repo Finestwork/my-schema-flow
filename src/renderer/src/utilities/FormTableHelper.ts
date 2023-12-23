@@ -1,8 +1,7 @@
 import { mySqlDataTypes } from '@utilities/DatabaseHelper';
 import { isBoolean, isEmpty } from 'lodash';
-import type { TNode } from '@stores/CanvasStore';
-import type { TTableColumn } from '@stores/CanvasStore';
-import type { TRelationFormData } from '@composables/useTableRelation';
+import type { TNode, TTableColumn } from '@stores/Canvas';
+import type { TRelationFormData } from '@composables/Table/useTableRelationActions';
 
 /**
  * Parses the table length from a string to an integer.
@@ -14,9 +13,9 @@ export const parseTableLength = (length: string) => {
 
 export const validateColumns = (
     data: Omit<TTableColumn, 'id'>,
-    currentNode: TNode,
+    currentNode: TNode | Record<string, never>,
 ): Array<string> => {
-    const Errors = [];
+    const Errors: Array<string> = [];
 
     if (isEmpty(data.name)) {
         Errors.push('Column name cannot be empty.');
@@ -43,7 +42,7 @@ export const validateColumns = (
     // Check if there's an existing primary key
     const Columns = currentNode.data.table.columns;
     const PKIndex = Columns.findIndex(
-        (column) => column.keyConstraint === 'PK',
+        (column: TTableColumn) => column.keyConstraint === 'PK',
     );
 
     // originalColumnName is only set when editing a column
@@ -81,11 +80,11 @@ export const validateColumns = (
 
 export const validateTableRelations = (
     data: TRelationFormData,
-    currentActiveNode: TNode,
+    currentActiveNode: TNode | Record<string, never>,
     nodes: Array<TNode>,
-) => {
-    const Errors = [];
-    let referencedNode = undefined;
+): Array<string> => {
+    const Errors: Array<string> = [];
+    let referencedNode: TNode | undefined = undefined;
 
     if (isEmpty(data.referencingColumn)) {
         Errors.push('Referencing column should not be empty.');
@@ -93,7 +92,7 @@ export const validateTableRelations = (
         const TableName = currentActiveNode.data.table.name;
         const Columns = currentActiveNode.data.table.columns;
         const Column = Columns.find(
-            (column) => column.name === data.referencingColumn,
+            (column: TTableColumn) => column.name === data.referencingColumn,
         );
         if (!Column) {
             Errors.push(
@@ -115,11 +114,12 @@ export const validateTableRelations = (
 
     if (isEmpty(data.referencedColumn)) {
         Errors.push('Referenced column should not be empty.');
-    } else {
-        if (!referencedNode) return;
+    }
+
+    if (referencedNode && !isEmpty(data.referencedColumn)) {
         const Columns = referencedNode.data.table.columns;
         const Column = Columns.find(
-            (column) => column.name === data.referencedColumn,
+            (column: TTableColumn) => column.name === data.referencedColumn,
         );
 
         if (!Column) {

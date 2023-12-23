@@ -13,6 +13,7 @@ const tooltip: Ref<InstanceType<typeof VTooltip> | null> = ref(null);
 const reference = ref();
 const showFloatingLayout = ref(false);
 const onClick = (e: MouseEvent) => {
+    if (tooltip.value === null) return;
     showFloatingLayout.value = !showFloatingLayout.value;
     tooltip.value.showTooltip = !showFloatingLayout.value;
     emits('click', e);

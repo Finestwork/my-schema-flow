@@ -24,9 +24,10 @@ const referencingColumn = ref('');
 const referencedTable = ref('');
 const referencedColumn = ref('');
 const isSuccessfullyCreated = ref(false);
-const { getNodes } = inject(vueFlowKey);
+const VueFlow = inject(vueFlowKey);
 const { addRelation } = useTableRelationActions();
 const onClickAddRelation = async () => {
+    if (!VueFlow) return;
     errors.value = [];
     isSuccessfullyCreated.value = false;
     const RelationObj = {
@@ -37,7 +38,7 @@ const onClickAddRelation = async () => {
     errors.value = validateTableRelations(
         RelationObj,
         canvasStore.currentActiveNode,
-        getNodes.value,
+        VueFlow.getNodes.value,
     );
     if (errors.value.length !== 0) return;
     addRelation({

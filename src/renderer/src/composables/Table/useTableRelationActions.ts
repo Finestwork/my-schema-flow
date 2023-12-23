@@ -21,13 +21,18 @@ export function useTableRelationActions() {
     const canvasStore = useCanvasStore();
     const { calculateActiveEdgesPosition } = useEdgePositionCalculator();
     const { activateState } = useNodeStateHandler();
-    const { addEdges, getNodes, setEdges } = inject(vueFlowKey);
+    const VueFlow = inject(vueFlowKey);
 
     const addRelation = (relationData: TRelationFormData) => {
+        if (!VueFlow) return;
+
         const ReferencedNode = findNodeByTableName(
             relationData.referencedTable,
-            getNodes.value,
+            VueFlow.getNodes.value,
         );
+
+        if (!ReferencedNode) return;
+
         const EdgeObj = {
             id: uuidv4(),
             source: ReferencedNode.id,
@@ -41,13 +46,14 @@ export function useTableRelationActions() {
                 },
             },
         };
-        addEdges([EdgeObj]);
+        VueFlow.addEdges([EdgeObj]);
         calculateActiveEdgesPosition();
         activateState();
     };
 
     const deleteRelation = () => {
-        setEdges((edges) => {
+        if (!VueFlow) return;
+        VueFlow.setEdges((edges) => {
             return edges.filter(
                 (edge) => edge.id !== canvasStore.currentActiveEdge.id,
             );
@@ -57,7 +63,8 @@ export function useTableRelationActions() {
     };
 
     const deleteRelationByColumn = (columnName: string) => {
-        setEdges((edges) => {
+        if (!VueFlow) return;
+        VueFlow.setEdges((edges) => {
             return edges.filter((edge) => {
                 return (
                     edge.data.referenced.column !== columnName ||
@@ -68,12 +75,16 @@ export function useTableRelationActions() {
     };
 
     const updateRelation = async (relationData: TRelationFormData) => {
+        if (!VueFlow) return;
         const ReferencingNode = canvasStore.currentActiveEdge.targetNode;
         const ReferencedNode = findNodeByTableName(
             relationData.referencedTable,
-            getNodes.value,
+            VueFlow.getNodes.value,
         );
-        setEdges((edges) => {
+
+        if (!ReferencedNode) return;
+
+        VueFlow.setEdges((edges) => {
             return edges.map((edge) => {
                 if (edge.id === canvasStore.currentActiveEdge.id) {
                     edge.target = ReferencingNode.id;
@@ -99,7 +110,8 @@ export function useTableRelationActions() {
     };
 
     const updateColumnRelation = (data: TUpdateColumn) => {
-        setEdges((edges) => {
+        if (!VueFlow) return;
+        VueFlow.setEdges((edges) => {
             return edges.map((edge) => {
                 if (edge.data.referenced.column === data.originalName) {
                     edge.data.referenced.column = data.newName;

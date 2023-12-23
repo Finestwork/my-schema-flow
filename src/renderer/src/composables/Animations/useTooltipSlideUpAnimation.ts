@@ -34,9 +34,11 @@ export function useTooltipSlideUpAnimation(
         ];
 
         if ('arrow' in MergedOptions) {
+            const ArrowElement = toValue(MergedOptions.arrow) as HTMLElement;
+
             Middlewares.push(
                 arrow({
-                    element: toValue(MergedOptions.arrow),
+                    element: ArrowElement,
                 }),
             );
         }
@@ -48,19 +50,29 @@ export function useTooltipSlideUpAnimation(
 
             // Check arrow element existence
             if ('arrow' in MergedOptions) {
-                const { x } = middlewareData.arrow;
+                const ArrowMiddleware = middlewareData.arrow;
+                if (!ArrowMiddleware) return;
+                const ArrowElement = toValue(
+                    MergedOptions.arrow,
+                ) as HTMLElement;
 
                 if (placement === 'top') {
-                    Object.assign(toValue(MergedOptions.arrow).style, {
-                        left: x != null ? `${x}px` : '',
+                    Object.assign(ArrowElement.style, {
+                        left:
+                            ArrowMiddleware.x != null
+                                ? `${ArrowMiddleware.x}px`
+                                : '',
                         bottom: '-8px', // Since border-width is .5rem or 8px
                         transform: 'rotate(180deg) translateY(-50%)',
                     });
                 }
 
                 if (placement === 'bottom') {
-                    Object.assign(toValue(MergedOptions.arrow).style, {
-                        left: x != null ? `${x}px` : '',
+                    Object.assign(ArrowElement.style, {
+                        left:
+                            ArrowMiddleware.x != null
+                                ? `${ArrowMiddleware.x}px`
+                                : '',
                         top: '-8px', // Since border-width is .5rem or 8px
                         transform: 'translateY(-50%)',
                     });

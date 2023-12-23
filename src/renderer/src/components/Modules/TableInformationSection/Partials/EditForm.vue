@@ -13,6 +13,7 @@ import { useCanvasStore } from '@stores/Canvas';
 import { useUpdateEdgeData } from '@composables/Edges/useUpdateEdgeData';
 import { validateColumns } from '@utilities/FormTableHelper';
 import { reactive, ref } from 'vue';
+import type { Ref } from 'vue';
 import type { TUpdateColumn } from '@composables/Table/useTableRelationActions';
 
 const props = defineProps<{
@@ -27,7 +28,7 @@ const column = Object.assign(
     {},
     canvasStore.currentActiveNode.data.table.columns[props.currentColumnIndex],
 );
-const errors = ref([]);
+const errors: Ref<Array<string>> = ref([]);
 const isSuccessfullyCreated = ref(false);
 const formStates = reactive({
     name: column?.name ?? '',

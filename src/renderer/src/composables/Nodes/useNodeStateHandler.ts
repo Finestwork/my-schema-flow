@@ -1,7 +1,6 @@
 import { useCanvasStore } from '@stores/Canvas';
 import { getConnectedNodes } from '@utilities/CanvasHelper';
 import { useVueFlow } from '@vue-flow/core';
-import type { GraphEdge } from '@vue-flow/core';
 
 export function useNodeStateHandler() {
     const canvasStore = useCanvasStore();

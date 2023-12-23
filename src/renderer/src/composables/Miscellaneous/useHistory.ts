@@ -8,25 +8,29 @@ export function useHistory() {
     const historyStore = useHistoryStore();
     const canvasStore = useCanvasStore();
     const { resetState } = useNodeStateHandler();
-    const { getNodes, getEdges, setEdges, setNodes } = useVueFlow();
+    const VueFlow = useVueFlow();
 
     const _applyChanges = () => {
+        if (!VueFlow) return;
+        if (historyStore.currentValue === null) return;
+
         const CurrentValue = klona(historyStore.currentValue);
         canvasStore.currentActiveNode = CurrentValue.payload.currentActiveNode;
         resetState();
-        setNodes(() => {
+        VueFlow.setNodes(() => {
             return CurrentValue.payload.nodes;
         });
-        setEdges(() => {
+        VueFlow.setEdges(() => {
             return CurrentValue.payload.edges;
         });
     };
     const createHistory = (label: string) => {
+        if (!VueFlow) return;
         const Item = {
             label,
             payload: {
-                nodes: klona(getNodes.value),
-                edges: klona(getEdges.value),
+                nodes: klona(VueFlow.getNodes.value),
+                edges: klona(VueFlow.getEdges.value),
                 currentActiveNode: klona(canvasStore.currentActiveNode),
             },
         };

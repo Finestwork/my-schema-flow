@@ -22,7 +22,7 @@ const emits = defineEmits<{
 const canvasStore = useCanvasStore();
 const errors: Ref<Array<string>> = ref([]);
 const { updateRelation, deleteRelation } = useTableRelationActions();
-const { getNodes } = inject(vueFlowKey);
+const VueFlow = inject(vueFlowKey);
 
 const referencingColumn = ref(
     canvasStore.currentActiveEdge.data.referencing.column,
@@ -39,6 +39,7 @@ const onClickHideForm = () => {
     emits('goBack');
 };
 const onClickUpdateRelation = async () => {
+    if (!VueFlow) return;
     errors.value = [];
     isSuccessfullyUpdated.value = false;
     const RelationObj = {
@@ -49,7 +50,7 @@ const onClickUpdateRelation = async () => {
     errors.value = validateTableRelations(
         RelationObj,
         canvasStore.currentActiveNode,
-        getNodes.value,
+        VueFlow.getNodes.value,
     );
     if (errors.value.length !== 0) return;
     updateRelation(RelationObj);

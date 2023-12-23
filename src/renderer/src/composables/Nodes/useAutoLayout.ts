@@ -7,15 +7,17 @@ import { inject } from 'vue';
 export function useNodeAutoLayout() {
     const settingsStore = useSettingsStore();
     const { calculateAllEdgesPosition } = useEdgePositionCalculator();
-    const { getEdges, getNodes, setNodes, setEdges } = inject(vueFlowKey);
+    const VueFlow = inject(vueFlowKey);
     const autoLayout = () => {
+        if (!VueFlow) return;
+
         const { nodes, edges } = nodeAutolayout(
-            getNodes.value,
-            getEdges.value,
+            VueFlow.getNodes.value,
+            VueFlow.getEdges.value,
             settingsStore.currentOrientation,
         );
-        setNodes(() => nodes);
-        setEdges(() => edges);
+        VueFlow.setNodes(() => nodes);
+        VueFlow.setEdges(() => edges);
         calculateAllEdgesPosition();
     };
 

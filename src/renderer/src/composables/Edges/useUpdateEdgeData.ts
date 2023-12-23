@@ -5,14 +5,15 @@ import { inject } from 'vue';
 
 export function useUpdateEdgeData() {
     const canvasStore = useCanvasStore();
-    const { getEdges, setEdges } = inject(vueFlowKey);
+    const VueFlow = inject(vueFlowKey);
 
     const updateColumnBasedOnActiveNode = (newColumnName: string) => {
+        if (!VueFlow) return;
         const CurrentActiveEdges = getNodeRelationship(
             canvasStore.currentActiveNode,
-            getEdges.value,
+            VueFlow.getEdges.value,
         );
-        setEdges((edges) => {
+        VueFlow.setEdges((edges) => {
             return edges.map((edge) => {
                 const Index = CurrentActiveEdges.findIndex(
                     (e) => e.id === edge.id,

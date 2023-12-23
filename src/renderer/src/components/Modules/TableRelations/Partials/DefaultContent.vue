@@ -12,13 +12,14 @@ const emits = defineEmits<{
     (e: 'editForm'): void;
 }>();
 const canvasStore = useCanvasStore();
-const { getEdges } = inject(vueFlowKey);
+const VueFlow = inject(vueFlowKey);
 const { relationList } = useTableRelationList();
 
 const onClickEditForm = (edgeId: string) => {
-    canvasStore.currentActiveEdge = getEdges.value.find(
-        (edge) => edge.id === edgeId,
-    ); // No need to create shallow copy
+    if (!VueFlow) return;
+    // No need to create shallow copy
+    const Edge = VueFlow.getEdges.value.find((edge) => edge.id === edgeId);
+    canvasStore.currentActiveEdge = Edge ? Edge : {};
 
     emits('editForm');
 };

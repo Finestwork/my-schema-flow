@@ -18,9 +18,9 @@ const { modelValue, showDropdown } = defineModels<{
 const emits = defineEmits<{
     (e: 'onInput', value: Event): void;
     (e: 'onInputFocus', value: Event): void;
-    (e: 'onInputKeydown', value: Event): void;
-    (e: 'onInputKeyup', value: Event): void;
-    (e: 'onKeyDownNavigateDropdown', value: Event): void;
+    (e: 'onInputKeydown', value: KeyboardEvent): void;
+    (e: 'onInputKeyup', value: KeyboardEvent): void;
+    (e: 'onKeyDownNavigateDropdown', value: KeyboardEvent): void;
 }>();
 const rootWrapper = ref();
 const input = ref();

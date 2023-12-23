@@ -1,7 +1,6 @@
 import dagre from 'dagre';
 import { klona } from 'klona';
-import type { TNode } from '@stores/CanvasStore';
-import type { GraphEdge } from '@vue-flow/core';
+import type { TNode, TEdge } from '@stores/Canvas';
 
 /**
  * Calculate node positions based on the node direction
@@ -43,7 +42,7 @@ export function nodeAutolayout(nodes, edges, direction = 'TB') {
 /**
  * Calculate the position of the node and determine which node handle should be used
  */
-export const calculateEdgePosition = (edge: GraphEdge) => {
+export const calculateEdgePosition = (edge: TEdge) => {
     const SourceNode = edge.sourceNode;
     const TargetNode = edge.targetNode;
     const NodeWidth = TargetNode.dimensions.width;
@@ -100,7 +99,7 @@ export const calculateEdgePosition = (edge: GraphEdge) => {
  */
 export const getConnectedNodes = (
     currentNode: TNode | Record<string, never>,
-    edges: GraphEdge[],
+    edges: Array<TEdge>,
 ) => {
     const CurrentNodeId = currentNode.id;
     const Related = klona(edges)
@@ -129,7 +128,7 @@ export const getConnectedNodes = (
  */
 export const getActiveEdges = (
     currentActiveNode: TNode | Record<string, never>,
-    edges: GraphEdge[],
+    edges: Array<TEdge>,
 ) => {
     const NodeId = currentActiveNode.id;
     return klona(edges).filter(
@@ -141,7 +140,7 @@ export const getActiveEdges = (
  * Returns a filtered list of edges based on the given active node
  */
 export const getNodeRelationship = (
-    currentActiveNode: TElement | Record<string, never>,
+    currentActiveNode: TNode | Record<string, never>,
     edges: TEdge[],
 ) => {
     const NodeId = currentActiveNode.id;

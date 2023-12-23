@@ -1,13 +1,13 @@
 import { mySqlDataTypes } from '@utilities/DatabaseHelper';
 import { findNode } from '@utilities/CanvasHelper';
 import numeral from 'numeral';
-import type { TEdge, TNode, TNodeData } from '@stores/Canvas';
 import { klona } from 'klona/json';
+import type { TEdge, TNode, TTableColumn } from '@stores/Canvas';
 
 /**
  * Sorts table column from pk to fk
  */
-export const sortConstraintKeys = (arr: TNodeData.table.columns[]) => {
+export const sortConstraintKeys = (arr: Array<TTableColumn>) => {
     return arr.slice().sort((a, b) => {
         if (a.keyConstraint === 'PK' && b.keyConstraint !== 'PK') {
             return -1;
@@ -28,7 +28,7 @@ export const sortConstraintKeys = (arr: TNodeData.table.columns[]) => {
 /**
  * Reformat the column array to make it compatible with the node canvas for display
  */
-export const formatColumnForNodeCanvas = (arr: TNodeData.table.columns[]) => {
+export const formatColumnForNodeCanvas = (arr: Array<TTableColumn>) => {
     return arr.map((column) => {
         const Size = numeral(column.length).format('0a');
         const Type = column.type;
@@ -61,6 +61,16 @@ export const getRelationList = (
             const SourceNode = findNode(edge.source, nodes);
             const TargetNode = findNode(edge.target, nodes);
             const IsParent = edge.target === activeNodeId;
+
+            if (!TargetNode || !SourceNode) {
+                return {
+                    id: '',
+                    table: '',
+                    column: '',
+                    relation: '',
+                    isCurrentNodeParent: false,
+                };
+            }
 
             const Table = IsParent
                 ? SourceNode.data.table.name

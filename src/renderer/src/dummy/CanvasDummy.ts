@@ -1,15 +1,13 @@
 import EdgesDummy from '@dummy/EdgesDummy';
 import NodeDummy from '@dummy/NodeDummy';
-import { Edge } from '@vue-flow/core';
 import { v4 as uuidv4 } from 'uuid';
-import type { TEdgeData } from '@stores/Canvas';
-import type { GraphNode } from '@vue-flow/core';
+import type { TEdge, TNode } from '@stores/Canvas';
 
-const createNodes = (): GraphNode[] => {
-    const Elements: unknown[] = [];
+const createNodes = (): Array<TNode> => {
+    const Elements: Array<TNode> = [];
     let index = 1;
     for (const table in NodeDummy) {
-        Elements.push({
+        const NewObject = {
             id: NodeDummy[table].id,
             type: 'custom',
             connectable: false,
@@ -24,14 +22,15 @@ const createNodes = (): GraphNode[] => {
                     isFaded: false,
                 },
             },
-        });
+        };
+        Elements.push(NewObject as TNode);
         index++;
     }
     return Elements;
 };
 
 const createEdges = () => {
-    const Edges: (Edge & { data: TEdgeData })[] = [];
+    const Edges: Array<TEdge> = [];
     EdgesDummy.forEach((edge) => {
         const EdgeObj = {
             id: uuidv4(),
@@ -47,7 +46,7 @@ const createEdges = () => {
             },
         };
 
-        Edges.push(EdgeObj);
+        Edges.push(EdgeObj as TEdge);
     });
 
     return Edges;

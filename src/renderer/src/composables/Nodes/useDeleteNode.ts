@@ -1,13 +1,15 @@
-import { useVueFlow } from '@vue-flow/core';
+import { vueFlowKey } from '@symbols/VueFlow';
+import { inject } from 'vue';
 
 export function useDeleteNode() {
-    const { removeNodes, getNodes } = useVueFlow();
+    const VueFlow = inject(vueFlowKey);
 
-    const deleteNode = () => {
-        const Nodes = getNodes.value;
-        const Node = Nodes.find((node) => node.id === props.id);
+    const deleteNode = (nodeId: string) => {
+        if (!VueFlow) return;
+        const Nodes = VueFlow.getNodes.value;
+        const Node = Nodes.find((node) => node.id === nodeId);
         if (!Node) return;
-        removeNodes([Node]);
+        VueFlow.removeNodes([Node]);
     };
 
     return {

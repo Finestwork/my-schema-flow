@@ -13,12 +13,13 @@ import { useCanvasStore } from '@stores/Canvas';
 import { useSortNodes } from '@composables/Nodes/useSortNodes';
 import { validateColumns } from '@utilities/FormTableHelper';
 import { reactive, ref } from 'vue';
+import type { Ref } from 'vue';
 
 const emits = defineEmits<{
-    (e: 'hideForm', e: MouseEvent): void;
+    (e: 'hideForm', value: MouseEvent): void;
 }>();
 const canvasStore = useCanvasStore();
-const errors = ref([]);
+const errors: Ref<Array<string>> = ref([]);
 const isSuccessfullyCreated = ref(false);
 const initialState = {
     name: '',

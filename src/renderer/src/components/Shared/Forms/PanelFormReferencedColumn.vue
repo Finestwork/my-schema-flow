@@ -16,10 +16,13 @@ const { modelValue } = defineModels<{
     modelValue: string;
 }>();
 const canvasStore = useCanvasStore();
-const { getNodes } = inject(vueFlowKey);
+const VueFlow = inject(vueFlowKey);
 const getColumns = computed(() => {
-    if (props.referencedTable.trim() === '') return [];
-    const Node = findNodeByTableName(props.referencedTable, getNodes.value);
+    if (props.referencedTable.trim() === '' || !VueFlow) return [];
+    const Node = findNodeByTableName(
+        props.referencedTable,
+        VueFlow.getNodes.value,
+    );
     if (!Node) return [];
     const Columns = Node.data.table.columns;
     return Columns.map((column) => column.name);

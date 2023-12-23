@@ -1,7 +1,7 @@
 import { createLinkElement } from '@utilities/DownloadHelper';
 import { toPng, toJpeg, toSvg } from 'html-to-image';
 import { getRectOfNodes, getTransformForBounds } from '@vue-flow/core';
-import type { TNode } from '@stores/CanvasStore';
+import type { TNode } from '@stores/Canvas';
 
 export type TExportTypes = 'png' | 'jpg' | 'svg';
 
