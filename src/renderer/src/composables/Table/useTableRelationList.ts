@@ -16,12 +16,12 @@ export function useTableRelationList() {
     const canvasStore = useCanvasStore();
     const { getNodes, getEdges } = inject(vueFlowKey);
 
-    const CurrentActiveEdges = getNodeRelationship(
-        canvasStore.currentActiveNode,
-        getEdges.value,
-    );
     const relationList: Ref<Array<TRelationList>> = ref([]);
     const updateRelationList = () => {
+        const CurrentActiveEdges = getNodeRelationship(
+            canvasStore.currentActiveNode,
+            getEdges.value,
+        );
         relationList.value = getRelationList(
             CurrentActiveEdges,
             getNodes.value,

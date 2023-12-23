@@ -66,8 +66,8 @@ export const getRelationList = (
                 ? SourceNode.data.table.name
                 : TargetNode.data.table.name;
             const Column = IsParent
-                ? edge.data.referencing.column
-                : edge.data.referenced.column;
+                ? edge.data.referenced.column
+                : edge.data.referencing.column;
             return {
                 id: edge.id,
                 table: Table,

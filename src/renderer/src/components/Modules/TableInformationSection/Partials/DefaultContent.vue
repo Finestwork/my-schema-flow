@@ -6,6 +6,7 @@ import AddIcon from '@components/Shared/Icons/AddIcon.vue';
 import CopyIcon from '@components/Shared/Icons/CopyIcon.vue';
 import TrashIcon from '@components/Shared/Icons/TrashIcon.vue';
 import { useCanvasStore } from '@stores/Canvas';
+import { useTableRelationActions } from '@composables/Table/useTableRelationActions';
 import { computed, ref } from 'vue';
 
 export type TColumnList = {
@@ -36,6 +37,7 @@ const canCloneColumn = computed((): boolean => {
 
     return CurrentColumn.keyConstraint !== 'PK';
 });
+const { deleteRelationByColumn } = useTableRelationActions();
 const onClickToggleActiveState = (e: MouseEvent, ind: number) => {
     (e.target as HTMLButtonElement).blur();
     if (currentActiveIndex.value === ind) {
@@ -45,7 +47,10 @@ const onClickToggleActiveState = (e: MouseEvent, ind: number) => {
     currentActiveIndex.value = ind;
 };
 const onClickDeleteColumn = () => {
-    canvasStore.removeColumnInActiveNode(currentActiveIndex.value);
+    const { name } = canvasStore.removeColumnInActiveNode(
+        currentActiveIndex.value,
+    );
+    deleteRelationByColumn(name);
     currentActiveIndex.value = -1;
 };
 </script>

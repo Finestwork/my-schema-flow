@@ -72,7 +72,7 @@ export const useCanvasStore = defineStore('canvas', {
         removeColumnInActiveNode(removeIndex: number) {
             const CurrentActiveNode = this.currentActiveNode;
             const Columns = CurrentActiveNode.data.table.columns;
-            Columns.splice(removeIndex, 1);
+            return Columns.splice(removeIndex, 1)[0];
         },
     },
     getters: {

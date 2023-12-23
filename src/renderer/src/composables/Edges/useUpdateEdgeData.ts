@@ -27,7 +27,6 @@ export function useUpdateEdgeData() {
                     } else {
                         edge.data.referencing.column = newColumnName;
                     }
-                    return edge;
                 }
 
                 return edge;
