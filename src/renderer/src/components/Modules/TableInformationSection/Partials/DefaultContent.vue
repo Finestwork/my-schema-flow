@@ -52,8 +52,8 @@ const onClickDeleteColumn = () => {
     const { name } = canvasStore.removeColumnInActiveNode(
         currentActiveIndex.value,
     );
-    createHistory(`Column ${name} has been removed.`);
     deleteRelationByColumn(name);
+    createHistory(`Column '${name}' has been removed.`);
     currentActiveIndex.value = -1;
 };
 </script>
