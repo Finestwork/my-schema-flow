@@ -3,6 +3,7 @@ import { useCanvasStore } from '@stores/Canvas';
 import { useNodeStateHandler } from '@composables/Nodes/useNodeStateHandler';
 import { useVueFlow } from '@vue-flow/core';
 import { klona } from 'klona/full';
+import { nextTick } from 'vue';
 
 export function useHistory() {
     const historyStore = useHistoryStore();
@@ -10,22 +11,22 @@ export function useHistory() {
     const { resetState } = useNodeStateHandler();
     const VueFlow = useVueFlow();
 
-    const _applyChanges = () => {
+    const _applyChanges = async () => {
         if (!VueFlow) return;
         if (historyStore.currentValue === null) return;
 
         const CurrentValue = klona(historyStore.currentValue);
         canvasStore.currentActiveNode = CurrentValue.payload.currentActiveNode;
         resetState();
-        VueFlow.setNodes(() => {
-            return CurrentValue.payload.nodes;
-        });
-        VueFlow.setEdges(() => {
-            return CurrentValue.payload.edges;
-        });
+        VueFlow.setNodes(() => []);
+        VueFlow.setEdges(() => []);
+        await nextTick();
+        VueFlow.setNodes(() => CurrentValue.payload.nodes);
+        VueFlow.setEdges(() => CurrentValue.payload.edges);
     };
-    const createHistory = (label: string) => {
+    const createHistory = async (label: string) => {
         if (!VueFlow) return;
+        await nextTick();
         const Item = {
             label,
             payload: {
