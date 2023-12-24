@@ -62,7 +62,7 @@ export function useTooltipSlideUpAnimation(
                             ArrowMiddleware.x != null
                                 ? `${ArrowMiddleware.x}px`
                                 : '',
-                        bottom: '-8px', // Since border-width is .5rem or 8px
+                        bottom: '-5px', // Since border-width is .3rem or 6px
                         transform: 'rotate(180deg) translateY(-50%)',
                     });
                 }
@@ -73,24 +73,24 @@ export function useTooltipSlideUpAnimation(
                             ArrowMiddleware.x != null
                                 ? `${ArrowMiddleware.x}px`
                                 : '',
-                        top: '-8px', // Since border-width is .5rem or 8px
+                        top: '-5px', // Since border-width is .3rem or 6px
                         transform: 'translateY(-50%)',
                     });
                 }
 
                 if (placement === 'right') {
                     Object.assign(ArrowElement.style, {
-                        left: '-8px',
-                        top: ArrowMiddleware.y, // Since border-width is .5rem or 8px
-                        transform: 'translate(-50%) rotate(-90deg)',
+                        left: '-5px',
+                        top: ArrowMiddleware.y, // Since border-width is .3rem or 6px
+                        transform: 'translateX(-50%) rotate(-90deg)',
                     });
                 }
 
                 if (placement === 'left') {
                     Object.assign(ArrowElement.style, {
-                        right: '-8px',
-                        top: ArrowMiddleware.y, // Since border-width is .5rem or 8px
-                        transform: 'translate(-50%) rotate(90deg)',
+                        right: '-5px',
+                        top: ArrowMiddleware.y, // Since border-width is .3rem or 6px
+                        transform: 'translateX(-50%) rotate(90deg)',
                     });
                 }
             }

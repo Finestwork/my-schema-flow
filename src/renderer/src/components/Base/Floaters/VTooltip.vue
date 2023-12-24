@@ -49,7 +49,7 @@ defineExpose({
                 >
                     <span
                         ref="arrowEl"
-                        class="absolute block border-[.5rem] border-transparent dark:border-b-dark-800"
+                        class="absolute block border-[.3rem] border-transparent dark:border-b-dark-800"
                     ></span>
                     <slot name="tooltip"></slot>
                 </span>
