@@ -50,7 +50,7 @@ const onClickAddRelation = async () => {
     });
     await nextTick();
     const TableName = canvasStore.currentActiveNode.data.table.name;
-    const HistoryLabel = `Relationship Added: ${TableName}.${referencingColumn.value} -> ${referencedTable.value}.${referencedColumn.value}`;
+    const HistoryLabel = `Relationship Added: '${TableName}' and '${referencedTable.value}'`;
     createHistory(HistoryLabel);
 
     // Reset Fields

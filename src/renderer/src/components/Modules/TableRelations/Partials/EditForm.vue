@@ -11,8 +11,9 @@ import PanelFormReferencedTable from '@components/Shared/Forms/PanelFormReferenc
 import PanelFormReferencedColumn from '@components/Shared/Forms/PanelFormReferencedColumn.vue';
 import { useTableRelationActions } from '@composables/Table/useTableRelationActions';
 import { useCanvasStore } from '@stores/Canvas';
-import { vueFlowKey } from '@symbols/VueFlow';
+import { useHistory } from '@composables/Miscellaneous/useHistory';
 import { validateTableRelations } from '@utilities/FormTableHelper';
+import { vueFlowKey } from '@symbols/VueFlow';
 import { nextTick, ref, inject } from 'vue';
 import type { Ref } from 'vue';
 
@@ -20,9 +21,10 @@ const emits = defineEmits<{
     (e: 'goBack'): void;
 }>();
 const canvasStore = useCanvasStore();
+const VueFlow = inject(vueFlowKey);
 const errors: Ref<Array<string>> = ref([]);
 const { updateRelation, deleteRelation } = useTableRelationActions();
-const VueFlow = inject(vueFlowKey);
+const { createHistory } = useHistory();
 
 const referencingColumn = ref(
     canvasStore.currentActiveEdge.data.referencing.column,
@@ -55,9 +57,15 @@ const onClickUpdateRelation = async () => {
     if (errors.value.length !== 0) return;
     updateRelation(RelationObj);
     await nextTick();
+    const TableName = canvasStore.currentActiveNode.data.table.name;
+    const Label = `Relationship Updated: '${TableName}' and '${referencedTable.value}'`;
+    createHistory(Label);
     isSuccessfullyUpdated.value = true;
 };
 const onClickDeleteRelation = () => {
+    const TableName = canvasStore.currentActiveEdge.targetNode.data.table.name;
+    const Label = `Relationship Deleted: '${TableName}' and '${referencedTable.value}'`;
+    createHistory(Label);
     deleteRelation();
     emits('goBack');
 };
