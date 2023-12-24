@@ -77,6 +77,22 @@ export function useTooltipSlideUpAnimation(
                         transform: 'translateY(-50%)',
                     });
                 }
+
+                if (placement === 'right') {
+                    Object.assign(ArrowElement.style, {
+                        left: '-8px',
+                        top: ArrowMiddleware.y, // Since border-width is .5rem or 8px
+                        transform: 'translate(-50%) rotate(-90deg)',
+                    });
+                }
+
+                if (placement === 'left') {
+                    Object.assign(ArrowElement.style, {
+                        right: '-8px',
+                        top: ArrowMiddleware.y, // Since border-width is .5rem or 8px
+                        transform: 'translate(-50%) rotate(90deg)',
+                    });
+                }
             }
 
             Object.assign((<HTMLElement>el).style, {
