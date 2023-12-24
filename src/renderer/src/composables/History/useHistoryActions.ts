@@ -1,9 +1,13 @@
 import { useHistoryStore } from '@stores/History';
-import { useCanvasStore } from '@stores/Canvas';
 import { useNodeStateHandler } from '@composables/Nodes/useNodeStateHandler';
+import { useCanvasStore } from '@stores/Canvas';
 import { useVueFlow } from '@vue-flow/core';
 import { klona } from 'klona/full';
 import { nextTick } from 'vue';
+import {
+    resetEdgesActiveState,
+    resetNodesActiveState,
+} from '@utilities/CanvasHelper';
 
 export function useHistoryActions() {
     const historyStore = useHistoryStore();
@@ -16,8 +20,9 @@ export function useHistoryActions() {
         if (historyStore.currentValue === null) return;
 
         const CurrentValue = klona(historyStore.currentValue);
-        canvasStore.currentActiveNode = CurrentValue.payload.currentActiveNode;
-        resetState();
+        canvasStore.currentActiveNode = Object.assign({}, {});
+        canvasStore.currentActiveEdge = Object.assign({}, {});
+
         VueFlow.setNodes(() => []);
         VueFlow.setEdges(() => []);
         await nextTick();
@@ -27,12 +32,14 @@ export function useHistoryActions() {
     const createHistory = async (label: string) => {
         if (!VueFlow) return;
         await nextTick();
+        const Nodes = resetNodesActiveState(VueFlow.getNodes.value);
+        const Edges = resetEdgesActiveState(VueFlow.getEdges.value);
+
         const Item = {
             label,
             payload: {
-                nodes: klona(VueFlow.getNodes.value),
-                edges: klona(VueFlow.getEdges.value),
-                currentActiveNode: klona(canvasStore.currentActiveNode),
+                nodes: Nodes,
+                edges: Edges,
             },
         };
         historyStore.addItem(Item);

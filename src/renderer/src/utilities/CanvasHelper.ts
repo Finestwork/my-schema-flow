@@ -1,6 +1,6 @@
 import dagre from 'dagre';
 import { klona } from 'klona';
-import type { TNode, TEdge } from '@stores/Canvas';
+import type { TNode, TEdge, TNodeData } from '@stores/Canvas';
 
 /**
  * Calculate node positions based on the node direction
@@ -161,4 +161,23 @@ export const findNode = (id: string, nodes: Array<TNode>) => {
  */
 export const findNodeByTableName = (name: string, nodes: Array<TNode>) => {
     return nodes.find((node) => node.data.table.name === name);
+};
+
+export const resetNodesActiveState = (nodes: Array<TNode>) => {
+    return klona(nodes).map((node) => {
+        node.data.states = {
+            isActive: false,
+            isFaded: false,
+        };
+
+        return node;
+    });
+};
+
+export const resetEdgesActiveState = (edges: Array<TEdge>) => {
+    return klona(edges).map((edge) => {
+        edge.style = {};
+        edge.animated = false;
+        return edge;
+    });
 };

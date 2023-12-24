@@ -22,6 +22,7 @@ export function useTrackChange() {
             const ChangedNodes = SavedFile.nodes.filter(
                 (node, ind) => !isEqual(node, VueFlowObject.nodes[ind]),
             );
+
             const ChangedEdges = SavedFile.edges.filter(
                 (edge, ind) => !isEqual(edge, VueFlowObject.edges[ind]),
             );

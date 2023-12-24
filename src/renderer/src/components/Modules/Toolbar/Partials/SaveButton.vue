@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import { useFileStore } from '@stores/File';
+import {
+    resetNodesActiveState,
+    resetEdgesActiveState,
+} from '@utilities/CanvasHelper';
 import { vueFlowKey } from '@symbols/VueFlow';
 import { inject, onMounted } from 'vue';
+import type { TEdge, TNode } from '@stores/Canvas';
 
 const fileStore = useFileStore();
 const vueFlow = inject(vueFlowKey);
@@ -11,8 +16,13 @@ onMounted(() => {
         'fileSavedSuccessfully',
         (_, filePath, fileName) => {
             if (!vueFlow) return;
+            const FlowObject = vueFlow.toObject();
+            const Contents = {
+                edges: resetEdgesActiveState(FlowObject.edges as Array<TEdge>),
+                nodes: resetNodesActiveState(FlowObject.nodes as Array<TNode>),
+            };
 
-            fileStore.canvasElements = JSON.stringify(vueFlow.toObject());
+            fileStore.canvasElements = JSON.stringify(Contents);
             fileStore.fileName = fileName;
             fileStore.filePath = filePath;
         },
@@ -20,9 +30,10 @@ onMounted(() => {
 });
 const onClickSaveFile = () => {
     if (!vueFlow) return;
+    const FlowObject = vueFlow.toObject();
     const Contents = {
-        edges: vueFlow.getEdges.value,
-        nodes: vueFlow.getNodes.value,
+        edges: resetEdgesActiveState(FlowObject.edges as Array<TEdge>),
+        nodes: resetNodesActiveState(FlowObject.nodes as Array<TNode>),
     };
 
     window.api.saveFile(JSON.stringify(Contents));

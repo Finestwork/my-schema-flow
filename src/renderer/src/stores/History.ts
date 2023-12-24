@@ -7,7 +7,6 @@ export type TItem = {
     payload: {
         nodes: Array<TNode>;
         edges: Array<TEdge>;
-        currentActiveNode: TNode | Record<string, never>;
     };
 };
 
