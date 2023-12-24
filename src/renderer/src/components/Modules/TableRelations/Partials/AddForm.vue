@@ -10,8 +10,9 @@ import PanelFormReferencedTable from '@components/Shared/Forms/PanelFormReferenc
 import PanelFormReferencedColumn from '@components/Shared/Forms/PanelFormReferencedColumn.vue';
 import { useCanvasStore } from '@stores/Canvas';
 import { useTableRelationActions } from '@composables/Table/useTableRelationActions';
-import { vueFlowKey } from '@symbols/VueFlow';
+import { useHistory } from '@composables/Miscellaneous/useHistory';
 import { validateTableRelations } from '@utilities/FormTableHelper';
+import { vueFlowKey } from '@symbols/VueFlow';
 import { nextTick, ref, inject } from 'vue';
 import type { Ref } from 'vue';
 
@@ -26,6 +27,7 @@ const referencedColumn = ref('');
 const isSuccessfullyCreated = ref(false);
 const VueFlow = inject(vueFlowKey);
 const { addRelation } = useTableRelationActions();
+const { createHistory } = useHistory();
 const onClickAddRelation = async () => {
     if (!VueFlow) return;
     errors.value = [];
@@ -47,6 +49,11 @@ const onClickAddRelation = async () => {
         referencedColumn: referencedColumn.value,
     });
     await nextTick();
+    const TableName = canvasStore.currentActiveNode.data.table.name;
+    const HistoryLabel = `Relationship Added: ${TableName}.${referencingColumn.value} -> ${referencedTable.value}.${referencedColumn.value}`;
+    createHistory(HistoryLabel);
+
+    // Reset Fields
     referencingColumn.value = '';
     referencedTable.value = '';
     referencedColumn.value = '';
