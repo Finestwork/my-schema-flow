@@ -9,6 +9,7 @@ import { useNodeAutoLayout } from '@composables/Nodes/useAutoLayout';
 import { useNodeDragEvent } from '@composables/Nodes/useNodeDragEvent';
 import { useEdgePositionCalculator } from '@composables/Edges/useEdgePositionCalculator';
 import { useSortNodes } from '@composables/Nodes/useSortNodes';
+import { useMinimap } from '@composables/Canvas/useMinimap';
 import { Background } from '@vue-flow/background';
 import { MiniMap } from '@vue-flow/minimap';
 import { VueFlow, useVueFlow } from '@vue-flow/core';
@@ -21,6 +22,7 @@ const { autoLayout } = useNodeAutoLayout();
 const { sortNodeColumns } = useSortNodes();
 const { onPaneReady } = useVueFlow();
 useNodeDragEvent();
+useMinimap();
 onPaneReady(async () => {
     sortNodeColumns();
     autoLayout();
