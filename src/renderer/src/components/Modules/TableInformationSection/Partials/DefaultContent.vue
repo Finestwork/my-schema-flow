@@ -48,6 +48,12 @@ const onClickToggleActiveState = (e: MouseEvent, ind: number) => {
     }
     currentActiveIndex.value = ind;
 };
+const onClickCloneColumn = () => {
+    const { name } = canvasStore.cloneColumnInActiveNode(
+        currentActiveIndex.value,
+    );
+    createHistory(`Column '${name}' has been cloned.`);
+};
 const onClickDeleteColumn = () => {
     const { name } = canvasStore.removeColumnInActiveNode(
         currentActiveIndex.value,
@@ -90,7 +96,7 @@ const onClickDeleteColumn = () => {
             <VPanelButtonIcon
                 class="mr-1"
                 :disabled="!canCloneColumn"
-                @click="canvasStore.cloneColumnInActiveNode(currentActiveIndex)"
+                @click="onClickCloneColumn"
             >
                 <CopyIcon />
                 <template #tooltip>Copy Column</template>

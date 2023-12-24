@@ -70,6 +70,7 @@ export const useCanvasStore = defineStore('canvas', {
             Columns.push(CopiedColumn);
             this.currentActiveNode.data.table.columns =
                 sortConstraintKeys(Columns);
+            return CopiedColumn;
         },
         removeColumnInActiveNode(removeIndex: number) {
             const CurrentActiveNode = this.currentActiveNode;
