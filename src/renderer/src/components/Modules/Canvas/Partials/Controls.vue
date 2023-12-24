@@ -12,16 +12,39 @@ import { ref } from 'vue';
 
 const settingsStore = useSettingsStore();
 const isInteractive = ref(true);
+let zoomInInterval = 0;
+let zoomOutInterval = 0;
 const { zoomTo, fitView, toObject, setInteractive } = useVueFlow();
-const onClickZoomIn = () => {
-    if (settingsStore.zoomLevel >= 1) return;
-    settingsStore.zoomLevel = +(settingsStore.zoomLevel + 0.1).toFixed(2);
-    zoomTo(settingsStore.zoomLevel, { duration: 350 });
+const onMouseDownZoomIn = () => {
+    const zoom = () => {
+        if (settingsStore.zoomLevel >= 1) {
+            clearInterval(zoomInInterval);
+            return;
+        }
+        settingsStore.zoomLevel = +(settingsStore.zoomLevel + 0.1).toFixed(2);
+        zoomTo(settingsStore.zoomLevel, { duration: 350 });
+    };
+
+    zoom();
+    zoomInInterval = setInterval(zoom, 450);
 };
-const onClickZoomOut = () => {
-    if (settingsStore.zoomLevel <= 0.1) return;
-    settingsStore.zoomLevel = +(settingsStore.zoomLevel - 0.1).toFixed(2);
-    zoomTo(settingsStore.zoomLevel, { duration: 350 });
+const onMouseUpStopZoomIn = () => {
+    clearInterval(zoomInInterval);
+};
+const onMouseDownZoomOut = () => {
+    const zoomOut = () => {
+        if (settingsStore.zoomLevel <= 0.1) {
+            clearInterval(zoomOutInterval);
+            return;
+        }
+        settingsStore.zoomLevel = +(settingsStore.zoomLevel - 0.1).toFixed(2);
+        zoomTo(settingsStore.zoomLevel, { duration: 350 });
+    };
+    zoomOut();
+    zoomOutInterval = setInterval(zoomOut, 450);
+};
+const onMouseUpStopZoomOut = () => {
+    clearInterval(zoomOutInterval);
 };
 const onClickFitView = () => {
     fitView();
@@ -41,7 +64,8 @@ const onClickControlInteractive = () => {
         <template #control-zoom-in>
             <VCanvasControlButtonIcon
                 :disabled="settingsStore.zoomLevel >= 1"
-                @click="onClickZoomIn"
+                @mousedown="onMouseDownZoomIn"
+                @mouseup="onMouseUpStopZoomIn"
             >
                 <ZoomInIcon />
                 <template #tooltip>Zoom In</template>
@@ -50,7 +74,8 @@ const onClickControlInteractive = () => {
         <template #control-zoom-out>
             <VCanvasControlButtonIcon
                 :disabled="settingsStore.zoomLevel <= 0.1"
-                @click="onClickZoomOut"
+                @mousedown="onMouseDownZoomOut"
+                @mouseup="onMouseUpStopZoomOut"
             >
                 <ZoomOutIcon />
                 <template #tooltip>Zoom Out</template>
