@@ -37,7 +37,8 @@ const onClickAddColumn = () => {
     isSuccessfullyCreated.value = false;
     errors.value = validateColumns(formStates, canvasStore.currentActiveNode);
     if (errors.value.length !== 0) return;
-    createHistory(`Column Added: ${formStates.name}`);
+    const TableName = canvasStore.currentActiveNode.data.table.name;
+    createHistory(`Column Added: ${formStates.name} in '${TableName}' table`);
     canvasStore.addColumnInActiveNode(formStates);
     isSuccessfullyCreated.value = true;
     Object.assign(formStates, initialState);
