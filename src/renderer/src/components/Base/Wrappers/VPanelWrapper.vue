@@ -10,13 +10,3 @@ import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue';
         </OverlayScrollbarsComponent>
     </div>
 </template>
-
-<style>
-.os-scrollbar {
-    display: none;
-}
-
-.scrollbar:hover .os-scrollbar {
-    display: block;
-}
-</style>

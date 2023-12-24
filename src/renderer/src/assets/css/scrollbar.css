@@ -3,23 +3,24 @@
 }
 
 .dark .scrollbar-slim::-webkit-scrollbar-track {
-    background: #2E324D;
+    background: #272F45;
 }
 
 .dark .scrollbar-slim::-webkit-scrollbar-thumb {
     border-radius: 2px;
-    background: #191e2f;
+    background: #40485f;
 }
 
 .os-scrollbar .os-scrollbar-handle{
-    background-color: #00f7e7a8 !important;
+    background-color: #9efff91a;
 }
 .os-scrollbar .os-scrollbar-handle:hover{
-    background-color: #00f7e7 !important;
+    background-color: #9efff9fa;
 }
+
 .os-scrollbar .os-scrollbar-track{
-    background-color: rgba(184, 191, 204, 0.13) !important;
+    background-color: #272F45;
 }
 .os-scrollbar .os-scrollbar-track:hover{
-    background-color: rgba(103, 108, 140, 0.13) !important;
+    background-color: #272F45;
 }
