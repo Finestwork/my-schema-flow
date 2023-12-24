@@ -21,6 +21,15 @@ export const useHistoryStore = defineStore('history', {
     }),
     actions: {
         addItem(item: TItem) {
+            // Since the current index is not the same with the current item, we should remove all items after it
+            // So we can have new history items
+            const ShouldRemoveItems =
+                this.items.length - 1 !== -1 &&
+                this.currentIndex !== this.items.length - 1;
+            if (ShouldRemoveItems) {
+                this.items = this.items.splice(0, this.currentIndex + 1);
+            }
+
             this.items.push({
                 label: item.label,
                 payload: {

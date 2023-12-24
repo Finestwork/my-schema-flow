@@ -14,7 +14,6 @@ export function useSaveCanvas() {
     const { hasChanged } = useTrackChange();
 
     const saveCanvas = () => {
-        console.log(hasChanged.value);
         if (!vueFlow || (!hasChanged.value && fileStore.filePath.trim() !== ''))
             return;
 
