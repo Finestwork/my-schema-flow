@@ -1,5 +1,4 @@
 import { useHistoryStore } from '@stores/History';
-import { useNodeStateHandler } from '@composables/Nodes/useNodeStateHandler';
 import { useCanvasStore } from '@stores/Canvas';
 import { useVueFlow } from '@vue-flow/core';
 import { klona } from 'klona/full';
@@ -12,7 +11,6 @@ import {
 export function useHistoryActions() {
     const historyStore = useHistoryStore();
     const canvasStore = useCanvasStore();
-    const { resetState } = useNodeStateHandler();
     const VueFlow = useVueFlow();
 
     const _applyChanges = async () => {

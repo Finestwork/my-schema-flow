@@ -1,6 +1,6 @@
 import dagre from 'dagre';
 import { klona } from 'klona';
-import type { TNode, TEdge, TNodeData } from '@stores/Canvas';
+import type { TNode, TEdge } from '@stores/Canvas';
 
 /**
  * Calculate node positions based on the node direction

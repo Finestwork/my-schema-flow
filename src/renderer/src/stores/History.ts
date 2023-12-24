@@ -26,7 +26,6 @@ export const useHistoryStore = defineStore('history', {
                 payload: {
                     nodes: klona(item.payload.nodes),
                     edges: klona(item.payload.edges),
-                    currentActiveNode: klona(item.payload.currentActiveNode),
                 },
             });
             if (this.items.length > 1) {

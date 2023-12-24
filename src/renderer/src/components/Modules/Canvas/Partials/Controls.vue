@@ -26,7 +26,7 @@ const onMouseDownZoomIn = () => {
     };
 
     zoom();
-    zoomInInterval = setInterval(zoom, 450);
+    zoomInInterval = window.setInterval(zoom, 450);
 };
 const onMouseUpStopZoomIn = () => {
     clearInterval(zoomInInterval);
@@ -41,7 +41,7 @@ const onMouseDownZoomOut = () => {
         zoomTo(settingsStore.zoomLevel, { duration: 350 });
     };
     zoomOut();
-    zoomOutInterval = setInterval(zoomOut, 450);
+    zoomOutInterval = window.setInterval(zoomOut, 450);
 };
 const onMouseUpStopZoomOut = () => {
     clearInterval(zoomOutInterval);

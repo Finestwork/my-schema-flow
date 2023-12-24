@@ -1,6 +1,5 @@
 import { useHistoryStore } from '@stores/History';
 import { useFileStore } from '@stores/File';
-import { useFileStore } from '@stores/File';
 import { vueFlowKey } from '@symbols/VueFlow';
 import { ref, inject, nextTick } from 'vue';
 import { isEqual } from 'lodash';
