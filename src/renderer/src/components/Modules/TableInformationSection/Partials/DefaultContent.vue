@@ -6,7 +6,7 @@ import AddIcon from '@components/Shared/Icons/AddIcon.vue';
 import CopyIcon from '@components/Shared/Icons/CopyIcon.vue';
 import TrashIcon from '@components/Shared/Icons/TrashIcon.vue';
 import { useCanvasStore } from '@stores/Canvas';
-import { useHistory } from '@composables/Miscellaneous/useHistory';
+import { useHistoryActions } from '@composables/History/useHistoryActions';
 import { useTableRelationActions } from '@composables/Table/useTableRelationActions';
 import { computed, ref } from 'vue';
 
@@ -39,7 +39,7 @@ const canCloneColumn = computed((): boolean => {
     return CurrentColumn.keyConstraint !== 'PK';
 });
 const { deleteRelationByColumn } = useTableRelationActions();
-const { createHistory } = useHistory();
+const { createHistory } = useHistoryActions();
 const onClickToggleActiveState = (e: MouseEvent, ind: number) => {
     (e.target as HTMLButtonElement).blur();
     if (currentActiveIndex.value === ind) {

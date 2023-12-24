@@ -5,7 +5,7 @@ import { useVueFlow } from '@vue-flow/core';
 import { klona } from 'klona/full';
 import { nextTick } from 'vue';
 
-export function useHistory() {
+export function useHistoryActions() {
     const historyStore = useHistoryStore();
     const canvasStore = useCanvasStore();
     const { resetState } = useNodeStateHandler();

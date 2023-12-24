@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import VPanelSectionWrapper from '@components/Base/Wrappers/VPanelSectionWrapper.vue';
 import VTooltip from '@components/Base/Floaters/VTooltip.vue';
-import { useHistory } from '@composables/Miscellaneous/useHistory';
+import { useHistoryActions } from '@composables/History/useHistoryActions';
 import { useHistoryStore } from '@stores/History';
 
-const { jumpHistory } = useHistory();
+const { jumpHistory } = useHistoryActions();
 const historyStore = useHistoryStore();
 </script>
 

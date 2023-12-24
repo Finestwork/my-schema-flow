@@ -10,7 +10,7 @@ import PanelFormReferencedTable from '@components/Shared/Forms/PanelFormReferenc
 import PanelFormReferencedColumn from '@components/Shared/Forms/PanelFormReferencedColumn.vue';
 import { useCanvasStore } from '@stores/Canvas';
 import { useTableRelationActions } from '@composables/Table/useTableRelationActions';
-import { useHistory } from '@composables/Miscellaneous/useHistory';
+import { useHistoryActions } from '@composables/History/useHistoryActions';
 import { validateTableRelations } from '@utilities/FormTableHelper';
 import { vueFlowKey } from '@symbols/VueFlow';
 import { nextTick, ref, inject } from 'vue';
@@ -27,7 +27,7 @@ const referencedColumn = ref('');
 const isSuccessfullyCreated = ref(false);
 const VueFlow = inject(vueFlowKey);
 const { addRelation } = useTableRelationActions();
-const { createHistory } = useHistory();
+const { createHistory } = useHistoryActions();
 const onClickAddRelation = async () => {
     if (!VueFlow) return;
     errors.value = [];

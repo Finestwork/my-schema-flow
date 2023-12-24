@@ -11,7 +11,7 @@ import PanelFormKeyConstraints from '@components/Shared/Forms/PanelFormKeyConstr
 import PanelFormNull from '@components/Shared/Forms/PanelFormNull.vue';
 import { useCanvasStore } from '@stores/Canvas';
 import { useSortNodes } from '@composables/Nodes/useSortNodes';
-import { useHistory } from '@composables/Miscellaneous/useHistory';
+import { useHistoryActions } from '@composables/History/useHistoryActions';
 import { validateColumns } from '@utilities/FormTableHelper';
 import { reactive, ref } from 'vue';
 import type { Ref } from 'vue';
@@ -31,7 +31,7 @@ const initialState = {
 };
 const formStates = reactive({ ...initialState });
 const { sortNodeColumns } = useSortNodes();
-const { createHistory } = useHistory();
+const { createHistory } = useHistoryActions();
 const onClickAddColumn = () => {
     errors.value = [];
     isSuccessfullyCreated.value = false;

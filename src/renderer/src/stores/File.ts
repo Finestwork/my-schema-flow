@@ -8,4 +8,9 @@ export const useFileStore = defineStore('file', {
             canvasElements: '' as string,
         };
     },
+    getters: {
+        hasCanvasElements(state) {
+            return state.canvasElements.trim() !== '';
+        },
+    },
 });

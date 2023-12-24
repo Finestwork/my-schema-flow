@@ -1,12 +1,17 @@
 <script setup lang="ts">
 import { useFileStore } from '@stores/File';
+import { useTrackChange } from '@composables/History/useTrackChange';
 import { computed } from 'vue';
 
 const fileStore = useFileStore();
+const { hasChanged } = useTrackChange();
 const getFileName = computed(() => {
-    return fileStore.filePath === ''
-        ? 'Untitled'
-        : fileStore.fileName.split('.')[0];
+    if (fileStore.filePath === '') {
+        return 'Untitled';
+    }
+
+    const FileName = fileStore.fileName.split('.')[0];
+    return hasChanged.value ? `${FileName} (Unsaved)` : FileName;
 });
 </script>
 <template>

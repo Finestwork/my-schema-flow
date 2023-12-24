@@ -1,10 +1,10 @@
-import { useHistory } from '@composables/Miscellaneous/useHistory';
+import { useHistoryActions } from '@composables/History/useHistoryActions';
 import { vueFlowKey } from '@symbols/VueFlow';
 import { inject } from 'vue';
 import { v4 as uuidv4 } from 'uuid';
 
 export function useCreateNode() {
-    const { createHistory } = useHistory();
+    const { createHistory } = useHistoryActions();
     const VueFlow = inject(vueFlowKey);
     const createNode = (clientX: number, clientY: number) => {
         if (!VueFlow) return;

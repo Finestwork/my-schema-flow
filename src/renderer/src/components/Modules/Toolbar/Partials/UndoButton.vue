@@ -2,10 +2,10 @@
 import VToolbarButtonIcon from '@components/Base/ButtonIcons/VToolbarButtonIcon.vue';
 import UndoIcon from '@components/Shared/Icons/UndoIcon.vue';
 import { useHistoryStore } from '@stores/History';
-import { useHistory } from '@composables/Miscellaneous/useHistory';
+import { useHistoryActions } from '@composables/History/useHistoryActions';
 
 const historyStore = useHistoryStore();
-const { undoHistory } = useHistory();
+const { undoHistory } = useHistoryActions();
 </script>
 
 <template>

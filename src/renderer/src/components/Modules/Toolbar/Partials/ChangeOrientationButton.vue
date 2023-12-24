@@ -6,11 +6,11 @@ import VerticalLayoutIcon from '@components/Shared/Icons/VerticalLayoutIcon.vue'
 import ChangeOrientationIcon from '@components/Shared/Icons/ChangeOrientationIcon.vue';
 import { useSettingsStore } from '@stores/Settings';
 import { useNodeAutoLayout } from '@composables/Nodes/useAutoLayout';
-import { useHistory } from '@composables/Miscellaneous/useHistory';
+import { useHistoryActions } from '@composables/History/useHistoryActions';
 
 const settingsStore = useSettingsStore();
 const { autoLayout } = useNodeAutoLayout();
-const { createHistory } = useHistory();
+const { createHistory } = useHistoryActions();
 let previousOrientation: 'TB' | 'LR' | string =
     settingsStore.currentOrientation;
 

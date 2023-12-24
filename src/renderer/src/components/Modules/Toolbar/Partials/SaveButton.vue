@@ -11,11 +11,8 @@ onMounted(() => {
         'fileSavedSuccessfully',
         (_, filePath, fileName) => {
             if (!vueFlow) return;
-            const Contents = {
-                edges: vueFlow.getEdges.value,
-                nodes: vueFlow.getNodes.value,
-            };
-            fileStore.canvasElements = JSON.stringify(Contents);
+
+            fileStore.canvasElements = JSON.stringify(vueFlow.toObject());
             fileStore.fileName = fileName;
             fileStore.filePath = filePath;
         },

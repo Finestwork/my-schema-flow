@@ -11,7 +11,7 @@ import PanelFormReferencedTable from '@components/Shared/Forms/PanelFormReferenc
 import PanelFormReferencedColumn from '@components/Shared/Forms/PanelFormReferencedColumn.vue';
 import { useTableRelationActions } from '@composables/Table/useTableRelationActions';
 import { useCanvasStore } from '@stores/Canvas';
-import { useHistory } from '@composables/Miscellaneous/useHistory';
+import { useHistoryActions } from '@composables/History/useHistoryActions';
 import { validateTableRelations } from '@utilities/FormTableHelper';
 import { vueFlowKey } from '@symbols/VueFlow';
 import { nextTick, ref, inject } from 'vue';
@@ -24,7 +24,7 @@ const canvasStore = useCanvasStore();
 const VueFlow = inject(vueFlowKey);
 const errors: Ref<Array<string>> = ref([]);
 const { updateRelation, deleteRelation } = useTableRelationActions();
-const { createHistory } = useHistory();
+const { createHistory } = useHistoryActions();
 
 const referencingColumn = ref(
     canvasStore.currentActiveEdge.data.referencing.column,

@@ -1,13 +1,13 @@
 import { useCanvasStore } from '@stores/Canvas';
 import { useNodeStateHandler } from '@composables/Nodes/useNodeStateHandler';
 import { useEdgePositionCalculator } from '@composables/Edges/useEdgePositionCalculator';
-import { useHistory } from '@composables/Miscellaneous/useHistory';
+import { useHistoryActions } from '@composables/History/useHistoryActions';
 import { useVueFlow } from '@vue-flow/core';
 import type { TNode } from '@stores/Canvas';
 
 export function useNodeDragEvent() {
     const canvasStore = useCanvasStore();
-    const { createHistory } = useHistory();
+    const { createHistory } = useHistoryActions();
     const { onNodeDragStop, onNodeDragStart, onPaneClick, onNodeClick } =
         useVueFlow();
     const { activateState, resetState } = useNodeStateHandler();

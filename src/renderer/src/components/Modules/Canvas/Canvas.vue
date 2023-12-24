@@ -4,7 +4,7 @@ import CustomNode from '@components/Modules/Canvas/Partials/CustomNode.vue';
 import CustomNodePlaceholder from '@components/Modules/Canvas/Partials/CustomNodePlaceholder.vue';
 import Controls from '@components/Modules/Canvas/Partials/Controls.vue';
 import ZoomText from '@components/Modules/Canvas/Partials/ZoomText.vue';
-import { useHistory } from '@composables/Miscellaneous/useHistory';
+import { useHistoryActions } from '@composables/History/useHistoryActions';
 import { useNodeAutoLayout } from '@composables/Nodes/useAutoLayout';
 import { useNodeDragEvent } from '@composables/Nodes/useNodeDragEvent';
 import { useEdgePositionCalculator } from '@composables/Edges/useEdgePositionCalculator';
@@ -16,7 +16,7 @@ import { nextTick } from 'vue';
 
 const testElements = TestNodes;
 const testEdges = TestEdges;
-const { createHistory } = useHistory();
+const { createHistory } = useHistoryActions();
 const { autoLayout } = useNodeAutoLayout();
 const { sortNodeColumns } = useSortNodes();
 const { onPaneReady } = useVueFlow();
