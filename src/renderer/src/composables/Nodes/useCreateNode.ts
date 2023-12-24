@@ -36,7 +36,7 @@ export function useCreateNode() {
             },
         };
         VueFlow.addNodes([NewTable]);
-        createHistory(`Table Created: ${TableName}`);
+        createHistory(`New Table: ${TableName}`);
     };
 
     return {

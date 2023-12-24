@@ -52,14 +52,16 @@ const onClickCloneColumn = () => {
     const { name } = canvasStore.cloneColumnInActiveNode(
         currentActiveIndex.value,
     );
-    createHistory(`Column '${name}' has been cloned.`);
+    const TableName = canvasStore.currentActiveNode.data.table.name;
+    createHistory(`Cloned Column: '${name}' in '${TableName} table`);
 };
 const onClickDeleteColumn = () => {
     const { name } = canvasStore.removeColumnInActiveNode(
         currentActiveIndex.value,
     );
     deleteRelationByColumn(name);
-    createHistory(`Column '${name}' has been removed.`);
+    const TableName = canvasStore.currentActiveNode.data.table.name;
+    createHistory(`Removed Column: '${name}' in '${TableName}' table`);
     currentActiveIndex.value = -1;
 };
 </script>

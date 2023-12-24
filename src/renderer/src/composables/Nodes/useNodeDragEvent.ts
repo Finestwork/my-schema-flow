@@ -41,7 +41,7 @@ export function useNodeDragEvent() {
         }
 
         const CurrentNodeName = Node.data.table.name;
-        createHistory(`Table Moved: ${CurrentNodeName}`);
+        createHistory(`Moved Table: '${CurrentNodeName}'`);
     });
 
     onNodeClick((event) => {
