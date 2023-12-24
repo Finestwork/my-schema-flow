@@ -4,14 +4,24 @@ import VToolbarButtonDropdownItem from '@components/Base/Dropdowns/VToolbarButto
 import HorizontalLayoutIcon from '@components/Shared/Icons/HorizontalLayoutIcon.vue';
 import VerticalLayoutIcon from '@components/Shared/Icons/VerticalLayoutIcon.vue';
 import ChangeOrientationIcon from '@components/Shared/Icons/ChangeOrientationIcon.vue';
-import { useNodeAutoLayout } from '@composables/Nodes/useAutoLayout';
 import { useSettingsStore } from '@stores/Settings';
+import { useNodeAutoLayout } from '@composables/Nodes/useAutoLayout';
+import { useHistory } from '@composables/Miscellaneous/useHistory';
 
 const settingsStore = useSettingsStore();
 const { autoLayout } = useNodeAutoLayout();
+const { createHistory } = useHistory();
+let previousOrientation: 'TB' | 'LR' | string =
+    settingsStore.currentOrientation;
+
 const onClickChangeOrientation = (orientation: 'TB' | 'LR') => {
+    if (previousOrientation === orientation) return;
     settingsStore.currentOrientation = orientation;
+    previousOrientation = orientation;
     autoLayout();
+    createHistory(
+        `Changed Layout: ${orientation === 'TB' ? 'Vertical' : 'Horizontal'}`,
+    );
 };
 </script>
 
