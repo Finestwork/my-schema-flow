@@ -12,6 +12,7 @@ export function useMinimap() {
         getEdges,
         onNodeDragStop,
         onNodeClick,
+        onEdgeClick,
         onNodeDragStart,
         onPaneClick,
         onPaneReady,
@@ -60,6 +61,12 @@ export function useMinimap() {
     });
 
     onNodeClick(_highlightMinimapNodes);
+
+    onEdgeClick((event) => {
+        const currentEdge = event.edge;
+        canvasStore.currentActiveNode = currentEdge.sourceNode;
+        _highlightMinimapNodes();
+    });
 
     onNodeDragStart((event) => {
         position = event.node.position;
