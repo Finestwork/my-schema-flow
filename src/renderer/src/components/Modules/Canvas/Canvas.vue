@@ -7,6 +7,7 @@ import ZoomText from '@components/Modules/Canvas/Partials/ZoomText.vue';
 import { useHistoryActions } from '@composables/History/useHistoryActions';
 import { useNodeAutoLayout } from '@composables/Nodes/useAutoLayout';
 import { useNodeDragEvent } from '@composables/Nodes/useNodeDragEvent';
+import { useEdgeEvents } from '@composables/Edges/useEdgeEvent';
 import { useEdgePositionCalculator } from '@composables/Edges/useEdgePositionCalculator';
 import { useSortNodes } from '@composables/Nodes/useSortNodes';
 import { useMinimap } from '@composables/Canvas/useMinimap';
@@ -25,6 +26,7 @@ const { sortNodeColumns } = useSortNodes();
 const { onPaneReady } = useVueFlow();
 useNodeDragEvent();
 useMinimap();
+useEdgeEvents();
 useKeyboardShortcuts();
 useIPCListeners();
 onPaneReady(async () => {
