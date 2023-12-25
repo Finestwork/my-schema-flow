@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import TextInput from '@components/Modules/TitleBar/Partials/TextInput.vue';
+import ToggleDarkModeButton from '@components/Modules/TitleBar/Partials/ToggleDarkModeButton.vue';
 import { useFileStore } from '@stores/File';
 import { useTrackChange } from '@composables/History/useTrackChange';
 import { computed, onMounted, ref } from 'vue';
@@ -34,32 +35,39 @@ onMounted(() => {
     <div
         class="drag-title-bar relative z-[500] flex h-[40px] select-none items-center px-2 dark:bg-dark-950"
     >
-        <div class="no-drag-title-bar flex h-full items-center py-2">
-            <span
-                v-if="fileStore.filePath === ''"
-                class="text-xs font-semibold dark:text-slate-500"
-                >{{ defaultFileName }}</span
-            >
-            <template v-else>
-                <template v-if="!isLoading">
-                    <button
-                        v-if="!isEditing"
-                        class="h-full rounded px-2 text-xs font-semibold outline-none dark:text-slate-500 hover:dark:bg-cyan-950/30 hover:dark:text-cyan-500 focus:dark:text-cyan-500"
-                        type="button"
-                        @dblclick="isEditing = true"
-                    >
-                        {{ defaultFileName }}
-                    </button>
-                    <TextInput
-                        v-else
-                        @on-enter="isLoading = true"
-                        @blur="isEditing = false"
-                    />
+        <div class="flex h-full w-full items-center justify-between py-2">
+            <div class="no-drag-title-bar h-full flex-grow">
+                <span
+                    v-if="fileStore.filePath === ''"
+                    class="text-xs font-semibold dark:text-slate-500"
+                    >{{ defaultFileName }}</span
+                >
+                <template v-else>
+                    <template v-if="!isLoading">
+                        <button
+                            v-if="!isEditing"
+                            class="h-full rounded px-2 text-xs font-semibold outline-none dark:text-slate-500 hover:dark:bg-cyan-950/30 hover:dark:text-cyan-500 focus:dark:text-cyan-500"
+                            type="button"
+                            @dblclick="isEditing = true"
+                        >
+                            {{ defaultFileName }}
+                        </button>
+                        <TextInput
+                            v-else
+                            @on-enter="isLoading = true"
+                            @blur="isEditing = false"
+                        />
+                    </template>
+                    <p v-else class="text-xs font-semibold dark:text-slate-400">
+                        Saving, please don't exit.
+                    </p>
                 </template>
-                <p v-else class="text-xs font-semibold dark:text-slate-400">
-                    Saving, please don't exit.
-                </p>
-            </template>
+            </div>
+            <div
+                class="no-drag-title-bar flex h-full flex-grow justify-end pr-[8.5rem]"
+            >
+                <ToggleDarkModeButton />
+            </div>
         </div>
     </div>
 </template>
