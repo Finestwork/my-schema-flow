@@ -7,8 +7,11 @@ import UndoButton from '@components/Modules/Toolbar/Partials/UndoButton.vue';
 import RedoButton from '@components/Modules/Toolbar/Partials/RedoButton.vue';
 import SaveButton from '@components/Modules/Toolbar/Partials/SaveButton.vue';
 </script>
+
 <template>
-    <div class="flex items-center justify-between px-2 py-3 dark:bg-dark-900">
+    <div
+        class="flex items-center justify-between bg-slate-300 px-2 py-3 dark:bg-dark-900"
+    >
         <div class="flex">
             <AddNewTableButton class="mr-2" />
             <AutoLayoutButton class="mr-2" />

@@ -5,10 +5,32 @@ import IpcMainEvent = Electron.IpcMainEvent;
 
 export default class EventListeners {
     constructor() {
+        this._toggleDarkMode();
         this._saveFile();
         this._saveFileWithFileName();
         this._overwriteFile();
         this._openFile();
+    }
+
+    private _toggleDarkMode() {
+        ipcMain.on('toggleDarkMode', (event, isDarkMode) => {
+            const CurrentBrowserWindow = BrowserWindow.fromWebContents(
+                event.sender,
+            );
+            if (!CurrentBrowserWindow) return;
+
+            if (isDarkMode) {
+                CurrentBrowserWindow.setTitleBarOverlay({
+                    color: '#090B10',
+                    symbolColor: '#8695BB',
+                });
+                return;
+            }
+            CurrentBrowserWindow.setTitleBarOverlay({
+                color: '#e2e8f0',
+                symbolColor: '#334155',
+            });
+        });
     }
 
     /**

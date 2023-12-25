@@ -3,6 +3,9 @@ import { contextBridge, ipcRenderer } from 'electron';
 
 // Custom APIs for renderer
 const api = {
+    toggleDarkMode(isDarkMode: boolean) {
+        ipcRenderer.send('toggleDarkMode', isDarkMode);
+    },
     saveFile(contents: string) {
         ipcRenderer.send('saveFile', contents);
     },

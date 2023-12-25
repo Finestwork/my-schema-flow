@@ -2,6 +2,9 @@
     outline: none;
 }
 
+.vue-flow__edge-path{
+    stroke: #475569;
+}
 .dark .vue-flow__edge-path{
     stroke: #596481;
 }

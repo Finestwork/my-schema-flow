@@ -11,17 +11,17 @@ const props = withDefaults(defineProps<TProps>(), {
         class="group flex w-full items-center px-1.5 py-2 outline-none"
         type="button"
         :class="{
-            'hover:dark:bg-dark-700/40 focus:dark:bg-dark-700/40':
+            'bg-white hover:bg-slate-200 focus:bg-slate-200 hover:dark:bg-dark-700/40 focus:dark:bg-dark-700/40':
                 !props.isActive,
-            'dark:bg-cyan-950/50': props.isActive,
+            'bg-cyan-500 dark:bg-cyan-950/50': props.isActive,
         }"
     >
         <span
             v-if="$slots.icon"
             class="mr-2 block w-[12px]"
             :class="{
-                'dark:stroke-slate-300': !props.isActive,
-                'stroke-cyan-500': props.isActive,
+                'stroke-slate-500 dark:stroke-slate-300': !props.isActive,
+                'stroke-cyan-50 dark:stroke-cyan-500': props.isActive,
             }"
         >
             <slot name="icon"></slot>
@@ -30,8 +30,8 @@ const props = withDefaults(defineProps<TProps>(), {
             v-if="$slots.text"
             class="text-[.6rem]"
             :class="{
-                'dark:text-slate-300': !props.isActive,
-                'dark:text-cyan-500': props.isActive,
+                'text-slate-500 dark:text-slate-300': !props.isActive,
+                'text-cyan-50 dark:text-cyan-500': props.isActive,
             }"
         >
             <slot name="text"></slot>

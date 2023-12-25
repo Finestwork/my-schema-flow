@@ -4,6 +4,7 @@ declare global {
     interface Window {
         electron: ElectronAPI;
         api: {
+            toggleDarkMode(isDarkMode: boolean): void;
             saveFile(contents: string): void;
             overwriteFileName(currentFilePath: string, fileName: string): void;
             overwriteFile(contents: string, filePath: string): void;

@@ -8,8 +8,8 @@ const props = defineProps<TProps>();
 </script>
 
 <template>
-    <div class="py-1 dark:text-slate-400">
-        <span class="mb-1.5 block dark:text-slate-100"
+    <div class="py-1 text-slate-500 dark:text-slate-400">
+        <span class="mb-1.5 block text-dark-900 dark:text-slate-100"
             ><slot name="label"></slot
         ></span>
         <div class="mb-2.5 block">
@@ -17,14 +17,14 @@ const props = defineProps<TProps>();
             <template v-for="(window, ind) in props.windows" :key="window">
                 <template v-if="ind !== props.windows.length - 1">
                     <span
-                        class="rounded px-[.2rem] py-[.1rem] text-cyan-500 dark:bg-dark-950/40"
+                        class="rounded bg-cyan-500 px-[.2rem] py-[.1rem] text-cyan-50 dark:bg-dark-950/40 dark:text-cyan-500"
                         >{{ window }}</span
                     >
                     +
                 </template>
                 <span
                     v-else
-                    class="rounded px-[.2rem] py-[.1rem] text-cyan-500 dark:bg-dark-950/40"
+                    class="rounded bg-cyan-500 px-[.2rem] py-[.1rem] text-cyan-50 dark:bg-dark-950/40 dark:text-cyan-500"
                     >{{ window }}</span
                 >
             </template>
@@ -35,14 +35,14 @@ const props = defineProps<TProps>();
             <template v-for="(macKey, ind) in props.mac" :key="macKey">
                 <template v-if="ind !== props.mac.length - 1">
                     <span
-                        class="rounded px-[.2rem] py-[.1rem] text-cyan-500 dark:bg-dark-950/40"
+                        class="rounded bg-cyan-500 px-[.2rem] py-[.1rem] text-cyan-50 dark:bg-dark-950/40 dark:text-cyan-500"
                         >{{ macKey }}</span
                     >
                     +
                 </template>
                 <span
                     v-else
-                    class="rounded px-[.2rem] py-[.1rem] text-cyan-500 dark:bg-dark-950/40"
+                    class="rounded bg-cyan-500 px-[.2rem] py-[.1rem] text-cyan-50 dark:bg-dark-950/40 dark:text-cyan-500"
                     >{{ macKey }}</span
                 >
             </template>

@@ -36,7 +36,7 @@ const onBlurResetForm = () => {
 </script>
 
 <template>
-    <VFloatingLayout :show="showError" :use-focus-trap="false">
+    <VFloatingLayout class="h-full" :show="showError" :use-focus-trap="false">
         <VPanelTextInput
             id="titleBarFileName"
             v-model="currentFileName"
@@ -48,7 +48,7 @@ const onBlurResetForm = () => {
 
         <template #float>
             <p
-                class="rounded px-2 py-1.5 text-[.6rem] dark:bg-rose-600 dark:text-rose-50"
+                class="rounded bg-rose-600 px-2 py-1.5 text-[.6rem] text-rose-50"
             >
                 File name cannot have these characters: &lsaquo; &rsaquo; : " /
                 \ | ? *

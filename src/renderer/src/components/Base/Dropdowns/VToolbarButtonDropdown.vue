@@ -28,19 +28,15 @@ onClickOutside(reference, () => {
 
 <template>
     <VFloatingLayout :show="showFloatingLayout">
-        <VTooltip
-            ref="tooltip"
-            :offset-y="11"
-            :can-show-tooltip="!showFloatingLayout"
-        >
+        <VTooltip ref="tooltip" :can-show-tooltip="!showFloatingLayout">
             <button
                 ref="reference"
                 type="button"
                 class="flex h-[25px] items-center justify-center rounded p-1.5 outline-none"
                 :class="{
-                    'dark:bg-dark-700/60 dark:stroke-dark-300 dark:hover:bg-cyan-950/60 hover:dark:stroke-cyan-500 dark:focus:bg-cyan-950/60 focus:dark:stroke-cyan-500':
+                    'bg-dark-100 stroke-slate-50 hover:bg-cyan-500 hover:stroke-cyan-50 focus:bg-cyan-500 focus:stroke-cyan-50 dark:bg-dark-700/60 dark:stroke-dark-300 dark:hover:bg-cyan-950/60 hover:dark:stroke-cyan-500 dark:focus:bg-cyan-950/60 focus:dark:stroke-cyan-500':
                         !showFloatingLayout,
-                    'dark:bg-cyan-950/60 dark:stroke-cyan-500':
+                    'bg-cyan-500 stroke-cyan-50 dark:bg-cyan-950/60 dark:stroke-cyan-500':
                         showFloatingLayout,
                 }"
                 @click="onClick"
