@@ -19,15 +19,26 @@ export function useIPCListeners() {
             },
         );
 
-        window.electron.ipcRenderer.on('fileOverwroteSuccessfully', () => {
+        window.electron.ipcRenderer.on('fileOverwriteSuccessfully', () => {
             fileStore.savedIndex = historyStore.currentIndex;
         });
+
+        window.electron.ipcRenderer.on(
+            'fileNameOverwriteSuccessfully',
+            (_, filePath: string, fileName: string) => {
+                fileStore.fileName = fileName;
+                fileStore.filePath = filePath;
+            },
+        );
     });
 
     onUnmounted(() => {
         window.electron.ipcRenderer.removeAllListeners('fileSavedSuccessfully');
         window.electron.ipcRenderer.removeAllListeners(
             'fileOverwroteSuccessfully',
+        );
+        window.electron.ipcRenderer.removeAllListeners(
+            'filenameOverwriteSuccessfully',
         );
     });
 }

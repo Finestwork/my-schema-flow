@@ -5,6 +5,7 @@ declare global {
         electron: ElectronAPI;
         api: {
             saveFile(contents: string): void;
+            overwriteFileName(currentFilePath: string, fileName: string): void;
             overwriteFile(contents: string, filePath: string): void;
             openFile(): void;
         };

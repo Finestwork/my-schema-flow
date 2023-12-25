@@ -6,6 +6,9 @@ const api = {
     saveFile(contents: string) {
         ipcRenderer.send('saveFile', contents);
     },
+    overwriteFileName(filePath: string, fileName: string) {
+        ipcRenderer.send('overwriteFileName', filePath, fileName);
+    },
     overwriteFile(contents: string, filePath: string) {
         ipcRenderer.send('overwriteFile', contents, filePath);
     },

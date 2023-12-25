@@ -1,11 +1,12 @@
 import { ipcMain, BrowserWindow, dialog } from 'electron';
-import { writeFile, readFile } from 'fs/promises';
-import { basename } from 'path';
+import { writeFile, readFile, rename } from 'fs/promises';
+import { basename, dirname } from 'path';
 import IpcMainEvent = Electron.IpcMainEvent;
 
 export default class EventListeners {
     constructor() {
         this._saveFile();
+        this._saveFileWithFileName();
         this._overwriteFile();
         this._openFile();
     }
@@ -40,6 +41,35 @@ export default class EventListeners {
         });
     }
 
+    private _saveFileWithFileName() {
+        ipcMain.on(
+            'overwriteFileName',
+            async (event: IpcMainEvent, filePath: string, fileName: string) => {
+                const CurrentBrowserWindow = BrowserWindow.fromWebContents(
+                    event.sender,
+                );
+                if (!CurrentBrowserWindow) return;
+
+                try {
+                    // Get directory of the current file
+                    const CurrentDir = dirname(filePath);
+
+                    // Rename the file
+                    const NewFilePath = `${CurrentDir}/${fileName}.ss`;
+                    await rename(filePath, NewFilePath);
+
+                    CurrentBrowserWindow.webContents.send(
+                        'fileNameOverwriteSuccessfully',
+                        NewFilePath,
+                        basename(`${fileName}.ss`),
+                    );
+                } catch (err) {
+                    console.log(err);
+                }
+            },
+        );
+    }
+
     private _overwriteFile() {
         ipcMain.on(
             'overwriteFile',
@@ -51,7 +81,7 @@ export default class EventListeners {
 
                 await writeFile(filePath, contents);
                 CurrentBrowserWindow.webContents.send(
-                    'fileOverwroteSuccessfully',
+                    'fileOverwriteSuccessfully',
                 );
             },
         );

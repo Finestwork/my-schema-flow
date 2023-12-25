@@ -41,7 +41,15 @@ export function useSaveCanvas() {
         window.api.saveFile(JSON.stringify(Contents));
     };
 
+    const overwriteFileName = (fileName: string) => {
+        if (fileStore.filePath.trim() === '') return;
+
+        // If file is already saved, overwrite it
+        window.api.overwriteFileName(fileStore.filePath, fileName);
+    };
+
     return {
         saveCanvas,
+        overwriteFileName,
     };
 }
