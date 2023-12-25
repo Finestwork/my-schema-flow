@@ -15,16 +15,16 @@ const emits = defineEmits<{
 }>();
 </script>
 <template>
-    <VTooltip :offset-y="10">
+    <VTooltip>
         <button
             type="button"
             class="block h-[25px] w-[25px] rounded p-2 outline-none dark:stroke-slate-300"
             :class="{
-                'dark:bg-dark-800 dark:stroke-slate-500 hover:dark:bg-cyan-950 hover:dark:stroke-cyan-500 focus:dark:bg-cyan-950 focus:dark:stroke-cyan-500':
+                'bg-dark-100 stroke-slate-50 dark:bg-dark-800 dark:stroke-slate-500 hover:dark:bg-cyan-950 hover:dark:stroke-cyan-500 focus:dark:bg-cyan-950 focus:dark:stroke-cyan-500':
                     props.colorScheme === 'primary' && !props.disabled,
-                'dark:bg-red-500 dark:stroke-red-50 dark:hover:bg-red-500/90':
+                'bg-red-600 stroke-red-50 dark:bg-red-500 dark:stroke-red-50 dark:hover:bg-red-500/90':
                     props.colorScheme === 'danger' && !props.disabled,
-                'cursor-not-allowed dark:bg-dark-800/90 dark:stroke-slate-700':
+                'cursor-not-allowed bg-slate-300 stroke-slate-400 dark:bg-dark-800/90 dark:stroke-slate-700':
                     props.disabled,
             }"
             @click="emits('click', $event)"

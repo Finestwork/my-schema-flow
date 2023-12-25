@@ -127,32 +127,39 @@ watch(
         <template #float>
             <div
                 ref="scrollbar"
-                class="scrollbar-slim h-full max-h-[250px] overflow-y-scroll outline-none dark:bg-dark-800/50"
+                class="scrollbar-slim h-full max-h-[250px] overflow-y-scroll bg-white outline-none dark:bg-dark-800/50"
             >
                 <button
                     v-for="(item, ind) in getMysqlDataTypes"
                     ref="dropdownBtn"
                     :key="ind"
-                    class="group flex w-full justify-between px-2 py-1.5 text-xs font-bold outline-none hover:dark:bg-cyan-950 focus:dark:bg-cyan-950"
+                    class="group flex w-full justify-between px-2 py-1.5 text-xs font-bold outline-none"
                     type="button"
                     :class="{
-                        'dark:bg-cyan-950': currentIndex === ind,
+                        'bg-cyan-500 hover:bg-cyan-500 focus:bg-cyan-500 dark:bg-cyan-950 dark:hover:bg-cyan-950 dark:focus:bg-cyan-950':
+                            currentIndex === ind,
+                        'hover:bg-slate-200 focus:bg-slate-200 hover:dark:bg-cyan-950 focus:dark:bg-cyan-950':
+                            currentIndex !== ind,
                     }"
                     @click="onClickChooseDataType(ind)"
                 >
                     <span
                         class="w-full truncate text-left group-hover:dark:text-cyan-500 group-focus:dark:text-cyan-500"
                         :class="{
-                            'dark:text-cyan-500': currentIndex === ind,
-                            'dark:text-slate-500': currentIndex !== ind,
+                            'text-cyan-50 dark:text-cyan-500':
+                                currentIndex === ind,
+                            'text-slate-800 dark:text-slate-500':
+                                currentIndex !== ind,
                         }"
                         >{{ item.name }}</span
                     >
                     <span
                         class="w-full truncate text-left group-hover:dark:text-cyan-700 group-focus:dark:text-cyan-700"
                         :class="{
-                            'dark:text-cyan-700': currentIndex === ind,
-                            'dark:text-slate-700': currentIndex !== ind,
+                            'text-cyan-200 dark:text-cyan-700':
+                                currentIndex === ind,
+                            'text-slate-400 dark:text-slate-700':
+                                currentIndex !== ind,
                         }"
                         >{{ item.description }}</span
                     >

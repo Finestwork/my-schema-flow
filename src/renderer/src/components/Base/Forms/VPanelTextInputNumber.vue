@@ -19,7 +19,7 @@ const emits = defineEmits<{
 <template>
     <div class="w-full">
         <label
-            class="mb-1 cursor-pointer text-xs font-semibold dark:text-slate-300"
+            class="mb-1 cursor-pointer text-xs font-semibold text-slate-700 dark:text-slate-300"
             :for="id"
         >
             <slot name="label"></slot>
@@ -28,7 +28,7 @@ const emits = defineEmits<{
             :id="props.id"
             v-model="modelValue"
             v-number-only
-            class="block w-full rounded border-2 p-1.5 text-xs font-semibold outline-none transition-shadow duration-150 ease-in-out focus:ring-4 focus:ring-cyan-500/30 dark:border-slate-700 dark:bg-dark-900 dark:text-slate-500 dark:placeholder-slate-600 dark:hover:border-cyan-700 hover:dark:text-slate-300 dark:focus:border-cyan-500 focus:dark:text-slate-300"
+            class="block h-full w-full rounded border-2 border-slate-400 bg-slate-200 p-1.5 text-xs font-semibold placeholder-slate-500 outline-none transition-shadow duration-150 ease-in-out hover:border-cyan-500 focus:border-cyan-500 focus:ring-4 focus:ring-cyan-500/30 dark:border-slate-700 dark:bg-dark-900 dark:text-slate-500 dark:placeholder-slate-600 hover:dark:text-slate-300"
             type="text"
             :placeholder="props.placeholder"
             @input="emits('input', $event)"

@@ -48,7 +48,7 @@ onClickOutside(rootWrapper, () => {
     <div ref="rootWrapper" @click="onClickToggleDropdown">
         <div>
             <label
-                class="mb-1 cursor-pointer text-xs font-semibold dark:text-slate-300"
+                class="mb-1 cursor-pointer text-xs font-semibold text-slate-700 dark:text-slate-300"
                 :for="id"
             >
                 <slot name="label"></slot>
@@ -57,12 +57,12 @@ onClickOutside(rootWrapper, () => {
                 :id="props.id"
                 ref="input"
                 v-model="modelValue"
-                class="block w-full rounded border-2 p-1.5 text-xs font-semibold outline-none transition-shadow duration-150 ease-in-out dark:bg-dark-900"
+                class="block w-full rounded border-2 bg-slate-200 p-1.5 text-xs font-semibold outline-none transition-shadow duration-150 ease-in-out dark:bg-dark-900"
                 type="text"
                 :class="{
-                    'focus:ring-4 focus:ring-cyan-500/30 dark:border-slate-700 dark:text-slate-500 dark:placeholder-slate-600 dark:hover:border-cyan-700 hover:dark:text-slate-300 dark:focus:border-cyan-500 focus:dark:text-slate-300':
+                    'border-slate-400 placeholder-slate-500 hover:border-cyan-500 focus:border-cyan-500 focus:ring-4 focus:ring-cyan-500/30 dark:border-slate-700 dark:text-slate-500 dark:placeholder-slate-600 hover:dark:text-slate-300':
                         !props.disabled,
-                    'cursor-not-allowed dark:border-slate-800 dark:placeholder-slate-800':
+                    'cursor-not-allowed dark:border-slate-800 dark:placeholder-slate-700':
                         props.disabled,
                 }"
                 :placeholder="props.placeholder"
@@ -76,7 +76,7 @@ onClickOutside(rootWrapper, () => {
         <div
             v-if="showDropdown"
             ref="floating"
-            class="absolute overflow-hidden shadow-sm dark:bg-dark-900"
+            class="absolute overflow-hidden bg-white shadow-sm dark:bg-dark-900"
             :style="floatingStyles"
             @keydown="emits('onKeyDownNavigateDropdown', $event)"
         >
