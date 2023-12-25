@@ -8,6 +8,7 @@ import TrashIcon from '@components/Shared/Icons/TrashIcon.vue';
 import { useCanvasStore } from '@stores/Canvas';
 import { useHistoryActions } from '@composables/History/useHistoryActions';
 import { useTableRelationActions } from '@composables/Table/useTableRelationActions';
+import { useDebounceFn } from '@vueuse/core';
 import { computed, ref } from 'vue';
 
 export type TColumnList = {
@@ -64,7 +65,13 @@ const onClickDeleteColumn = () => {
     createHistory(`Removed Column: '${name}' in '${TableName}' table`);
     currentActiveIndex.value = -1;
 };
+
+const onInputAddToHistory = useDebounceFn(() => {
+    const TableName = canvasStore.currentActiveNode.data.table.name;
+    createHistory(`Changed Table Name: '${TableName}'`);
+});
 </script>
+
 <template>
     <div>
         <VPanelTextInput
@@ -72,6 +79,7 @@ const onClickDeleteColumn = () => {
             v-model="canvasStore.currentActiveNode.data.table.name"
             class="mb-4"
             placeholder="Place table's name here"
+            @input="onInputAddToHistory"
         >
             <template #label> Table's Name:</template>
         </VPanelTextInput>
