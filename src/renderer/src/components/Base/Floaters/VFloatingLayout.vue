@@ -5,7 +5,7 @@ import { nextTick, ref, watch } from 'vue';
 
 export type TTooltip = {
     show?: boolean;
-    useFocusTrap: boolean;
+    useFocusTrap?: boolean;
     offsetY?: number;
     placement?: 'top' | 'bottom' | 'left' | 'right';
 };
