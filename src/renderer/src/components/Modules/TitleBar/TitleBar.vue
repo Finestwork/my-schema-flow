@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import VPanelTextInput from '@components/Base/Forms/VPanelTextInput.vue';
-import Loader from '@components/Modules/TitleBar/Partials/Loader.vue';
 import { useFileStore } from '@stores/File';
 import { useTrackChange } from '@composables/History/useTrackChange';
 import { useSaveCanvas } from '@composables/Canvas/useSaveCanvas';
@@ -80,7 +79,9 @@ onMounted(() => {
                         @blur="onBlurResetForm"
                     />
                 </template>
-                <Loader v-else />
+                <p v-else class="text-xs font-semibold dark:text-slate-400">
+                    Saving, please don't exit.
+                </p>
             </template>
         </div>
     </div>
