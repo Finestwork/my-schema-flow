@@ -13,6 +13,7 @@ export function useNodeStateHandler() {
                     isActive: false,
                     isFaded: false,
                 };
+                node.zIndex = 0;
                 return node;
             });
         });
@@ -20,6 +21,7 @@ export function useNodeStateHandler() {
             return edges.map((edge) => {
                 edge.style = {};
                 edge.animated = false;
+                edge.zIndex = 0;
                 return edge;
             });
         });
@@ -40,6 +42,7 @@ export function useNodeStateHandler() {
                         stroke: '#22d3ee',
                     };
                     edge.animated = true;
+                    edge.zIndex = 98;
                     NodeIds.add(edge.targetNode.id);
                     NodeIds.add(edge.sourceNode.id);
                     return edge;
@@ -66,6 +69,8 @@ export function useNodeStateHandler() {
                 const NodeIndex = Array.from(NodeIds).findIndex(
                     (id) => id === node.id,
                 );
+
+                node.zIndex = 99;
 
                 if (NodeIndex !== -1) {
                     node.data.states = {

@@ -170,6 +170,8 @@ export const resetNodesActiveState = (nodes: Array<TNode>) => {
             isFaded: false,
         };
 
+        node.zIndex = 0;
+
         return node;
     });
 };
@@ -178,6 +180,7 @@ export const resetEdgesActiveState = (edges: Array<TEdge>) => {
     return klona(edges).map((edge) => {
         edge.style = {};
         edge.animated = false;
+        edge.zIndex = 0;
         return edge;
     });
 };
