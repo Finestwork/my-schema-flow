@@ -17,8 +17,9 @@ const emits = defineEmits<{
 }>();
 </script>
 <template>
-    <div class="w-full">
+    <div class="h-full w-full">
         <label
+            v-if="$slots.label"
             class="mb-1 cursor-pointer text-xs font-semibold dark:text-slate-300"
             :for="id"
         >
@@ -27,7 +28,7 @@ const emits = defineEmits<{
         <input
             :id="props.id"
             v-model="modelValue"
-            class="block w-full rounded border-2 p-1.5 text-xs font-semibold outline-none transition-shadow duration-150 ease-in-out dark:bg-dark-900"
+            class="block h-full w-full rounded border-2 p-1.5 text-xs font-semibold outline-none transition-shadow duration-150 ease-in-out dark:bg-dark-900"
             type="text"
             :class="{
                 'focus:ring-4 focus:ring-cyan-500/30 dark:border-slate-700 dark:text-slate-500 dark:placeholder-slate-600 dark:hover:border-cyan-700 hover:dark:text-slate-300 dark:focus:border-cyan-500 focus:dark:text-slate-300':
