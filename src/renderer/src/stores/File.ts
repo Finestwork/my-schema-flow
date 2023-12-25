@@ -8,4 +8,10 @@ export const useFileStore = defineStore('file', {
             savedIndex: -1 as number,
         };
     },
+    getters: {
+        getFileNameWithoutExt(state) {
+            if (state.fileName.trim() === '') return '';
+            return state.fileName.split('.')[0];
+        },
+    },
 });
