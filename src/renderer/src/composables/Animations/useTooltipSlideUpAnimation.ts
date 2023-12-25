@@ -46,7 +46,9 @@ export function useTooltipSlideUpAnimation(
             placement: MergedOptions.placement as Placement,
             middleware: Middlewares,
         }).then(({ x, y, placement, middlewareData }) => {
-            const InitialTop = placement === 'top' ? y - 15 : y + 15;
+            const Offset = 15;
+            const ArrowWidth = 6; // 6px
+            const InitialTop = placement === 'top' ? y - Offset : y + Offset;
 
             // Check arrow element existence
             if ('arrow' in MergedOptions) {
@@ -62,7 +64,7 @@ export function useTooltipSlideUpAnimation(
                             ArrowMiddleware.x != null
                                 ? `${ArrowMiddleware.x}px`
                                 : '',
-                        bottom: '-5px', // Since border-width is .3rem or 6px
+                        bottom: '-4.5px', // Since border-width is .3rem or 6px
                         transform: 'rotate(180deg) translateY(-50%)',
                     });
                 }
@@ -73,14 +75,14 @@ export function useTooltipSlideUpAnimation(
                             ArrowMiddleware.x != null
                                 ? `${ArrowMiddleware.x}px`
                                 : '',
-                        top: '-5px', // Since border-width is .3rem or 6px
+                        top: '-4.5px', // Since border-width is .3rem or 6px
                         transform: 'translateY(-50%)',
                     });
                 }
 
                 if (placement === 'right') {
                     Object.assign(ArrowElement.style, {
-                        left: '-5px',
+                        left: '-4.5px',
                         top: ArrowMiddleware.y, // Since border-width is .3rem or 6px
                         transform: 'translateX(-50%) rotate(-90deg)',
                     });
@@ -88,7 +90,7 @@ export function useTooltipSlideUpAnimation(
 
                 if (placement === 'left') {
                     Object.assign(ArrowElement.style, {
-                        right: '-5px',
+                        right: '-4.5px',
                         top: ArrowMiddleware.y, // Since border-width is .3rem or 6px
                         transform: 'translateX(-50%) rotate(90deg)',
                     });
@@ -103,7 +105,7 @@ export function useTooltipSlideUpAnimation(
 
             anime({
                 targets: el,
-                top: y,
+                top: y + ArrowWidth,
                 opacity: 1,
                 duration: 350,
                 easing: 'easeOutQuint',

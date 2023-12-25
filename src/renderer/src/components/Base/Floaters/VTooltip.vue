@@ -43,16 +43,16 @@ defineExpose({
 
         <Teleport to="body">
             <Transition @enter="onEnter" @leave="onLeave">
-                <span
+                <div
                     v-if="showTooltip"
-                    class="absolute z-50 rounded p-1.5 text-[.6rem] font-semibold shadow-xl dark:bg-dark-800 dark:text-white"
+                    class="absolute z-50 rounded p-1.5 text-[.6rem] font-semibold shadow-xl dark:bg-dark-700 dark:text-white dark:shadow-[inset_0_-4px_0_0_rgba(15,18,26,0.3)]"
                 >
                     <span
                         ref="arrowEl"
-                        class="absolute block border-[.3rem] border-transparent dark:border-b-dark-800"
+                        class="absolute block border-[.3rem] border-transparent dark:border-b-dark-700"
                     ></span>
                     <slot name="tooltip"></slot>
-                </span>
+                </div>
             </Transition>
         </Teleport>
     </div>

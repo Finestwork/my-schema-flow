@@ -11,6 +11,7 @@ import { useEdgePositionCalculator } from '@composables/Edges/useEdgePositionCal
 import { useSortNodes } from '@composables/Nodes/useSortNodes';
 import { useMinimap } from '@composables/Canvas/useMinimap';
 import { useKeyboardShortcuts } from '@composables/Miscellaneous/useKeyboardShortcuts';
+import { useIPCListeners } from '@composables/Miscellaneous/useIPCListeners';
 import { Background } from '@vue-flow/background';
 import { MiniMap } from '@vue-flow/minimap';
 import { VueFlow, useVueFlow } from '@vue-flow/core';
@@ -25,6 +26,7 @@ const { onPaneReady } = useVueFlow();
 useNodeDragEvent();
 useMinimap();
 useKeyboardShortcuts();
+useIPCListeners();
 onPaneReady(async () => {
     sortNodeColumns();
     autoLayout();
