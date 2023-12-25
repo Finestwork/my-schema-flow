@@ -3,9 +3,8 @@ import VPanelTextInput from '@components/Base/Forms/VPanelTextInput.vue';
 import { useFileStore } from '@stores/File';
 import { useTrackChange } from '@composables/History/useTrackChange';
 import { useSaveCanvas } from '@composables/Canvas/useSaveCanvas';
-import { onClickOutside, watchOnce } from '@vueuse/core';
+import { watchOnce } from '@vueuse/core';
 import { computed, ref } from 'vue';
-import { getFileName } from 'cac/deno/utils';
 
 const fileStore = useFileStore();
 const input = ref();
@@ -30,10 +29,10 @@ const onEnterSaveFile = () => {
 
     overwriteFileName(currentFileName.value);
 };
-onClickOutside(input, () => {
+const onBlurResetForm = () => {
     currentFileName.value = fileStore.getFileNameWithoutExt;
     isEditing.value = false;
-});
+};
 watchOnce(
     () => fileStore.fileName,
     () => {
@@ -68,6 +67,7 @@ watchOnce(
                     v-model="currentFileName"
                     placeholder="Place file name here"
                     @keydown.enter="onEnterSaveFile"
+                    @blur="onBlurResetForm"
                 />
             </template>
         </div>
