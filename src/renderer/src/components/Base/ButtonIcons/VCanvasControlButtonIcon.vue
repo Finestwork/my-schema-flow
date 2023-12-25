@@ -17,7 +17,7 @@ const props = withDefaults(defineProps<TProps>(), {
             :class="{
                 'cursor-not-allowed bg-slate-100 dark:bg-dark-850':
                     props.disabled,
-                'group bg-slate-200 hover:bg-cyan-500 dark:bg-dark-800 dark:hover:bg-cyan-950':
+                'group bg-white hover:bg-cyan-500 dark:bg-dark-800 dark:hover:bg-cyan-950':
                     !props.disabled,
             }"
             :disabled="props.disabled"
