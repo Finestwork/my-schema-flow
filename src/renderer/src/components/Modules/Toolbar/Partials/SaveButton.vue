@@ -1,15 +1,12 @@
 <script setup lang="ts">
 import { useFileStore } from '@stores/File';
+import { useHistoryStore } from '@stores/History';
 import { useSaveCanvas } from '@composables/Canvas/useSaveCanvas';
-import {
-    resetNodesActiveState,
-    resetEdgesActiveState,
-} from '@utilities/CanvasHelper';
 import { vueFlowKey } from '@symbols/VueFlow';
 import { inject, onMounted, onUnmounted } from 'vue';
-import type { TEdge, TNode } from '@stores/Canvas';
 
 const fileStore = useFileStore();
+const historyStore = useHistoryStore();
 const vueFlow = inject(vueFlowKey);
 const { saveCanvas } = useSaveCanvas();
 
@@ -18,13 +15,7 @@ onMounted(() => {
         'fileSavedSuccessfully',
         (_, filePath, fileName) => {
             if (!vueFlow) return;
-            const FlowObject = vueFlow.toObject();
-            const Contents = {
-                edges: resetEdgesActiveState(FlowObject.edges as Array<TEdge>),
-                nodes: resetNodesActiveState(FlowObject.nodes as Array<TNode>),
-            };
-
-            fileStore.canvasElements = JSON.stringify(Contents);
+            fileStore.savedIndex = historyStore.currentIndex;
             fileStore.fileName = fileName;
             fileStore.filePath = filePath;
         },

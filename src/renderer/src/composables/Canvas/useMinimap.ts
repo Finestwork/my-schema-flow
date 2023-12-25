@@ -2,7 +2,7 @@ import { useCanvasStore } from '@stores/Canvas';
 import { useHistoryStore } from '@stores/History';
 import { getConnectedNodes } from '@utilities/CanvasHelper';
 import { useVueFlow } from '@vue-flow/core';
-import { toValue, watch } from 'vue';
+import { watch } from 'vue';
 
 export function useMinimap() {
     const canvasStore = useCanvasStore();

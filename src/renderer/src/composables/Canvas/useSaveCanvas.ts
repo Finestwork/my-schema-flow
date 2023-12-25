@@ -1,4 +1,5 @@
 import { useFileStore } from '@stores/File';
+import { useHistoryStore } from '@stores/History';
 import { useTrackChange } from '@composables/History/useTrackChange';
 import {
     resetEdgesActiveState,
@@ -9,6 +10,7 @@ import { inject } from 'vue';
 import type { TEdge, TNode } from '@stores/Canvas';
 
 export function useSaveCanvas() {
+    const historyStore = useHistoryStore();
     const fileStore = useFileStore();
     const vueFlow = inject(vueFlowKey);
     const { hasChanged } = useTrackChange();
@@ -17,10 +19,14 @@ export function useSaveCanvas() {
         if (!vueFlow || (!hasChanged.value && fileStore.filePath.trim() !== ''))
             return;
 
-        const FlowObject = vueFlow.toObject();
+        const SavedItems = historyStore.items[historyStore.currentIndex];
         const Contents = {
-            edges: resetEdgesActiveState(FlowObject.edges as Array<TEdge>),
-            nodes: resetNodesActiveState(FlowObject.nodes as Array<TNode>),
+            edges: resetEdgesActiveState(
+                SavedItems.payload.edges as Array<TEdge>,
+            ),
+            nodes: resetNodesActiveState(
+                SavedItems.payload.nodes as Array<TNode>,
+            ),
         };
 
         window.api.saveFile(JSON.stringify(Contents));

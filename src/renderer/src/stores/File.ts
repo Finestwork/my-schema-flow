@@ -5,12 +5,7 @@ export const useFileStore = defineStore('file', {
         return {
             fileName: '' as string,
             filePath: '' as string,
-            canvasElements: '' as string,
+            savedIndex: -1 as number,
         };
-    },
-    getters: {
-        hasCanvasElements(state) {
-            return state.canvasElements.trim() !== '';
-        },
     },
 });
