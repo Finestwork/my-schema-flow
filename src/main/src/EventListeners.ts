@@ -64,7 +64,7 @@ export default class EventListeners {
                         basename(`${fileName}.ss`),
                     );
                 } catch (err) {
-                    console.log(err);
+                    CurrentBrowserWindow.webContents.send('cantUpdateFileName');
                 }
             },
         );

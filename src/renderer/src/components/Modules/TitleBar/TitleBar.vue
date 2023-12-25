@@ -1,17 +1,13 @@
 <script setup lang="ts">
-import VPanelTextInput from '@components/Base/Forms/VPanelTextInput.vue';
+import TextInput from '@components/Modules/TitleBar/Partials/TextInput.vue';
 import { useFileStore } from '@stores/File';
 import { useTrackChange } from '@composables/History/useTrackChange';
-import { useSaveCanvas } from '@composables/Canvas/useSaveCanvas';
-import { computed, nextTick, onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 
 const fileStore = useFileStore();
-const input = ref();
 const isEditing = ref(false);
 const isLoading = ref(false);
-const currentFileName = ref('');
 const { hasChanged } = useTrackChange();
-const { saveCanvas, overwriteFileName } = useSaveCanvas();
 const defaultFileName = computed(() => {
     if (fileStore.filePath === '') {
         return 'Untitled';
@@ -20,31 +16,16 @@ const defaultFileName = computed(() => {
     const FileName = fileStore.fileName.split('.')[0];
     return hasChanged.value ? `${FileName} (Unsaved)` : FileName;
 });
-const onEnterSaveFile = () => {
-    // If file is saved
-    if (fileStore.fileName.trim() === '') {
-        saveCanvas();
-        return;
-    }
 
-    isLoading.value = true;
-    overwriteFileName(currentFileName.value);
-};
-const onBlurResetForm = () => {
-    currentFileName.value = fileStore.getFileNameWithoutExt;
-    isEditing.value = false;
-};
 onMounted(() => {
     window.electron.ipcRenderer.on('fileNameOverwriteSuccessfully', () => {
         // Add timeout to avoid content jumping
         setTimeout(() => {
-            currentFileName.value = fileStore.getFileNameWithoutExt;
             isLoading.value = false;
         }, 350);
     });
-    window.electron.ipcRenderer.on('fileSavedSuccessfully', async () => {
-        await nextTick();
-        currentFileName.value = fileStore.getFileNameWithoutExt;
+    window.electron.ipcRenderer.on('cantUpdateFileName', () => {
+        isLoading.value = false;
     });
 });
 </script>
@@ -69,14 +50,10 @@ onMounted(() => {
                     >
                         {{ defaultFileName }}
                     </button>
-                    <VPanelTextInput
+                    <TextInput
                         v-else
-                        id="titleBarFileName"
-                        ref="input"
-                        v-model="currentFileName"
-                        placeholder="Place file name here"
-                        @keydown.enter="onEnterSaveFile"
-                        @blur="onBlurResetForm"
+                        @on-enter="isLoading = true"
+                        @blur="isEditing = false"
                     />
                 </template>
                 <p v-else class="text-xs font-semibold dark:text-slate-400">
