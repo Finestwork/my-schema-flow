@@ -3,8 +3,11 @@ import { contextBridge, ipcRenderer } from 'electron';
 
 // Custom APIs for renderer
 const api = {
-    saveFile(contents) {
+    saveFile(contents: string) {
         ipcRenderer.send('saveFile', contents);
+    },
+    overwriteFile(contents: string, filePath: string) {
+        ipcRenderer.send('overwriteFile', contents, filePath);
     },
     openFile() {
         ipcRenderer.send('openFile');

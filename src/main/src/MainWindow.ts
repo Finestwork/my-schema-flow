@@ -34,8 +34,8 @@ export default class MainWindow {
                 sandbox: false,
             },
         });
-        this.listeners();
-        this.handleFileLoad();
+        this._listeners();
+        this._handleFileLoad();
     }
 
     /**
@@ -44,7 +44,7 @@ export default class MainWindow {
      * @private
      * @return {void} This function does not return a value.
      */
-    private listeners() {
+    private _listeners() {
         if (this._mainWindow === null) return;
 
         // Create the browser window.
@@ -65,7 +65,7 @@ export default class MainWindow {
     /**
      * @desc HMR for renderer base on electron-vite cli. Load the remote URL for development or the local html file for production.
      */
-    private handleFileLoad() {
+    private _handleFileLoad() {
         if (this._mainWindow === null) return;
 
         if (is.dev && process.env['ELECTRON_RENDERER_URL']) {

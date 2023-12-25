@@ -29,6 +29,15 @@ export function useSaveCanvas() {
             ),
         };
 
+        // If file is already saved, overwrite it
+        if (fileStore.filePath.trim() !== '') {
+            window.api.overwriteFile(
+                JSON.stringify(Contents),
+                fileStore.filePath,
+            );
+            return;
+        }
+
         window.api.saveFile(JSON.stringify(Contents));
     };
 

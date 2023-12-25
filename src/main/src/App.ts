@@ -9,15 +9,15 @@ export default class App {
      * @param {MainWindow} mainWindow - The main window of the application.
      */
     constructor(private mainWindow: MainWindow) {
-        this.whenReady();
-        this.handleWindowWhenClosed();
+        this._whenReady();
+        this._handleWindowWhenClosed();
     }
 
     /**
      * Method called when Electron has finished initialization and is ready to create browser windows.
      * @private
      */
-    private whenReady() {
+    private _whenReady() {
         app.whenReady().then(() => {
             electronApp.setAppUserModelId('com.craftie');
 
@@ -44,7 +44,7 @@ export default class App {
      * It quits the application if the platform is not darwin (macOS).
      * @private
      */
-    private handleWindowWhenClosed() {
+    private _handleWindowWhenClosed() {
         app.on('window-all-closed', () => {
             if (process.platform !== 'darwin') {
                 app.quit();

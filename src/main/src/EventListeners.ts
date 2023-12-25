@@ -1,17 +1,19 @@
 import { ipcMain, BrowserWindow, dialog } from 'electron';
 import { writeFile, readFile } from 'fs/promises';
 import { basename } from 'path';
+import IpcMainEvent = Electron.IpcMainEvent;
 
 export default class EventListeners {
     constructor() {
-        this.saveFile();
-        this.openFile();
+        this._saveFile();
+        this._overwriteFile();
+        this._openFile();
     }
 
     /**
      * Saves a file by listening to the 'saveFile' event.
      */
-    private saveFile() {
+    private _saveFile() {
         ipcMain.on('saveFile', async (event, contents) => {
             const CurrentBrowserWindow = BrowserWindow.fromWebContents(
                 event.sender,
@@ -38,7 +40,24 @@ export default class EventListeners {
         });
     }
 
-    private openFile() {
+    private _overwriteFile() {
+        ipcMain.on(
+            'overwriteFile',
+            async (event: IpcMainEvent, contents: string, filePath: string) => {
+                const CurrentBrowserWindow = BrowserWindow.fromWebContents(
+                    event.sender,
+                );
+                if (!CurrentBrowserWindow) return;
+
+                await writeFile(filePath, contents);
+                CurrentBrowserWindow.webContents.send(
+                    'fileOverwroteSuccessfully',
+                );
+            },
+        );
+    }
+
+    private _openFile() {
         ipcMain.on('openFile', async (event) => {
             const CurrentBrowser = BrowserWindow.fromWebContents(event.sender);
             if (!CurrentBrowser) return;

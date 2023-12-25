@@ -18,9 +18,16 @@ export function useIPCListeners() {
                 fileStore.filePath = filePath;
             },
         );
+
+        window.electron.ipcRenderer.on('fileOverwroteSuccessfully', () => {
+            fileStore.savedIndex = historyStore.currentIndex;
+        });
     });
 
     onUnmounted(() => {
         window.electron.ipcRenderer.removeAllListeners('fileSavedSuccessfully');
+        window.electron.ipcRenderer.removeAllListeners(
+            'fileOverwroteSuccessfully',
+        );
     });
 }
