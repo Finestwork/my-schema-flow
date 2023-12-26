@@ -72,6 +72,13 @@ const onClickToggleActiveState = (e: MouseEvent, ind: number) => {
     }
     currentActiveIndex.value = ind;
 };
+const onSortEnd = ({ newIndex, oldIndex }) => {
+    const Tables = canvasStore.currentActiveNode.data.table.columns;
+    const DraggedColumn = Tables[newIndex].name;
+    const ReplacedColumn = Tables[oldIndex].name;
+    sortPrimaryKey();
+    createHistory(`Swapped Columns: ${DraggedColumn} and ${ReplacedColumn}`);
+};
 </script>
 
 <template>
@@ -86,7 +93,7 @@ const onClickToggleActiveState = (e: MouseEvent, ind: number) => {
             <template #label> Table's Name:</template>
         </VPanelTextInput>
 
-        <VueDraggable v-model="getColumns" @end="sortPrimaryKey">
+        <VueDraggable v-model="getColumns" @end="onSortEnd">
             <VPanelColumnButton
                 v-for="(element, index) in getColumns"
                 :key="`${element.name}`"
