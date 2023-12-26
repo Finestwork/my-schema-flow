@@ -1,15 +1,23 @@
 import { useSaveCanvas } from '@composables/Canvas/useSaveCanvas';
 import { useHistoryActions } from '@composables/History/useHistoryActions';
+import { useCreateNode } from '@composables/Nodes/useCreateNode';
 import { onUnmounted } from 'vue';
+import { useVueFlow } from '@vue-flow/core';
 
 export function useKeyboardShortcuts() {
     const { saveCanvas } = useSaveCanvas();
     const { redoHistory, undoHistory } = useHistoryActions();
+    const { createNode } = useCreateNode();
+    const { vueFlowRef } = useVueFlow();
 
     const shortcut = (e: KeyboardEvent) => {
         const SaveKey = (e.ctrlKey || e.metaKey) && e.key === 's';
         const RedoKey = (e.ctrlKey || e.metaKey) && e.key === 'y';
         const UndoKey = (e.ctrlKey || e.metaKey) && e.key === 'z';
+        const CreateTableKey =
+            (e.ctrlKey || e.metaKey) &&
+            e.key.toLowerCase() === 'c' &&
+            e.shiftKey;
 
         if (SaveKey) {
             saveCanvas();
@@ -17,6 +25,10 @@ export function useKeyboardShortcuts() {
             redoHistory();
         } else if (UndoKey) {
             undoHistory();
+        } else if (CreateTableKey) {
+            if (!vueFlowRef.value) return;
+            const { left, top } = vueFlowRef.value.getBoundingClientRect();
+            createNode(left + 50, top + 50);
         }
     };
 

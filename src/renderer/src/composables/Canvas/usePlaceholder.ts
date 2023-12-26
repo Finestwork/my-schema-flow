@@ -46,7 +46,6 @@ export function usePlaceholder(placeholder: Ref<HTMLElement>) {
             '.vue-flow__pane.vue-flow__container.draggable',
         );
     });
-
     onPaneMouseEnter(() => {
         if (isCreatingTable && !isCreatingTable.value) {
             Object.assign(draggableContainer.value.style, {
@@ -63,7 +62,6 @@ export function usePlaceholder(placeholder: Ref<HTMLElement>) {
         if (isCreatingTable && !isCreatingTable.value) return;
         canShow.value = false;
     });
-
     onMove(() => {
         if (isCreatingTable && !isCreatingTable.value) return;
         if (!isDragging.value) {
@@ -74,7 +72,6 @@ export function usePlaceholder(placeholder: Ref<HTMLElement>) {
             });
         }
     });
-
     onMoveEnd((event) => {
         if (isCreatingTable && !isCreatingTable.value) return;
         const MouseEv = event.event.sourceEvent;
@@ -86,7 +83,6 @@ export function usePlaceholder(placeholder: Ref<HTMLElement>) {
             cursor: 'crosshair',
         });
     });
-
     onPaneMouseMove(({ clientX, clientY }) => {
         if (
             (isCreatingTable && !isCreatingTable.value) ||
@@ -96,7 +92,6 @@ export function usePlaceholder(placeholder: Ref<HTMLElement>) {
             return;
         _movePlaceholder(clientX, clientY);
     });
-
     onPaneClick(async ({ clientX, clientY }) => {
         if (!isCreatingTable || (isCreatingTable && !isCreatingTable.value))
             return;
