@@ -4,6 +4,7 @@ import CustomNode from '@components/Modules/Canvas/Partials/CustomNode.vue';
 import CustomNodePlaceholder from '@components/Modules/Canvas/Partials/CustomNodePlaceholder.vue';
 import Controls from '@components/Modules/Canvas/Partials/Controls.vue';
 import ZoomText from '@components/Modules/Canvas/Partials/ZoomText.vue';
+import { useSettingsStore } from '@stores/Settings';
 import { useHistoryActions } from '@composables/History/useHistoryActions';
 import { useNodeAutoLayout } from '@composables/Nodes/useAutoLayout';
 import { useNodeDragEvent } from '@composables/Nodes/useNodeDragEvent';
@@ -16,10 +17,14 @@ import { useIPCListeners } from '@composables/Miscellaneous/useIPCListeners';
 import { Background } from '@vue-flow/background';
 import { MiniMap } from '@vue-flow/minimap';
 import { VueFlow, useVueFlow } from '@vue-flow/core';
-import { nextTick } from 'vue';
+import { nextTick, computed } from 'vue';
 
 const testElements = TestNodes;
 const testEdges = TestEdges;
+const settingsStore = useSettingsStore();
+const getPatternColor = computed(() => {
+    return settingsStore.isDarkMode ? '#6381b8' : '#334155';
+});
 const { createHistory } = useHistoryActions();
 const { autoLayout } = useNodeAutoLayout();
 const { sortNodeColumns } = useSortNodes();
@@ -54,7 +59,7 @@ onPaneReady(async () => {
             :delete-key-code="null"
             :nodes-focusable="false"
         >
-            <Background class="h-full" pattern-color="#6381b8" />
+            <Background class="h-full" :pattern-color="getPatternColor" />
             <MiniMap ref="minimap" pannable zoomable />
             <ZoomText />
 

@@ -9,6 +9,10 @@
     stroke: #596481;
 }
 
+.vue-flow__background{
+    background-color: #f8fafc;
+}
+
 .dark .vue-flow__background{
     background-color: #090B10;
 }
