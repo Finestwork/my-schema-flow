@@ -1,19 +1,22 @@
-import { ref } from 'vue';
+import { useSettingsStore } from '@stores/Settings';
+import { storeToRefs } from 'pinia';
+
 export function useDarkMode() {
-    const isDark = ref(true);
+    const settingsStore = useSettingsStore();
+    const { isDarkMode } = storeToRefs(settingsStore);
     const toggleDarkMode = () => {
         const body = document.body;
         if (body.classList.contains('dark')) {
             body.classList.remove('dark');
-            isDark.value = false;
+            isDarkMode.value = false;
         } else {
             body.classList.add('dark');
-            isDark.value = true;
+            isDarkMode.value = true;
         }
     };
 
     return {
-        isDark,
+        isDarkMode,
         toggleDarkMode,
     };
 }

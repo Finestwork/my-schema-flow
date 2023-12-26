@@ -3,10 +3,10 @@ import SunIcon from '@components/Shared/Icons/SunIcon.vue';
 import NightIcon from '@components/Shared/Icons/NightIcon.vue';
 import { useDarkMode } from '@composables/Miscellaneous/useDarkMode';
 
-const { isDark, toggleDarkMode } = useDarkMode();
+const { isDarkMode, toggleDarkMode } = useDarkMode();
 const onClickToggleDarkMode = () => {
     toggleDarkMode();
-    window.api.toggleDarkMode(isDark.value);
+    window.api.toggleDarkMode(isDarkMode.value);
 };
 </script>
 
@@ -16,7 +16,7 @@ const onClickToggleDarkMode = () => {
         type="button"
         @click="onClickToggleDarkMode"
     >
-        <NightIcon v-if="isDark" />
+        <NightIcon v-if="isDarkMode" />
         <SunIcon v-else />
     </button>
 </template>

@@ -1,9 +1,11 @@
 import { useCanvasStore } from '@stores/Canvas';
+import { useSettingsStore } from '@stores/Settings';
 import { getConnectedNodes } from '@utilities/CanvasHelper';
 import { useVueFlow } from '@vue-flow/core';
 
 export function useNodeStateHandler() {
     const canvasStore = useCanvasStore();
+    const settingsStore = useSettingsStore();
     const { getEdges, setNodes, setEdges } = useVueFlow();
 
     const resetState = () => {
@@ -39,7 +41,9 @@ export function useNodeStateHandler() {
 
                 if (RelatedIndex !== -1) {
                     edge.style = {
-                        stroke: '#22d3ee',
+                        stroke: settingsStore.isDarkMode
+                            ? '#22d3ee'
+                            : '#0e7490',
                     };
                     edge.animated = true;
                     edge.zIndex = 98;
@@ -49,7 +53,7 @@ export function useNodeStateHandler() {
                 }
 
                 edge.style = {
-                    stroke: '#272F45',
+                    stroke: settingsStore.isDarkMode ? '#272F45' : '#cbd5e1',
                 };
                 edge.animated = false;
                 edge.sourceNode.data.states = {
