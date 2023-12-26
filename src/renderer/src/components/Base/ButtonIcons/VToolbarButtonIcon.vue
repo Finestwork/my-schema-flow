@@ -26,7 +26,7 @@ const onClick = (e: MouseEvent) => {
                     props.disabled && !props.isActive,
                 'bg-slate-500 stroke-slate-50 hover:bg-cyan-500 hover:stroke-cyan-50 focus:bg-cyan-500 focus:stroke-cyan-50 dark:bg-dark-700/60 dark:stroke-dark-500 dark:hover:bg-cyan-950/60 hover:dark:stroke-cyan-500 dark:focus:bg-cyan-950/60 focus:dark:stroke-cyan-500':
                     !props.disabled && !props.isActive,
-                'bg-cyan-500 stroke-cyan-50 dark:bg-cyan-600 dark:stroke-cyan-50':
+                'bg-cyan-700 stroke-cyan-50 dark:bg-cyan-600 dark:stroke-cyan-50':
                     props.isActive && !props.disabled,
             }"
             :disabled="props.disabled"
