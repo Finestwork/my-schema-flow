@@ -105,7 +105,7 @@ export function useTooltipSlideUpAnimation(
 
             anime({
                 targets: el,
-                top: y + ArrowWidth,
+                top: 'arrow' in MergedOptions ? y + ArrowWidth : y,
                 opacity: 1,
                 duration: 350,
                 easing: 'easeOutQuint',

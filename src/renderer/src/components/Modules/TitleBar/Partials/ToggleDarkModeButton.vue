@@ -12,7 +12,7 @@ const onClickToggleDarkMode = () => {
 
 <template>
     <button
-        class="aspect-square h-full rounded bg-slate-300 stroke-slate-600 p-1.5 outline-none hover:bg-cyan-500 hover:stroke-white dark:bg-dark-800/70 dark:stroke-slate-400 dark:hover:bg-cyan-950/50 dark:hover:stroke-cyan-500"
+        class="aspect-square h-full rounded bg-cyan-200 stroke-cyan-600 p-1.5 outline-none hover:bg-cyan-300/80 dark:bg-dark-800/70 dark:stroke-slate-400 dark:hover:bg-cyan-950/50 dark:hover:stroke-cyan-500"
         type="button"
         @click="onClickToggleDarkMode"
     >

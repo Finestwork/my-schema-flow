@@ -11,7 +11,7 @@ const props = withDefaults(defineProps<TProps>(), {
         class="group flex w-full items-center px-1.5 py-2 outline-none"
         type="button"
         :class="{
-            'bg-white hover:bg-slate-200 focus:bg-slate-200 hover:dark:bg-dark-700/40 focus:dark:bg-dark-700/40':
+            'bg-white hover:bg-slate-200 focus:bg-slate-100 hover:dark:bg-dark-700/40 focus:dark:bg-dark-700/40':
                 !props.isActive,
             'bg-cyan-500 dark:bg-cyan-950/50': props.isActive,
         }"

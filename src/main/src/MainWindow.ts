@@ -24,8 +24,8 @@ export default class MainWindow {
             title: 'SchemaSparkle',
             icon: icon,
             titleBarOverlay: {
-                color: '#090B10',
-                symbolColor: '#8695BB',
+                color: '#f8fafc',
+                symbolColor: '#64748b',
                 height: 40,
             },
             ...(process.platform === 'linux' ? { icon } : {}),

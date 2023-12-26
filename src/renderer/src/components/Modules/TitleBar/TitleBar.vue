@@ -33,13 +33,13 @@ onMounted(() => {
 
 <template>
     <div
-        class="drag-title-bar relative z-[500] flex h-[40px] select-none items-center bg-slate-200 px-2 dark:bg-dark-950"
+        class="drag-title-bar relative z-[500] flex h-[40px] select-none items-center bg-slate-50 px-2 dark:bg-dark-950"
     >
         <div class="flex h-full w-full items-center justify-between py-2">
-            <div class="no-drag-title-bar h-full flex-grow">
+            <div class="no-drag-title-bar flex h-full flex-grow items-center">
                 <span
                     v-if="fileStore.filePath === ''"
-                    class="text-xs font-semibold text-slate-800 dark:text-slate-500"
+                    class="text-xs font-semibold text-slate-500 dark:text-slate-500"
                     >{{ defaultFileName }}</span
                 >
                 <template v-else>

@@ -20,7 +20,7 @@ const onClickToggleSection = (e: MouseEvent) => {
 <template>
     <div>
         <button
-            class="group flex w-full items-center justify-between bg-slate-500/30 px-2 py-2.5 outline-none hover:bg-slate-500/40 focus:bg-slate-500/40 dark:bg-dark-800/80 hover:dark:bg-cyan-950/20 focus:dark:bg-cyan-950/20"
+            class="group flex w-full items-center justify-between bg-slate-400/30 px-2 py-2.5 outline-none hover:bg-slate-400/40 focus:bg-slate-400/40 dark:bg-dark-800/80 hover:dark:bg-cyan-950/20 focus:dark:bg-cyan-950/20"
             type="button"
             :class="{
                 'border-b-2 border-b-slate-400 dark:border-b-dark-700 hover:dark:border-b-cyan-900 focus:dark:border-b-cyan-900':

@@ -10,7 +10,7 @@ import SaveButton from '@components/Modules/Toolbar/Partials/SaveButton.vue';
 
 <template>
     <div
-        class="flex items-center justify-between bg-slate-300 px-2 py-3 dark:bg-dark-900"
+        class="flex items-center justify-between bg-slate-200 px-2 py-3 dark:bg-dark-900"
     >
         <div class="flex">
             <AddNewTableButton class="mr-2" />
