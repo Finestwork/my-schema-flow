@@ -36,7 +36,11 @@ const onBlurResetForm = () => {
 </script>
 
 <template>
-    <VFloatingLayout class="h-full" :show="showError" :use-focus-trap="false">
+    <VFloatingLayout
+        class="h-full"
+        :show="showError"
+        :can-use-focus-trap="false"
+    >
         <VPanelTextInput
             id="titleBarFileName"
             v-model="currentFileName"

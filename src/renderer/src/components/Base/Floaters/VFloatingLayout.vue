@@ -5,14 +5,14 @@ import { nextTick, ref, watch } from 'vue';
 
 export type TTooltip = {
     show?: boolean;
-    useFocusTrap?: boolean;
+    canUseFocusTrap?: boolean;
     offsetY?: number;
     placement?: 'top' | 'bottom' | 'left' | 'right';
 };
 const props = withDefaults(defineProps<TTooltip>(), {
     offsetY: 0,
     placement: 'bottom',
-    useFocusTrap: true,
+    canUseFocusTrap: true,
 });
 const source = ref();
 const float = ref();
@@ -30,7 +30,7 @@ const { onEnter, onLeave } = useTooltipSlideUpAnimation(source, {
 watch(
     () => props.show,
     async (show) => {
-        if (!props.useFocusTrap) return;
+        if (!props.canUseFocusTrap) return;
         await nextTick();
         if (show) activate();
         else deactivate();
@@ -48,7 +48,7 @@ watch(
                 <div
                     v-if="show"
                     ref="float"
-                    class="absolute z-50 overflow-hidden rounded font-semibold shadow-xl dark:bg-dark-800"
+                    class="absolute z-[1000] overflow-hidden rounded font-semibold shadow-xl dark:bg-dark-800"
                 >
                     <slot name="float"></slot>
                 </div>
