@@ -19,6 +19,14 @@ export const validateColumns = (
 
     if (isEmpty(data.name)) {
         Errors.push('Column name cannot be empty.');
+    } else {
+        const Columns = currentNode.data.table.columns;
+        const Index = Columns.findIndex(
+            (column: TTableColumn) => column.name === data.name,
+        );
+        if (Index !== -1) {
+            Errors.push('Column already exists.');
+        }
     }
 
     if (isEmpty(data.type)) {
