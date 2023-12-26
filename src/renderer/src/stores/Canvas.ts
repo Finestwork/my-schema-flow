@@ -92,5 +92,12 @@ export const useCanvasStore = defineStore('canvas', {
                 state.currentActiveNode.id
             );
         },
+        displayColumnsOfActiveNode(state) {
+            return state.currentActiveNode.data.table.columns.map((column) => ({
+                name: column.name,
+                type: column.type,
+                keyConstraint: column.keyConstraint,
+            }));
+        },
     },
 });

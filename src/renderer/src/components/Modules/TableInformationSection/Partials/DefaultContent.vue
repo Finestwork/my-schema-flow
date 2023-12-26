@@ -8,13 +8,15 @@ import TrashIcon from '@components/Shared/Icons/TrashIcon.vue';
 import { useCanvasStore } from '@stores/Canvas';
 import { useHistoryActions } from '@composables/History/useHistoryActions';
 import { useTableRelationActions } from '@composables/Table/useTableRelationActions';
+import { useSortTableColumns } from '@composables/Table/useSortTableColumns';
 import { useDebounceFn } from '@vueuse/core';
 import { computed, ref } from 'vue';
+import { VueDraggable } from 'vue-draggable-plus';
 
 export type TColumnList = {
     name: string;
     type: string;
-    keyConstraint: string;
+    keyConstraint: 'PK' | 'FK' | string;
 };
 const emits = defineEmits<{
     (e: 'addColumn', value: Event): void;
@@ -22,15 +24,15 @@ const emits = defineEmits<{
 }>();
 const canvasStore = useCanvasStore();
 const currentActiveIndex = ref(-1);
-const getColumns = computed((): Array<TColumnList> => {
-    if (!canvasStore.hasActiveNode) return [];
-    return canvasStore.currentActiveNode.data.table.columns.map((column) => ({
-        name: column.name,
-        type: column.type,
-        keyConstraint: column.keyConstraint,
-    }));
+const getColumns = computed({
+    get(): Array<TColumnList> {
+        return canvasStore.displayColumnsOfActiveNode;
+    },
+    set(value) {
+        canvasStore.currentActiveNode.data.table.columns = value;
+    },
 });
-const canCloneColumn = computed((): boolean => {
+const canCloneColumn = computed(() => {
     if (!canvasStore.hasActiveNode || currentActiveIndex.value === -1)
         return false;
     const ActiveNode = canvasStore.currentActiveNode;
@@ -41,14 +43,7 @@ const canCloneColumn = computed((): boolean => {
 });
 const { deleteRelationByColumn } = useTableRelationActions();
 const { createHistory } = useHistoryActions();
-const onClickToggleActiveState = (e: MouseEvent, ind: number) => {
-    (e.target as HTMLButtonElement).blur();
-    if (currentActiveIndex.value === ind) {
-        currentActiveIndex.value = -1;
-        return;
-    }
-    currentActiveIndex.value = ind;
-};
+const { sortPrimaryKey } = useSortTableColumns();
 const onClickCloneColumn = () => {
     const { name } = canvasStore.cloneColumnInActiveNode(
         currentActiveIndex.value,
@@ -65,11 +60,18 @@ const onClickDeleteColumn = () => {
     createHistory(`Removed Column: '${name}' in '${TableName}' table`);
     currentActiveIndex.value = -1;
 };
-
 const onInputAddToHistory = useDebounceFn(() => {
     const TableName = canvasStore.currentActiveNode.data.table.name;
     createHistory(`Changed Table Name: '${TableName}'`);
 });
+const onClickToggleActiveState = (e: MouseEvent, ind: number) => {
+    (e.target as HTMLButtonElement).blur();
+    if (currentActiveIndex.value === ind) {
+        currentActiveIndex.value = -1;
+        return;
+    }
+    currentActiveIndex.value = ind;
+};
 </script>
 
 <template>
@@ -83,20 +85,23 @@ const onInputAddToHistory = useDebounceFn(() => {
         >
             <template #label> Table's Name:</template>
         </VPanelTextInput>
-        <VPanelColumnButton
-            v-for="(column, ind) in getColumns"
-            :key="`${column.name}${ind}`"
-            class="mb-2 last-of-type:mb-0"
-            :is-active="currentActiveIndex === ind"
-            @click="onClickToggleActiveState($event, ind)"
-            @dblclick="emits('editColumn', ind)"
-        >
-            <template #column>
-                {{ column.name }}
-            </template>
-            <template #type>{{ column.type }}</template>
-            <template #keyConstraint>{{ column.keyConstraint }}</template>
-        </VPanelColumnButton>
+
+        <VueDraggable v-model="getColumns" @end="sortPrimaryKey">
+            <VPanelColumnButton
+                v-for="(element, index) in getColumns"
+                :key="`${element.name}`"
+                class="mb-2 last-of-type:mb-0"
+                :is-active="currentActiveIndex === index"
+                @click="onClickToggleActiveState($event, index)"
+                @dblclick="emits('editColumn', index)"
+            >
+                <template #column>
+                    {{ element.name }}
+                </template>
+                <template #type>{{ element.type }}</template>
+                <template #keyConstraint>{{ element.keyConstraint }} </template>
+            </VPanelColumnButton>
+        </VueDraggable>
 
         <div class="mt-2.5">
             <VPanelButtonIcon class="mr-1" @click="emits('addColumn', $event)">

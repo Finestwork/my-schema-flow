@@ -2,10 +2,10 @@ import { sortConstraintKeys } from '@utilities/TableHelper';
 import { vueFlowKey } from '@symbols/VueFlow';
 import { inject } from 'vue';
 
-export function useSortNodes() {
+export function useSortTableColumns() {
     const VueFlow = inject(vueFlowKey);
 
-    const sortNodeColumns = () => {
+    const sortPrimaryKey = () => {
         if (!VueFlow) return;
         VueFlow.setNodes((nodes) => {
             return nodes.map((node) => {
@@ -18,6 +18,6 @@ export function useSortNodes() {
     };
 
     return {
-        sortNodeColumns,
+        sortPrimaryKey,
     };
 }

@@ -7,7 +7,7 @@ const props = defineProps<TProps>();
 </script>
 <template>
     <button
-        class="group flex w-full rounded px-2 py-2 font-neon-mono text-[.6rem] font-semibold outline-none"
+        class="group flex w-full select-none rounded px-2 py-2 font-neon-mono text-[.6rem] font-semibold outline-none"
         type="button"
         :class="{
             'bg-cyan-600 dark:bg-cyan-950/50 dark:hover:bg-cyan-900/40 dark:focus:bg-cyan-900/40':

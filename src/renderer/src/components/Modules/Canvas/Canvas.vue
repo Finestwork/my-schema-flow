@@ -10,7 +10,7 @@ import { useNodeAutoLayout } from '@composables/Nodes/useAutoLayout';
 import { useNodeDragEvent } from '@composables/Nodes/useNodeDragEvent';
 import { useEdgeEvents } from '@composables/Edges/useEdgeEvent';
 import { useEdgePositionCalculator } from '@composables/Edges/useEdgePositionCalculator';
-import { useSortNodes } from '@composables/Nodes/useSortNodes';
+import { useSortTableColumns } from '@composables/Table/useSortTableColumns';
 import { useMinimap } from '@composables/Canvas/useMinimap';
 import { useKeyboardShortcuts } from '@composables/Miscellaneous/useKeyboardShortcuts';
 import { useIPCListeners } from '@composables/Miscellaneous/useIPCListeners';
@@ -27,7 +27,7 @@ const getPatternColor = computed(() => {
 });
 const { createHistory } = useHistoryActions();
 const { autoLayout } = useNodeAutoLayout();
-const { sortNodeColumns } = useSortNodes();
+const { sortPrimaryKey } = useSortTableColumns();
 const { onPaneReady } = useVueFlow();
 useNodeDragEvent();
 useMinimap();
@@ -35,7 +35,7 @@ useEdgeEvents();
 useKeyboardShortcuts();
 useIPCListeners();
 onPaneReady(async () => {
-    sortNodeColumns();
+    sortPrimaryKey();
     autoLayout();
     await nextTick();
     useEdgePositionCalculator();
