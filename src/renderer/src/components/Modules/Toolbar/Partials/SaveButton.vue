@@ -8,7 +8,7 @@ const { saveCanvas } = useSaveCanvas();
 <template>
     <VTooltip>
         <button
-            class="duration-750 rounded bg-cyan-500 px-3 py-1.5 text-xs font-semibold text-cyan-50 shadow-[0_0_8px_1px_#06b6d487] outline-none transition-shadow ease-in-out hover:shadow-[0_0_13px_1px_#06b6d447] focus:shadow-[0_0_13px_1px_#06b6d447] dark:bg-cyan-500/90 dark:text-white dark:shadow-[0_0_13px_1px_#06b6d487] hover:dark:bg-cyan-500/80 focus:dark:bg-cyan-500/80"
+            class="duration-750 rounded bg-cyan-500 px-3 py-1.5 text-xs font-semibold text-cyan-50 outline-none transition-shadow ease-in-out dark:bg-cyan-500/90 dark:text-white dark:shadow-[0_0_13px_1px_#06b6d487] hover:dark:bg-cyan-500/80 focus:dark:bg-cyan-500/80"
             type="button"
             @click="saveCanvas"
         >
