@@ -1,6 +1,6 @@
 import { computePosition, offset, flip, shift, arrow } from '@floating-ui/dom';
 import anime from 'animejs/lib/anime.es.js';
-import { toValue } from 'vue';
+import { toValue, ref } from 'vue';
 import type { Placement } from '@floating-ui/dom';
 import type { MaybeRefOrGetter, Ref } from 'vue';
 
@@ -25,6 +25,7 @@ export function useTooltipSlideUpAnimation(
         placement: 'bottom',
     };
     const MergedOptions = Object.assign(DefaultOptions, options);
+    const currentPlacement = ref(MergedOptions.placement);
 
     const onEnter = (el: Element, done: () => void) => {
         const Middlewares = [
@@ -49,6 +50,7 @@ export function useTooltipSlideUpAnimation(
             const Offset = 15;
             const ArrowWidth = 6; // 6px
             const InitialTop = placement === 'top' ? y - Offset : y + Offset;
+            currentPlacement.value = placement;
 
             // Check arrow element existence
             if ('arrow' in MergedOptions) {
@@ -103,9 +105,16 @@ export function useTooltipSlideUpAnimation(
                 opacity: 0,
             });
 
+            const FinalTop =
+                'arrow' in MergedOptions
+                    ? placement !== 'top'
+                        ? y + ArrowWidth
+                        : y - ArrowWidth
+                    : y;
+
             anime({
                 targets: el,
-                top: 'arrow' in MergedOptions ? y + ArrowWidth : y,
+                top: FinalTop,
                 opacity: 1,
                 duration: 350,
                 easing: 'easeOutQuint',
@@ -126,6 +135,7 @@ export function useTooltipSlideUpAnimation(
     };
 
     return {
+        currentPlacement,
         onEnter,
         onLeave,
     };

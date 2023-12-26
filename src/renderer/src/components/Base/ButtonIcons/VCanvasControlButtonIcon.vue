@@ -10,7 +10,7 @@ const props = withDefaults(defineProps<TProps>(), {
 </script>
 
 <template>
-    <VTooltip :offset-y="8">
+    <VTooltip>
         <button
             class="h-[28px] w-[28px] p-2 outline-none"
             type="button"
