@@ -16,8 +16,12 @@
 .dark .vue-flow__minimap{
     background-color: #272F45;
 }
-.dark .vue-flow__minimap-node.active{
-    fill: red;
+
+.vue-flow__minimap-mask {
+    fill: rgb(175 198 204 / 26%);
+}
+.vue-flow__minimap-node{
+    fill: #bac4df;
 }
 
 .dark .vue-flow__minimap-mask {
@@ -26,8 +30,8 @@
 .dark .vue-flow__minimap-node{
     fill: #333F5B;
 }
-.dark .vue-flow__minimap-node.active{
-    fill: #3b82f6;
+.vue-flow__minimap-node.active{
+    fill: #06b6d4;
 }
 
 .add-crosshair .vue-flow__pane.draggable{
