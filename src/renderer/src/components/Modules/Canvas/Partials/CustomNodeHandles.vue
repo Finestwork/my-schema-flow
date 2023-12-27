@@ -16,7 +16,7 @@ const getHandles = computed(() => {
         .filter((edge) => {
             return edge.source === props.nodeId || edge.target === props.nodeId;
         })
-        .map((edge, ind, arr) => {
+        .map((edge, _, arr) => {
             if (!('position' in edge.data)) {
                 return {
                     id: '',
@@ -27,6 +27,8 @@ const getHandles = computed(() => {
                 };
             }
             const IsSource = edge.source === props.nodeId;
+            const EdgeHandle = edge?.sourceHandle ?? '';
+            const TargetHandle = edge?.targetHandle ?? '';
             const Position = IsSource
                 ? edge.data.position.source
                 : edge.data.position.target;
@@ -52,7 +54,7 @@ const getHandles = computed(() => {
             PositionTracker.push(Position);
 
             return {
-                id: IsSource ? edge.sourceHandle : edge.targetHandle,
+                id: IsSource ? EdgeHandle : TargetHandle,
                 position: Position,
                 type: IsSource ? 'source' : 'target',
                 connectable: false,
