@@ -4,12 +4,12 @@ import { useVueFlow } from '@vue-flow/core';
 
 export function useEdgeEvents() {
     const canvasStore = useCanvasStore();
-    const { activateState } = useNodeStateHandler();
+    const { activatePairNode } = useNodeStateHandler();
     const { onEdgeClick } = useVueFlow();
 
     onEdgeClick((event) => {
         const currentEdge = event.edge;
         canvasStore.currentActiveNode = currentEdge.sourceNode;
-        activateState();
+        activatePairNode(event.edge);
     });
 }
