@@ -33,67 +33,69 @@ onMounted(() => {
 </script>
 
 <template>
-    <div
-        ref="root"
-        class="relative min-h-[150px] w-[350px] rounded-lg border-2 bg-white font-neon-mono hover:cursor-pointer dark:bg-dark-900"
-        :class="{
-            'border-cyan-500 dark:border-cyan-600': isActive,
-            'border-slate-600 dark:border-dark-700': isDefault,
-            'border-slate-100 dark:border-dark-800': isFaded,
-        }"
-    >
+    <div ref="root" class="relative">
         <CustomNodeHandles
             :node-id="props.id"
             :is-active="isActive"
             :is-faded="isFaded"
         />
-        <span
-            class="block truncate px-1 py-2 text-center text-sm font-bold"
+        <div
+            class="min-h-[150px] w-[350px] overflow-hidden rounded-lg border-2 bg-white font-neon-mono hover:cursor-pointer dark:bg-dark-900"
             :class="{
-                'bg-cyan-500 text-cyan-50 dark:bg-cyan-950/30 dark:text-cyan-500':
-                    isActive,
-                'bg-slate-200 text-slate-800 dark:bg-dark-800 dark:text-dark-100':
-                    isDefault,
-                'bg-slate-100 text-slate-300 dark:bg-dark-800/40 dark:text-dark-700':
-                    isFaded,
+                'border-cyan-500 dark:border-cyan-600': isActive,
+                'border-slate-600 dark:border-dark-700': isDefault,
+                'border-slate-100 dark:border-dark-800': isFaded,
             }"
-            >{{ props.data.table.name }}</span
         >
-        <div class="py-2">
-            <div
-                v-for="column in getColumns"
-                :key="column.name"
-                class="flex justify-between px-3 py-3 text-sm font-bold"
+            <span
+                class="block truncate px-1 py-2 text-center text-sm font-bold"
+                :class="{
+                    'bg-cyan-500 text-cyan-50 dark:bg-cyan-950/30 dark:text-cyan-500':
+                        isActive,
+                    'bg-slate-200 text-slate-800 dark:bg-dark-800 dark:text-dark-100':
+                        isDefault,
+                    'bg-slate-100 text-slate-300 dark:bg-dark-800/40 dark:text-dark-700':
+                        isFaded,
+                }"
+                >{{ props.data.table.name }}</span
             >
-                <span
-                    class="mr-2 w-4/12 grow truncate"
-                    :class="{
-                        'text-slate-800 dark:text-slate-400':
-                            (isActive || isDefault) && !isFaded,
-                        'text-slate-600/40 dark:text-slate-700/50':
-                            !(isActive || isDefault) && isFaded,
-                    }"
-                    >{{ column.name }}</span
+            <div class="py-2">
+                <div
+                    v-for="column in getColumns"
+                    :key="column.name"
+                    class="flex justify-between px-3 py-3 text-sm font-bold"
                 >
-                <span
-                    class="w-4/12 grow truncate text-left"
-                    :class="{
-                        'text-slate-500 dark:text-slate-600':
-                            (isActive || isDefault) && !isFaded,
-                        'text-slate-400/50 dark:text-slate-700/50':
-                            !(isActive || isDefault) && isFaded,
-                    }"
-                    >{{ column.type }}</span
-                >
-                <span
-                    class="w-2/12 grow truncate text-center"
-                    :class="{
-                        'text-cyan-500': (isActive || isDefault) && !isFaded,
-                        'text-slate-700/50':
-                            !(isActive || isDefault) && isFaded,
-                    }"
-                    >{{ column.keyConstraint }}</span
-                >
+                    <span
+                        class="mr-2 w-4/12 grow truncate"
+                        :class="{
+                            'text-slate-800 dark:text-slate-400':
+                                (isActive || isDefault) && !isFaded,
+                            'text-slate-600/40 dark:text-slate-700/50':
+                                !(isActive || isDefault) && isFaded,
+                        }"
+                        >{{ column.name }}</span
+                    >
+                    <span
+                        class="w-4/12 grow truncate text-left"
+                        :class="{
+                            'text-slate-500 dark:text-slate-600':
+                                (isActive || isDefault) && !isFaded,
+                            'text-slate-400/50 dark:text-slate-700/50':
+                                !(isActive || isDefault) && isFaded,
+                        }"
+                        >{{ column.type }}</span
+                    >
+                    <span
+                        class="w-2/12 grow truncate text-center"
+                        :class="{
+                            'text-cyan-500':
+                                (isActive || isDefault) && !isFaded,
+                            'text-slate-700/50':
+                                !(isActive || isDefault) && isFaded,
+                        }"
+                        >{{ column.keyConstraint }}</span
+                    >
+                </div>
             </div>
         </div>
     </div>
