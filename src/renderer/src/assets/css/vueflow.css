@@ -9,6 +9,20 @@
     stroke: #596481;
 }
 
+.vue-flow__edge.inactive .vue-flow__edge-path{
+    stroke: #cbd5e1;
+}
+.dark .vue-flow__edge.inactive .vue-flow__edge-path{
+    stroke: #272F45;
+}
+
+.vue-flow__edge.active .vue-flow__edge-path{
+    stroke: #0e7490;
+}
+.dark .vue-flow__edge.active .vue-flow__edge-path{
+    stroke: #22d3ee;
+}
+
 .vue-flow__background{
     background-color: #f8fafc;
 }

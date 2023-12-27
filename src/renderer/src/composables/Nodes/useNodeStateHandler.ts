@@ -21,6 +21,7 @@ export function useNodeStateHandler() {
         });
         setEdges((edges) => {
             return edges.map((edge) => {
+                edge.class = '';
                 edge.style = {};
                 edge.animated = false;
                 edge.zIndex = 0;
@@ -40,11 +41,7 @@ export function useNodeStateHandler() {
                 const RelatedIndex = related.findIndex((e) => e.id === edge.id);
 
                 if (RelatedIndex !== -1) {
-                    edge.style = {
-                        stroke: settingsStore.isDarkMode
-                            ? '#22d3ee'
-                            : '#0e7490',
-                    };
+                    edge.class = 'active';
                     edge.animated = true;
                     edge.zIndex = 98;
                     NodeIds.add(edge.targetNode.id);
@@ -52,9 +49,7 @@ export function useNodeStateHandler() {
                     return edge;
                 }
 
-                edge.style = {
-                    stroke: settingsStore.isDarkMode ? '#272F45' : '#cbd5e1',
-                };
+                edge.class = 'inactive';
                 edge.animated = false;
                 edge.sourceNode.data.states = {
                     isActive: false,
@@ -100,19 +95,13 @@ export function useNodeStateHandler() {
         setEdges((edges) => {
             return edges.map((currentEdge) => {
                 if (edge.id === currentEdge.id) {
-                    currentEdge.style = {
-                        stroke: settingsStore.isDarkMode
-                            ? '#22d3ee'
-                            : '#0e7490',
-                    };
+                    currentEdge.class = 'active';
                     currentEdge.animated = true;
                     currentEdge.zIndex = 98;
                     return edge;
                 }
 
-                currentEdge.style = {
-                    stroke: settingsStore.isDarkMode ? '#272F45' : '#cbd5e1',
-                };
+                currentEdge.class = 'inactive';
                 currentEdge.animated = false;
                 currentEdge.sourceNode.data.states = {
                     isActive: false,

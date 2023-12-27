@@ -184,6 +184,7 @@ export const resetNodesActiveState = (nodes: Array<TNode>) => {
  */
 export const resetEdgesActiveState = (edges: Array<TEdge>) => {
     return klona(edges).map((edge) => {
+        edge.class = '';
         edge.style = {};
         edge.animated = false;
         edge.zIndex = 0;
