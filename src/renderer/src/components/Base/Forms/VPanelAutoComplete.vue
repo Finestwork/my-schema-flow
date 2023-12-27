@@ -165,7 +165,7 @@ watch(
                         v-for="(item, ind) in getDropdownItems"
                         ref="dropdownBtn"
                         :key="ind"
-                        class="group flex w-full justify-between px-2 py-1.5 text-xs font-bold outline-none hover:bg-slate-200 focus:bg-slate-200 hover:dark:bg-cyan-950 focus:dark:bg-cyan-950"
+                        class="group flex w-full justify-between px-2 py-1.5 text-xs font-bold outline-none hover:bg-cyan-500 focus:bg-cyan-500 hover:dark:bg-cyan-950 focus:dark:bg-cyan-950"
                         type="button"
                         :class="{
                             'bg-cyan-500 dark:bg-cyan-950':
@@ -175,7 +175,7 @@ watch(
                         @blur="onBlurHideDropdown"
                     >
                         <span
-                            class="w-full truncate text-left group-hover:dark:text-cyan-500 group-focus:dark:text-cyan-500"
+                            class="w-full truncate text-left group-hover:text-cyan-50 group-focus:text-cyan-50 group-hover:dark:text-cyan-500 group-focus:dark:text-cyan-500"
                             :class="{
                                 'text-white dark:text-cyan-500':
                                     currentIndex === ind,
