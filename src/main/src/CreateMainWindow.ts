@@ -7,11 +7,13 @@ export default class CreateMainWindow {
     private _mainWindow: BrowserWindow | null = null;
 
     constructor() {
-        this._createWindow();
-    }
-
-    get mainWindow(): BrowserWindow | null {
-        return this._mainWindow;
+        app.whenReady().then(() => {
+            this._createWindow();
+            electronApp.setAppUserModelId('com.schemaSparkle');
+            this._listeners();
+            this._handleFileLoad();
+            this._handleAppListeners();
+        });
     }
 
     private _createWindow() {
@@ -34,16 +36,9 @@ export default class CreateMainWindow {
                 sandbox: false,
             },
         });
-        this._handleStartUp();
-        this._listeners();
-        this._handleFileLoad();
     }
 
-    private async _handleStartUp() {
-        await app.whenReady();
-        this._createWindow();
-        electronApp.setAppUserModelId('com.craftie');
-
+    private _handleAppListeners() {
         // Default open or close DevTools by F12 in development
         // and ignore CommandOrControl + R in production.
         // see https://github.com/alex8088/electron-toolkit/tree/master/packages/utils
