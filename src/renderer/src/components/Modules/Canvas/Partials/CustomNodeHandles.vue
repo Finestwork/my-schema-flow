@@ -6,6 +6,7 @@ import type { HandleType } from '@vue-flow/core';
 export type TProps = {
     nodeId: string;
     isActive: boolean;
+    isFaded: boolean;
 };
 const props = defineProps<TProps>();
 const { getEdges } = useVueFlow();
@@ -76,8 +77,10 @@ const getHandles = computed(() => {
             '-translate-x-2/4 translate-y-2/4':
                 handle.position === 'bottom' || handle.position === 'left',
             'border-slate-200 bg-slate-500 dark:border-dark-200 dark:bg-dark-600':
-                !props.isActive,
-            'border-cyan-50 bg-cyan-500': props.isActive,
+                !props.isActive && !props.isFaded,
+            'border-cyan-50 bg-cyan-500': props.isActive && !props.isFaded,
+            'border-slate-50 bg-slate-300 dark:border-dark-500 dark:bg-dark-800':
+                !props.isActive && props.isFaded,
         }"
     />
 </template>
