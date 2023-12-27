@@ -5,57 +5,48 @@ import UnlockIcon from '@components/Shared/Icons/UnlockIcon.vue';
 import ZoomInIcon from '@components/Shared/Icons/ZoomInIcon.vue';
 import ZoomOutIcon from '@components/Shared/Icons/ZoomOutIcon.vue';
 import FullscreenIcon from '@components/Shared/Icons/FullscreenIcon.vue';
-import { useSettingsStore } from '@stores/Settings';
+import { useCanvasControls } from '@composables/Canvas/useCanvasControls';
 import { Controls } from '@vue-flow/controls';
-import { useVueFlow } from '@vue-flow/core';
-import { ref } from 'vue';
 
-const settingsStore = useSettingsStore();
-const isInteractive = ref(true);
+const {
+    zoomLevel,
+    isInteractive,
+    zoomIn,
+    zoomOut,
+    runFitView,
+    toggleInteractive,
+} = useCanvasControls();
 let zoomInInterval = 0;
 let zoomOutInterval = 0;
-const { zoomTo, fitView, toObject, setInteractive } = useVueFlow();
-const onMouseDownZoomIn = () => {
-    const zoom = () => {
-        if (settingsStore.zoomLevel >= 1) {
-            clearInterval(zoomInInterval);
-            return;
-        }
-        settingsStore.zoomLevel = +(settingsStore.zoomLevel + 0.1).toFixed(2);
-        zoomTo(settingsStore.zoomLevel, { duration: 350 });
-    };
 
-    zoom();
-    zoomInInterval = window.setInterval(zoom, 450);
-};
-const onMouseUpStopZoomIn = () => {
-    clearInterval(zoomInInterval);
-};
-const onMouseDownZoomOut = () => {
-    const zoomOut = () => {
-        if (settingsStore.zoomLevel <= 0.1) {
-            clearInterval(zoomOutInterval);
-            return;
+const onMouseDownZoomIn = () => {
+    zoomIn();
+    if (zoomInInterval !== 0) return;
+    zoomInInterval = window.setInterval(() => {
+        if (zoomLevel.value >= 1) {
+            window.clearInterval(zoomInInterval);
+            zoomInInterval = 0;
         }
-        settingsStore.zoomLevel = +(settingsStore.zoomLevel - 0.1).toFixed(2);
-        zoomTo(settingsStore.zoomLevel, { duration: 350 });
-    };
-    zoomOut();
-    zoomOutInterval = window.setInterval(zoomOut, 450);
-};
-const onMouseUpStopZoomOut = () => {
-    clearInterval(zoomOutInterval);
-};
-const onClickFitView = () => {
-    fitView();
-    setTimeout(() => {
-        const { viewport } = toObject();
-        settingsStore.zoomLevel = +viewport.zoom.toFixed(1);
+        zoomIn();
     }, 150);
 };
-const onClickControlInteractive = () => {
-    setInteractive(!isInteractive.value);
-    isInteractive.value = !isInteractive.value;
+const onMouseUpStopZoomIn = () => {
+    window.clearInterval(zoomInInterval);
+    zoomInInterval = 0;
+};
+const onMouseDownZoomOut = () => {
+    zoomOut();
+    zoomOutInterval = window.setInterval(() => {
+        if (zoomLevel.value <= 0.1) {
+            window.clearInterval(zoomOutInterval);
+            zoomOutInterval = 0;
+        }
+        zoomOut();
+    }, 150);
+};
+const onMouseUpStopZoomOut = () => {
+    window.clearInterval(zoomOutInterval);
+    zoomOutInterval = 0;
 };
 </script>
 
@@ -63,7 +54,7 @@ const onClickControlInteractive = () => {
     <Controls>
         <template #control-zoom-in>
             <VCanvasControlButtonIcon
-                :disabled="settingsStore.zoomLevel >= 1"
+                :disabled="zoomLevel >= 1"
                 @mousedown="onMouseDownZoomIn"
                 @mouseup="onMouseUpStopZoomIn"
             >
@@ -73,7 +64,7 @@ const onClickControlInteractive = () => {
         </template>
         <template #control-zoom-out>
             <VCanvasControlButtonIcon
-                :disabled="settingsStore.zoomLevel <= 0.1"
+                :disabled="zoomLevel <= 0.1"
                 @mousedown="onMouseDownZoomOut"
                 @mouseup="onMouseUpStopZoomOut"
             >
@@ -82,13 +73,13 @@ const onClickControlInteractive = () => {
             </VCanvasControlButtonIcon>
         </template>
         <template #control-fit-view>
-            <VCanvasControlButtonIcon @click="onClickFitView">
+            <VCanvasControlButtonIcon @click="runFitView">
                 <FullscreenIcon />
                 <template #tooltip>Fit to View</template>
             </VCanvasControlButtonIcon>
         </template>
         <template #control-interactive>
-            <VCanvasControlButtonIcon @click="onClickControlInteractive">
+            <VCanvasControlButtonIcon @click="toggleInteractive">
                 <UnlockIcon v-if="isInteractive" />
                 <LockIcon v-else />
 
