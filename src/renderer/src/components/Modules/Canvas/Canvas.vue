@@ -9,7 +9,6 @@ import { useHistoryActions } from '@composables/History/useHistoryActions';
 import { useNodeAutoLayout } from '@composables/Nodes/useAutoLayout';
 import { useNodeDragEvent } from '@composables/Nodes/useNodeDragEvent';
 import { useEdgeEvents } from '@composables/Edges/useEdgeEvent';
-import { useEdgePositionCalculator } from '@composables/Edges/useEdgePositionCalculator';
 import { useSortTableColumns } from '@composables/Table/useSortTableColumns';
 import { useMinimap } from '@composables/Canvas/useMinimap';
 import { useKeyboardShortcuts } from '@composables/Miscellaneous/useKeyboardShortcuts';
@@ -38,7 +37,6 @@ onPaneReady(async () => {
     sortPrimaryKey();
     autoLayout();
     await nextTick();
-    useEdgePositionCalculator();
     createHistory('Initial Load');
 });
 </script>

@@ -2,8 +2,9 @@ import { useCanvasStore } from '@stores/Canvas';
 import { useNodeStateHandler } from '@composables/Nodes/useNodeStateHandler';
 import { useEdgePositionCalculator } from '@composables/Edges/useEdgePositionCalculator';
 import { useHistoryActions } from '@composables/History/useHistoryActions';
-import { useVueFlow } from '@vue-flow/core';
+import { useVueFlow, VueFlow } from '@vue-flow/core';
 import type { TNode } from '@stores/Canvas';
+import { nextTick } from 'vue';
 
 export function useNodeDragEvent() {
     const canvasStore = useCanvasStore();
@@ -26,7 +27,7 @@ export function useNodeDragEvent() {
         position = event.node.position;
     });
 
-    onNodeDragStop((event) => {
+    onNodeDragStop(async (event) => {
         const Node = event.node;
         const PositionChanged =
             position.x !== Node.position.x && position.y !== Node.position.y;
@@ -39,7 +40,6 @@ export function useNodeDragEvent() {
         } else {
             calculateAllEdgesPosition();
         }
-
         const CurrentNodeName = Node.data.table.name;
         createHistory(`Moved Table: '${CurrentNodeName}'`);
     });

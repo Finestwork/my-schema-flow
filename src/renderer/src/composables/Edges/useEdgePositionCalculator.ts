@@ -3,38 +3,54 @@ import {
     getActiveEdges,
     calculateEdgePosition as calculate,
 } from '@utilities/CanvasHelper';
-import { useVueFlow } from '@vue-flow/core';
+import { vueFlowKey } from '@symbols/VueFlow';
+import { inject, nextTick } from 'vue';
 
 export function useEdgePositionCalculator() {
     const canvasStore = useCanvasStore();
-    const { getEdges, setEdges } = useVueFlow();
-    const calculateAllEdgesPosition = () => {
-        setEdges((edges) => {
+    const VueFlow = inject(vueFlowKey);
+
+    const calculateAllEdgesPosition = async () => {
+        if (!VueFlow) return;
+        VueFlow.setEdges((edges) => {
             return edges.map((edge) => {
-                const { targetHandle, sourceHandle } = calculate(edge);
-                edge.sourceHandle = sourceHandle;
-                edge.targetHandle = targetHandle;
+                const { target, source } = calculate(edge);
+                edge.data.position = {
+                    source,
+                    target,
+                };
+                edge.sourceHandle = `${edge.targetNode.id}-${edge.sourceNode.id}`;
+                edge.targetHandle = `${edge.targetNode.id}-${edge.sourceNode.id}`;
                 return edge;
             });
         });
+        await nextTick();
+        VueFlow.updateNodeInternals();
     };
-    const calculateActiveEdgesPosition = () => {
+    const calculateActiveEdgesPosition = async () => {
+        if (!VueFlow) return;
+
         const ActiveEdges = getActiveEdges(
             canvasStore.currentActiveNode,
-            getEdges.value,
+            VueFlow.getEdges.value,
         );
-        setEdges((edges) => {
+        VueFlow.setEdges((edges) => {
             return edges.map((edge) => {
                 const edgeId = edge.id;
                 const edgeExistence = ActiveEdges.find((e) => e.id === edgeId);
                 if (!edgeExistence) return edge;
-                const { targetHandle, sourceHandle } = calculate(edge);
-                edge.sourceHandle = sourceHandle;
-                edge.targetHandle = targetHandle;
-
+                const { target, source } = calculate(edge);
+                edge.data.position = {
+                    source,
+                    target,
+                };
+                edge.sourceHandle = `${edge.targetNode.id}-${edge.sourceNode.id}`;
+                edge.targetHandle = `${edge.targetNode.id}-${edge.sourceNode.id}`;
                 return edge;
             });
         });
+        await nextTick();
+        VueFlow.updateNodeInternals();
     };
 
     return {

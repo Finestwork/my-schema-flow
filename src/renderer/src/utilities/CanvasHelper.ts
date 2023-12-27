@@ -48,48 +48,48 @@ export const calculateEdgePosition = (edge: TEdge) => {
     const NodeWidth = TargetNode.dimensions.width;
     const NodeHeight = TargetNode.dimensions.height;
 
-    const createObject = (targetHandle, sourceHandle) => {
+    const createObject = (target, source) => {
         return {
-            targetHandle,
-            sourceHandle,
+            target,
+            source,
         };
     };
     if (TargetNode.position.x + NodeWidth < SourceNode.position.x) {
         // NorthWest
         if (TargetNode.position.y + NodeHeight < SourceNode.position.y) {
-            return createObject('target-right', 'source-top');
+            return createObject('right', 'top');
         }
         // SouthWest
         else if (TargetNode.position.y > SourceNode.position.y + NodeHeight) {
-            return createObject('target-right', 'source-bottom');
+            return createObject('right', 'bottom');
         }
         // West
         else {
-            return createObject('target-right', 'source-left');
+            return createObject('right', 'left');
         }
     } else if (TargetNode.position.x > SourceNode.position.x + NodeWidth) {
         // NorthEast
         if (TargetNode.position.y + NodeHeight < SourceNode.position.y) {
-            return createObject('target-left', 'source-top');
+            return createObject('left', 'top');
         }
         // SouthEast
         else if (TargetNode.position.y > SourceNode.position.y + NodeHeight) {
-            return createObject('target-left', 'source-bottom');
+            return createObject('left', 'bottom');
         }
         // East
         else {
-            return createObject('target-left', 'source-right');
+            return createObject('left', 'right');
         }
     } else {
         // North
         if (TargetNode.position.y + NodeHeight < SourceNode.position.y) {
-            return createObject('target-bottom', 'source-top');
+            return createObject('bottom', 'top');
         }
         // South
         else if (TargetNode.position.y > SourceNode.position.y + NodeHeight) {
-            return createObject('target-top', 'source-bottom');
+            return createObject('top', 'bottom');
         } else {
-            return createObject('target-top', 'source-top');
+            return createObject('top', 'top');
         }
     }
 };
@@ -163,6 +163,9 @@ export const findNodeByTableName = (name: string, nodes: Array<TNode>) => {
     return nodes.find((node) => node.data.table.name === name);
 };
 
+/**
+ * Resets all the properties that make nodes active
+ */
 export const resetNodesActiveState = (nodes: Array<TNode>) => {
     return klona(nodes).map((node) => {
         node.data.states = {
@@ -176,6 +179,9 @@ export const resetNodesActiveState = (nodes: Array<TNode>) => {
     });
 };
 
+/**
+ * Resets all the properties that make edges active
+ */
 export const resetEdgesActiveState = (edges: Array<TEdge>) => {
     return klona(edges).map((edge) => {
         edge.style = {};
@@ -183,4 +189,30 @@ export const resetEdgesActiveState = (edges: Array<TEdge>) => {
         edge.zIndex = 0;
         return edge;
     });
+};
+
+/**
+ *
+ * */
+export const getHandleStylePositionPerLoop = (
+    position: 'left' | 'right' | 'top' | 'bottom',
+    index: number,
+    arr: Array<TEdge>,
+) => {
+    const MiddleCoord = 50;
+    const CoordsSpaceStep = MiddleCoord / arr.length;
+    const IsEven = index % 2 === 0;
+    const CurrentSpace = MiddleCoord - CoordsSpaceStep * index;
+    const CalculatedPosition = IsEven
+        ? CurrentSpace
+        : MiddleCoord + CurrentSpace;
+    const positionInPercentage = `${CalculatedPosition}%`;
+
+    const positionX =
+        position === 'top' || position === 'bottom' ? 'left' : 'top';
+
+    return {
+        [position]: 0,
+        [positionX]: positionInPercentage,
+    };
 };

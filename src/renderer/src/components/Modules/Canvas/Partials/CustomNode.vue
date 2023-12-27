@@ -35,14 +35,14 @@ onMounted(() => {
 <template>
     <div
         ref="root"
-        class="relative min-h-[150px] w-[350px] overflow-hidden rounded-lg border-2 bg-white font-neon-mono hover:cursor-pointer dark:bg-dark-900"
+        class="relative min-h-[150px] w-[350px] rounded-lg border-2 bg-white font-neon-mono hover:cursor-pointer dark:bg-dark-900"
         :class="{
             'border-cyan-500 dark:border-cyan-600': isActive,
             'border-slate-600 dark:border-dark-700': isDefault,
             'border-slate-100 dark:border-dark-800': isFaded,
         }"
     >
-        <CustomNodeHandles />
+        <CustomNodeHandles :node-id="props.id" />
         <span
             class="block truncate px-1 py-2 text-center text-sm font-bold"
             :class="{

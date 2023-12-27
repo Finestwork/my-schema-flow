@@ -24,6 +24,16 @@ export type TNodeData = {
 };
 
 export type TEdgeData = {
+    connection: {
+        source: {
+            position: 'top' | 'right' | 'bottom' | 'left';
+            nodeId: string;
+        };
+        target: {
+            position: 'top' | 'right' | 'bottom' | 'left';
+            nodeId: string;
+        };
+    };
     referenced: {
         column: string;
     };
@@ -35,10 +45,23 @@ export type TEdgeData = {
 export type TNode = GraphNode & { data: TNodeData };
 export type TEdge = GraphEdge & { data: TEdgeData };
 
+export type TConnectionPositions = {
+    top: Array<string>;
+    right: Array<string>;
+    bottom: Array<string>;
+    left: Array<string>;
+};
+export type TConnectionData = {
+    [k: string]: {
+        source: TConnectionPositions;
+        target: TConnectionPositions;
+    };
+};
 export const useCanvasStore = defineStore('canvas', {
     state: () => ({
         currentActiveNode: {} as TNode | Record<string, never>,
         currentActiveEdge: {} as TEdge | Record<string, never>,
+        connections: {} as TConnectionData | Record<string, never>,
     }),
     actions: {
         addColumnInActiveNode(
