@@ -198,21 +198,4 @@ export const getHandleStylePositionPerLoop = (
     position: 'left' | 'right' | 'top' | 'bottom',
     index: number,
     arr: Array<TEdge>,
-) => {
-    const MiddleCoord = 50;
-    const CoordsSpaceStep = MiddleCoord / arr.length;
-    const IsEven = index % 2 === 0;
-    const CurrentSpace = MiddleCoord - CoordsSpaceStep * index;
-    const CalculatedPosition = IsEven
-        ? CurrentSpace
-        : MiddleCoord + CurrentSpace;
-    const positionInPercentage = `${CalculatedPosition}%`;
-
-    const positionX =
-        position === 'top' || position === 'bottom' ? 'left' : 'top';
-
-    return {
-        [position]: 0,
-        [positionX]: positionInPercentage,
-    };
-};
+) => {};

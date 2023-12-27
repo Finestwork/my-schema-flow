@@ -11,6 +11,7 @@ export type TProps = {
 const props = defineProps<TProps>();
 const { getEdges } = useVueFlow();
 const getHandles = computed(() => {
+    const PositionTracker: Array<string> = [];
     return getEdges.value
         .filter((edge) => {
             return edge.source === props.nodeId || edge.target === props.nodeId;
@@ -30,12 +31,32 @@ const getHandles = computed(() => {
                 ? edge.data.position.source
                 : edge.data.position.target;
 
+            const MiddlePlace = 50;
+            const CoordsSpaceStep = MiddlePlace / arr.length;
+            const CurrentPosLength = PositionTracker.filter(
+                (pos) => pos === Position,
+            ).length;
+            const IsEven = CurrentPosLength % 2 === 0;
+            const CurrentSpace =
+                MiddlePlace - CoordsSpaceStep * CurrentPosLength;
+            const CalculatedPosition = IsEven
+                ? CurrentSpace
+                : MiddlePlace + CurrentSpace;
+            const positionInPercentage = `${CalculatedPosition}%`;
+            const positionX =
+                Position === 'top' || Position === 'bottom' ? 'left' : 'top';
+            const PositionStyle = {
+                [Position]: 0,
+                [positionX]: positionInPercentage,
+            };
+            PositionTracker.push(Position);
+
             return {
                 id: IsSource ? edge.sourceHandle : edge.targetHandle,
                 position: Position,
                 type: IsSource ? 'source' : 'target',
                 connectable: false,
-                style: getHandleStylePositionPerLoop(Position, ind, arr),
+                style: PositionStyle,
             };
         });
 });
