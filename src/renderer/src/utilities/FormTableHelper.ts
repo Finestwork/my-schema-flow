@@ -20,12 +20,15 @@ export const validateColumns = (
     if (isEmpty(data.name)) {
         Errors.push('Column name cannot be empty.');
     } else {
-        const Columns = currentNode.data.table.columns;
-        const Index = Columns.findIndex(
-            (column: TTableColumn) => column.name === data.name,
-        );
-        if (Index !== -1) {
-            Errors.push('Column already exists.');
+        // If user is currently editing the column, do not run the uniqueness check
+        if (!('originalColumnName' in data)) {
+            const Columns = currentNode.data.table.columns;
+            const Index = Columns.findIndex(
+                (column: TTableColumn) => column.name === data.name,
+            );
+            if (Index !== -1) {
+                Errors.push('Column already exists.');
+            }
         }
     }
 
