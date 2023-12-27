@@ -73,6 +73,7 @@ const getHandles = computed(() => {
         :type="handle.type as HandleType"
         :position="handle.position"
         :style="handle.style"
+        :connectable="handle.connectable"
         :class="{
             '-translate-y-2/4 translate-x-2/4':
                 handle.position === 'top' || handle.position === 'right',
