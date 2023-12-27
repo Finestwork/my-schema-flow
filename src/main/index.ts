@@ -1,6 +1,5 @@
-import App from './src/App';
-import MainWindow from './src/MainWindow';
-import EventListeners from './src/EventListeners';
+import CreateMainWindow from '@main/src/CreateMainWindow';
+import HandleEventListeners from '@main/src/HandleEventListeners';
 
-new App(new MainWindow());
-new EventListeners();
+new CreateMainWindow();
+new HandleEventListeners();

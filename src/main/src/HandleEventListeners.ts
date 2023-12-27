@@ -3,7 +3,7 @@ import { writeFile, readFile, rename } from 'fs/promises';
 import { basename, dirname } from 'path';
 import IpcMainEvent = Electron.IpcMainEvent;
 
-export default class EventListeners {
+export default class HandleEventListeners {
     constructor() {
         this._toggleDarkMode();
         this._saveFile();

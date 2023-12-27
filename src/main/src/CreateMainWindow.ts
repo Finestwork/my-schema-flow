@@ -1,20 +1,20 @@
 import icon from '../../../resources/icon.png?asset';
-import { is } from '@electron-toolkit/utils';
-import { BrowserWindow, shell } from 'electron';
+import { electronApp, is, optimizer } from '@electron-toolkit/utils';
+import { app, BrowserWindow, shell } from 'electron';
 import { join } from 'path';
 
-export default class MainWindow {
-    private _mainWindow: BrowserWindow | null;
+export default class CreateMainWindow {
+    private _mainWindow: BrowserWindow | null = null;
 
     constructor() {
-        this._mainWindow = null;
+        this._createWindow();
     }
 
     get mainWindow(): BrowserWindow | null {
         return this._mainWindow;
     }
 
-    createWindow() {
+    private _createWindow() {
         this._mainWindow = new BrowserWindow({
             minWidth: 900,
             minHeight: 670,
@@ -34,8 +34,37 @@ export default class MainWindow {
                 sandbox: false,
             },
         });
+        this._handleStartUp();
         this._listeners();
         this._handleFileLoad();
+    }
+
+    private async _handleStartUp() {
+        await app.whenReady();
+        this._createWindow();
+        electronApp.setAppUserModelId('com.craftie');
+
+        // Default open or close DevTools by F12 in development
+        // and ignore CommandOrControl + R in production.
+        // see https://github.com/alex8088/electron-toolkit/tree/master/packages/utils
+        app.on('browser-window-created', (_, window) => {
+            optimizer.watchWindowShortcuts(window);
+        });
+
+        app.on('activate', () => {
+            // On macOS it's common to re-create a window in the app when the
+            // dock icon is clicked and there are no other windows open.
+            if (BrowserWindow.getAllWindows().length === 0)
+                this._createWindow();
+        });
+
+        // Method called when all windows are closed.
+        //It quits the application if the platform is not darwin (macOS)
+        app.on('window-all-closed', () => {
+            if (process.platform !== 'darwin') {
+                app.quit();
+            }
+        });
     }
 
     /**

@@ -8,6 +8,9 @@
     "compilerOptions": {
         "baseUrl": ".",
         "paths": {
+            "@main/*": [
+                "src/main/*"
+            ],
             "@assets/*": [
                 "src/renderer/src/assets/*"
             ],

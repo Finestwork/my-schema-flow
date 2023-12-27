@@ -6,6 +6,11 @@ import VueMacros from 'unplugin-vue-macros/vite';
 export default defineConfig({
     main: {
         plugins: [externalizeDepsPlugin()],
+        resolve: {
+            alias: {
+                '@main': resolve('src/main'),
+            },
+        },
     },
     preload: {
         plugins: [externalizeDepsPlugin()],
