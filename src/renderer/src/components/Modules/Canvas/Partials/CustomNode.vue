@@ -42,7 +42,7 @@ onMounted(() => {
             'border-slate-100 dark:border-dark-800': isFaded,
         }"
     >
-        <CustomNodeHandles :node-id="props.id" />
+        <CustomNodeHandles :node-id="props.id" :is-active="isActive" />
         <span
             class="block truncate px-1 py-2 text-center text-sm font-bold"
             :class="{

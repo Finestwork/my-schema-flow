@@ -190,12 +190,3 @@ export const resetEdgesActiveState = (edges: Array<TEdge>) => {
         return edge;
     });
 };
-
-/**
- *
- * */
-export const getHandleStylePositionPerLoop = (
-    position: 'left' | 'right' | 'top' | 'bottom',
-    index: number,
-    arr: Array<TEdge>,
-) => {};

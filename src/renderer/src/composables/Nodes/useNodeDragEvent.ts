@@ -2,9 +2,8 @@ import { useCanvasStore } from '@stores/Canvas';
 import { useNodeStateHandler } from '@composables/Nodes/useNodeStateHandler';
 import { useEdgePositionCalculator } from '@composables/Edges/useEdgePositionCalculator';
 import { useHistoryActions } from '@composables/History/useHistoryActions';
-import { useVueFlow, VueFlow } from '@vue-flow/core';
+import { useVueFlow } from '@vue-flow/core';
 import type { TNode } from '@stores/Canvas';
-import { nextTick } from 'vue';
 
 export function useNodeDragEvent() {
     const canvasStore = useCanvasStore();

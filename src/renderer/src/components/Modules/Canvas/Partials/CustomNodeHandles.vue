@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { getHandleStylePositionPerLoop } from '@utilities/CanvasHelper';
 import { Handle, useVueFlow } from '@vue-flow/core';
 import { computed } from 'vue';
-import type { PropType } from 'vue';
 import type { HandleType } from '@vue-flow/core';
 
 export type TProps = {
     nodeId: string;
+    isActive: boolean;
 };
 const props = defineProps<TProps>();
 const { getEdges } = useVueFlow();
@@ -67,7 +66,7 @@ const getHandles = computed(() => {
         v-for="(handle, ind) in getHandles"
         :id="handle.id"
         :key="`${handle}-${ind}`"
-        class="h-[12px] w-[12px] rounded-full bg-red-500"
+        class="h-[12px] w-[12px] rounded-full border-2"
         :type="handle.type as HandleType"
         :position="handle.position"
         :style="handle.style"
@@ -76,6 +75,9 @@ const getHandles = computed(() => {
                 handle.position === 'top' || handle.position === 'right',
             '-translate-x-2/4 translate-y-2/4':
                 handle.position === 'bottom' || handle.position === 'left',
+            'border-slate-200 bg-slate-500 dark:border-dark-200 dark:bg-dark-600':
+                !props.isActive,
+            'border-cyan-50 bg-cyan-500': props.isActive,
         }"
     />
 </template>
