@@ -1,11 +1,9 @@
 import { TEdge, useCanvasStore } from '@stores/Canvas';
-import { useSettingsStore } from '@stores/Settings';
 import { getConnectedNodes } from '@utilities/CanvasHelper';
 import { useVueFlow } from '@vue-flow/core';
 
 export function useNodeStateHandler() {
     const canvasStore = useCanvasStore();
-    const settingsStore = useSettingsStore();
     const { getEdges, setNodes, setEdges } = useVueFlow();
 
     const resetState = () => {
