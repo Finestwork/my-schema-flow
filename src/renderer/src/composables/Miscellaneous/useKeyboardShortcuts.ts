@@ -18,6 +18,7 @@ export function useKeyboardShortcuts() {
         const UndoKey = (e.ctrlKey || e.metaKey) && e.key === 'z';
         const ToggleDarkModeKey =
             (e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'M';
+        const OpenFileKey = (e.ctrlKey || e.metaKey) && e.key === 'o';
         const CreateTableKey =
             (e.ctrlKey || e.metaKey) &&
             e.key.toLowerCase() === 'c' &&
@@ -36,6 +37,8 @@ export function useKeyboardShortcuts() {
         } else if (ToggleDarkModeKey) {
             toggleDarkMode();
             window.api.toggleDarkMode(isDarkMode.value);
+        } else if (OpenFileKey) {
+            window.electron.ipcRenderer.send('openFile');
         }
     };
 

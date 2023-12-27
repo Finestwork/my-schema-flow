@@ -1,11 +1,13 @@
 import { useFileStore } from '@stores/File';
 import { useHistoryStore } from '@stores/History';
+import { useHistoryActions } from '@composables/History/useHistoryActions';
 import { vueFlowKey } from '@symbols/VueFlow';
 import { inject, onMounted, onUnmounted } from 'vue';
 
 export function useIPCListeners() {
     const fileStore = useFileStore();
     const historyStore = useHistoryStore();
+    const { createHistory } = useHistoryActions();
     const vueFlow = inject(vueFlowKey);
 
     onMounted(() => {
@@ -30,15 +32,32 @@ export function useIPCListeners() {
                 fileStore.filePath = filePath;
             },
         );
+
+        window.electron.ipcRenderer.on(
+            'filedOpened',
+            (_, file: string, filePath: string, fileName: string) => {
+                if (!vueFlow) return;
+                historyStore.$reset();
+                fileStore.$reset();
+                const Contents = JSON.parse(file);
+                fileStore.fileName = fileName;
+                fileStore.filePath = filePath;
+                fileStore.savedIndex = 0;
+                vueFlow.setNodes(() => Contents.nodes);
+                vueFlow.setEdges(() => Contents.edges);
+                createHistory('Initial Load');
+            },
+        );
     });
 
     onUnmounted(() => {
-        window.electron.ipcRenderer.removeAllListeners('fileSavedSuccessfully');
-        window.electron.ipcRenderer.removeAllListeners(
+        [
+            'fileSavedSuccessfully',
             'fileOverwroteSuccessfully',
-        );
-        window.electron.ipcRenderer.removeAllListeners(
             'filenameOverwriteSuccessfully',
-        );
+            'filedOpened',
+        ].forEach((listener) => {
+            window.electron.ipcRenderer.removeAllListeners(listener);
+        });
     });
 }

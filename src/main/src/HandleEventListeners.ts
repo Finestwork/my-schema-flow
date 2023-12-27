@@ -128,7 +128,7 @@ export default class HandleEventListeners {
             const File = await readFile(Result.filePaths[0], {
                 encoding: 'utf-8',
             });
-            CurrentBrowser.webContents.send(
+            event.reply(
                 'filedOpened',
                 File,
                 Result.filePaths,

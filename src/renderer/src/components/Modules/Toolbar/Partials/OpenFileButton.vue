@@ -4,7 +4,7 @@ import VTooltipKeyboardText from '@components/Base/Texts/VTooltipKeyboardText.vu
 import OpenFileIcon from '@components/Shared/Icons/OpenFileIcon.vue';
 
 const onClickOpenFile = () => {
-    //
+    window.electron.ipcRenderer.send('openFile');
 };
 </script>
 
@@ -13,7 +13,7 @@ const onClickOpenFile = () => {
         <OpenFileIcon />
         <template #tooltip>
             <VTooltipKeyboardText :mac="['⌘', 'O']" :windows="['Ctrl', 'O']">
-                <template #label>Toggle Dark Mode</template>
+                <template #label>Open A File</template>
             </VTooltipKeyboardText>
         </template>
     </VToolbarButtonIcon>
