@@ -44,11 +44,13 @@ export function useHistoryActions() {
     };
 
     const undoHistory = () => {
+        if (!historyStore.canUndo) return;
         historyStore.undo();
         _applyChanges();
     };
 
     const redoHistory = () => {
+        if (!historyStore.canRedo) return;
         historyStore.redo();
         _applyChanges();
     };

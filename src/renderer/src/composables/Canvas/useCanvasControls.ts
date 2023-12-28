@@ -8,9 +8,14 @@ export function useCanvasControls() {
     const isInteractive = ref(true);
 
     const { zoomTo, fitView, toObject, setInteractive } = useVueFlow();
-    const zoomOut = () => {
+    const zoomOut = (zoom?: number) => {
         if (zoomLevel.value <= 0.1) return;
-        zoomLevel.value = +(zoomLevel.value - 0.1).toFixed(2);
+        if (zoom) {
+            zoomLevel.value = zoom;
+        } else {
+            zoomLevel.value = +(zoomLevel.value - 0.1).toFixed(2);
+        }
+
         zoomTo(zoomLevel.value, { duration: 350 });
     };
 

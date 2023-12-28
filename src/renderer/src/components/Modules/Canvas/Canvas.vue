@@ -13,6 +13,9 @@ import { useSortTableColumns } from '@composables/Table/useSortTableColumns';
 import { useMinimap } from '@composables/Canvas/useMinimap';
 import { useKeyboardShortcuts } from '@composables/Miscellaneous/useKeyboardShortcuts';
 import { useIPCListeners } from '@composables/Miscellaneous/useIPCListeners';
+import { usePaneDoubleClick } from '@composables/Canvas/usePaneDoubleClick';
+import { useCanvasControls } from '@composables/Canvas/useCanvasControls';
+import { useDebounceFn } from '@vueuse/core';
 import { Background } from '@vue-flow/background';
 import { MiniMap } from '@vue-flow/minimap';
 import { VueFlow, useVueFlow } from '@vue-flow/core';
@@ -27,7 +30,8 @@ const getPatternColor = computed(() => {
 const { createHistory } = useHistoryActions();
 const { autoLayout } = useNodeAutoLayout();
 const { sortPrimaryKey } = useSortTableColumns();
-const { onPaneReady } = useVueFlow();
+const { onPaneReady, onViewportChange, getViewport } = useVueFlow();
+const { zoomOut } = useCanvasControls();
 useNodeDragEvent();
 useMinimap();
 useEdgeEvents();
@@ -38,6 +42,20 @@ onPaneReady(async () => {
     autoLayout();
     await nextTick();
     createHistory('Initial Load');
+});
+onViewportChange(
+    useDebounceFn(() => {
+        const ZoomLevel = getViewport().zoom;
+        if (ZoomLevel === settingsStore.zoomLevel) return;
+        settingsStore.zoomLevel = +ZoomLevel.toFixed(1);
+    }),
+);
+usePaneDoubleClick(() => {
+    if (settingsStore.zoomLevel >= 1) {
+        setTimeout(() => {
+            zoomOut(0.5);
+        }, 250);
+    }
 });
 </script>
 
