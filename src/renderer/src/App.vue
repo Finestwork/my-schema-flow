@@ -22,7 +22,7 @@ provide(isCreatingTableKey, isCreatingTable);
     <Toolbar />
     <div class="flex h-[calc(100vh-52px-40px)]">
         <VPanelWrapper class="h-full w-full max-w-[200px]">
-            <TableList/>
+            <TableList />
             <HistorySection />
         </VPanelWrapper>
         <Canvas class="w-full" />

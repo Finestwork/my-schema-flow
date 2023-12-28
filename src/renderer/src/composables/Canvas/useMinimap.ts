@@ -11,7 +11,6 @@ export function useMinimap() {
         vueFlowRef,
         getEdges,
         onNodeDragStop,
-        onNodeClick,
         onEdgeClick,
         onNodeDragStart,
         onPaneClick,
@@ -23,7 +22,7 @@ export function useMinimap() {
     };
     let minimapElement: HTMLElement | null = null;
     const _highlightMinimapNodes = () => {
-        if (!minimapElement) return;
+        if (!minimapElement || !canvasStore.hasActiveNode) return;
         const MinimapNodes = minimapElement.querySelectorAll(
             '.vue-flow__minimap-node',
         );
@@ -60,8 +59,6 @@ export function useMinimap() {
         MinimapNodes.forEach((node) => node.classList.remove('active'));
     });
 
-    onNodeClick(_highlightMinimapNodes);
-
     onEdgeClick((event) => {
         const currentEdge = event.edge;
         canvasStore.currentActiveNode = currentEdge.sourceNode;
@@ -82,9 +79,7 @@ export function useMinimap() {
     });
 
     watch(
-        () => historyStore.currentValue,
-        () => {
-            _highlightMinimapNodes();
-        },
+        () => [historyStore.currentValue, canvasStore.currentActiveNode],
+        _highlightMinimapNodes,
     );
 }
