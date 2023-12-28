@@ -8,8 +8,8 @@ const props = defineProps<TProps>();
 </script>
 
 <template>
-    <div class="py-1 text-slate-500 dark:text-slate-400">
-        <span class="mb-1.5 block text-dark-900 dark:text-slate-100"
+    <div class="py-1 text-slate-300 dark:text-slate-400">
+        <span class="mb-1.5 block text-slate-50 dark:text-slate-100"
             ><slot name="label"></slot
         ></span>
         <div class="mb-2.5 block">
