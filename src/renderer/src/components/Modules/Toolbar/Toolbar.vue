@@ -8,6 +8,7 @@ import ExportButton from '@components/Modules/Toolbar/Partials/ExportButton.vue'
 import UndoButton from '@components/Modules/Toolbar/Partials/UndoButton.vue';
 import RedoButton from '@components/Modules/Toolbar/Partials/RedoButton.vue';
 import SaveButton from '@components/Modules/Toolbar/Partials/SaveButton.vue';
+import ExportSQLButton from '@components/Modules/Toolbar/Partials/ExportSQLButton.vue';
 </script>
 
 <template>
@@ -17,8 +18,10 @@ import SaveButton from '@components/Modules/Toolbar/Partials/SaveButton.vue';
         <div>
             <OpenFileButton class="mr-2" />
             <ToggleDarkModeButton class="mr-2" />
-            <ExportButton />
+            <ExportButton class = "mr-2" />
+            <ExportSQLButton class = "mr-2" />
         </div>
+
         <div class="flex">
             <AddNewTableButton class="mr-2" />
             <AutoLayoutButton class="mr-2" />

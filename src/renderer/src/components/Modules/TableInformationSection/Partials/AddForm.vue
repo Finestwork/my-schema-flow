@@ -15,6 +15,11 @@ import { useHistoryActions } from '@composables/History/useHistoryActions';
 import { validateColumns } from '@utilities/FormTableHelper';
 import { reactive, ref } from 'vue';
 import type { Ref } from 'vue';
+import { vueFlowKey } from '@symbols/VueFlow';
+import {inject} from 'vue';
+
+const vueFlow = inject(vueFlowKey);
+
 
 const emits = defineEmits<{
     (e: 'hideForm', value: MouseEvent): void;
