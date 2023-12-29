@@ -4,7 +4,7 @@ import OpenAI from 'openai';
 import { MessageContentText } from 'openai/resources/beta/threads/messages/messages';
 
 const client = new OpenAI({
-    apiKey: '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',
+    apiKey: 'insert_api_key_here',
     dangerouslyAllowBrowser: true,
 });
 
