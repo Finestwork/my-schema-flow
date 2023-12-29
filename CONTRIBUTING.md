@@ -84,8 +84,7 @@ Module directory contains the primary components essential for the application. 
 # Coding Standards
 I use ESLint and Prettier to lint and format our code, ensuring a consistent approach to how we write it. So make sure that before you commit your work you should run `npm run lint` and `npm run typecheck`.
 
-# Vue
- ## Importing a file
+## ⛵Importing a file
  Usually the order of how I import my file is this:
 
  ```ts
@@ -120,8 +119,7 @@ import type { Ref } from 'vue';
 import type { TUpdateColumn } from '@composables/Table/useTableRelationActions';
 ```
 
-
-## Composition API
+## 🔮 Composition API
 The order should be something like this:
 
 ```ts
@@ -131,4 +129,35 @@ The order should be something like this:
 // 4. function calls, provide, vuejs lifecycle hooks, watchers
 ```
 
+## 📝 Writing composables
 
+**Function Names**: Use descriptive and concise names that accurately reflect the function's purpose and functionality. Prefer camelCase for function names, and most importantly, prefix the function with 'use' to indicate that it is a composable function.
+
+```ts
+function useFetchData() { /* ... */ }
+```
+
+**Variable Names**: Use meaningful and descriptive variable names. Avoid single-letter variables unless they are used as iterators in loops. Ensure all variables are in camelCase, and always use `const`.
+```ts
+const userData = ref({});
+```
+
+**Function variable names**: Local variables are treated differently than reactive variables. Use the `let` keyword for variables that will change over time and the `const` keyword for those that won't. When declaring a variable with `const`, use Pascal Case; for those declared with `let`, use camelCase.
+
+```ts
+function myFunction(user){
+ const FirstName = user.name;
+ let age = 0; // This will surely change in the future
+// ...
+}
+```
+
+For more information about composable, please visit vue's style guide: https://vuejs.org/guide/reusability/composables
+
+## 🛠️ Writing utilities
+Writing utilities differs from writing composables. Whenever possible, focus solely on types rather than the DOM since composables are designed for that purpose. A utility function should be deterministic, meaning it produces the same output when given the same input, without altering any external state or global variables. 
+
+A utility function:
+- Should not import stores or composables.
+- Must always accept parameters as input and consistently return output.
+- Since we are using TypeScript, always include type declarations for the parameters.
