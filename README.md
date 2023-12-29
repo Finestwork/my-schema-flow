@@ -1,3 +1,5 @@
+[banner.png](./banner.png)
+
 # Heads-up
 Kindly be informed that the application is currently in its **beta phase**. While I strive to implement all features, there may be instances where some functionalities might not perform as expected. I highly value your participation and invite you to experiment with it, sharing any insights or suggestions that could help in refining this app. Please note that the application has been tested on Windows 11, however, considering its nature as an Electron app, it is expected to function on macOS and Linux platforms as well.
 
