@@ -1,6 +1,6 @@
 import { mySqlDataTypes } from '@utilities/DatabaseHelper';
 import { isBoolean, isEmpty } from 'lodash';
-import type { TNode, TTableColumn } from '@stores/Canvas';
+import type { TNode, TTableColumn, TEdge } from '@stores/Canvas';
 import type { TRelationFormData } from '@composables/Table/useTableRelationActions';
 
 /**
@@ -93,19 +93,22 @@ export const validateTableRelations = (
     data: TRelationFormData,
     currentActiveNode: TNode | Record<string, never>,
     nodes: Array<TNode>,
+    edges: Array<TEdge>,
 ): Array<string> => {
     const Errors: Array<string> = [];
     let referencedNode: TNode | undefined = undefined;
+    let source: TTableColumn | undefined = undefined;
+    let target: TTableColumn | undefined = undefined;
 
     if (isEmpty(data.referencingColumn)) {
         Errors.push('Referencing column should not be empty.');
     } else {
         const TableName = currentActiveNode.data.table.name;
         const Columns = currentActiveNode.data.table.columns;
-        const Column = Columns.find(
+        source = Columns.find(
             (column: TTableColumn) => column.name === data.referencingColumn,
         );
-        if (!Column) {
+        if (!source) {
             Errors.push(
                 `Referencing column not found in '${TableName}' table.`,
             );
@@ -129,17 +132,34 @@ export const validateTableRelations = (
 
     if (referencedNode && !isEmpty(data.referencedColumn)) {
         const Columns = referencedNode.data.table.columns;
-        const Column = Columns.find(
+        target = Columns.find(
             (column: TTableColumn) => column.name === data.referencedColumn,
         );
 
-        if (!Column) {
+        if (!target) {
             Errors.push(
                 `Referenced column not found in '${data.referencedTable}' table.`,
             );
         }
 
-        
+        const existingEdge = edges.find(
+            (edge) =>
+                (edge.target === currentActiveNode.id &&
+                    edge.data.referencing.column === data.referencingColumn) ||
+                edge.data.referenced.column === data.referencedColumn,
+        );
+        if (existingEdge) {
+            Errors.push(
+                `Relationship between '${data.referencingColumn}' or '${data.referencedColumn}' already exists.`,
+            );
+        }
+
+        // Check if the referenced column is the same data type as the referencing column
+        if (target?.type !== source?.type) {
+            Errors.push(
+                `Referencing column '${data.referencingColumn}' is not the same data type as referenced column '${data.referencedColumn}'.`,
+            );
+        }
     }
 
     return Errors.map((error) => `• ${error}`);
