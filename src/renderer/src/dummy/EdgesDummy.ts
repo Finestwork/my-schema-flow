@@ -8,5 +8,5 @@ export default [
             table: 'products',
             column: 'description',
         },
-    }
+    },
 ];

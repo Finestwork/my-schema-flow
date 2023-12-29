@@ -5,14 +5,9 @@ import ExportSQLIcon from '@components/Shared/Icons/ExportSQLIcon.vue';
 
 import { vueFlowKey } from '@symbols/VueFlow';
 import { inject } from 'vue';
-import   exportSQL from '@utilities/ExportSQL';
-    
+import exportSQL from '@utilities/ExportSQL';
+
 const vueFlow = inject(vueFlowKey);
-
-
-
-
-
 </script>
 
 <template>
@@ -20,11 +15,16 @@ const vueFlow = inject(vueFlowKey);
         <ExportSQLIcon />
         <template #tooltip>Export as File</template>
         <template #float>
-            <VToolbarButtonDropdownItem @click="exportSQL(vueFlow.getNodes.value, vueFlow.getEdges.value)">
+            <VToolbarButtonDropdownItem
+                @click="
+                    exportSQL(
+                        vueFlow?.getNodes?.value ?? [],
+                        vueFlow?.getEdges?.value ?? [],
+                    )
+                "
+            >
                 <template #text>Export To SQL</template>
             </VToolbarButtonDropdownItem>
-     
-
         </template>
     </VToolbarButtonDropdown>
 </template>

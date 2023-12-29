@@ -18,8 +18,8 @@ import ExportSQLButton from '@components/Modules/Toolbar/Partials/ExportSQLButto
         <div>
             <OpenFileButton class="mr-2" />
             <ToggleDarkModeButton class="mr-2" />
-            <ExportButton class = "mr-2" />
-            <ExportSQLButton class = "mr-2" />
+            <ExportButton class="mr-2" />
+            <ExportSQLButton class="mr-2" />
         </div>
 
         <div class="flex">

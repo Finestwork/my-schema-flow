@@ -3,7 +3,6 @@ import { isBoolean, isEmpty } from 'lodash';
 import type { TNode, TTableColumn } from '@stores/Canvas';
 import type { TRelationFormData } from '@composables/Table/useTableRelationActions';
 
-
 /**
  * Parses the table length from a string to an integer.
  */
@@ -86,9 +85,6 @@ export const validateColumns = (
             }
         }
     }
-    
-
- 
 
     return Errors.map((error) => `• ${error}`);
 };

@@ -15,11 +15,6 @@ import { useHistoryActions } from '@composables/History/useHistoryActions';
 import { validateColumns } from '@utilities/FormTableHelper';
 import { reactive, ref } from 'vue';
 import type { Ref } from 'vue';
-import { vueFlowKey } from '@symbols/VueFlow';
-import {inject} from 'vue';
-
-const vueFlow = inject(vueFlowKey);
-
 
 const emits = defineEmits<{
     (e: 'hideForm', value: MouseEvent): void;
@@ -45,7 +40,7 @@ const onClickAddColumn = () => {
     if (errors.value.length !== 0) return;
     const TableName = canvasStore.currentActiveNode.data.table.name;
     createHistory(`Column Added: ${formStates.name} in '${TableName}' table`);
-   
+
     canvasStore.addColumnInActiveNode(formStates);
     isSuccessfullyCreated.value = true;
     Object.assign(formStates, initialState);
