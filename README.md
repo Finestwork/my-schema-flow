@@ -36,3 +36,6 @@ $ npm run build:mac
 # For Linux
 $ npm run build:linux
 ```
+
+# Contributing
+Please refer to the [contribution guide](https://github.com/Finestwork/my-schema-flow/blob/dev/CONTRIBUTING.md)
