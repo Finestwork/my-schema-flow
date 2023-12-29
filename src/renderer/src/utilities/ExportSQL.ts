@@ -2,7 +2,7 @@ import type { TEdge, TNode, TTableColumn } from '@stores/Canvas';
 import { createLinkElement } from '@utilities/DownloadHelper';
 import OpenAI from "openai";
 
-const client = new OpenAI({"apiKey": "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", "dangerouslyAllowBrowser": true});
+const client = new OpenAI({"apiKey": "api_key_here", "dangerouslyAllowBrowser": true});
 
 const exportSQL = async (nodes: Array<TNode>, edges: Array<TEdge>) => {
   const Errors: Array<string> = [];
