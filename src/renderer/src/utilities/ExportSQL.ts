@@ -1,61 +1,34 @@
-import type { TEdge, TNode, TTableColumn } from '@stores/Canvas';
 import { createLinkElement } from '@utilities/DownloadHelper';
-import OpenAI from 'openai';
-import { MessageContentText } from 'openai/resources/beta/threads/messages/messages';
+import type { TEdge, TNode, TTableColumn } from '@stores/Canvas';
 
-const client = new OpenAI({
-    apiKey: 'insert_api_key_here',
-    dangerouslyAllowBrowser: true,
-});
-
-const exportSQL = async (nodes: Array<TNode>, edges: Array<TEdge>) => {
-    const Errors: Array<string> = [];
+const exportSQL = (nodes: Array<TNode>, edges: Array<TEdge>) => {
+    const sqlData: string[] = ['data:text/plain;charset=utf-8,'];
 
     // Iterate over the edges to access relationships
-    nodes.forEach((node) => {
+    nodes.map((node) => {
         const Columns = node.data.table.columns;
-
+        sqlData.push(`CREATE TABLE ${node.data.table.name} (\n`);
         Columns.forEach((column: TTableColumn) => {
-            Errors.push(
-                `${column.name}  ${column.type}(${column.length})  ${
-                    column.keyConstraint
-                } ${column.isNull ? 'NULL' : 'NOT NULL'}`,
+            sqlData.push(
+                `${column.name}  ${column.type}${
+                    column.length ? `(${column.length})` : ''
+                }  ${column.keyConstraint === 'PK' ? 'PRIMARY KEY' : ''} ${
+                    column.isNull ? 'NULL,\n' : 'NOT NULL,\n'
+                }`,
             );
         });
+        edges.map((edge) => {
+            if (edge.target === node.id) {
+                sqlData.push(
+                    `FOREIGN KEY (${edge.data.referencing.column}) REFERENCES ${edge.sourceNode.data.table.name}(${edge.data.referenced.column}),\n`,
+                );
+            }
+        });
+        sqlData[sqlData.length - 1] = sqlData[sqlData.length - 1].slice(0, -2);
+        sqlData.push(');\n');
     });
 
-    edges.forEach((edge) => {
-        const relationship = {
-            referencingColumn: edge.data.referencing.column,
-            referencedColumn: edge.data.referenced.column,
-        };
-        Errors.push(JSON.stringify(relationship));
-    });
-
-    const assistant = await client.beta.assistants.retrieve(
-        'asst_cKEXQK4zcyrva1uxhoYqmld3',
-    );
-    const thread = await client.beta.threads.create();
-    await client.beta.threads.messages.create(thread.id, {
-        role: 'user',
-        content: Errors.toString(),
-    });
-    const run = await client.beta.threads.runs.create(thread.id, {
-        assistant_id: assistant.id,
-    });
-
-    let runn = await client.beta.threads.runs.retrieve(thread.id, run.id);
-    while (runn.status !== 'completed') {
-        await new Promise((r) => setTimeout(r, 500));
-        runn = await client.beta.threads.runs.retrieve(thread.id, run.id);
-    }
-    const messages = await client.beta.threads.messages.list(thread.id);
-    let data = '';
-    if (messages.data[0].content[0].type === 'text') {
-        const textContent = messages.data[0].content[0] as MessageContentText;
-        data = 'data:text/plain;,' + textContent.text.value;
-    }
-    createLinkElement(data, 'schema.sql');
+    createLinkElement(sqlData.join(''), `diagram.sql`);
 
     return '';
 };

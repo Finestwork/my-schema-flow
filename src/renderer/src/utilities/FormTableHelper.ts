@@ -138,6 +138,8 @@ export const validateTableRelations = (
                 `Referenced column not found in '${data.referencedTable}' table.`,
             );
         }
+
+        
     }
 
     return Errors.map((error) => `• ${error}`);
