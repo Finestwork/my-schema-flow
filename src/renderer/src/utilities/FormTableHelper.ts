@@ -2,7 +2,7 @@ import { mySqlDataTypes } from '@utilities/DatabaseHelper';
 import { isBoolean, isEmpty } from 'lodash';
 import type { TNode, TTableColumn } from '@stores/Canvas';
 import type { TRelationFormData } from '@composables/Table/useTableRelationActions';
-import { useCanvasStore } from '@stores/Canvas';
+
 
 /**
  * Parses the table length from a string to an integer.

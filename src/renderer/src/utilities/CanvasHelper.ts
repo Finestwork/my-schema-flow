@@ -47,6 +47,8 @@ export const calculateEdgePosition = (edge: TEdge) => {
     const TargetNode = edge.targetNode;
     const NodeWidth = TargetNode.dimensions.width;
     const NodeHeight = TargetNode.dimensions.height;
+    console.log(SourceNode.data, TargetNode.data.table.columns.find((column) => column.name === edge.data.referencing.column))
+   
 
     const createObject = (target, source) => {
         return {
