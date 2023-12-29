@@ -84,8 +84,12 @@ export const useCanvasStore = defineStore('canvas', {
         cloneColumnInActiveNode(cloneIndex: number) {
             const CurrentActiveNode = this.currentActiveNode;
             const Columns = CurrentActiveNode.data.table.columns;
-            const CopiedColumn = klona(Columns[cloneIndex]);
-
+            let  CopiedColumn = klona(Columns[cloneIndex]);
+            CopiedColumn.name = CopiedColumn.name.replace(/\(\d+\)/, '')
+            console.log(CopiedColumn.name)
+            let count = Columns.filter((column) => column.name.includes(CopiedColumn.name)).length
+            
+            CopiedColumn.name = `${CopiedColumn.name}(${count})`
             // If a column is a primary key, do not copy it; there should only be one primary key
             if (CopiedColumn.keyConstraint === 'PK') {
                 return;
