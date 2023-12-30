@@ -28,7 +28,6 @@ const onKeyDown = (e: KeyboardEvent) => {
 
         // Prevent copy and pastes
         const InputEl = <HTMLInputElement>e.target;
-        console.log(modelValue.value, InputEl.value);
         modelValue.value = InputEl.value.trim().replaceAll(/\s/g, '');
     }
     emits('keydown', e);

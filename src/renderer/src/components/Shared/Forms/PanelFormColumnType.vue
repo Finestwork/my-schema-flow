@@ -12,7 +12,7 @@ const { modelValue } = defineModels<{
     modelValue: string;
 }>();
 const scrollbar = ref();
-const dropdownBtn: Ref<Array<VDatabaseWithDescriptionButton>> = ref();
+const dropdownBtn: Ref<Array<typeof VDatabaseWithDescriptionButton>> = ref([]);
 const showDropdown = ref(false);
 const currentIndex = ref(0);
 const { searchTerm, getMysqlDataTypes } = useSearchMySQLDataTypes();

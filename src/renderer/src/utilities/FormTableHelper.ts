@@ -149,7 +149,7 @@ export const validateTableRelations = (
         );
         if (ExistingEdge) {
             Errors.push(
-                `Relationship between '${data.referencingColumn}' or '${data.referencedColumn}' already exists.`,
+                `It's possible that either '${data.referencingColumn}' or '${data.referencedColumn}' has been utilized to form a relationship.`,
             );
         }
 
