@@ -142,13 +142,12 @@ export const validateTableRelations = (
             );
         }
 
-        const existingEdge = edges.find(
+        const ExistingEdge = edges.find(
             (edge) =>
-                (edge.target === currentActiveNode.id &&
-                    edge.data.referencing.column === data.referencingColumn) ||
-                edge.data.referenced.column === data.referencedColumn,
+                edge.target === currentActiveNode.id &&
+                edge.data.referencing.column === data.referencingColumn,
         );
-        if (existingEdge) {
+        if (ExistingEdge) {
             Errors.push(
                 `Relationship between '${data.referencingColumn}' or '${data.referencedColumn}' already exists.`,
             );

@@ -37,7 +37,7 @@ export const formatColumnForNodeCanvas = (arr: Array<TTableColumn>) => {
         )[0];
         let formattedType = '';
 
-        if (MySqlDataType && MySqlDataType.hasSize && Size !== '') {
+        if (MySqlDataType && MySqlDataType.hasSize && Size !== '0') {
             formattedType = `${Type}(${Size})`;
         } else {
             formattedType = `${Type}`;

@@ -30,15 +30,14 @@ export function useSaveCanvas() {
         };
 
         // If file is already saved, overwrite it
-        if (fileStore.filePath.trim() !== '') {
+        if (fileStore.filePath.length <= 0) {
+            window.api.saveFile(JSON.stringify(Contents));
+        } else {
             window.api.overwriteFile(
                 JSON.stringify(Contents),
-                fileStore.filePath,
+                JSON.stringify(fileStore.filePath),
             );
-            return;
         }
-
-        window.api.saveFile(JSON.stringify(Contents));
     };
 
     const overwriteFileName = (fileName: string) => {

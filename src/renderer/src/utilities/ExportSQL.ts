@@ -4,11 +4,10 @@ import type { TEdge, TNode, TTableColumn } from '@stores/Canvas';
 const exportSQL = (nodes: Array<TNode>, edges: Array<TEdge>) => {
     const sqlData: string[] = ['data:text/plain;charset=utf-8,'];
 
-    // Iterate over the edges to access relationships
     nodes.map((node) => {
         const Columns = node.data.table.columns;
-        sqlData.push(`CREATE TABLE ${node.data.table.name} (\n`);
-        Columns.forEach((column: TTableColumn) => {
+        sqlData.push(`CREATE TABLE ${node.data.table.name}(\n`);
+        Columns.map((column: TTableColumn) => {
             sqlData.push(
                 `${column.name}  ${column.type}${
                     column.length ? `(${column.length})` : ''
@@ -24,10 +23,11 @@ const exportSQL = (nodes: Array<TNode>, edges: Array<TEdge>) => {
                 );
             }
         });
+        // remove the last comma
         sqlData[sqlData.length - 1] = sqlData[sqlData.length - 1].slice(0, -2);
         sqlData.push(');\n');
     });
-
+    // exports the sql file
     createLinkElement(sqlData.join(''), `diagram.sql`);
 
     return '';

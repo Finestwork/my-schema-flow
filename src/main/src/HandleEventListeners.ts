@@ -99,6 +99,7 @@ export default class HandleEventListeners {
                 const CurrentBrowserWindow = BrowserWindow.fromWebContents(
                     event.sender,
                 );
+
                 if (!CurrentBrowserWindow) return;
 
                 await writeFile(filePath, contents);

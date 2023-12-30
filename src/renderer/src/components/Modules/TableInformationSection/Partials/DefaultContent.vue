@@ -63,7 +63,7 @@ const onClickDeleteColumn = () => {
 const onInputAddToHistory = useDebounceFn(() => {
     const TableName = canvasStore.currentActiveNode.data.table.name;
     createHistory(`Changed Table Name: '${TableName}'`);
-});
+}, 500);
 const onClickToggleActiveState = (e: MouseEvent, ind: number) => {
     (e.target as HTMLButtonElement).blur();
     if (currentActiveIndex.value === ind) {
@@ -79,13 +79,24 @@ const onSortEnd = ({ newIndex, oldIndex }) => {
     sortPrimaryKey();
     createHistory(`Swapped Columns: ${DraggedColumn} and ${ReplacedColumn}`);
 };
+
+const getTableInput = computed({
+    set(value: string) {
+        canvasStore.currentActiveNode.data.table.name = value
+            .trim()
+            .replace(' ', '');
+    },
+    get() {
+        return canvasStore.currentActiveNode.data.table.name;
+    },
+});
 </script>
 
 <template>
     <div>
         <VPanelTextInput
             id="columnTextInput"
-            v-model="canvasStore.currentActiveNode.data.table.name"
+            v-model="getTableInput"
             class="mb-4"
             placeholder="Place table's name here"
             @input="onInputAddToHistory"

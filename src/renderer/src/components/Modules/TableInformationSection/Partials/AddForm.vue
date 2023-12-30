@@ -35,7 +35,10 @@ const { createHistory } = useHistoryActions();
 const onClickAddColumn = () => {
     errors.value = [];
     isSuccessfullyCreated.value = false;
-    formStates.name = formStates.name.replace(/\s+/g, '_').toLowerCase();
+    formStates.name = formStates.name
+        .trimEnd()
+        .replace(/\s+/g, '_')
+        .toLowerCase();
     errors.value = validateColumns(formStates, canvasStore.currentActiveNode);
     if (errors.value.length !== 0) return;
     const TableName = canvasStore.currentActiveNode.data.table.name;
