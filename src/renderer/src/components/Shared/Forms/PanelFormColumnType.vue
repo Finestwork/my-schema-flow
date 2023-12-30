@@ -1,22 +1,24 @@
 <script setup lang="ts">
 import VPanelAutoCompleteWrapper from '@components/Base/Forms/VPanelAutoCompleteWrapper.vue';
+import VDatabaseWithDescriptionButton from '@components/Base/Buttons/VDatabaseWithDescriptionButton.vue';
+import VTooltip from '@components/Base/Floaters/VTooltip.vue';
 import { useSearchMySQLDataTypes } from '@composables/Miscellaneous/useSearchMySQLDataTypes';
 import { nextTick, onMounted, onUnmounted, ref } from 'vue';
 import { watch } from 'vue';
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue';
+import type { Ref } from 'vue';
 
 const { modelValue } = defineModels<{
     modelValue: string;
 }>();
 const scrollbar = ref();
-const dropdownBtn = ref();
+const dropdownBtn: Ref<Array<VDatabaseWithDescriptionButton>> = ref();
 const showDropdown = ref(false);
 const currentIndex = ref(0);
 const { searchTerm, getMysqlDataTypes } = useSearchMySQLDataTypes();
 
 const _updateScrollPosition = () => {
-    const CurrentElement = dropdownBtn.value[currentIndex.value];
-    // scrollbar.value.scrollTop = CurrentElement.offsetTop;
+    const CurrentElement = dropdownBtn.value[currentIndex.value].$el;
     scrollbar.value.osInstance().elements().scrollEventElement.scrollTop =
         CurrentElement.offsetTop;
 };
@@ -139,47 +141,32 @@ watch(
     >
         <template #label>Column Type:</template>
         <template #float>
-            <div class="h-full bg-white outline-none dark:bg-dark-800/50">
+            <div class="h-full bg-white outline-none dark:bg-dark-800">
                 <OverlayScrollbarsComponent
                     ref="scrollbar"
                     class="max-h-[250px] overflow-y-scroll"
                 >
-                    <button
+                    <VTooltip
                         v-for="(item, ind) in getMysqlDataTypes"
-                        ref="dropdownBtn"
                         :key="ind"
-                        class="group flex w-full justify-between px-2 py-1.5 text-xs font-bold outline-none"
-                        type="button"
-                        :class="{
-                            'bg-cyan-500 hover:bg-cyan-500 focus:bg-cyan-500 dark:bg-cyan-950 dark:hover:bg-cyan-950 dark:focus:bg-cyan-950':
-                                currentIndex === ind,
-                            'hover:bg-slate-200 focus:bg-slate-200 hover:dark:bg-cyan-950 focus:dark:bg-cyan-950':
-                                currentIndex !== ind,
-                        }"
-                        @click="onClickChooseDataType(ind)"
+                        placement="left"
+                        class="w-full"
                     >
-                        <span
-                            class="w-full truncate text-left group-hover:dark:text-cyan-500 group-focus:dark:text-cyan-500"
-                            :class="{
-                                'text-cyan-50 dark:text-cyan-500':
-                                    currentIndex === ind,
-                                'text-slate-800 dark:text-slate-500':
-                                    currentIndex !== ind,
-                            }"
-                            >{{ item.name }}</span
+                        <VDatabaseWithDescriptionButton
+                            ref="dropdownBtn"
+                            :is-active="currentIndex === ind"
+                            @click="onClickChooseDataType(ind)"
                         >
-                        <span
-                            v-if="item.description.trim() !== ''"
-                            class="w-full truncate text-left group-hover:dark:text-cyan-700 group-focus:dark:text-cyan-700"
-                            :class="{
-                                'text-cyan-200 dark:text-cyan-700':
-                                    currentIndex === ind,
-                                'text-slate-400 dark:text-slate-700':
-                                    currentIndex !== ind,
-                            }"
-                            >{{ item.description }}</span
-                        >
-                    </button>
+                            <template #name>{{ item.name }}</template>
+                            <template
+                                v-if="item.description.trim() !== ''"
+                                #description
+                                >{{ item.description }}
+                            </template>
+                        </VDatabaseWithDescriptionButton>
+
+                        <template #tooltip>{{ item.description }}</template>
+                    </VTooltip>
                 </OverlayScrollbarsComponent>
             </div>
         </template>

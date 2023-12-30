@@ -84,17 +84,17 @@ export function useTooltipSlideUpAnimation(
 
                 if (placement === 'right') {
                     Object.assign(ArrowElement.style, {
-                        left: '-4.5px',
+                        left: '0',
                         top: ArrowMiddleware.y, // Since border-width is .3rem or 6px
-                        transform: 'translateX(-50%) rotate(-90deg)',
+                        transform: 'translateX(-100%) rotate(-90deg)',
                     });
                 }
 
                 if (placement === 'left') {
                     Object.assign(ArrowElement.style, {
-                        right: '-4.5px',
+                        right: '0',
                         top: ArrowMiddleware.y, // Since border-width is .3rem or 6px
-                        transform: 'translateX(-50%) rotate(90deg)',
+                        transform: 'translateX(100%) rotate(90deg)',
                     });
                 }
             }
