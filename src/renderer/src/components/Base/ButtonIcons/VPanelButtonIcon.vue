@@ -20,7 +20,7 @@ const emits = defineEmits<{
             type="button"
             class="block h-[25px] w-[25px] rounded p-2 outline-none dark:stroke-slate-300"
             :class="{
-                'bg-dark-100 stroke-slate-50 dark:bg-dark-800 dark:stroke-slate-500 hover:dark:bg-cyan-950 hover:dark:stroke-cyan-500 focus:dark:bg-cyan-950 focus:dark:stroke-cyan-500':
+                'bg-cyan-600 stroke-white hover:bg-cyan-600/90 focus:bg-cyan-600/90 dark:bg-dark-800 dark:stroke-slate-500 hover:dark:bg-cyan-950 hover:dark:stroke-cyan-500 focus:dark:bg-cyan-950 focus:dark:stroke-cyan-500':
                     props.colorScheme === 'primary' && !props.disabled,
                 'bg-red-600 stroke-red-50 dark:bg-red-500 dark:stroke-red-50 dark:hover:bg-red-500/90':
                     props.colorScheme === 'danger' && !props.disabled,

@@ -9,7 +9,7 @@
     >
         <path
             d="M8 1V15M1 8H15"
-            stroke-width="2"
+            stroke-width="2.8"
             stroke-linecap="round"
             stroke-linejoin="round"
         />

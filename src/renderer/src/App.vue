@@ -21,12 +21,16 @@ provide(isCreatingTableKey, isCreatingTable);
     <TitleBar />
     <Toolbar />
     <div class="flex h-[calc(100vh-52px-44px)]">
-        <VPanelWrapper class="h-full w-full max-w-[200px]">
+        <VPanelWrapper
+            class="h-full w-full max-w-[250px] border-r-2 border-r-slate-300 dark:border-r-dark-700"
+        >
             <TableList />
             <HistorySection />
         </VPanelWrapper>
         <Canvas class="w-full" />
-        <VPanelWrapper class="h-full w-full max-w-[250px]">
+        <VPanelWrapper
+            class="h-full w-full max-w-[280px] border-l-2 border-l-slate-300 dark:border-l-dark-700"
+        >
             <TableInformationSection />
             <TableRelations />
         </VPanelWrapper>

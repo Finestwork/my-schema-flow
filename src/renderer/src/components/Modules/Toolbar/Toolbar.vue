@@ -13,7 +13,7 @@ import ExportFileButton from '@components/Modules/Toolbar/Partials/ExportFileBut
 
 <template>
     <div
-        class="flex items-center justify-between bg-white px-2 py-3 dark:bg-dark-900"
+        class="flex items-center justify-between border-b-2 border-b-slate-300 bg-white px-2 py-3 dark:border-b-dark-700 dark:bg-dark-900"
     >
         <div>
             <OpenFileButton class="mr-2" />

@@ -9,7 +9,7 @@
     >
         <path
             d="M1 1L7 7L13 1"
-            stroke-width="2"
+            stroke-width="2.8"
             stroke-linecap="round"
             stroke-linejoin="round"
         />

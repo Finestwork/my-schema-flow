@@ -2,7 +2,7 @@
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue';
 </script>
 <template>
-    <div class="bg-slate-100 dark:bg-dark-900">
+    <div class="bg-white dark:bg-dark-900">
         <OverlayScrollbarsComponent
             class="scrollbar h-full w-full dark:bg-dark-800/20"
         >

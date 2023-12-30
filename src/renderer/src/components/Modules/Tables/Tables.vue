@@ -42,18 +42,18 @@ const onClickHighlightTable = (id: string) => {
         <template #label>Tables</template>
         <template #content>
             <span
-                class="mb-1 mt-2 block text-[.7rem] font-semibold text-slate-500 dark:text-dark-400"
+                class="mb-1 mt-2 block text-[.7rem] font-bold text-slate-700 dark:text-dark-400"
                 >Total: {{ getTableList.length }}</span
             >
             <button
                 v-for="table in getTableList"
                 :key="table.id"
-                class="mb-0.5 w-full rounded px-1.5 py-2 text-left text-xs font-semibold text-dark-500 last-of-type:mb-0"
+                class="mb-0.5 w-full rounded-md px-1.5 py-2 text-left text-xs font-bold outline-none last-of-type:mb-0"
                 type="button"
                 :class="{
-                    ' hover:bg-slate-300 dark:text-dark-50 dark:hover:bg-cyan-950/50 dark:hover:text-cyan-500':
+                    'text-dark-800 hover:bg-slate-200 focus:bg-slate-200 dark:text-dark-50 dark:hover:bg-cyan-950/50 dark:hover:text-cyan-500':
                         !table.isActive,
-                    'bg-slate-300 dark:bg-cyan-950/50 dark:text-cyan-500':
+                    'bg-cyan-600 text-cyan-50 dark:bg-cyan-950/50 dark:text-cyan-500':
                         table.isActive,
                 }"
                 @click="onClickHighlightTable(table.id)"
