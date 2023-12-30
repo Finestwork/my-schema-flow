@@ -32,6 +32,7 @@ const onClickHighlightTable = (id: string) => {
     vueFlow.fitView({
         maxZoom: settingsStore.zoomLevel,
         nodes: [id],
+        duration: 1500,
     });
 };
 </script>
