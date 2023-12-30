@@ -79,26 +79,16 @@ const onSortEnd = ({ newIndex, oldIndex }) => {
     sortPrimaryKey();
     createHistory(`Swapped Columns: ${DraggedColumn} and ${ReplacedColumn}`);
 };
-
-const getTableInput = computed({
-    set(value: string) {
-        canvasStore.currentActiveNode.data.table.name = value
-            .trim()
-            .replace(' ', '');
-    },
-    get() {
-        return canvasStore.currentActiveNode.data.table.name;
-    },
-});
 </script>
 
 <template>
     <div>
         <VPanelTextInput
             id="columnTextInput"
-            v-model="getTableInput"
+            v-model="canvasStore.currentActiveNode.data.table.name"
             class="mb-4"
             placeholder="Place table's name here"
+            :no-white-space="true"
             @input="onInputAddToHistory"
         >
             <template #label> Table's Name:</template>
@@ -117,7 +107,7 @@ const getTableInput = computed({
                     {{ element.name }}
                 </template>
                 <template #type>{{ element.type }}</template>
-                <template #keyConstraint>{{ element.keyConstraint }} </template>
+                <template #keyConstraint>{{ element.keyConstraint }}</template>
             </VPanelColumnButton>
         </VueDraggable>
 

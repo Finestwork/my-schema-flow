@@ -3,9 +3,12 @@ export type TProps = {
     id: string;
     placeholder: string;
     disabled?: boolean;
+    noWhiteSpace?: boolean;
 };
 
-const props = defineProps<TProps>();
+const props = withDefaults(defineProps<TProps>(), {
+    noWhiteSpace: false,
+});
 const { modelValue } = defineModels<{
     modelValue: string;
 }>();
@@ -14,7 +17,30 @@ const emits = defineEmits<{
     (event: 'blur', value: Event): void;
     (event: 'focus', value: Event): void;
     (event: 'keydown', value: Event | KeyboardEvent): void;
+    (event: 'keyup', value: Event | KeyboardEvent): void;
 }>();
+const onKeyDown = (e: KeyboardEvent) => {
+    if (props.noWhiteSpace) {
+        if (e.key.trim() === '') {
+            e.preventDefault();
+            return;
+        }
+
+        // Prevent copy and pastes
+        const InputEl = <HTMLInputElement>e.target;
+        console.log(modelValue.value, InputEl.value);
+        modelValue.value = InputEl.value.trim().replaceAll(/\s/g, '');
+    }
+    emits('keydown', e);
+};
+const onKeyUp = (e: KeyboardEvent) => {
+    if (props.noWhiteSpace) {
+        // In case user copy and pastes
+        const InputEl = <HTMLInputElement>e.target;
+        modelValue.value = InputEl.value.trim().replaceAll(/\s/g, '');
+    }
+    emits('keyup', e);
+};
 </script>
 <template>
     <div class="h-full w-full">
@@ -41,7 +67,8 @@ const emits = defineEmits<{
             @input="emits('input', $event)"
             @focus="emits('focus', $event)"
             @blur="emits('blur', $event)"
-            @keydown="emits('keydown', $event)"
+            @keydown="onKeyDown"
+            @keyup="onKeyUp"
         />
     </div>
 </template>
