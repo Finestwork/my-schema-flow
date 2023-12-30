@@ -20,7 +20,7 @@ provide(isCreatingTableKey, isCreatingTable);
 <template>
     <TitleBar />
     <Toolbar />
-    <div class="flex h-[calc(100vh-52px-40px)]">
+    <div class="flex h-[calc(100vh-52px-44px)]">
         <VPanelWrapper class="h-full w-full max-w-[200px]">
             <TableList />
             <HistorySection />

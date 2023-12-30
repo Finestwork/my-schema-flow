@@ -32,7 +32,7 @@ onMounted(() => {
 
 <template>
     <div
-        class="drag-title-bar relative z-[500] flex h-[40px] select-none items-center bg-slate-50 px-2 dark:bg-dark-950"
+        class="drag-title-bar relative z-[500] flex h-[44px] select-none items-center bg-slate-50 px-2 dark:bg-dark-950"
     >
         <div class="flex h-full w-full items-center justify-between py-2">
             <span
