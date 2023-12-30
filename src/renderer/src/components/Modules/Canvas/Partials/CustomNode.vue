@@ -64,7 +64,7 @@ onMounted(() => {
                 :key="column.name"
                 class="flex justify-between px-3 py-3 text-sm font-bold"
                 :class="{
-                    'bg-cyan-600': column.shouldHighlight,
+                    'bg-cyan-600 dark:bg-cyan-950/50': column.shouldHighlight,
                 }"
             >
                 <span
@@ -78,11 +78,8 @@ onMounted(() => {
                             !(isActive || isDefault) &&
                             isFaded &&
                             !column.shouldHighlight,
-                        'text-cyan-50':
-                            !isActive &&
-                            isDefault &&
-                            !isFaded &&
-                            column.shouldHighlight,
+                        'text-cyan-50 dark:text-cyan-500':
+                            !isFaded && column.shouldHighlight,
                     }"
                     >{{ column.name }}</span
                 >
@@ -97,11 +94,8 @@ onMounted(() => {
                             !(isActive || isDefault) &&
                             isFaded &&
                             !column.shouldHighlight,
-                        'text-cyan-200':
-                            !isActive &&
-                            isDefault &&
-                            !isFaded &&
-                            column.shouldHighlight,
+                        'text-cyan-200 dark:text-cyan-500':
+                            !isFaded && column.shouldHighlight,
                     }"
                     >{{ column.type }}</span
                 >
@@ -116,11 +110,8 @@ onMounted(() => {
                             !(isActive || isDefault) &&
                             isFaded &&
                             !column.shouldHighlight,
-                        'text-cyan-200':
-                            !isActive &&
-                            isDefault &&
-                            !isFaded &&
-                            column.shouldHighlight,
+                        'text-cyan-200 dark:text-cyan-500':
+                            !isFaded && column.shouldHighlight,
                     }"
                     >{{ column.keyConstraint }}</span
                 >
