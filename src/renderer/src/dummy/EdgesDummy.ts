@@ -26,7 +26,7 @@ export default [
         },
         target: {
             table: 'orders',
-            column: 'order_id',
+            column: 'customer_id',
         },
     },
     {
