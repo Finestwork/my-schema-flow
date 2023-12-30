@@ -5,6 +5,10 @@ import type { TNode } from '@stores/Canvas';
 
 export type TExportTypes = 'png' | 'jpg' | 'svg';
 
+export type TExportOptions = {
+    bgColor: string;
+};
+
 /**
  * Export the given graph nodes to the specified type.
  */
@@ -12,8 +16,15 @@ export const exportAsImage = async (
     type: TExportTypes = 'png',
     wrapper: HTMLElement,
     nodes: Array<TNode>,
+    options: TExportOptions | Record<string, never> = {},
 ) => {
     if (type.trim() === '') return;
+    const DefaultOptions = Object.assign(
+        {
+            bgColor: '#090B10',
+        },
+        options,
+    );
 
     const nodesBounds = getRectOfNodes(nodes);
     const transform = getTransformForBounds(
@@ -24,7 +35,7 @@ export const exportAsImage = async (
         2,
     );
     const ImageOptions = {
-        backgroundColor: '#0c0e1c',
+        backgroundColor: DefaultOptions.bgColor,
         width: nodesBounds.width,
         height: nodesBounds.height,
         style: {

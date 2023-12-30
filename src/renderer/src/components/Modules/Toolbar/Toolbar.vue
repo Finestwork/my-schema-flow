@@ -4,7 +4,7 @@ import OpenFileButton from '@components/Modules/Toolbar/Partials/OpenFileButton.
 import AddNewTableButton from '@components/Modules/Toolbar/Partials/AddNewTableButton.vue';
 import AutoLayoutButton from '@components/Modules/Toolbar/Partials/AutoLayoutButton.vue';
 import ChangeOrientationButton from '@components/Modules/Toolbar/Partials/ChangeOrientationButton.vue';
-import ExportButton from '@components/Modules/Toolbar/Partials/ExportButton.vue';
+import ExportAsImageButton from '@components/Modules/Toolbar/Partials/ExportAsImageButton.vue';
 import UndoButton from '@components/Modules/Toolbar/Partials/UndoButton.vue';
 import RedoButton from '@components/Modules/Toolbar/Partials/RedoButton.vue';
 import SaveButton from '@components/Modules/Toolbar/Partials/SaveButton.vue';
@@ -18,7 +18,7 @@ import ExportFileButton from '@components/Modules/Toolbar/Partials/ExportFileBut
         <div>
             <OpenFileButton class="mr-2" />
             <ToggleDarkModeButton class="mr-2" />
-            <ExportButton class="mr-2" />
+            <ExportAsImageButton class="mr-2" />
             <ExportFileButton class="mr-2" />
         </div>
 

@@ -2,12 +2,14 @@
 import VToolbarButtonDropdown from '@components/Base/Dropdowns/VToolbarButtonDropdown.vue';
 import VToolbarButtonDropdownItem from '@components/Base/Dropdowns/VToolbarButtonDropdownItem.vue';
 import ExportImageIcon from '@components/Shared/Icons/ExportImageIcon.vue';
+import { useDarkMode } from '@composables/Miscellaneous/useDarkMode';
 import { exportAsImage } from '@utilities/ExportHelper';
 import { vueFlowKey } from '@symbols/VueFlow';
 import { inject } from 'vue';
 import type { TExportTypes } from '@utilities/ExportHelper';
 
 const VueFlow = inject(vueFlowKey);
+const { isDarkMode } = useDarkMode();
 const onClickExportAsImage = (type: TExportTypes) => {
     if (!VueFlow) return;
 
@@ -17,7 +19,15 @@ const onClickExportAsImage = (type: TExportTypes) => {
         );
         if (!Wrapper) return;
 
-        exportAsImage(type, Wrapper as HTMLElement, VueFlow.getNodes.value);
+        const Options = {
+            bgColor: isDarkMode.value ? '#090B10' : '#f8fafc',
+        };
+        exportAsImage(
+            type,
+            Wrapper as HTMLElement,
+            VueFlow.getNodes.value,
+            Options,
+        );
     }
 };
 </script>
