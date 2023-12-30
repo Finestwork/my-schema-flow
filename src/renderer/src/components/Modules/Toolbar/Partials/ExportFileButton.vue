@@ -5,7 +5,7 @@ import ExportSQLIcon from '@components/Shared/Icons/ExportSQLIcon.vue';
 
 import { vueFlowKey } from '@symbols/VueFlow';
 import { inject } from 'vue';
-import exportSQL from '@utilities/ExportSQL';
+import exportMySql from '@utilities/ExportSqlHelper';
 
 const vueFlow = inject(vueFlowKey);
 </script>
@@ -17,13 +17,24 @@ const vueFlow = inject(vueFlowKey);
         <template #float>
             <VToolbarButtonDropdownItem
                 @click="
-                    exportSQL(
+                    exportMySql(
                         vueFlow?.getNodes?.value ?? [],
                         vueFlow?.getEdges?.value ?? [],
                     )
                 "
             >
-                <template #text>Export To SQL</template>
+                <template #text>Export To MySQL</template>
+            </VToolbarButtonDropdownItem>
+
+            <VToolbarButtonDropdownItem
+                @click="
+                    exportMySql(
+                        vueFlow?.getNodes?.value ?? [],
+                        vueFlow?.getEdges?.value ?? [],
+                    )
+                "
+            >
+                <template #text>Export To SQLite</template>
             </VToolbarButtonDropdownItem>
         </template>
     </VToolbarButtonDropdown>

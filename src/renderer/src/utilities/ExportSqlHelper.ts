@@ -1,7 +1,7 @@
 import { createLinkElement } from '@utilities/DownloadHelper';
 import type { TEdge, TNode, TTableColumn } from '@stores/Canvas';
 
-const exportSQL = (nodes: Array<TNode>, edges: Array<TEdge>) => {
+export const exportMySQL = (nodes: Array<TNode>, edges: Array<TEdge>) => {
     const sqlData: string[] = ['data:text/plain;charset=utf-8,'];
 
     nodes.map((node) => {
@@ -33,4 +33,4 @@ const exportSQL = (nodes: Array<TNode>, edges: Array<TEdge>) => {
     return '';
 };
 
-export default exportSQL;
+export default exportMySQL;
