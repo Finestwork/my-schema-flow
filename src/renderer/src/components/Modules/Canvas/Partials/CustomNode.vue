@@ -59,43 +59,71 @@ onMounted(() => {
                 }"
                 >{{ props.data.table.name }}</span
             >
-            <div class="py-2">
-                <div
-                    v-for="column in getColumns"
-                    :key="column.name"
-                    class="flex justify-between px-3 py-3 text-sm font-bold"
+            <div
+                v-for="column in getColumns"
+                :key="column.name"
+                class="flex justify-between px-3 py-3 text-sm font-bold"
+                :class="{
+                    'bg-cyan-600': column.shouldHighlight,
+                }"
+            >
+                <span
+                    class="mr-2 w-4/12 grow truncate"
+                    :class="{
+                        'text-slate-800 dark:text-slate-400':
+                            (isActive || isDefault) &&
+                            !isFaded &&
+                            !column.shouldHighlight,
+                        'text-slate-600/40 dark:text-slate-700/50':
+                            !(isActive || isDefault) &&
+                            isFaded &&
+                            !column.shouldHighlight,
+                        'text-cyan-50':
+                            !isActive &&
+                            isDefault &&
+                            !isFaded &&
+                            column.shouldHighlight,
+                    }"
+                    >{{ column.name }}</span
                 >
-                    <span
-                        class="mr-2 w-4/12 grow truncate"
-                        :class="{
-                            'text-slate-800 dark:text-slate-400':
-                                (isActive || isDefault) && !isFaded,
-                            'text-slate-600/40 dark:text-slate-700/50':
-                                !(isActive || isDefault) && isFaded,
-                        }"
-                        >{{ column.name }}</span
-                    >
-                    <span
-                        class="w-4/12 grow truncate text-left"
-                        :class="{
-                            'text-slate-500 dark:text-slate-600':
-                                (isActive || isDefault) && !isFaded,
-                            'text-slate-400/50 dark:text-slate-700/50':
-                                !(isActive || isDefault) && isFaded,
-                        }"
-                        >{{ column.type }}</span
-                    >
-                    <span
-                        class="w-2/12 grow truncate text-center"
-                        :class="{
-                            'text-cyan-500':
-                                (isActive || isDefault) && !isFaded,
-                            'text-slate-700/50':
-                                !(isActive || isDefault) && isFaded,
-                        }"
-                        >{{ column.keyConstraint }}</span
-                    >
-                </div>
+                <span
+                    class="w-4/12 grow truncate text-left"
+                    :class="{
+                        'text-slate-500 dark:text-slate-600':
+                            (isActive || isDefault) &&
+                            !isFaded &&
+                            !column.shouldHighlight,
+                        'text-slate-400/50 dark:text-slate-700/50':
+                            !(isActive || isDefault) &&
+                            isFaded &&
+                            !column.shouldHighlight,
+                        'text-cyan-200':
+                            !isActive &&
+                            isDefault &&
+                            !isFaded &&
+                            column.shouldHighlight,
+                    }"
+                    >{{ column.type }}</span
+                >
+                <span
+                    class="w-2/12 grow truncate text-center"
+                    :class="{
+                        'text-cyan-500':
+                            (isActive || isDefault) &&
+                            !isFaded &&
+                            !column.shouldHighlight,
+                        'text-slate-700/50':
+                            !(isActive || isDefault) &&
+                            isFaded &&
+                            !column.shouldHighlight,
+                        'text-cyan-200':
+                            !isActive &&
+                            isDefault &&
+                            !isFaded &&
+                            column.shouldHighlight,
+                    }"
+                    >{{ column.keyConstraint }}</span
+                >
             </div>
         </div>
     </div>

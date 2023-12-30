@@ -11,6 +11,7 @@ export type TTableColumn = {
     isNull: boolean;
     length: string;
     keyConstraint: 'PK' | 'FK' | string;
+    shouldHighlight: boolean;
 };
 export type TNodeData = {
     table: {

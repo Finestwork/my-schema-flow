@@ -47,6 +47,7 @@ export const formatColumnForNodeCanvas = (arr: Array<TTableColumn>) => {
             name: column.name,
             type: formattedType,
             keyConstraint: column.keyConstraint,
+            shouldHighlight: column.shouldHighlight,
         };
     });
 };

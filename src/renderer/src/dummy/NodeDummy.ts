@@ -10,6 +10,7 @@ export default {
                 type: 'INTEGER',
                 isNull: false,
                 keyConstraint: 'PK',
+                shouldHighlightNode: false,
             },
             {
                 name: 'first_name',
@@ -17,6 +18,7 @@ export default {
                 isNull: false,
                 length: '255',
                 keyConstraint: '',
+                shouldHighlightNode: false,
             },
             {
                 name: 'last_name',
@@ -24,6 +26,7 @@ export default {
                 isNull: false,
                 length: '255',
                 keyConstraint: '',
+                shouldHighlightNode: false,
             },
             {
                 name: 'email',
@@ -31,6 +34,7 @@ export default {
                 isNull: false,
                 length: '255',
                 keyConstraint: '',
+                shouldHighlightNode: false,
             },
             {
                 name: 'phone_number',
@@ -38,6 +42,7 @@ export default {
                 isNull: false,
                 length: '20',
                 keyConstraint: '',
+                shouldHighlightNode: false,
             },
             {
                 name: 'address',
@@ -45,6 +50,7 @@ export default {
                 isNull: false,
                 length: '255',
                 keyConstraint: '',
+                shouldHighlightNode: false,
             },
             {
                 name: 'city',
@@ -52,6 +58,7 @@ export default {
                 isNull: false,
                 length: '255',
                 keyConstraint: '',
+                shouldHighlightNode: false,
             },
             {
                 name: 'state',
@@ -59,6 +66,7 @@ export default {
                 isNull: false,
                 length: '255',
                 keyConstraint: '',
+                shouldHighlightNode: false,
             },
             {
                 name: 'zip_code',
@@ -78,6 +86,7 @@ export default {
                 type: 'INTEGER',
                 isNull: false,
                 keyConstraint: 'PK',
+                shouldHighlightNode: false,
             },
             {
                 name: 'product_name',
@@ -85,30 +94,35 @@ export default {
                 isNull: false,
                 length: '255',
                 keyConstraint: '',
+                shouldHighlightNode: false,
             },
             {
                 name: 'description',
                 type: 'TEXT',
                 isNull: false,
                 keyConstraint: '',
+                shouldHighlightNode: false,
             },
             {
                 name: 'price',
                 type: 'DECIMAL(10,2)',
                 isNull: false,
                 keyConstraint: '',
+                shouldHighlightNode: false,
             },
             {
                 name: 'in_stock_quantity',
                 type: 'INTEGER',
                 isNull: false,
                 keyConstraint: '',
+                shouldHighlightNode: false,
             },
             {
                 name: 'category_id',
                 type: 'INTEGER',
                 isNull: false,
                 keyConstraint: 'FK',
+                shouldHighlightNode: false,
             },
             {
                 name: 'supplier_id',
@@ -127,6 +141,7 @@ export default {
                 type: 'INTEGER',
                 isNull: false,
                 keyConstraint: 'PK',
+                shouldHighlightNode: false,
             },
             {
                 name: 'category_name',
@@ -134,6 +149,7 @@ export default {
                 isNull: false,
                 length: '255',
                 keyConstraint: '',
+                shouldHighlightNode: false,
             },
             {
                 name: 'description',
@@ -152,6 +168,7 @@ export default {
                 type: 'INTEGER',
                 isNull: false,
                 keyConstraint: 'PK',
+                shouldHighlightNode: false,
             },
             {
                 name: 'first_name',
@@ -159,6 +176,7 @@ export default {
                 isNull: false,
                 length: '255',
                 keyConstraint: '',
+                shouldHighlightNode: false,
             },
             {
                 name: 'last_name',
@@ -166,6 +184,7 @@ export default {
                 isNull: false,
                 length: '255',
                 keyConstraint: '',
+                shouldHighlightNode: false,
             },
             {
                 name: 'email',
@@ -173,6 +192,7 @@ export default {
                 isNull: false,
                 length: '255',
                 keyConstraint: '',
+                shouldHighlightNode: false,
             },
             {
                 name: 'phone_number',
@@ -180,12 +200,14 @@ export default {
                 isNull: false,
                 length: '20',
                 keyConstraint: '',
+                shouldHighlightNode: false,
             },
             {
                 name: 'hire_date',
                 type: 'DATE',
                 isNull: false,
                 keyConstraint: '',
+                shouldHighlightNode: false,
             },
             {
                 name: 'position',
@@ -193,6 +215,7 @@ export default {
                 isNull: false,
                 length: '255',
                 keyConstraint: '',
+                shouldHighlightNode: false,
             },
             {
                 name: 'salary',
@@ -211,18 +234,21 @@ export default {
                 type: 'INTEGER',
                 isNull: false,
                 keyConstraint: 'PK',
+                shouldHighlightNode: false,
             },
             {
                 name: 'customer_id',
                 type: 'INTEGER',
                 isNull: false,
                 keyConstraint: 'FK',
+                shouldHighlightNode: false,
             },
             {
                 name: 'order_date',
                 type: 'DATE',
                 isNull: false,
                 keyConstraint: '',
+                shouldHighlightNode: false,
             },
             {
                 name: 'total_amount',
@@ -241,18 +267,21 @@ export default {
                 type: 'INTEGER',
                 isNull: false,
                 keyConstraint: 'PK',
+                shouldHighlightNode: false,
             },
             {
                 name: 'order_id',
                 type: 'INTEGER',
                 isNull: false,
                 keyConstraint: 'FK',
+                shouldHighlightNode: false,
             },
             {
                 name: 'shipment_date',
                 type: 'DATE',
                 isNull: false,
                 keyConstraint: '',
+                shouldHighlightNode: false,
             },
             {
                 name: 'shipment_status',
@@ -260,6 +289,7 @@ export default {
                 isNull: false,
                 length: '255',
                 keyConstraint: '',
+                shouldHighlightNode: false,
             },
             {
                 name: 'carrier',
@@ -267,6 +297,7 @@ export default {
                 isNull: false,
                 length: '255',
                 keyConstraint: '',
+                shouldHighlightNode: false,
             },
             {
                 name: 'tracking_number',
@@ -286,24 +317,28 @@ export default {
                 type: 'INTEGER',
                 isNull: false,
                 keyConstraint: 'PK',
+                shouldHighlightNode: false,
             },
             {
                 name: 'order_id',
                 type: 'INTEGER',
                 isNull: false,
                 keyConstraint: 'FK',
+                shouldHighlightNode: false,
             },
             {
                 name: 'payment_date',
                 type: 'DATE',
                 isNull: false,
                 keyConstraint: '',
+                shouldHighlightNode: false,
             },
             {
                 name: 'amount',
                 type: 'DECIMAL(10,2)',
                 isNull: false,
                 keyConstraint: '',
+                shouldHighlightNode: false,
             },
             {
                 name: 'payment_method',
@@ -323,6 +358,7 @@ export default {
                 type: 'INTEGER',
                 isNull: false,
                 keyConstraint: 'PK',
+                shouldHighlightNode: false,
             },
             {
                 name: 'supplier_name',
@@ -330,6 +366,7 @@ export default {
                 isNull: false,
                 length: '255',
                 keyConstraint: '',
+                shouldHighlightNode: false,
             },
             {
                 name: 'contact_person',
@@ -337,6 +374,7 @@ export default {
                 isNull: false,
                 length: '255',
                 keyConstraint: '',
+                shouldHighlightNode: false,
             },
             {
                 name: 'email',
@@ -344,6 +382,7 @@ export default {
                 isNull: false,
                 length: '255',
                 keyConstraint: '',
+                shouldHighlightNode: false,
             },
             {
                 name: 'phone_number',
@@ -351,6 +390,7 @@ export default {
                 isNull: false,
                 length: '20',
                 keyConstraint: '',
+                shouldHighlightNode: false,
             },
             {
                 name: 'address',
@@ -358,6 +398,7 @@ export default {
                 isNull: false,
                 length: '255',
                 keyConstraint: '',
+                shouldHighlightNode: false,
             },
             {
                 name: 'city',
@@ -365,6 +406,7 @@ export default {
                 isNull: false,
                 length: '255',
                 keyConstraint: '',
+                shouldHighlightNode: false,
             },
             {
                 name: 'state',
@@ -372,6 +414,7 @@ export default {
                 isNull: false,
                 length: '255',
                 keyConstraint: '',
+                shouldHighlightNode: false,
             },
             {
                 name: 'zip_code',
@@ -391,30 +434,35 @@ export default {
                 type: 'INTEGER',
                 isNull: false,
                 keyConstraint: 'PK',
+                shouldHighlightNode: false,
             },
             {
                 name: 'product_id',
                 type: 'INTEGER',
                 isNull: false,
                 keyConstraint: 'FK',
+                shouldHighlightNode: false,
             },
             {
                 name: 'customer_id',
                 type: 'INTEGER',
                 isNull: false,
                 keyConstraint: 'FK',
+                shouldHighlightNode: false,
             },
             {
                 name: 'rating',
                 type: 'INTEGER',
                 isNull: false,
                 keyConstraint: '',
+                shouldHighlightNode: false,
             },
             {
                 name: 'review_text',
                 type: 'TEXT',
                 isNull: false,
                 keyConstraint: '',
+                shouldHighlightNode: false,
             },
             {
                 name: 'review_date',
@@ -433,12 +481,14 @@ export default {
                 type: 'INTEGER',
                 isNull: false,
                 keyConstraint: 'PK',
+                shouldHighlightNode: false,
             },
             {
                 name: 'employee_id',
                 type: 'INTEGER',
                 isNull: false,
                 keyConstraint: 'FK',
+                shouldHighlightNode: false,
             },
             {
                 name: 'role_name',
@@ -446,6 +496,7 @@ export default {
                 isNull: false,
                 length: '255',
                 keyConstraint: '',
+                shouldHighlightNode: false,
             },
             {
                 name: 'department',
@@ -453,6 +504,7 @@ export default {
                 isNull: false,
                 length: '255',
                 keyConstraint: '',
+                shouldHighlightNode: false,
             },
         ],
     },
