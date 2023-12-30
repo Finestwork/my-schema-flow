@@ -5,7 +5,7 @@ import AddForm from '@components/Modules/TableInformationSection/Partials/AddFor
 import EditForm from '@components/Modules/TableInformationSection/Partials/EditForm.vue';
 import NoTableSelected from '@components/Shared/EmptyStates/NoTableSelected.vue';
 import { useCanvasStore } from '@stores/Canvas';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 
 const canvasStore = useCanvasStore();
 const currentColumnIndex = ref(-1);
@@ -19,6 +19,15 @@ const onEditFormHide = () => {
     displayEditForm.value = false;
     currentColumnIndex.value = -1;
 };
+
+watch(
+    () => canvasStore.currentActiveNode,
+    () => {
+        currentColumnIndex.value = -1;
+        displayAddForm.value = false;
+        displayEditForm.value = false;
+    },
+);
 </script>
 
 <template>
