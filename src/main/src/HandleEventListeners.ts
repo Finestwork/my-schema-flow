@@ -99,9 +99,9 @@ export default class HandleEventListeners {
                 const CurrentBrowserWindow = BrowserWindow.fromWebContents(
                     event.sender,
                 );
+                filePath = JSON.parse(filePath);
                 if (!CurrentBrowserWindow) return;
-
-                await writeFile(filePath, contents);
+                await writeFile(filePath[0], contents);
                 CurrentBrowserWindow.webContents.send(
                     'fileOverwriteSuccessfully',
                 );

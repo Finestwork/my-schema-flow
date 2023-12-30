@@ -44,6 +44,5 @@ export const exportAsImage = async (
             imageData = await toJpeg(wrapper, ImageOptions);
             break;
     }
-
     createLinkElement(imageData, `diagram.${type}`);
 };

@@ -7,15 +7,18 @@ const { modelValue } = defineModels<{
     modelValue: string;
 }>();
 const canvasStore = useCanvasStore();
+const filtered_columns =
+    canvasStore.currentActiveNode.data.table.columns.filter(
+        (column) =>
+            column.keyConstraint !== 'PK' && column.keyConstraint !== '',
+    );
 const getColumns = computed(() => {
     if (canvasStore.hasActiveEdge) {
         return canvasStore.currentActiveEdge.targetNode.data.table.columns.map(
             (column) => column.name,
         );
     }
-    return canvasStore.currentActiveNode.data.table.columns.map(
-        (column) => column.name,
-    );
+    return filtered_columns.map((column) => column.name);
 });
 
 // Everytime active node changes, reset model value
