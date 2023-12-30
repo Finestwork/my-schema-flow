@@ -41,7 +41,7 @@ export function useIPCListeners() {
                 fileStore.$reset();
                 const Contents = JSON.parse(file);
                 fileStore.fileName = fileName;
-                fileStore.filePath = filePath;
+                fileStore.filePath = filePath[0];
                 fileStore.savedIndex = 0;
                 vueFlow.setNodes(() => Contents.nodes);
                 vueFlow.setEdges(() => Contents.edges);
