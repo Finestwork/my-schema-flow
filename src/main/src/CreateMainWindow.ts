@@ -26,7 +26,7 @@ export default class CreateMainWindow {
             title: 'SchemaSparkle',
             icon: icon,
             titleBarOverlay: {
-                color: '#f8fafc',
+                color: '#0f172a',
                 symbolColor: '#64748b',
                 height: 40,
             },
