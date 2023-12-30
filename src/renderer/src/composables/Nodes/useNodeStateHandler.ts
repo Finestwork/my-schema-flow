@@ -47,7 +47,7 @@ export function useNodeStateHandler() {
                     return edge;
                 }
 
-                edge.class = 'inactive';
+                edge.class = 'faded';
                 edge.animated = false;
                 edge.sourceNode.data.states = {
                     isActive: false,
@@ -99,7 +99,7 @@ export function useNodeStateHandler() {
                     return edge;
                 }
 
-                currentEdge.class = 'inactive';
+                currentEdge.class = 'faded';
                 currentEdge.animated = false;
                 currentEdge.sourceNode.data.states = {
                     isActive: false,

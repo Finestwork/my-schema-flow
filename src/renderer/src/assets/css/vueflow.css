@@ -13,10 +13,10 @@
     stroke: #596481;
 }
 
-.vue-flow__edge.inactive .vue-flow__edge-path{
+.vue-flow__edge.faded .vue-flow__edge-path{
     stroke: #cbd5e1;
 }
-.dark .vue-flow__edge.inactive .vue-flow__edge-path{
+.dark .vue-flow__edge.faded .vue-flow__edge-path{
     stroke: #272F45;
 }
 
