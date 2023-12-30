@@ -1,4 +1,6 @@
 import NodeDummy from '@dummy/NodeDummy';
+import EdgesDummy from '@dummy/EdgesDummy';
+import { v4 as uuidv4 } from 'uuid';
 import type { TEdge, TNode } from '@stores/Canvas';
 
 const createNodes = (): Array<TNode> => {
@@ -29,7 +31,23 @@ const createNodes = (): Array<TNode> => {
 
 const createEdges = () => {
     const Edges: Array<TEdge> = [];
+    EdgesDummy.forEach((edge) => {
+        const EdgeObj = {
+            id: uuidv4(),
+            source: NodeDummy[edge.source.table].id,
+            target: NodeDummy[edge.target.table].id,
+            data: {
+                referenced: {
+                    column: edge.source.column,
+                },
+                referencing: {
+                    column: edge.target.column,
+                },
+            },
+        };
 
+        Edges.push(EdgeObj as TEdge);
+    });
     return Edges;
 };
 export const TestNodes = createNodes();
