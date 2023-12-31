@@ -11,7 +11,7 @@ const props = withDefaults(defineProps<TProps>(), {
     disabled: false,
 });
 const emits = defineEmits<{
-    (e: 'click', value: MouseEvent): void;
+    (e: 'onClick', value: MouseEvent): void;
 }>();
 </script>
 <template>
@@ -27,7 +27,7 @@ const emits = defineEmits<{
                 'cursor-not-allowed bg-slate-300 stroke-slate-400 dark:bg-dark-800/90 dark:stroke-slate-700':
                     props.disabled,
             }"
-            @click="emits('click', $event)"
+            @click="emits('onClick', $event)"
         >
             <slot></slot>
         </button>

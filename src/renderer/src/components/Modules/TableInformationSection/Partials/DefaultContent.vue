@@ -44,6 +44,7 @@ const { deleteRelationByColumn } = useTableRelationActions();
 const { createHistory } = useHistoryActions();
 const { sortPrimaryKey } = useSortTableColumns();
 const onClickCloneColumn = () => {
+    if (currentActiveIndex.value === -1) return;
     const { name } = canvasStore.cloneColumnInActiveNode(
         currentActiveIndex.value,
     );
@@ -51,6 +52,7 @@ const onClickCloneColumn = () => {
     createHistory(`Cloned Column: '${name}' in '${TableName} table`);
 };
 const onClickDeleteColumn = () => {
+    if (currentActiveIndex.value === -1) return;
     const { name } = canvasStore.removeColumnInActiveNode(
         currentActiveIndex.value,
     );
