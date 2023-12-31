@@ -222,7 +222,7 @@ export default {
             },
             {
                 name: 'salary',
-                type: 'DECIMAL(10)',
+                type: 'DECIMAL',
                 isNull: false,
                 keyConstraint: '',
                 shouldHighlight: false,
