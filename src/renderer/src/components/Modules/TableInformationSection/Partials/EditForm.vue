@@ -11,46 +11,47 @@ import PanelFormKeyConstraints from '@components/Shared/Forms/PanelFormKeyConstr
 import PanelFormNull from '@components/Shared/Forms/PanelFormNull.vue';
 import { useCanvasStore } from '@stores/Canvas';
 import { useUpdateEdgeData } from '@composables/Edges/useUpdateEdgeData';
+import { useColumnData } from '@composables/Table/useColumnData';
 import { validateColumns } from '@utilities/FormTableHelper';
-import { reactive, ref } from 'vue';
+import { ref } from 'vue';
 import type { Ref } from 'vue';
 import type { TUpdateColumn } from '@composables/Table/useTableRelationActions';
 
-const props = defineProps<{
-    currentColumnIndex: number;
-}>();
 const emits = defineEmits<{
     (e: 'hideForm', value: MouseEvent): void;
     (e: 'updateColumnRelation', value: TUpdateColumn): void;
 }>();
 const canvasStore = useCanvasStore();
-const column = Object.assign(
-    {},
-    canvasStore.currentActiveNode.data.table.columns[props.currentColumnIndex],
-);
 const errors: Ref<Array<string>> = ref([]);
 const isSuccessfullyCreated = ref(false);
-const formStates = reactive({
-    name: column?.name ?? '',
-    originalColumnName: column?.name ?? '',
-    type: column?.type ?? '',
-    length: column?.length ?? '',
-    keyConstraint: column?.keyConstraint ?? '',
-    isNull: column?.isNull ?? false,
-});
+const {
+    getColumnData,
+    columnName,
+    columnOriginalColumnName,
+    columnType,
+    columnLength,
+    columnKeyConstraint,
+    columnIsNull,
+} = useColumnData();
 const { updateColumnBasedOnActiveNode } = useUpdateEdgeData();
 const onClickUpdateColumn = () => {
     errors.value = [];
     isSuccessfullyCreated.value = false;
-    errors.value = validateColumns(formStates, canvasStore.currentActiveNode);
+    errors.value = validateColumns(
+        getColumnData.value,
+        canvasStore.currentActiveNode,
+    );
     if (errors.value.length !== 0) return;
     emits('updateColumnRelation', {
-        originalName: formStates.originalColumnName,
-        newName: formStates.name,
+        originalName: columnOriginalColumnName.value,
+        newName: columnName.value,
     });
-    updateColumnBasedOnActiveNode(formStates.name);
-    formStates.originalColumnName = formStates.name;
-    canvasStore.updateColumnInActiveNode(formStates, props.currentColumnIndex);
+    updateColumnBasedOnActiveNode(columnName.value);
+    columnOriginalColumnName.value = columnName.value;
+    canvasStore.updateColumnInActiveNode(
+        getColumnData.value,
+        canvasStore.currentNodeActiveColumnIndex,
+    );
     isSuccessfullyCreated.value = true;
 };
 </script>
@@ -68,11 +69,11 @@ const onClickUpdateColumn = () => {
             <VAlert v-if="isSuccessfullyCreated" class="mb-2.5 mt-6">
                 You have successfully updated a column!
             </VAlert>
-            <PanelFormColumnName v-model="formStates.name" class="mb-3" />
-            <PanelFormColumnType v-model="formStates.type" class="mb-3" />
-            <PanelFormColumnLength v-model="formStates.length" class="mb-3" />
-            <PanelFormNull v-model="formStates.isNull" class="mb-3" />
-            <PanelFormKeyConstraints v-model="formStates.keyConstraint" />
+            <PanelFormColumnName v-model="columnName" class="mb-3" />
+            <PanelFormColumnType v-model="columnType" class="mb-3" />
+            <PanelFormColumnLength v-model="columnLength" class="mb-3" />
+            <PanelFormNull v-model="columnIsNull" class="mb-3" />
+            <PanelFormKeyConstraints v-model="columnKeyConstraint" />
             <VPanelActionButton class="mb-3 mt-6" @click="onClickUpdateColumn">
                 <template #icon>
                     <EditIcon />

@@ -8,24 +8,13 @@ import { useCanvasStore } from '@stores/Canvas';
 import { ref, watch } from 'vue';
 
 const canvasStore = useCanvasStore();
-const currentColumnIndex = ref(-1);
 const displayAddForm = ref(false);
-const displayEditForm = ref(false);
-const onClickDisplayEditForm = (index: number) => {
-    displayEditForm.value = true;
-    currentColumnIndex.value = index;
-};
-const onEditFormHide = () => {
-    displayEditForm.value = false;
-    currentColumnIndex.value = -1;
-};
 
 watch(
     () => canvasStore.currentActiveNode,
     () => {
-        currentColumnIndex.value = -1;
+        canvasStore.currentNodeActiveColumnIndex = -1;
         displayAddForm.value = false;
-        displayEditForm.value = false;
     },
 );
 </script>
@@ -36,19 +25,28 @@ watch(
         <template #content>
             <div v-if="canvasStore.hasActiveNode">
                 <DefaultContent
-                    v-if="!displayAddForm && !displayEditForm"
-                    v-model:current-column-index="currentColumnIndex"
+                    v-if="
+                        !displayAddForm &&
+                        canvasStore.currentNodeActiveColumnIndex === -1
+                    "
+                    v-model:current-column-index="
+                        canvasStore.currentNodeActiveColumnIndex
+                    "
                     @add-column="displayAddForm = true"
-                    @edit-column="onClickDisplayEditForm"
                 />
                 <AddForm
-                    v-if="displayAddForm && !displayEditForm"
+                    v-if="
+                        displayAddForm &&
+                        canvasStore.currentNodeActiveColumnIndex === -1
+                    "
                     @hide-form="displayAddForm = false"
                 />
                 <EditForm
-                    v-if="!displayAddForm && displayEditForm"
-                    :current-column-index="currentColumnIndex"
-                    @hide-form="onEditFormHide"
+                    v-if="
+                        !displayAddForm &&
+                        canvasStore.currentNodeActiveColumnIndex !== -1
+                    "
+                    @hide-form="canvasStore.currentNodeActiveColumnIndex = -1"
                 />
             </div>
             <NoTableSelected v-else />

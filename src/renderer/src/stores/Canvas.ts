@@ -6,7 +6,6 @@ import type { GraphNode, GraphEdge } from '@vue-flow/core';
 export type TTableColumn = {
     id: number;
     name: string;
-    originalColumnName?: string;
     type: string;
     isNull: boolean;
     length: string;
@@ -63,22 +62,30 @@ export const useCanvasStore = defineStore('canvas', {
         currentActiveNode: {} as TNode | Record<string, never>,
         currentActiveEdge: {} as TEdge | Record<string, never>,
         connections: {} as TConnectionData | Record<string, never>,
+        currentNodeActiveColumnIndex: -1,
     }),
     actions: {
         addColumnInActiveNode(
-            data: Omit<TTableColumn, 'id' | 'keyConstraint'>,
+            data: Omit<TTableColumn, 'id' | 'shouldHighlight'>,
         ) {
             const Columns = this.currentActiveNode.data.table.columns;
-            Columns.push(klona(data));
+            const AddedObject = Object.assign(
+                { shouldHighlight: false },
+                klona(data),
+            );
+            Columns.push(AddedObject);
             this.currentActiveNode.data.table.columns =
                 sortConstraintKeys(Columns);
         },
         updateColumnInActiveNode(
-            data: Omit<TTableColumn, 'id' | 'keyConstraint'>,
+            data: Omit<
+                TTableColumn,
+                'id' | 'keyConstraint' | 'shouldHighlight'
+            >,
             index: number,
         ) {
             const Columns = this.currentActiveNode.data.table.columns;
-            Columns[index] = klona(data);
+            Columns[index] = Object.assign(Columns[index], klona(data));
             this.currentActiveNode.data.table.columns =
                 sortConstraintKeys(Columns);
         },
@@ -126,7 +133,14 @@ export const useCanvasStore = defineStore('canvas', {
                 name: column.name,
                 type: column.type,
                 keyConstraint: column.keyConstraint,
+                shouldHighlight: column.shouldHighlight,
             }));
+        },
+        getCurrentActiveColumnData(state) {
+            if (!this.hasActiveNode) return {};
+            return state.currentActiveNode.data.table.columns[
+                state.currentNodeActiveColumnIndex
+            ];
         },
     },
 });

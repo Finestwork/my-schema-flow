@@ -44,6 +44,7 @@ export function useNodeDragEvent() {
     });
 
     onNodeClick((event) => {
+        if (event.node.id === canvasStore.currentActiveNode.id) return;
         _turnOnNodeActiveState(event.node);
     });
 

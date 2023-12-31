@@ -20,7 +20,6 @@ export type TColumnList = {
 };
 const emits = defineEmits<{
     (e: 'addColumn', value: Event): void;
-    (e: 'editColumn', value: number): void;
 }>();
 const canvasStore = useCanvasStore();
 const currentActiveIndex = ref(-1);
@@ -76,6 +75,10 @@ const onSortEnd = ({ newIndex, oldIndex }) => {
     const Tables = canvasStore.currentActiveNode.data.table.columns;
     const DraggedColumn = Tables[newIndex].name;
     const ReplacedColumn = Tables[oldIndex].name;
+    if (currentActiveIndex.value !== -1) {
+        currentActiveIndex.value = newIndex;
+    }
+
     sortPrimaryKey();
     createHistory(`Swapped Columns: ${DraggedColumn} and ${ReplacedColumn}`);
 };
@@ -101,7 +104,7 @@ const onSortEnd = ({ newIndex, oldIndex }) => {
                 class="mb-2 last-of-type:mb-0"
                 :is-active="currentActiveIndex === index"
                 @click="onClickToggleActiveState($event, index)"
-                @dblclick="emits('editColumn', index)"
+                @dblclick="canvasStore.currentNodeActiveColumnIndex = index"
             >
                 <template #column>
                     {{ element.name }}

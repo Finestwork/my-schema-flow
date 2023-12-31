@@ -12,7 +12,7 @@ export const parseTableLength = (length: string) => {
 };
 
 export const validateColumns = (
-    data: Omit<TTableColumn, 'id'>,
+    data: Omit<TTableColumn, 'id' | 'shouldHighlight'>,
     currentNode: TNode | Record<string, never>,
 ): Array<string> => {
     const Errors: Array<string> = [];

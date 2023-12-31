@@ -12,8 +12,9 @@ import PanelFormNull from '@components/Shared/Forms/PanelFormNull.vue';
 import { useCanvasStore } from '@stores/Canvas';
 import { useSortTableColumns } from '@composables/Table/useSortTableColumns';
 import { useHistoryActions } from '@composables/History/useHistoryActions';
+import { useColumnData } from '@composables/Table/useColumnData';
 import { validateColumns } from '@utilities/FormTableHelper';
-import { reactive, ref } from 'vue';
+import { ref } from 'vue';
 import type { Ref } from 'vue';
 
 const emits = defineEmits<{
@@ -22,31 +23,31 @@ const emits = defineEmits<{
 const canvasStore = useCanvasStore();
 const errors: Ref<Array<string>> = ref([]);
 const isSuccessfullyCreated = ref(false);
-const initialState = {
-    name: '',
-    type: '',
-    length: '',
-    keyConstraint: '',
-    isNull: false,
-};
-const formStates = reactive({ ...initialState });
+const {
+    getColumnData,
+    columnName,
+    columnLength,
+    columnType,
+    columnIsNull,
+    columnKeyConstraint,
+    fullResetData,
+} = useColumnData();
 const { sortPrimaryKey } = useSortTableColumns();
 const { createHistory } = useHistoryActions();
 const onClickAddColumn = () => {
     errors.value = [];
     isSuccessfullyCreated.value = false;
-    formStates.name = formStates.name
-        .trimEnd()
-        .replace(/\s+/g, '_')
-        .toLowerCase();
-    errors.value = validateColumns(formStates, canvasStore.currentActiveNode);
+    errors.value = validateColumns(
+        getColumnData.value,
+        canvasStore.currentActiveNode,
+    );
     if (errors.value.length !== 0) return;
     const TableName = canvasStore.currentActiveNode.data.table.name;
-    createHistory(`Column Added: ${formStates.name} in '${TableName}' table`);
+    createHistory(`Column Added: ${columnName.value} in '${TableName}' table`);
 
-    canvasStore.addColumnInActiveNode(formStates);
+    canvasStore.addColumnInActiveNode(getColumnData.value);
     isSuccessfullyCreated.value = true;
-    Object.assign(formStates, initialState);
+    fullResetData();
     sortPrimaryKey();
 };
 </script>
@@ -64,11 +65,11 @@ const onClickAddColumn = () => {
             <VAlert v-if="isSuccessfullyCreated" class="mb-2.5 mt-6">
                 You have successfully added a new column!
             </VAlert>
-            <PanelFormColumnName v-model="formStates.name" class="mb-3" />
-            <PanelFormColumnType v-model="formStates.type" class="mb-3" />
-            <PanelFormColumnLength v-model="formStates.length" class="mb-3" />
-            <PanelFormNull v-model="formStates.isNull" class="mb-3" />
-            <PanelFormKeyConstraints v-model="formStates.keyConstraint" />
+            <PanelFormColumnName v-model="columnName" class="mb-3" />
+            <PanelFormColumnType v-model="columnType" class="mb-3" />
+            <PanelFormColumnLength v-model="columnLength" class="mb-3" />
+            <PanelFormNull v-model="columnIsNull" class="mb-3" />
+            <PanelFormKeyConstraints v-model="columnKeyConstraint" />
             <VPanelActionButton class="mb-3 mt-6" @click="onClickAddColumn">
                 <template #icon>
                     <AddIcon />
