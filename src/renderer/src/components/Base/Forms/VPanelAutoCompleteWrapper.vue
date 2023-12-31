@@ -57,6 +57,7 @@ onClickOutside(rootWrapper, () => {
                 :id="props.id"
                 ref="input"
                 v-model="modelValue"
+                v-no-white-space="true"
                 class="block w-full rounded border-2 bg-transparent p-1.5 text-xs font-bold outline-none transition-shadow duration-150 ease-in-out dark:bg-dark-900"
                 type="text"
                 :class="{

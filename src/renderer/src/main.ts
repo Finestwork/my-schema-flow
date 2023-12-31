@@ -8,11 +8,12 @@ import '@assets/css/scrollbar.css';
 import '@assets/css/vueflow.css';
 
 import App from './App.vue';
-import { NumberOnly } from '@directives/NumberOnly';
+import { numberOnly, noWhiteSpace } from '@directives/TextInputDirectives';
 import { createPinia } from 'pinia';
 import { createApp } from 'vue';
 
 createApp(App)
     .use(createPinia())
-    .directive('number-only', NumberOnly)
+    .directive('number-only', numberOnly)
+    .directive('no-white-space', noWhiteSpace)
     .mount('body');

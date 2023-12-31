@@ -19,27 +19,6 @@ const emits = defineEmits<{
     (event: 'keydown', value: Event | KeyboardEvent): void;
     (event: 'keyup', value: Event | KeyboardEvent): void;
 }>();
-const onKeyDown = (e: KeyboardEvent) => {
-    if (props.noWhiteSpace) {
-        if (e.key.trim() === '') {
-            e.preventDefault();
-            return;
-        }
-
-        // Prevent copy and pastes
-        const InputEl = <HTMLInputElement>e.target;
-        modelValue.value = InputEl.value.trim().replaceAll(/\s/g, '');
-    }
-    emits('keydown', e);
-};
-const onKeyUp = (e: KeyboardEvent) => {
-    if (props.noWhiteSpace) {
-        // In case user copy and pastes
-        const InputEl = <HTMLInputElement>e.target;
-        modelValue.value = InputEl.value.trim().replaceAll(/\s/g, '');
-    }
-    emits('keyup', e);
-};
 </script>
 <template>
     <div class="h-full w-full">
@@ -53,6 +32,7 @@ const onKeyUp = (e: KeyboardEvent) => {
         <input
             :id="props.id"
             v-model="modelValue"
+            v-no-white-space="props.noWhiteSpace"
             class="block h-full w-full rounded border-2 bg-transparent p-1.5 text-xs font-bold outline-none transition-shadow duration-150 ease-in-out"
             type="text"
             :class="{
@@ -66,8 +46,8 @@ const onKeyUp = (e: KeyboardEvent) => {
             @input="emits('input', $event)"
             @focus="emits('focus', $event)"
             @blur="emits('blur', $event)"
-            @keydown="onKeyDown"
-            @keyup="onKeyUp"
+            @keydown="emits('keydown', $event)"
+            @keyup="emits('keyup', $event)"
         />
     </div>
 </template>

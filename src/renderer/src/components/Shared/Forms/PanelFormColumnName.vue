@@ -11,6 +11,7 @@ const { modelValue } = defineModels<{
         id="addColumnNameForm"
         v-model="modelValue"
         placeholder="Place column name here"
+        :no-white-space="true"
     >
         <template #label>Column Name:</template>
     </VPanelTextInput>
