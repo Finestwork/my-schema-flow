@@ -2,7 +2,7 @@
 import VToolbarButtonDropdown from '@components/Base/Dropdowns/VToolbarButtonDropdown.vue';
 import VToolbarButtonDropdownItem from '@components/Base/Dropdowns/VToolbarButtonDropdownItem.vue';
 import ExportSQLIcon from '@components/Shared/Icons/ExportSQLIcon.vue';
-import { exportToSQL } from '@utilities/ExportSqlHelper';
+import { exportToSQL } from '@utilities/ExportHelper';
 import { vueFlowKey } from '@symbols/VueFlow';
 import { inject } from 'vue';
 
