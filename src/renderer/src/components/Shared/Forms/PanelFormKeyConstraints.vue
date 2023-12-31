@@ -20,13 +20,14 @@ const onClickToggleModelValue = (type: string, e: MouseEvent) => {
         >
         <div class="mt-1.5 flex">
             <VPanelSelectButton
-                class="mr-2"
+                class="mr-2 w-full"
                 :is-active="modelValue === 'PK'"
                 @click="onClickToggleModelValue('PK', $event)"
             >
                 Primary Key
             </VPanelSelectButton>
             <VPanelSelectButton
+                class="w-full"
                 :is-active="modelValue === 'FK'"
                 @click="onClickToggleModelValue('FK', $event)"
             >
