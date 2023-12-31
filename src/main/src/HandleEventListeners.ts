@@ -7,9 +7,10 @@ export default class HandleEventListeners {
     constructor() {
         this._toggleDarkMode();
         this._saveFile();
-        this._saveFileWithFileName();
+        this._overwriteFileName();
         this._overwriteFile();
         this._openFile();
+        this._saveAsScript();
     }
 
     private _toggleDarkMode() {
@@ -63,7 +64,7 @@ export default class HandleEventListeners {
         });
     }
 
-    private _saveFileWithFileName() {
+    private _overwriteFileName() {
         ipcMain.on(
             'overwriteFileName',
             async (event: IpcMainEvent, filePath: string, fileName: string) => {
@@ -135,5 +136,30 @@ export default class HandleEventListeners {
                 basename(Result.filePaths[0]),
             );
         });
+    }
+
+    private _saveAsScript() {
+        ipcMain.on(
+            'saveAsScript',
+            async (event, script: string, extension: Array<string>) => {
+                const CurrentBrowserWindow = BrowserWindow.fromWebContents(
+                    event.sender,
+                );
+                if (!CurrentBrowserWindow) return;
+
+                const DialogOptions = {
+                    title: 'Exporting a File',
+                    filters: [{ name: 'sql', extensions: [...extension] }],
+                };
+                const Result = await dialog.showSaveDialog(
+                    CurrentBrowserWindow,
+                    DialogOptions,
+                );
+                if (Result.canceled) return;
+                if (!Result.filePath) return;
+
+                writeFile(Result.filePath, script);
+            },
+        );
     }
 }

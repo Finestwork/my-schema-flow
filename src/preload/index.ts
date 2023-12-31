@@ -15,6 +15,9 @@ const api = {
     overwriteFile(contents: string, filePath: string) {
         ipcRenderer.send('overwriteFile', contents, filePath);
     },
+    saveAsScript(script: string, extension: Array<string>) {
+        ipcRenderer.send('saveAsScript', script, extension);
+    },
     openFile() {
         ipcRenderer.send('openFile');
     },

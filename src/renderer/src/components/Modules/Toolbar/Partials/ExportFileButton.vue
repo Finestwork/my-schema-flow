@@ -2,12 +2,19 @@
 import VToolbarButtonDropdown from '@components/Base/Dropdowns/VToolbarButtonDropdown.vue';
 import VToolbarButtonDropdownItem from '@components/Base/Dropdowns/VToolbarButtonDropdownItem.vue';
 import ExportSQLIcon from '@components/Shared/Icons/ExportSQLIcon.vue';
-
+import { exportToSQL } from '@utilities/ExportSqlHelper';
 import { vueFlowKey } from '@symbols/VueFlow';
 import { inject } from 'vue';
-import exportMySql from '@utilities/ExportSqlHelper';
 
 const vueFlow = inject(vueFlowKey);
+const onClickExportSQL = () => {
+    if (!vueFlow) return;
+    const SQLScript = exportToSQL(
+        vueFlow.getNodes.value,
+        vueFlow.getEdges.value,
+    );
+    window.api.saveAsScript(SQLScript, ['sql']);
+};
 </script>
 
 <template>
@@ -15,25 +22,11 @@ const vueFlow = inject(vueFlowKey);
         <ExportSQLIcon />
         <template #tooltip>Export as File</template>
         <template #float>
-            <VToolbarButtonDropdownItem
-                @click="
-                    exportMySql(
-                        vueFlow?.getNodes?.value ?? [],
-                        vueFlow?.getEdges?.value ?? [],
-                    )
-                "
-            >
+            <VToolbarButtonDropdownItem @click="onClickExportSQL">
                 <template #text>Export To MySQL</template>
             </VToolbarButtonDropdownItem>
 
-            <VToolbarButtonDropdownItem
-                @click="
-                    exportMySql(
-                        vueFlow?.getNodes?.value ?? [],
-                        vueFlow?.getEdges?.value ?? [],
-                    )
-                "
-            >
+            <VToolbarButtonDropdownItem @click="onClickExportSQL">
                 <template #text>Export To SQLite</template>
             </VToolbarButtonDropdownItem>
         </template>

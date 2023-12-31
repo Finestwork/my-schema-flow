@@ -8,6 +8,7 @@ declare global {
             saveFile(contents: string): void;
             overwriteFileName(currentFilePath: string, fileName: string): void;
             overwriteFile(contents: string, filePath: string): void;
+            saveAsScript(script: string, extension: Array<string>): void;
             openFile(): void;
         };
     }
