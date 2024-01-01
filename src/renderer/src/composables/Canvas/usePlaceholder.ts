@@ -1,4 +1,4 @@
-import { useCreateNode } from '@composables/Nodes/useCreateNode';
+import { useNodeActions } from '@composables/Nodes/useNodeActions';
 import { isCreatingTableKey } from '@symbols/Canvas';
 import { vueFlowKey } from '@symbols/VueFlow';
 import { nextTick, ref, toValue, inject } from 'vue';
@@ -10,7 +10,7 @@ export function usePlaceholder(placeholder: Ref<HTMLElement>) {
     const isDragging = ref(false);
     const isCreatingTable = inject(isCreatingTableKey);
     const VueFlow = inject(vueFlowKey);
-    const { createNode } = useCreateNode();
+    const { createNode } = useNodeActions();
 
     if (!VueFlow) {
         return {

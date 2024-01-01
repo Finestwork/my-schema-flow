@@ -2,29 +2,22 @@
 import VNodeToolbarButtonIcon from '@components/Base/ButtonIcons/VNodeToolbarButtonIcon.vue';
 import TrashIcon from '@components/Shared/Icons/TrashIcon.vue';
 import CopyIcon from '@components/Shared/Icons/CopyIcon.vue';
-import { useTableNodeCopy } from '@composables/Nodes/useTableNodeCopy';
+import { useNodeActions } from '@composables/Nodes/useNodeActions';
 import { vueFlowKey } from '@symbols/VueFlow';
 import { inject } from 'vue';
 
-const { copyTable } = useTableNodeCopy();
+const { copyNode, deleteNode } = useNodeActions();
 const VueFlow = inject(vueFlowKey);
-
-const onClickDeleteTable = () => {
-    if (!VueFlow) return;
-};
 </script>
 <template>
     <div
         class="absolute left-0 top-0 flex w-full -translate-y-full justify-end pb-2"
     >
-        <VNodeToolbarButtonIcon class="mr-2" @on-click="copyTable">
+        <VNodeToolbarButtonIcon class="mr-2" @on-click="copyNode">
             <CopyIcon />
             <template #tooltip>Copy Table</template>
         </VNodeToolbarButtonIcon>
-        <VNodeToolbarButtonIcon
-            color-scheme="danger"
-            @on-click="onClickDeleteTable"
-        >
+        <VNodeToolbarButtonIcon color-scheme="danger" @on-click="deleteNode">
             <TrashIcon />
             <template #tooltip>Delete Table</template>
         </VNodeToolbarButtonIcon>
