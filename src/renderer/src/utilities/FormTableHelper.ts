@@ -100,8 +100,6 @@ export const validateTableRelations = (
     let source: TTableColumn | undefined = undefined;
     let target: TTableColumn | undefined = undefined;
 
-
-
     if (isEmpty(data.referencingColumn)) {
         Errors.push('Referencing column should not be empty.');
     } else {

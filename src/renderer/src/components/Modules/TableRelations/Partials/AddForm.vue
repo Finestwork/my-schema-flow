@@ -37,9 +37,13 @@ const onClickAddRelation = async () => {
     if (!VueFlow) return;
     errors.value = [];
     isSuccessfullyCreated.value = false;
-    // Defaults to NO ACTION if not set 
-    onDeleteConstraint.value = isEmpty(onDeleteConstraint) ? onDeleteConstraint.value : 'NO ACTION';
-    onUpdateConstraint.value = isEmpty(onUpdateConstraint) ? onUpdateConstraint.value : 'NO ACTION';
+    // Defaults to NO ACTION if not set
+    onDeleteConstraint.value = isEmpty(onDeleteConstraint)
+        ? onDeleteConstraint.value
+        : 'NO ACTION';
+    onUpdateConstraint.value = isEmpty(onUpdateConstraint)
+        ? onUpdateConstraint.value
+        : 'NO ACTION';
     const RelationObj = {
         referencingColumn: referencingColumn.value,
         referencedTable: referencedTable.value,
@@ -110,7 +114,6 @@ const onClickAddRelation = async () => {
             v-model="onUpdateConstraint"
             class="mb-5"
         />
-
 
         <VPanelActionButton @click="onClickAddRelation">
             <template #icon>

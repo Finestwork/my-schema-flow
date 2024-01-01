@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import VPanelAutoComplete from '@components/Base/Forms/VPanelAutoComplete.vue';
 import { useCanvasStore } from '@stores/Canvas';
-import { computed, watch } from 'vue';
+import { watch } from 'vue';
 
 const { modelValue } = defineModels<{
     modelValue: string;
