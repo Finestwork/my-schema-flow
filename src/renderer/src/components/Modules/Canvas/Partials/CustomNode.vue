@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import VPrimaryTableNode from '@components/Base/CustomTableNodes/VPrimaryTableNode.vue';
 import VTableNodeButton from '@components/Base/Buttons/VTableNodeButton.vue';
-import CustomNodeHandles from '@components/Modules/Canvas/Partials/CustomNodeHandles.vue';
+import VCircleHandle from '@components/Base/CustomNodeHandles/VCircleHandle.vue';
 import { useCanvasStore } from '@stores/Canvas';
 import { formatColumnForNodeCanvas } from '@utilities/TableHelper';
 import { jellyAnimation } from '@utilities/AnimateHelper';
@@ -83,7 +83,7 @@ onPaneClick(() => {
 
 <template>
     <div ref="root" class="relative">
-        <CustomNodeHandles
+        <VCircleHandle
             :node-id="props.id"
             :is-active="isActive"
             :is-faded="isFaded"
