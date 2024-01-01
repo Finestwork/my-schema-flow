@@ -13,7 +13,7 @@ const getTableName = computed(() => {
 </script>
 
 <template>
-    <div class="text-xs font-semibold">
+    <div class="text-xs font-bold">
         <span class="block text-slate-700 dark:text-slate-300"
             >Referencing Table:</span
         >

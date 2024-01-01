@@ -84,9 +84,9 @@ const onClickDeleteRelation = () => {
             You have successfully updated a table relation!
         </VAlert>
         <PanelBackButton class="mb-4 mt-2" @click="onClickHideForm" />
-        <PanelFormCurrentTableLabel class="mb-2" />
-        <PanelFormReferencingColumn v-model="referencingColumn" class="mb-2" />
-        <PanelFormReferencedTable v-model="referencedTable" class="mb-2" />
+        <PanelFormCurrentTableLabel class="mb-4" />
+        <PanelFormReferencingColumn v-model="referencingColumn" class="mb-4" />
+        <PanelFormReferencedTable v-model="referencedTable" class="mb-4" />
         <PanelFormReferencedColumn
             v-model="referencedColumn"
             v-model:referenced-table="referencedTable"
