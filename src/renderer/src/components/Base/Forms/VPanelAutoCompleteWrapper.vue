@@ -53,6 +53,7 @@ onClickOutside(rootWrapper, () => {
             v-model="modelValue"
             :placeholder="props.placeholder"
             :disabled="props.disabled"
+            :no-white-space="true"
             @input="onInput"
             @focus="emits('onInputFocus', $event)"
             @keydown="emits('onInputKeydown', $event)"
