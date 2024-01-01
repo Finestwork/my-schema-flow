@@ -46,13 +46,15 @@ export type TEdgeData = {
             | 'SET NULL'
             | 'RESTRICT'
             | 'NO ACTION'
-            | 'SET DEFAULT';
+            | 'SET DEFAULT'
+            | string;
         onUpdate:
             | 'CASCADE'
             | 'SET NULL'
             | 'RESTRICT'
             | 'NO ACTION'
-            | 'SET DEFAULT';
+            | 'SET DEFAULT'
+            | string;
     };
 };
 

@@ -17,7 +17,6 @@ import { useHistoryActions } from '@composables/History/useHistoryActions';
 import { validateTableRelations } from '@utilities/FormTableHelper';
 import { vueFlowKey } from '@symbols/VueFlow';
 import { nextTick, ref, inject } from 'vue';
-import { isEmpty } from 'lodash';
 import type { Ref } from 'vue';
 
 const emits = defineEmits<{
@@ -55,12 +54,6 @@ const onClickUpdateRelation = async () => {
     errors.value = [];
     isSuccessfullyUpdated.value = false;
     // Defaults to NO ACTION if not set
-    onDeleteConstraint.value = isEmpty(onDeleteConstraint)
-        ? onDeleteConstraint.value
-        : 'NO ACTION';
-    onUpdateConstraint.value = isEmpty(onUpdateConstraint)
-        ? onUpdateConstraint.value
-        : 'NO ACTION';
     const RelationObj = {
         referencingColumn: referencingColumn.value,
         referencedTable: referencedTable.value,
