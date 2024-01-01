@@ -155,7 +155,24 @@ export const validateTableRelations = (
             );
         }
 
-       
+        // Check if the referenced column is the same data type as the referencing column
+        if (target?.type !== source?.type) {
+            Errors.push(
+                `Referencing column '${data.referencingColumn}' is not the same data type as referenced column '${data.referencedColumn}'.`,
+            );
+        }
+
+        if (data.constraint.onDelete === 'SET DEFAULT' && source?.isNull) {
+            Errors.push(
+                `Referencing column '${data.referencingColumn}' should not be nullable because 'SET DEFAULT' is selected.`,
+            );
+        }
+
+        if (data.constraint.onDelete === 'SET NULL' && !source?.isNull) {
+            Errors.push(
+                `Referencing column '${data.referencingColumn}' should be nullable because 'SET NULL' is selected.`,
+            );
+        }
     }
 
     return Errors.map((error) => `• ${error}`);
