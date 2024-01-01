@@ -78,7 +78,6 @@ usePaneDoubleClick(() => {
             <Background class="h-full" :pattern-color="getPatternColor" />
             <MiniMap ref="minimap" pannable zoomable />
             <ZoomText />
-
             <Controls />
             <CustomNodePlaceholder ref="placeholder" />
             <template #node-custom="props">

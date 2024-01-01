@@ -2,6 +2,7 @@
 import VPrimaryTableNode from '@components/Base/CustomTableNodes/VPrimaryTableNode.vue';
 import VTableNodeButton from '@components/Base/Buttons/VTableNodeButton.vue';
 import VCircleHandle from '@components/Base/CustomNodeHandles/VCircleHandle.vue';
+import CustomNodeToolbar from '@components/Modules/Canvas/Partials/CustomNodeToolbar.vue';
 import { useCanvasStore } from '@stores/Canvas';
 import { formatColumnForNodeCanvas } from '@utilities/TableHelper';
 import { jellyAnimation } from '@utilities/AnimateHelper';
@@ -83,6 +84,7 @@ onPaneClick(() => {
 
 <template>
     <div ref="root" class="relative">
+        <CustomNodeToolbar v-if="isTableSelected" />
         <VCircleHandle
             :node-id="props.id"
             :is-active="isActive"
