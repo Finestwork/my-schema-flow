@@ -7,7 +7,7 @@ import { useCanvasStore } from '@stores/Canvas';
 import { formatColumnForNodeCanvas } from '@utilities/TableHelper';
 import { jellyAnimation } from '@utilities/AnimateHelper';
 import { isCreatingTableKey } from '@symbols/Canvas';
-import { computed, ref, onMounted, inject } from 'vue';
+import { computed, ref, onMounted, inject, watch } from 'vue';
 import { useVueFlow } from '@vue-flow/core';
 import type { TNodeData } from '@stores/Canvas';
 
@@ -60,7 +60,7 @@ const getColumns = computed(() => {
         };
     });
 });
-const { onNodeClick, onPaneClick } = useVueFlow();
+const { onPaneClick } = useVueFlow();
 const onClickEditColumn = (index: number) => {
     if (!isTableSelected.value) return;
     canvasStore.currentNodeActiveColumnIndex = index;
@@ -70,16 +70,20 @@ onMounted(() => {
     if (!isCreatingTable?.value ?? false) return;
     jellyAnimation(root.value);
 });
-onNodeClick((event) => {
-    if (event.node.id !== props.id) {
-        isTableSelected.value = false;
-        return;
-    }
-    isTableSelected.value = true;
-});
 onPaneClick(() => {
     isTableSelected.value = false;
 });
+
+watch(
+    () => canvasStore.currentActiveNode,
+    () => {
+        if (canvasStore.currentActiveNode.id !== props.id) {
+            isTableSelected.value = false;
+            return;
+        }
+        isTableSelected.value = true;
+    },
+);
 </script>
 
 <template>

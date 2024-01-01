@@ -3,11 +3,8 @@ import VNodeToolbarButtonIcon from '@components/Base/ButtonIcons/VNodeToolbarBut
 import TrashIcon from '@components/Shared/Icons/TrashIcon.vue';
 import CopyIcon from '@components/Shared/Icons/CopyIcon.vue';
 import { useNodeActions } from '@composables/Nodes/useNodeActions';
-import { vueFlowKey } from '@symbols/VueFlow';
-import { inject } from 'vue';
 
 const { copyNode, deleteNode } = useNodeActions();
-const VueFlow = inject(vueFlowKey);
 </script>
 <template>
     <div

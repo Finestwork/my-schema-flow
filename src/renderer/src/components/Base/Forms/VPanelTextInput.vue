@@ -18,8 +18,8 @@ const emits = defineEmits<{
     (event: 'input', value: Event): void;
     (event: 'blur', value: Event): void;
     (event: 'focus', value: Event): void;
-    (event: 'keydown', value: Event | KeyboardEvent): void;
-    (event: 'keyup', value: Event | KeyboardEvent): void;
+    (event: 'keydown', value: KeyboardEvent): void;
+    (event: 'keyup', value: KeyboardEvent): void;
 }>();
 </script>
 <template>
