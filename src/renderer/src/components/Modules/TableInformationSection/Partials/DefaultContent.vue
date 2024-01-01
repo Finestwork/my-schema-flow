@@ -2,6 +2,7 @@
 import VPanelTextInput from '@components/Base/Forms/VPanelTextInput.vue';
 import VPanelButtonIcon from '@components/Base/ButtonIcons/VPanelButtonIcon.vue';
 import VPanelColumnButton from '@components/Base/Buttons/VPanelColumnButton.vue';
+import VAlert from '@components/Base/Alerts/VAlert.vue';
 import AddIcon from '@components/Shared/Icons/AddIcon.vue';
 import CopyIcon from '@components/Shared/Icons/CopyIcon.vue';
 import TrashIcon from '@components/Shared/Icons/TrashIcon.vue';
@@ -9,9 +10,11 @@ import { useCanvasStore } from '@stores/Canvas';
 import { useHistoryActions } from '@composables/History/useHistoryActions';
 import { useTableRelationActions } from '@composables/Table/useTableRelationActions';
 import { useSortTableColumns } from '@composables/Table/useSortTableColumns';
+import { vueFlowKey } from '@symbols/VueFlow';
 import { useDebounceFn } from '@vueuse/core';
 import { computed, ref } from 'vue';
 import { VueDraggable } from 'vue-draggable-plus';
+import { inject } from 'vue';
 
 export type TColumnList = {
     name: string;
@@ -22,6 +25,10 @@ const emits = defineEmits<{
     (e: 'addColumn', value: Event): void;
 }>();
 const canvasStore = useCanvasStore();
+const { deleteRelationByColumn } = useTableRelationActions();
+const { createHistory } = useHistoryActions();
+const { sortPrimaryKey } = useSortTableColumns();
+const VueFlow = inject(vueFlowKey);
 const currentActiveIndex = ref(-1);
 const getColumns = computed({
     get(): Array<TColumnList> {
@@ -40,9 +47,17 @@ const canCloneColumn = computed(() => {
 
     return CurrentColumn.keyConstraint !== 'PK';
 });
-const { deleteRelationByColumn } = useTableRelationActions();
-const { createHistory } = useHistoryActions();
-const { sortPrimaryKey } = useSortTableColumns();
+const isTableNameUnique = computed(() => {
+    if (!VueFlow) return false;
+    const CurrentActiveNode = canvasStore.currentActiveNode;
+    const CurrentTableName = canvasStore.currentActiveNode.data.table.name;
+    const Node = VueFlow.getNodes.value.find(
+        (node) =>
+            node.data.table.name === CurrentTableName &&
+            node.id !== CurrentActiveNode.id,
+    );
+    return Node !== undefined;
+});
 const onClickCloneColumn = () => {
     if (currentActiveIndex.value === -1) return;
     const { name } = canvasStore.cloneColumnInActiveNode(
@@ -88,16 +103,21 @@ const onSortEnd = ({ newIndex, oldIndex }) => {
 
 <template>
     <div>
-        <VPanelTextInput
-            id="columnTextInput"
-            v-model="canvasStore.currentActiveNode.data.table.name"
-            class="mb-4"
-            placeholder="Place table's name here"
-            :no-white-space="true"
-            @input="onInputAddToHistory"
-        >
-            <template #label> Table's Name:</template>
-        </VPanelTextInput>
+        <div class="mb-4">
+            <VAlert type="danger" v-if="isTableNameUnique"
+                >This table name already exist. You might encounter a problem
+                when trying to export them as scripts
+            </VAlert>
+            <VPanelTextInput
+                id="columnTextInput"
+                v-model="canvasStore.currentActiveNode.data.table.name"
+                placeholder="Place table's name here"
+                :no-white-space="true"
+                @input="onInputAddToHistory"
+            >
+                <template #label> Table's Name:</template>
+            </VPanelTextInput>
+        </div>
 
         <VueDraggable v-model="getColumns" @end="onSortEnd">
             <VPanelColumnButton
