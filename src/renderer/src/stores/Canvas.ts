@@ -40,6 +40,20 @@ export type TEdgeData = {
     referencing: {
         column: string;
     };
+    constraint: {
+        onDelete:
+            | 'CASCADE'
+            | 'SET NULL'
+            | 'RESTRICT'
+            | 'NO ACTION'
+            | 'SET DEFAULT';
+        onUpdate:
+            | 'CASCADE'
+            | 'SET NULL'
+            | 'RESTRICT'
+            | 'NO ACTION'
+            | 'SET DEFAULT';
+    };
 };
 
 export type TNode = GraphNode & { data: TNodeData };

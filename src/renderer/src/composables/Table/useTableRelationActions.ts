@@ -10,6 +10,10 @@ export type TRelationFormData = {
     referencingColumn: string;
     referencedTable: string;
     referencedColumn: string;
+    constraint: {
+        onDelete: string;
+        onUpdate: string;
+    };
 };
 
 export type TUpdateColumn = {
@@ -43,6 +47,10 @@ export function useTableRelationActions() {
                 },
                 referencing: {
                     column: relationData.referencingColumn,
+                },
+                constraint: {
+                    onDelete: relationData.constraint.onDelete,
+                    onUpdate: relationData.constraint.onUpdate,
                 },
             },
         };

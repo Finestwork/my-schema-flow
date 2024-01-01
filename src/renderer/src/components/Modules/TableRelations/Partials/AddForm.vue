@@ -8,12 +8,15 @@ import PanelFormCurrentTableLabel from '@components/Shared/Forms/PanelFormCurren
 import PanelFormReferencingColumn from '@components/Shared/Forms/PanelFormReferencingColumn.vue';
 import PanelFormReferencedTable from '@components/Shared/Forms/PanelFormReferencedTable.vue';
 import PanelFormReferencedColumn from '@components/Shared/Forms/PanelFormReferencedColumn.vue';
+import PanelFormOnDeleteConstraint from '@components/Shared/Forms/PanelFormOnDeleteConstraint.vue';
+import PanelFormOnUpdateConstraint from '@components/Shared/Forms/PanelFormOnUpdateConstraint.vue';
 import { useCanvasStore } from '@stores/Canvas';
 import { useTableRelationActions } from '@composables/Table/useTableRelationActions';
 import { useHistoryActions } from '@composables/History/useHistoryActions';
 import { validateTableRelations } from '@utilities/FormTableHelper';
 import { vueFlowKey } from '@symbols/VueFlow';
 import { nextTick, ref, inject } from 'vue';
+import { isEmpty } from 'lodash';
 import type { Ref } from 'vue';
 
 const emits = defineEmits<{
@@ -24,6 +27,8 @@ const errors: Ref<Array<string>> = ref([]);
 const referencingColumn = ref('');
 const referencedTable = ref('');
 const referencedColumn = ref('');
+const onDeleteConstraint = ref('');
+const onUpdateConstraint = ref('');
 const isSuccessfullyCreated = ref(false);
 const VueFlow = inject(vueFlowKey);
 const { addRelation } = useTableRelationActions();
@@ -32,10 +37,17 @@ const onClickAddRelation = async () => {
     if (!VueFlow) return;
     errors.value = [];
     isSuccessfullyCreated.value = false;
+    // Defaults to NO ACTION if not set 
+    onDeleteConstraint.value = isEmpty(onDeleteConstraint) ? onDeleteConstraint.value : 'NO ACTION';
+    onUpdateConstraint.value = isEmpty(onUpdateConstraint) ? onUpdateConstraint.value : 'NO ACTION';
     const RelationObj = {
         referencingColumn: referencingColumn.value,
         referencedTable: referencedTable.value,
         referencedColumn: referencedColumn.value,
+        constraint: {
+            onDelete: onDeleteConstraint.value,
+            onUpdate: onUpdateConstraint.value,
+        },
     };
     errors.value = validateTableRelations(
         RelationObj,
@@ -48,6 +60,10 @@ const onClickAddRelation = async () => {
         referencingColumn: referencingColumn.value,
         referencedTable: referencedTable.value,
         referencedColumn: referencedColumn.value,
+        constraint: {
+            onDelete: onDeleteConstraint.value,
+            onUpdate: onUpdateConstraint.value,
+        },
     });
     await nextTick();
     const TableName = canvasStore.currentActiveNode.data.table.name;
@@ -58,6 +74,8 @@ const onClickAddRelation = async () => {
     referencingColumn.value = '';
     referencedTable.value = '';
     referencedColumn.value = '';
+    onDeleteConstraint.value = '';
+    onUpdateConstraint.value = '';
     isSuccessfullyCreated.value = true;
 };
 </script>
@@ -83,6 +101,17 @@ const onClickAddRelation = async () => {
             class="mb-5"
             :disabled="referencedTable.trim() === ''"
         />
+        <PanelFormOnDeleteConstraint
+            v-model="onDeleteConstraint"
+            class="mb-5"
+        />
+
+        <PanelFormOnUpdateConstraint
+            v-model="onUpdateConstraint"
+            class="mb-5"
+        />
+
+
         <VPanelActionButton @click="onClickAddRelation">
             <template #icon>
                 <AddIcon />

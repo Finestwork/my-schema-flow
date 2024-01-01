@@ -31,7 +31,7 @@ export const createTableRelationScript = (
         const ReferencingColumn = edge.data.referencing.column;
         const ReferencedColumn = edge.data.referenced.column;
         const ReferencedTableName = edge.sourceNode.data.table.name;
-        return `FOREIGN KEY (${ReferencingColumn}) REFERENCES ${ReferencedTableName}(${ReferencedColumn})`;
+        return `FOREIGN KEY (${ReferencingColumn}) REFERENCES ${ReferencedTableName}(${ReferencedColumn}) ON DELETE ${edge.data.constraint.onDelete} ON UPDATE ${edge.data.constraint.onUpdate}`;
     });
 };
 

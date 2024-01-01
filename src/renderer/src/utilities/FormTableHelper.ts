@@ -100,6 +100,8 @@ export const validateTableRelations = (
     let source: TTableColumn | undefined = undefined;
     let target: TTableColumn | undefined = undefined;
 
+
+
     if (isEmpty(data.referencingColumn)) {
         Errors.push('Referencing column should not be empty.');
     } else {
@@ -153,12 +155,7 @@ export const validateTableRelations = (
             );
         }
 
-        // Check if the referenced column is the same data type as the referencing column
-        if (target?.type !== source?.type) {
-            Errors.push(
-                `Referencing column '${data.referencingColumn}' is not the same data type as referenced column '${data.referencedColumn}'.`,
-            );
-        }
+       
     }
 
     return Errors.map((error) => `• ${error}`);
