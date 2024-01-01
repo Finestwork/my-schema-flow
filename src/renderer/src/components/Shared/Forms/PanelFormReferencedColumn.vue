@@ -46,5 +46,9 @@ watch(
         :disabled="props.disabled"
     >
         <template #label>Referenced Column:</template>
+        <template #helper
+            >The primary key column in the referenced (referred to)
+            table</template
+        >
     </VPanelAutoComplete>
 </template>

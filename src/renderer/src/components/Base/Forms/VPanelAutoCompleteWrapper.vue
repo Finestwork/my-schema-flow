@@ -62,6 +62,10 @@ onClickOutside(rootWrapper, () => {
             <template #label>
                 <slot name="label"></slot>
             </template>
+
+            <template v-if="$slots.helper" #helper>
+                <slot name="helper"></slot>
+            </template>
         </VPanelTextInput>
         <div
             v-if="showDropdown"

@@ -38,5 +38,10 @@ watch(
         :dropdown-items="getColumns"
     >
         <template #label>Referencing Column:</template>
+        <template #helper
+            >The column in another table that holds the foreign key,
+            establishing a reference to the primary key in the referenced
+            table.</template
+        >
     </VPanelAutoComplete>
 </template>

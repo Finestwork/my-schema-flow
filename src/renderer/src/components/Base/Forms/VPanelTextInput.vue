@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import VHelperButtonIcon from '@components/Base/ButtonIcons/VHelperButtonIcon.vue';
+
 export type TProps = {
     id: string;
     placeholder: string;
@@ -24,13 +26,26 @@ const emits = defineEmits<{
 </script>
 <template>
     <div class="h-full w-full">
-        <label
-            v-if="$slots.label"
-            class="mb-1 cursor-pointer text-xs font-bold text-slate-700 dark:text-slate-300"
-            :for="id"
+        <div
+            class="flex items-center"
+            :class="{
+                'mb-1': !$slots.helper,
+                'mb-2': $slots.helper,
+            }"
         >
-            <slot name="label"></slot>
-        </label>
+            <label
+                v-if="$slots.label"
+                class="cursor-pointer text-xs font-bold text-slate-700 dark:text-slate-300"
+                :for="id"
+            >
+                <slot name="label"></slot>
+            </label>
+            <VHelperButtonIcon v-if="$slots.helper" class="ml-1">
+                <template v-if="$slots.helper" #helper>
+                    <slot name="helper"></slot>
+                </template>
+            </VHelperButtonIcon>
+        </div>
         <input
             :id="props.id"
             v-model="modelValue"
