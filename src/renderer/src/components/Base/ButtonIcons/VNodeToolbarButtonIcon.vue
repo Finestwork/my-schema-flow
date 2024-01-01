@@ -28,7 +28,9 @@ const props = withDefaults(defineProps<TProps>(), {
         </button>
 
         <template #tooltip>
-            <slot name="tooltip"></slot>
+            <span class="m-1.5 block text-[.6rem]">
+                <slot name="tooltip"></slot>
+            </span>
         </template>
     </VTooltip>
 </template>

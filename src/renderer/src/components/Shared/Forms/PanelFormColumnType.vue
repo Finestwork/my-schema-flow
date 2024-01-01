@@ -165,7 +165,11 @@ watch(
                             </template>
                         </VDatabaseWithDescriptionButton>
 
-                        <template #tooltip>{{ item.description }}</template>
+                        <template #tooltip>
+                            <span class="m-1.5 block text-[.75rem]">
+                                {{ item.description }}
+                            </span>
+                        </template>
                     </VTooltip>
                 </OverlayScrollbarsComponent>
             </div>

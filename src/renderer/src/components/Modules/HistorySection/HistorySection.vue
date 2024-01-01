@@ -31,7 +31,11 @@ const historyStore = useHistoryStore();
                 >
                     {{ history }}
                 </button>
-                <template #tooltip>{{ history }}</template>
+                <template #tooltip>
+                    <span class="m-1.5 block text-[.6rem]">
+                        {{ history }}
+                    </span>
+                </template>
             </VTooltip>
         </template>
     </VPanelSectionWrapper>

@@ -139,7 +139,9 @@ const onSortEnd = ({ newIndex, oldIndex }) => {
         <div class="mt-2.5">
             <VPanelButtonIcon class="mr-1" @click="emits('addColumn', $event)">
                 <AddIcon />
-                <template #tooltip>Add Column</template>
+                <template #tooltip>
+                    <span class="m-1.5 block text-[.6rem]"> Add Column </span>
+                </template>
             </VPanelButtonIcon>
             <VPanelButtonIcon
                 class="mr-1"
@@ -147,7 +149,9 @@ const onSortEnd = ({ newIndex, oldIndex }) => {
                 @click="onClickCloneColumn"
             >
                 <CopyIcon />
-                <template #tooltip>Copy Column</template>
+                <template #tooltip>
+                    <span class="m-1.5 block text-[.6rem]"> Copy Column </span>
+                </template>
             </VPanelButtonIcon>
             <VPanelButtonIcon
                 color-scheme="danger"
@@ -155,7 +159,11 @@ const onSortEnd = ({ newIndex, oldIndex }) => {
                 @click="onClickDeleteColumn"
             >
                 <TrashIcon />
-                <template #tooltip>Delete Column</template>
+                <template #tooltip>
+                    <span class="m-1.5 block text-[.6rem]">
+                        Delete Column
+                    </span>
+                </template>
             </VPanelButtonIcon>
         </div>
     </div>

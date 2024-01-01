@@ -8,7 +8,9 @@ const props = defineProps<TProps>();
 </script>
 
 <template>
-    <div class="py-1 text-slate-300 dark:text-slate-400">
+    <div
+        class="m-1.5 block py-1 text-[.6rem] text-slate-300 dark:text-slate-400"
+    >
         <span class="mb-1.5 block text-slate-50 dark:text-slate-100"
             ><slot name="label"></slot
         ></span>
