@@ -24,6 +24,7 @@ const emits = defineEmits<{
 const canvasStore = useCanvasStore();
 const errors: Ref<Array<string>> = ref([]);
 const isSuccessfullyCreated = ref(false);
+
 const {
     getColumnData,
     columnName,
@@ -35,10 +36,11 @@ const {
 } = useColumnData();
 const { updateColumnBasedOnActiveNode } = useUpdateEdgeData();
 const onClickUpdateColumn = () => {
+    let currentColumn = getColumnData;
     errors.value = [];
     isSuccessfullyCreated.value = false;
     errors.value = validateColumns(
-        getColumnData.value,
+        currentColumn.value,
         canvasStore.currentActiveNode,
     );
     if (errors.value.length !== 0) return;
@@ -49,10 +51,11 @@ const onClickUpdateColumn = () => {
     updateColumnBasedOnActiveNode(columnName.value);
     columnOriginalColumnName.value = columnName.value;
     canvasStore.updateColumnInActiveNode(
-        getColumnData.value,
+        currentColumn.value,
         canvasStore.currentNodeActiveColumnIndex,
     );
     isSuccessfullyCreated.value = true;
+    currentColumn = useColumnData().getColumnData;
 };
 </script>
 

@@ -85,6 +85,7 @@ export const useCanvasStore = defineStore('canvas', {
             data: Omit<TTableColumn, 'id' | 'shouldHighlight'>,
         ) {
             const Columns = this.currentActiveNode.data.table.columns;
+
             const AddedObject = Object.assign(
                 { shouldHighlight: false },
                 klona(data),
