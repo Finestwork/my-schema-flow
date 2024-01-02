@@ -2,10 +2,13 @@
 import VFullScreenModal from '@components/Base/Modals/VFullScreenModal.vue';
 import VSettingsTabButton from '@components/Base/Buttons/VSettingsTabButton.vue';
 import AppearanceContent from '@components/Modules/Settings/Partials/Contents/AppearanceContent.vue';
+import { useSettingsStore } from '@stores/Settings';
+
+const settingsStore = useSettingsStore();
 </script>
 <template>
     <Teleport to="body">
-        <VFullScreenModal>
+        <VFullScreenModal @close-modal="settingsStore.showSettings = false">
             <div class="flex h-full">
                 <div
                     class="mr-4 h-full w-2/12 max-w-[220px] border-r-2 border-r-slate-300 pr-4"

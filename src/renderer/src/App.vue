@@ -8,11 +8,13 @@ import TableInformationSection from '@components/Modules/TableInformationSection
 import TableList from '@components/Modules/Tables/Tables.vue';
 import TableRelations from '@components/Modules/TableRelations/TableRelations.vue';
 import Settings from '@components/Modules/Settings/Settings.vue';
+import { useSettingsStore } from '@stores/Settings';
 import { vueFlowKey } from '@symbols/VueFlow';
 import { isCreatingTableKey } from '@symbols/Canvas';
 import { useVueFlow } from '@vue-flow/core';
 import { provide, ref } from 'vue';
 
+const settingsStore = useSettingsStore();
 const isCreatingTable = ref(false);
 provide(vueFlowKey, useVueFlow());
 provide(isCreatingTableKey, isCreatingTable);
@@ -36,5 +38,5 @@ provide(isCreatingTableKey, isCreatingTable);
             <TableRelations />
         </VPanelWrapper>
     </div>
-    <Settings />
+    <Settings v-if="settingsStore.showSettings" />
 </template>

@@ -5,15 +5,24 @@ import VTooltipKeyboardText from '@components/Base/Texts/VTooltipKeyboardText.vu
 type TProps = {
     windows: Array<string>;
     macOs: Array<string>;
+    isActive?: boolean;
 };
 
-const props = defineProps<TProps>();
+const props = withDefaults(defineProps<TProps>(), {
+    isActive: false,
+});
 </script>
 <template>
     <VTooltip>
         <button
             type="button"
-            class="block aspect-square h-full rounded stroke-slate-500 p-[.3rem] outline-none hover:bg-slate-500/20 dark:hover:bg-cyan-950/50 dark:hover:stroke-cyan-500"
+            class="block aspect-square h-full rounded p-[.3rem] outline-none"
+            :class="{
+                'stroke-slate-500 hover:bg-slate-500/20 dark:hover:bg-cyan-950/50 dark:hover:stroke-cyan-500':
+                    !props.isActive,
+                'bg-cyan-600 stroke-cyan-50 dark:bg-cyan-900/50 dark:stroke-cyan-600':
+                    props.isActive,
+            }"
         >
             <slot></slot>
         </button>
