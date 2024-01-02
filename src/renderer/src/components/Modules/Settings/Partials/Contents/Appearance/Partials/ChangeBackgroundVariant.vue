@@ -28,7 +28,7 @@ const onClickChangeVariant = (variant: BackgroundVariant) => {
             You can change the canvas's background variant by selecting an item
             from the dropdown menu.
         </p>
-        <VButtonDropdown class="w-full max-w-[100px]" ref="dropdown">
+        <VButtonDropdown ref="dropdown">
             <template #label>
                 {{ getSelectedVariant }}
             </template>

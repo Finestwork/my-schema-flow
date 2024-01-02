@@ -39,7 +39,7 @@ watch(
 );
 </script>
 <template>
-    <div ref="root" class="inline-flex w-full">
+    <div ref="root" class="inline-flex">
         <button
             ref="reference"
             type="button"
