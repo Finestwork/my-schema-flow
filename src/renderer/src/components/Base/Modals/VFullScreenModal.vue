@@ -11,7 +11,7 @@ const emits = defineEmits<{
     >
         <button
             type="button"
-            class="duration-750 ml-auto block h-[25px] w-[25px] rounded-full border-none bg-rose-600 stroke-slate-50 p-2 outline-none transition-shadow hover:bg-rose-700 focus-visible:ring-4 focus-visible:ring-rose-600/30"
+            class="duration-750 ml-auto mr-2 mt-4 block h-[25px] w-[25px] rounded-full border-none bg-rose-600 stroke-slate-50 p-2 outline-none transition-shadow hover:bg-rose-700 focus-visible:ring-4 focus-visible:ring-rose-600/30"
             @click="emits('closeModal')"
         >
             <CloseIcon />
