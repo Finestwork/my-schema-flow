@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import VPanelTextInput from '@components/Base/Forms/VPanelTextInput.vue';
 import { useDropdownFloatingLayout } from '@composables/Miscellaneous/useDropdownFloatingLayout';
 import { onClickOutside } from '@vueuse/core';
 import { ref } from 'vue';
@@ -46,34 +47,26 @@ onClickOutside(rootWrapper, () => {
 
 <template>
     <div ref="rootWrapper" @click="onClickToggleDropdown">
-        <div>
-            <label
-                class="mb-1 cursor-pointer text-xs font-bold text-slate-700 dark:text-slate-300"
-                :for="id"
-            >
+        <VPanelTextInput
+            :id="props.id"
+            ref="input"
+            v-model="modelValue"
+            :placeholder="props.placeholder"
+            :disabled="props.disabled"
+            :no-white-space="true"
+            @input="onInput"
+            @focus="emits('onInputFocus', $event)"
+            @keydown="emits('onInputKeydown', $event)"
+            @keyup="emits('onInputKeyup', $event)"
+        >
+            <template #label>
                 <slot name="label"></slot>
-            </label>
-            <input
-                :id="props.id"
-                ref="input"
-                v-model="modelValue"
-                v-no-white-space="true"
-                class="block w-full rounded border-2 bg-transparent p-1.5 text-xs font-bold outline-none transition-shadow duration-150 ease-in-out dark:bg-dark-900"
-                type="text"
-                :class="{
-                    'border-slate-400 placeholder-slate-500 hover:border-cyan-500 focus:border-cyan-500 focus:ring-4 focus:ring-cyan-500/30 dark:border-slate-700 dark:text-slate-500 dark:placeholder-slate-600 hover:dark:text-slate-300':
-                        !props.disabled,
-                    'cursor-not-allowed dark:border-slate-800 dark:placeholder-slate-700':
-                        props.disabled,
-                }"
-                :placeholder="props.placeholder"
-                :disabled="props.disabled"
-                @input="onInput"
-                @focus="emits('onInputFocus', $event)"
-                @keydown="emits('onInputKeydown', $event)"
-                @keyup="emits('onInputKeyup', $event)"
-            />
-        </div>
+            </template>
+
+            <template v-if="$slots.helper" #helper>
+                <slot name="helper"></slot>
+            </template>
+        </VPanelTextInput>
         <div
             v-if="showDropdown"
             ref="floating"

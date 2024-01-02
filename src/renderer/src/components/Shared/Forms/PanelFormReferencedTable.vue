@@ -42,5 +42,9 @@ watch(
         :dropdown-items="getTables"
     >
         <template #label>Referenced Table:</template>
+        <template #helper
+            >Table whose primary key column is being referenced by the foreign
+            key column in another table.</template
+        >
     </VPanelAutoComplete>
 </template>

@@ -1,6 +1,6 @@
 import { useSaveCanvas } from '@composables/Canvas/useSaveCanvas';
 import { useHistoryActions } from '@composables/History/useHistoryActions';
-import { useCreateNode } from '@composables/Nodes/useCreateNode';
+import { useNodeActions } from '@composables/Nodes/useNodeActions';
 import { useDarkMode } from '@composables/Miscellaneous/useDarkMode';
 import { onUnmounted } from 'vue';
 import { useVueFlow } from '@vue-flow/core';
@@ -8,7 +8,7 @@ import { useVueFlow } from '@vue-flow/core';
 export function useKeyboardShortcuts() {
     const { saveCanvas } = useSaveCanvas();
     const { redoHistory, undoHistory } = useHistoryActions();
-    const { createNode } = useCreateNode();
+    const { createNode } = useNodeActions();
     const { isDarkMode, toggleDarkMode } = useDarkMode();
     const { vueFlowRef } = useVueFlow();
 

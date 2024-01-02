@@ -153,6 +153,9 @@ watch(
         <template #label>
             <slot name="label"></slot>
         </template>
+        <template v-if="$slots.helper" #helper>
+            <slot name="helper"></slot>
+        </template>
         <template #float>
             <div
                 ref="scrollbar"

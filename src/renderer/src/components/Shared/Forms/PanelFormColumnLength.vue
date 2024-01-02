@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import VPanelTextInputNumber from '@components/Base/Forms/VPanelTextInputNumber.vue';
+import VPanelTextInput from '@components/Base/Forms/VPanelTextInput.vue';
 
 const { modelValue } = defineModels<{
     modelValue: string;
@@ -7,11 +7,12 @@ const { modelValue } = defineModels<{
 </script>
 
 <template>
-    <VPanelTextInputNumber
+    <VPanelTextInput
         id="addColumnLengthForm"
         v-model="modelValue"
+        :is-number="true"
         placeholder="Place column length here"
     >
         <template #label>Column Length:</template>
-    </VPanelTextInputNumber>
+    </VPanelTextInput>
 </template>

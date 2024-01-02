@@ -49,6 +49,7 @@ export function useNodeDragEvent() {
     });
 
     onPaneClick(() => {
+        if (!canvasStore.hasActiveNode) return;
         resetState();
         canvasStore.currentActiveNode = Object.assign({}, {});
     });
