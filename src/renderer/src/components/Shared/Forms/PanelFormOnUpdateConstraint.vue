@@ -30,7 +30,6 @@ watch(
         v-model="modelValue"
         placeholder="ON UPDATE"
         :dropdown-items="CONSTRAINTS"
-        default-value="NO ACTION"
     >
         <template #label>On Update:</template>
     </VPanelAutoComplete>
