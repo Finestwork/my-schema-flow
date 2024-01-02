@@ -68,6 +68,7 @@ const onClickUpdateRelation = async () => {
         canvasStore.currentActiveNode,
         VueFlow.getNodes.value,
         VueFlow.getEdges.value,
+        'update',
     );
     if (errors.value.length !== 0) return;
     updateRelation(RelationObj);

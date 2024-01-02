@@ -94,6 +94,7 @@ export const validateTableRelations = (
     currentActiveNode: TNode | Record<string, never>,
     nodes: Array<TNode>,
     edges: Array<TEdge>,
+    action: string
 ): Array<string> => {
     let Errors: Array<string> = [];
     let referencedNode: TNode | undefined = undefined;
@@ -142,16 +143,20 @@ export const validateTableRelations = (
             );
         }
 
-        const ExistingEdge = edges.find(
-            (edge) =>
-                edge.target === currentActiveNode.id &&
-                edge.data.referencing.column === data.referencingColumn,
-        );
-        if (ExistingEdge) {
-            Errors.push(
-                `It's possible that '${data.referencingColumn}' has been utilized to form a relationship.`,
+        if (action === 'add') {
+            const ExistingEdge = edges.find(
+                (edge) =>
+                    edge.target === currentActiveNode.id &&
+                    edge.data.referencing.column === data.referencingColumn,
             );
+            if (ExistingEdge) {
+                Errors.push(
+                    `It's possible that '${data.referencingColumn}' has been utilized to form a relationship.`,
+                );
+            }
         }
+
+        
         if (target?.type !== source?.type) {
             Errors.push(
                 `Referencing column '${data.referencingColumn}' is not the same data type as referenced column '${data.referencedColumn}'.`,
@@ -176,6 +181,7 @@ const ValidateConstraint = (
     Errors: Array<string>,
     source?: TTableColumn,
     referencingColumn?: string,
+    
 ) => {
     const validForeignKeyActions = [
         'NO ACTION',

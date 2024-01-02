@@ -50,6 +50,7 @@ const onClickAddRelation = async () => {
         canvasStore.currentActiveNode,
         VueFlow.getNodes.value,
         VueFlow.getEdges.value,
+        'add',
     );
     if (errors.value.length !== 0) return;
     addRelation({
