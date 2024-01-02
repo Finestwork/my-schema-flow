@@ -7,11 +7,12 @@ import { computed, ref } from 'vue';
 import type { Ref } from 'vue';
 
 const settingsStore = useSettingsStore();
-const dropdown: Ref<InstanceType<typeof VButtonDropdown>> = ref(null);
+const dropdown: Ref<InstanceType<typeof VButtonDropdown> | null> = ref(null);
 const getSelectedVariant = computed(() => {
     return settingsStore.backgroundVariant === 'lines' ? 'Lines' : 'Dots';
 });
 const onClickChangeVariant = (variant: BackgroundVariant) => {
+    if (!dropdown.value) return;
     settingsStore.backgroundVariant = variant;
     dropdown.value.showDropdown = false;
 };
