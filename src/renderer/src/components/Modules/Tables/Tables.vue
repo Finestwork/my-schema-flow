@@ -29,6 +29,14 @@ const onClickHighlightTable = (id: string) => {
     canvasStore.currentActiveNode = Node;
     activateState();
 
+    if (!settingsStore.viewJumpAnimation) {
+        vueFlow.fitView({
+            maxZoom: settingsStore.zoomLevel,
+            nodes: [id],
+        });
+        return;
+    }
+
     vueFlow.fitView({
         maxZoom: settingsStore.zoomLevel,
         nodes: [id],

@@ -25,6 +25,9 @@ const testElements = TestNodes;
 const testEdges = TestEdges;
 const settingsStore = useSettingsStore();
 const getPatternColor = computed(() => {
+    if (settingsStore.backgroundVariant === 'lines') {
+        return settingsStore.isDarkMode ? '#1C2231' : '#e2e8f0';
+    }
     return settingsStore.isDarkMode ? '#6381b8' : '#334155';
 });
 const { createHistory } = useHistoryActions();
@@ -75,7 +78,12 @@ usePaneDoubleClick(() => {
             :delete-key-code="null"
             :nodes-focusable="false"
         >
-            <Background class="h-full" :pattern-color="getPatternColor" />
+            <Background
+                class="h-full"
+                :pattern-color="getPatternColor"
+                :gap="20"
+                :variant="settingsStore.backgroundVariant"
+            />
             <MiniMap ref="minimap" pannable zoomable />
             <ZoomText />
             <Controls />

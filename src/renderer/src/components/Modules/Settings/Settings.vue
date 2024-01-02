@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import VFullScreenModal from '@components/Base/Modals/VFullScreenModal.vue';
 import VSettingsTabButton from '@components/Base/Buttons/VSettingsTabButton.vue';
-import AppearanceContent from '@components/Modules/Settings/Partials/Contents/AppearanceContent.vue';
+import Appearance from '@components/Modules/Settings/Partials/Contents/Appearance/Appearance.vue';
 import { useSettingsStore } from '@stores/Settings';
 
 const settingsStore = useSettingsStore();
@@ -18,7 +18,7 @@ const settingsStore = useSettingsStore();
                     </VSettingsTabButton>
                 </div>
                 <div class="h-full w-10/12">
-                    <AppearanceContent />
+                    <Appearance />
                 </div>
             </div>
         </VFullScreenModal>
