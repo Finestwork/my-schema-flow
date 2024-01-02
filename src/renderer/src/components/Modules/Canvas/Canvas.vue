@@ -26,7 +26,7 @@ const testEdges = TestEdges;
 const settingsStore = useSettingsStore();
 const getPatternColor = computed(() => {
     if (settingsStore.backgroundVariant === 'lines') {
-        return settingsStore.isDarkMode ? '#1C2231' : '#e2e8f0';
+        return settingsStore.isDarkMode ? '#171A22' : '#e2e8f0';
     }
     return settingsStore.isDarkMode ? '#6381b8' : '#334155';
 });
