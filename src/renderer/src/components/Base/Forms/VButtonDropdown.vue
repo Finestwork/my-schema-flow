@@ -39,17 +39,21 @@ watch(
 );
 </script>
 <template>
-    <div ref="root" class="inline-flex">
+    <div ref="root" class="inline-flex w-full">
         <button
             ref="reference"
             type="button"
-            class="duration-750 flex items-center rounded-lg bg-cyan-600 p-2 outline-none transition-shadow hover:bg-cyan-700/90 focus-visible:ring-4 focus-visible:ring-cyan-500/50"
+            class="duration-750 flex w-full items-center justify-between rounded-lg bg-cyan-600 p-2 outline-none transition-shadow hover:bg-cyan-700/90 focus-visible:ring-4 focus-visible:ring-cyan-500/50 dark:bg-cyan-700"
             @click="showDropdown = !showDropdown"
         >
-            <span class="mr-2 text-xs font-bold text-cyan-50">
+            <span
+                class="mr-2 text-xs font-bold text-cyan-50 dark:text-cyan-200"
+            >
                 <slot name="label"></slot>
             </span>
-            <span class="mt-[.1rem] flex w-[10px] items-center stroke-cyan-50">
+            <span
+                class="mt-[.1rem] flex w-[10px] items-center stroke-cyan-50 dark:stroke-cyan-200"
+            >
                 <ChevronIcon />
             </span>
         </button>

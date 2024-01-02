@@ -5,7 +5,7 @@ import ChangeBackgroundVariant from '@components/Modules/Settings/Partials/Conte
 </script>
 
 <template>
-    <div class="divide-y-2 divide-solid">
+    <div class="divide-y-2 divide-solid dark:divide-dark-700">
         <ToggleDarkMode class="py-8" />
         <ToggleJumpAnimation class="py-8" />
         <ChangeBackgroundVariant class="pt-8" />

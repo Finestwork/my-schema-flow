@@ -7,7 +7,7 @@ const emits = defineEmits<{
 </script>
 <template>
     <div
-        class="fixed top-[44px] h-[calc(100vh-44px)] w-full bg-white px-2 py-2"
+        class="fixed top-[44px] h-[calc(100vh-44px)] w-full bg-white px-2 py-2 dark:bg-dark-900"
     >
         <button
             type="button"

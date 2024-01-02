@@ -5,7 +5,12 @@ import { useSettingsStore } from '@stores/Settings';
 import { useDarkMode } from '@composables/Miscellaneous/useDarkMode';
 
 const settingsStore = useSettingsStore();
-const { toggleDarkMode } = useDarkMode();
+const { isDarkMode, toggleDarkMode } = useDarkMode();
+
+const onChangeToggleDarkMode = () => {
+    toggleDarkMode();
+    window.api.toggleDarkMode(isDarkMode.value);
+};
 </script>
 
 <template>
@@ -14,7 +19,7 @@ const { toggleDarkMode } = useDarkMode();
             id="toggleDarkMode"
             v-model="settingsStore.isDarkMode"
             for="toggleDarkMode"
-            @change="toggleDarkMode"
+            @change="onChangeToggleDarkMode"
         >
             <template #label>Enable Dark Mode</template>
             <template #helper>

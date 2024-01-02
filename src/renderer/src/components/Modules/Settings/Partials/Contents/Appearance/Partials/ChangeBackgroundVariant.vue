@@ -19,14 +19,16 @@ const onClickChangeVariant = (variant: BackgroundVariant) => {
 
 <template>
     <div>
-        <p class="text-sm font-bold text-slate-800">
+        <p class="text-sm font-bold text-slate-800 dark:text-slate-400">
             Change Background Variant:
         </p>
-        <p class="mb-2 text-xs font-semibold text-slate-700">
+        <p
+            class="mb-2 text-xs font-semibold text-slate-700 dark:text-slate-500"
+        >
             You can change the canvas's background variant by selecting an item
             from the dropdown menu.
         </p>
-        <VButtonDropdown ref="dropdown">
+        <VButtonDropdown class="w-full max-w-[100px]" ref="dropdown">
             <template #label>
                 {{ getSelectedVariant }}
             </template>

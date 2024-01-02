@@ -19,7 +19,9 @@ const props = defineProps<TProps>();
                 <slot name="label"></slot>
             </template>
         </VSwitchCheckbox>
-        <p class="mt-2 text-xs font-semibold text-slate-700">
+        <p
+            class="mt-2 text-xs font-semibold text-slate-700 dark:text-slate-500"
+        >
             <slot name="helper"></slot>
         </p>
     </div>
