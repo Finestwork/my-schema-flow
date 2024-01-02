@@ -7,6 +7,7 @@ import HistorySection from '@components/Modules/HistorySection/HistorySection.vu
 import TableInformationSection from '@components/Modules/TableInformationSection/TableInformationSection.vue';
 import TableList from '@components/Modules/Tables/Tables.vue';
 import TableRelations from '@components/Modules/TableRelations/TableRelations.vue';
+import Settings from '@components/Modules/Settings/Settings.vue';
 import { vueFlowKey } from '@symbols/VueFlow';
 import { isCreatingTableKey } from '@symbols/Canvas';
 import { useVueFlow } from '@vue-flow/core';
@@ -35,4 +36,5 @@ provide(isCreatingTableKey, isCreatingTable);
             <TableRelations />
         </VPanelWrapper>
     </div>
+    <Settings />
 </template>
