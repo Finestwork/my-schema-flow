@@ -40,6 +40,22 @@ export type TEdgeData = {
     referencing: {
         column: string;
     };
+    constraint: {
+        onDelete:
+            | 'CASCADE'
+            | 'SET NULL'
+            | 'RESTRICT'
+            | 'NO ACTION'
+            | 'SET DEFAULT'
+            | string;
+        onUpdate:
+            | 'CASCADE'
+            | 'SET NULL'
+            | 'RESTRICT'
+            | 'NO ACTION'
+            | 'SET DEFAULT'
+            | string;
+    };
 };
 
 export type TNode = GraphNode & { data: TNodeData };
@@ -69,6 +85,7 @@ export const useCanvasStore = defineStore('canvas', {
             data: Omit<TTableColumn, 'id' | 'shouldHighlight'>,
         ) {
             const Columns = this.currentActiveNode.data.table.columns;
+
             const AddedObject = Object.assign(
                 { shouldHighlight: false },
                 klona(data),
@@ -86,8 +103,12 @@ export const useCanvasStore = defineStore('canvas', {
         ) {
             const Columns = this.currentActiveNode.data.table.columns;
             Columns[index] = Object.assign(Columns[index], klona(data));
+
             this.currentActiveNode.data.table.columns =
                 sortConstraintKeys(Columns);
+            return this.currentActiveNode.data.table.columns.findIndex(
+                (column) => column.name === data.name,
+            );
         },
         cloneColumnInActiveNode(cloneIndex: number) {
             const CurrentActiveNode = this.currentActiveNode;

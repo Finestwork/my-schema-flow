@@ -94,8 +94,9 @@ export const validateTableRelations = (
     currentActiveNode: TNode | Record<string, never>,
     nodes: Array<TNode>,
     edges: Array<TEdge>,
+    action: string,
 ): Array<string> => {
-    const Errors: Array<string> = [];
+    let Errors: Array<string> = [];
     let referencedNode: TNode | undefined = undefined;
     let source: TTableColumn | undefined = undefined;
     let target: TTableColumn | undefined = undefined;
@@ -142,24 +143,79 @@ export const validateTableRelations = (
             );
         }
 
-        const ExistingEdge = edges.find(
-            (edge) =>
-                edge.target === currentActiveNode.id &&
-                edge.data.referencing.column === data.referencingColumn,
-        );
-        if (ExistingEdge) {
-            Errors.push(
-                `It's possible that either '${data.referencingColumn}' or '${data.referencedColumn}' has been utilized to form a relationship.`,
+        if (action === 'add') {
+            const ExistingEdge = edges.find(
+                (edge) =>
+                    edge.target === currentActiveNode.id &&
+                    edge.data.referencing.column === data.referencingColumn,
             );
+            if (ExistingEdge) {
+                Errors.push(
+                    `It's possible that '${data.referencingColumn}' has been utilized to form a relationship.`,
+                );
+            }
         }
 
-        // Check if the referenced column is the same data type as the referencing column
         if (target?.type !== source?.type) {
             Errors.push(
                 `Referencing column '${data.referencingColumn}' is not the same data type as referenced column '${data.referencedColumn}'.`,
             );
         }
+
+        // Call the ValidateConstraint and pass the errors array
+
+        Errors = ValidateConstraint(
+            data.constraint,
+            Errors,
+            source,
+            data.referencingColumn,
+        );
     }
 
     return Errors.map((error) => `• ${error}`);
+};
+
+const ValidateConstraint = (
+    constraint: TRelationFormData['constraint'],
+    Errors: Array<string>,
+    source?: TTableColumn,
+    referencingColumn?: string,
+) => {
+    const validForeignKeyActions = [
+        'NO ACTION',
+        'CASCADE',
+        'SET NULL',
+        'SET DEFAULT',
+    ];
+
+    // If the user ommits the constraint, default to NO ACTION
+    constraint.onDelete = isEmpty(constraint.onDelete)
+        ? 'NO ACTION'
+        : constraint.onDelete;
+    constraint.onUpdate = isEmpty(constraint.onUpdate)
+        ? 'NO ACTION'
+        : constraint.onUpdate;
+    // Check if the referenced column is the same data type as the referencing column
+    if (!validForeignKeyActions.includes(constraint.onDelete)) {
+        Errors.push(`On delete action '${constraint.onDelete}' is invalid.`);
+    }
+
+    if (!validForeignKeyActions.includes(constraint.onUpdate)) {
+        Errors.push(`On update action '${constraint.onUpdate}' is invalid.`);
+    }
+    // Default to NO ACTION if the user did not select any action
+
+    if (constraint.onDelete === 'SET DEFAULT' && source?.isNull) {
+        Errors.push(
+            `Referencing column '${referencingColumn}' should not be nullable because 'SET DEFAULT' is selected.`,
+        );
+    }
+
+    if (constraint.onDelete === 'SET NULL' && !source?.isNull) {
+        Errors.push(
+            `Referencing column '${referencingColumn}' should be nullable because 'SET NULL' is selected.`,
+        );
+    }
+
+    return Errors;
 };

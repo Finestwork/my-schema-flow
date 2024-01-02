@@ -9,6 +9,8 @@ import PanelFormCurrentTableLabel from '@components/Shared/Forms/PanelFormCurren
 import PanelFormReferencingColumn from '@components/Shared/Forms/PanelFormReferencingColumn.vue';
 import PanelFormReferencedTable from '@components/Shared/Forms/PanelFormReferencedTable.vue';
 import PanelFormReferencedColumn from '@components/Shared/Forms/PanelFormReferencedColumn.vue';
+import PanelFormOnDeleteConstraint from '@components/Shared/Forms/PanelFormOnDeleteConstraint.vue';
+import PanelFormOnUpdateConstraint from '@components/Shared/Forms/PanelFormOnUpdateConstraint.vue';
 import { useTableRelationActions } from '@composables/Table/useTableRelationActions';
 import { useCanvasStore } from '@stores/Canvas';
 import { useHistoryActions } from '@composables/History/useHistoryActions';
@@ -35,6 +37,13 @@ const referencedTable = ref(
 const referencedColumn = ref(
     canvasStore.currentActiveEdge.data.referenced.column,
 );
+const onDeleteConstraint = ref(
+    canvasStore.currentActiveEdge.data.constraint.onDelete,
+);
+const onUpdateConstraint = ref(
+    canvasStore.currentActiveEdge.data.constraint.onUpdate,
+);
+
 const isSuccessfullyUpdated = ref(false);
 const onClickHideForm = () => {
     canvasStore.currentActiveEdge = Object.assign({}, {});
@@ -44,16 +53,22 @@ const onClickUpdateRelation = async () => {
     if (!VueFlow) return;
     errors.value = [];
     isSuccessfullyUpdated.value = false;
+    // Defaults to NO ACTION if not set
     const RelationObj = {
         referencingColumn: referencingColumn.value,
         referencedTable: referencedTable.value,
         referencedColumn: referencedColumn.value,
+        constraint: {
+            onDelete: onDeleteConstraint.value,
+            onUpdate: onUpdateConstraint.value,
+        },
     };
     errors.value = validateTableRelations(
         RelationObj,
         canvasStore.currentActiveNode,
         VueFlow.getNodes.value,
         VueFlow.getEdges.value,
+        'update',
     );
     if (errors.value.length !== 0) return;
     updateRelation(RelationObj);
@@ -93,6 +108,15 @@ const onClickDeleteRelation = () => {
             class="mb-5"
             :disabled="referencedTable.trim() === ''"
         />
+        <PanelFormOnDeleteConstraint
+            v-model="onDeleteConstraint"
+            class="mb-2"
+        />
+        <PanelFormOnUpdateConstraint
+            v-model="onUpdateConstraint"
+            class="mb-5"
+        />
+
         <VPanelActionButton class="mb-2" @click="onClickUpdateRelation">
             <template #icon>
                 <EditIcon />

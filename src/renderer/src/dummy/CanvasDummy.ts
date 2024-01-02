@@ -43,6 +43,10 @@ const createEdges = () => {
                 referencing: {
                     column: edge.target.column,
                 },
+                constraint: {
+                    onDelete: 'NO ACTION',
+                    onUpdate: 'NO ACTION',
+                },
             },
         };
 
