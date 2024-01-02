@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import ToggleDarkModeButton from '@components/Modules/Toolbar/Partials/ToggleDarkModeButton.vue';
 import OpenFileButton from '@components/Modules/Toolbar/Partials/OpenFileButton.vue';
 import AddNewTableButton from '@components/Modules/Toolbar/Partials/AddNewTableButton.vue';
 import AutoLayoutButton from '@components/Modules/Toolbar/Partials/AutoLayoutButton.vue';
@@ -17,7 +16,6 @@ import ExportFileButton from '@components/Modules/Toolbar/Partials/ExportFileBut
     >
         <div>
             <OpenFileButton class="mr-2" />
-            <ToggleDarkModeButton class="mr-2" />
             <ExportAsImageButton class="mr-2" />
             <ExportFileButton class="mr-2" />
         </div>
