@@ -94,7 +94,7 @@ export const validateTableRelations = (
     currentActiveNode: TNode | Record<string, never>,
     nodes: Array<TNode>,
     edges: Array<TEdge>,
-    action: string
+    action: string,
 ): Array<string> => {
     let Errors: Array<string> = [];
     let referencedNode: TNode | undefined = undefined;
@@ -156,7 +156,6 @@ export const validateTableRelations = (
             }
         }
 
-        
         if (target?.type !== source?.type) {
             Errors.push(
                 `Referencing column '${data.referencingColumn}' is not the same data type as referenced column '${data.referencedColumn}'.`,
@@ -181,7 +180,6 @@ const ValidateConstraint = (
     Errors: Array<string>,
     source?: TTableColumn,
     referencingColumn?: string,
-    
 ) => {
     const validForeignKeyActions = [
         'NO ACTION',
