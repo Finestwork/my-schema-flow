@@ -36,11 +36,10 @@ const {
 } = useColumnData();
 const { updateColumnBasedOnActiveNode } = useUpdateEdgeData();
 const onClickUpdateColumn = () => {
-    let currentColumn = getColumnData;
     errors.value = [];
     isSuccessfullyCreated.value = false;
     errors.value = validateColumns(
-        currentColumn.value,
+        getColumnData.value,
         canvasStore.currentActiveNode,
     );
     if (errors.value.length !== 0) return;
@@ -50,12 +49,12 @@ const onClickUpdateColumn = () => {
     });
     updateColumnBasedOnActiveNode(columnName.value);
     columnOriginalColumnName.value = columnName.value;
-    canvasStore.updateColumnInActiveNode(
-        currentColumn.value,
-        canvasStore.currentNodeActiveColumnIndex,
-    );
+    canvasStore.currentNodeActiveColumnIndex =
+        canvasStore.updateColumnInActiveNode(
+            getColumnData.value,
+            canvasStore.currentNodeActiveColumnIndex,
+        );
     isSuccessfullyCreated.value = true;
-    currentColumn = useColumnData().getColumnData;
 };
 </script>
 

@@ -103,8 +103,12 @@ export const useCanvasStore = defineStore('canvas', {
         ) {
             const Columns = this.currentActiveNode.data.table.columns;
             Columns[index] = Object.assign(Columns[index], klona(data));
+
             this.currentActiveNode.data.table.columns =
                 sortConstraintKeys(Columns);
+            return this.currentActiveNode.data.table.columns.findIndex(
+                (column) => column.name === data.name,
+            );
         },
         cloneColumnInActiveNode(cloneIndex: number) {
             const CurrentActiveNode = this.currentActiveNode;
