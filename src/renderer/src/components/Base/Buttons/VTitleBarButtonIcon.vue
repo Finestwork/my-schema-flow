@@ -16,7 +16,7 @@ const props = withDefaults(defineProps<TProps>(), {
     <VTooltip>
         <button
             type="button"
-            class="block aspect-square h-full rounded p-[.3rem] outline-none"
+            class="block h-full w-full rounded p-[.3rem] outline-none"
             :class="{
                 'stroke-slate-500 hover:bg-slate-500/20 dark:hover:bg-cyan-950/50 dark:hover:stroke-cyan-500':
                     !props.isActive,

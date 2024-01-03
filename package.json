@@ -1,10 +1,15 @@
 {
-  "name": "schemasparkle",
+  "name": "MySchemaFlow",
   "version": "1.0.0",
-  "description": "An Electron application with Vue and TypeScript",
+  "description": "An electron.js application designed to assist you in creating diagrams, especially for MySQL databases. It offers a user-friendly interface that allows you to visualize and comprehend your database structure more easily.",
   "main": "./out/main/index.js",
   "author": "Finestwork",
   "homepage": "https://github.com/Finestwork/schema-sparkle",
+    "build": {
+        "appId": "com.finestwork.schema-sparkle",
+        "files": "!resources{/*}",
+        "copyright": "Copyright © 2019 ${author}"
+    },
   "scripts": {
     "format": "prettier --write .",
     "lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts,.vue --fix",

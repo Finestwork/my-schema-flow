@@ -1,4 +1,3 @@
-import icon from '../../../resources/icon.png?asset';
 import { electronApp, is, optimizer } from '@electron-toolkit/utils';
 import { app, BrowserWindow, shell } from 'electron';
 import { join } from 'path';
@@ -24,13 +23,11 @@ export default class CreateMainWindow {
             autoHideMenuBar: true,
             titleBarStyle: 'hidden',
             title: 'SchemaSparkle',
-            icon: icon,
             titleBarOverlay: {
                 color: '#0f172a',
                 symbolColor: '#64748b',
-                height: 40,
+                height: 48,
             },
-            ...(process.platform === 'linux' ? { icon } : {}),
             webPreferences: {
                 preload: join(__dirname, '../preload/index.js'),
                 sandbox: false,

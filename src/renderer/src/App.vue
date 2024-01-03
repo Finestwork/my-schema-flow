@@ -23,7 +23,7 @@ provide(isCreatingTableKey, isCreatingTable);
 <template>
     <TitleBar />
     <Toolbar />
-    <div class="flex h-[calc(100vh-52px-44px)]">
+    <div class="flex h-[calc(100vh-52px-48px)]">
         <VPanelWrapper
             class="h-full w-full max-w-[250px] border-r-2 border-r-slate-300 dark:border-r-dark-700"
         >
