@@ -26,7 +26,7 @@ export default class CreateMainWindow {
             titleBarOverlay: {
                 color: '#0f172a',
                 symbolColor: '#64748b',
-                height: 40,
+                height: 48,
             },
             webPreferences: {
                 preload: join(__dirname, '../preload/index.js'),

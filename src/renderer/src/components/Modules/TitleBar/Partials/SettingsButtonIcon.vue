@@ -7,14 +7,17 @@ const settingsStore = useSettingsStore();
 </script>
 
 <template>
-    <VTitleBarButtonIcon
-        :windows="['Ctrl', 'Alt', 'S']"
-        :mac-os="['⌘', 'Alt', 'S']"
-        :is-active="settingsStore.showSettings"
-        @click="settingsStore.showSettings = !settingsStore.showSettings"
-    >
-        <SettingsIcon />
+    <div class="p-1">
+        <VTitleBarButtonIcon
+            class="h-full w-full"
+            :windows="['Ctrl', 'Alt', 'S']"
+            :mac-os="['⌘', 'Alt', 'S']"
+            :is-active="settingsStore.showSettings"
+            @click="settingsStore.showSettings = !settingsStore.showSettings"
+        >
+            <SettingsIcon />
 
-        <template #tooltipLabel>Settings</template>
-    </VTitleBarButtonIcon>
+            <template #tooltipLabel>Settings</template>
+        </VTitleBarButtonIcon>
+    </div>
 </template>
