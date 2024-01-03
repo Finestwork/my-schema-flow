@@ -7,7 +7,7 @@ const emits = defineEmits<{
 </script>
 <template>
     <button
-        class="flex items-center rounded-md bg-slate-300 px-3 py-2 outline-none hover:bg-slate-500/20 focus:bg-slate-500/20 dark:bg-dark-600/50 dark:hover:bg-dark-600/60 dark:focus:bg-dark-600/60"
+        class="focus-visibility:bg-slate-400/50 dark:focus-visibility:bg-dark-600/60 flex items-center rounded-md bg-slate-300 px-3 py-2 outline-none hover:bg-slate-400/50 dark:bg-dark-600/50 dark:hover:bg-dark-600/60"
         type="button"
         @click="emits('click', $event)"
     >
