@@ -141,7 +141,9 @@ watch(
     >
         <template #label>Column Type:</template>
         <template #float>
-            <div class="h-full bg-white outline-none dark:bg-dark-800">
+            <div
+                class="h-full border-2 border-slate-300 bg-white outline-none dark:border-dark-700 dark:bg-dark-800"
+            >
                 <OverlayScrollbarsComponent
                     ref="scrollbar"
                     class="max-h-[250px] overflow-y-scroll"
