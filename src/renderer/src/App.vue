@@ -9,15 +9,28 @@ import TableList from '@components/Modules/Tables/Tables.vue';
 import TableRelations from '@components/Modules/TableRelations/TableRelations.vue';
 import Settings from '@components/Modules/Settings/Settings.vue';
 import { useSettingsStore } from '@stores/Settings';
+import { useFileStore } from '@stores/File';
 import { vueFlowKey } from '@symbols/VueFlow';
+import { useTitle } from '@vueuse/core';
 import { isCreatingTableKey } from '@symbols/Canvas';
 import { useVueFlow } from '@vue-flow/core';
-import { provide, ref } from 'vue';
+import { provide, ref, watch } from 'vue';
 
 const settingsStore = useSettingsStore();
+const fileStore = useFileStore();
 const isCreatingTable = ref(false);
+const title = useTitle();
 provide(vueFlowKey, useVueFlow());
 provide(isCreatingTableKey, isCreatingTable);
+
+watch(
+    () => fileStore.fileName,
+    (fileName) => {
+        if (fileName.trim() === '') return;
+        const FileName = fileStore.getFileNameWithoutExt;
+        title.value = `MySchemaFlow — ${FileName}`;
+    },
+);
 </script>
 
 <template>
