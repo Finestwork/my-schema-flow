@@ -35,7 +35,7 @@ const onClickToggleSection = (e: MouseEvent) => {
             </span>
             <span
                 ref="chevron"
-                class="block w-[12px] stroke-slate-500 dark:stroke-slate-500 group-hover:dark:stroke-cyan-500 group-focus:dark:stroke-cyan-500"
+                class="block w-[10px] stroke-slate-500 dark:stroke-slate-500 group-hover:dark:stroke-cyan-500 group-focus:dark:stroke-cyan-500"
             >
                 <ChevronIcon />
             </span>
