@@ -11,6 +11,7 @@ export default class HandleEventListeners {
         this._overwriteFile();
         this._openFile();
         this._saveAsScript();
+        this._openSchema();
     }
 
     private _toggleDarkMode() {
@@ -135,6 +136,46 @@ export default class HandleEventListeners {
                 Result.filePaths,
                 basename(Result.filePaths[0]),
             );
+        });
+    }
+
+    private _openSchema() {
+        ipcMain.on('openSchema', async (event) => {
+            const CurrentBrowser = BrowserWindow.fromWebContents(event.sender);
+            if (!CurrentBrowser) return;
+
+            const DialogOptions = {
+                title: 'Importing a File',
+                filters: [
+                    {
+                        name: 'database',
+                        extensions: ['sqlite3', 'sqlite', 'database', 'db'],
+                    },
+                ],
+            };
+            const Result = await dialog.showOpenDialog(
+                CurrentBrowser,
+                DialogOptions,
+            );
+            if (Result.canceled) return;
+            if (!Result.filePaths) return;
+            const File = await readFile(Result.filePaths[0]);
+            const wasm = await readFile(
+                './node_modules/sql.js/dist/sql-wasm.wasm',
+            );
+            event.reply('schemaOpened', File);
+            /*
+            const File = await readFile(Result.filePaths[0], {
+                encoding: 'utf-8',
+            });
+            
+            event.reply(
+                'filedOpened',
+                File,
+                Result.filePaths,
+                basename(Result.filePaths[0]),
+            );
+            */
         });
     }
 

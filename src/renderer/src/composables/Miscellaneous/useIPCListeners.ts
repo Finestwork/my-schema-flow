@@ -3,6 +3,7 @@ import { useHistoryStore } from '@stores/History';
 import { useHistoryActions } from '@composables/History/useHistoryActions';
 import { vueFlowKey } from '@symbols/VueFlow';
 import { inject, onMounted, onUnmounted } from 'vue';
+import { importHelper } from '@utilities/ImportHelper';
 
 export function useIPCListeners() {
     const fileStore = useFileStore();
@@ -30,6 +31,16 @@ export function useIPCListeners() {
             (_, filePath: string, fileName: string) => {
                 fileStore.fileName = fileName;
                 fileStore.filePath = filePath;
+            },
+        );
+
+        window.electron.ipcRenderer.on(
+            'schemaOpened',
+            async (_, file: Uint8Array) => {
+                if (!vueFlow) return;
+                historyStore.$reset();
+                fileStore.$reset();
+                vueFlow.setNodes(await importHelper(file));
             },
         );
 
