@@ -1,20 +1,33 @@
 <script setup lang="ts">
-import VToolbarButtonIcon from '@components/Base/ButtonIcons/VToolbarButtonIcon.vue';
+import VToolbarButtonDropdown from '@components/Base/Dropdowns/VToolbarButtonDropdown.vue';
+import VToolbarButtonDropdownItem from '@components/Base/Dropdowns/VToolbarButtonDropdownItem.vue';
 import VTooltipKeyboardText from '@components/Base/Texts/VTooltipKeyboardText.vue';
 import OpenFileIcon from '@components/Shared/Icons/OpenFileIcon.vue';
 
+const onClickImportDatabase = () => {
+    window.api.openSchema('C:\\Users\\Winmri\\Downloads');
+};
 const onClickOpenFile = () => {
     window.electron.ipcRenderer.send('openFile');
 };
 </script>
 
 <template>
-    <VToolbarButtonIcon @click="onClickOpenFile">
+    <VToolbarButtonDropdown ref="btn">
         <OpenFileIcon />
         <template #tooltip>
             <VTooltipKeyboardText :mac="['⌘', 'O']" :windows="['Ctrl', 'O']">
                 <template #label>Open A File</template>
-            </VTooltipKeyboardText>
+            </VTooltipKeyboardText></template
+        >
+        <template #float>
+            <VToolbarButtonDropdownItem @click="onClickImportDatabase">
+                <template #text>Import Database</template>
+            </VToolbarButtonDropdownItem>
+
+            <VToolbarButtonDropdownItem @click="onClickOpenFile">
+                <template #text>Import Diagram</template>
+            </VToolbarButtonDropdownItem>
         </template>
-    </VToolbarButtonIcon>
+    </VToolbarButtonDropdown>
 </template>

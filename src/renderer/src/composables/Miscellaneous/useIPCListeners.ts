@@ -40,7 +40,13 @@ export function useIPCListeners() {
                 if (!vueFlow) return;
                 historyStore.$reset();
                 fileStore.$reset();
-                vueFlow.setNodes(await importHelper(file));
+                const contents = await importHelper(file);
+                if (contents && contents.length >= 2) {
+                    const nodes = contents[0];
+                    const edges = contents[1];
+                    vueFlow.setNodes(nodes);
+                    vueFlow.setEdges(edges);
+                }
             },
         );
 

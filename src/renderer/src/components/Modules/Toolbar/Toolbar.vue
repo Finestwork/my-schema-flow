@@ -9,7 +9,6 @@ import UndoButton from '@components/Modules/Toolbar/Partials/UndoButton.vue';
 import RedoButton from '@components/Modules/Toolbar/Partials/RedoButton.vue';
 import SaveButton from '@components/Modules/Toolbar/Partials/SaveButton.vue';
 import ExportFileButton from '@components/Modules/Toolbar/Partials/ExportFileButton.vue';
-import ImportSchema from '@components/Modules/Toolbar/Partials/ImportSchema.vue';
 </script>
 
 <template>
@@ -17,7 +16,6 @@ import ImportSchema from '@components/Modules/Toolbar/Partials/ImportSchema.vue'
         class="flex items-center justify-between border-b-2 border-b-slate-300 bg-white px-2 py-3 dark:border-b-dark-700 dark:bg-dark-900"
     >
         <div>
-            <ImportSchema class="mr-2" />
             <OpenFileButton class="mr-2" />
             <ToggleDarkModeButton class="mr-2" />
             <ExportAsImageButton class="mr-2" />

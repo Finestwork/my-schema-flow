@@ -160,9 +160,6 @@ export default class HandleEventListeners {
             if (Result.canceled) return;
             if (!Result.filePaths) return;
             const File = await readFile(Result.filePaths[0]);
-            const wasm = await readFile(
-                './node_modules/sql.js/dist/sql-wasm.wasm',
-            );
             event.reply('schemaOpened', File);
             /*
             const File = await readFile(Result.filePaths[0], {
