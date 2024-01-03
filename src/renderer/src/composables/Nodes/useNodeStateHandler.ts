@@ -30,7 +30,7 @@ export function useNodeStateHandler() {
         });
     };
     const activateState = () => {
-        const NodeIds = new Set();
+        const NodeIdsWithRelation = new Set();
         const { related } = getConnectedNodes(
             canvasStore.currentActiveNode,
             getEdges.value,
@@ -46,8 +46,8 @@ export function useNodeStateHandler() {
                     edge.zIndex = 98;
                     edge.data.referenced.isHandleActive = true;
                     edge.data.referencing.isHandleActive = true;
-                    NodeIds.add(edge.targetNode.id);
-                    NodeIds.add(edge.sourceNode.id);
+                    NodeIdsWithRelation.add(edge.targetNode.id);
+                    NodeIdsWithRelation.add(edge.sourceNode.id);
                     return edge;
                 }
 
@@ -69,7 +69,7 @@ export function useNodeStateHandler() {
         });
         setNodes((nodes) => {
             return nodes.map((node) => {
-                const NodeIndex = Array.from(NodeIds).findIndex(
+                const NodeIndex = Array.from(NodeIdsWithRelation).findIndex(
                     (id) => id === node.id,
                 );
 
@@ -97,6 +97,11 @@ export function useNodeStateHandler() {
                 return node;
             });
         });
+
+        canvasStore.currentActiveNode.data.states = {
+            isActive: true,
+            isFaded: false,
+        };
     };
     const activatePairNode = (edge: TEdge) => {
         setEdges((edges) => {

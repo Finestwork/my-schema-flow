@@ -78,6 +78,7 @@ export function useNodeActions() {
                     opacity: 1,
                 },
             },
+            zIndex: 99,
         };
         VueFlow.addNodes([NewTable]);
         createHistory(`Cloned Table: ${TableName}`);
