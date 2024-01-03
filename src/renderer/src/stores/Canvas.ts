@@ -35,9 +35,11 @@ export type TEdgeData = {
         };
     };
     referenced: {
+        isHandleActive: boolean;
         column: string;
     };
     referencing: {
+        isHandleActive: boolean;
         column: string;
     };
     constraint: {

@@ -65,7 +65,6 @@ const onClickEditColumn = (index: number) => {
     if (!isTableSelected.value) return;
     canvasStore.currentNodeActiveColumnIndex = index;
 };
-
 onMounted(() => {
     if (!isCreatingTable?.value ?? false) return;
     jellyAnimation(root.value);
@@ -89,11 +88,7 @@ watch(
 <template>
     <div ref="root" class="relative">
         <CustomNodeToolbar v-if="isTableSelected" />
-        <VCircleHandle
-            :node-id="props.id"
-            :is-active="isActive"
-            :is-faded="isFaded"
-        />
+        <VCircleHandle :node-id="props.id" :is-faded="isFaded" />
         <VPrimaryTableNode
             :is-default="isDefault"
             :is-active="isActive"

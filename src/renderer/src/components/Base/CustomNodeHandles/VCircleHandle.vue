@@ -1,14 +1,15 @@
 <script setup lang="ts">
+import { useCanvasStore } from '@stores/Canvas';
 import { Handle, useVueFlow } from '@vue-flow/core';
 import { computed } from 'vue';
 import type { HandleType } from '@vue-flow/core';
 
 export type TProps = {
     nodeId: string;
-    isActive: boolean;
     isFaded: boolean;
 };
 const props = defineProps<TProps>();
+const canvasStore = useCanvasStore();
 const { getEdges } = useVueFlow();
 const getHandles = computed(() => {
     const PositionTracker: Array<string> = [];
@@ -27,11 +28,18 @@ const getHandles = computed(() => {
                 };
             }
             const IsSource = edge.source === props.nodeId;
-            const EdgeHandle = edge?.sourceHandle ?? '';
+            const SourceHandle = edge?.sourceHandle ?? '';
             const TargetHandle = edge?.targetHandle ?? '';
+            const EdgeId = IsSource ? SourceHandle : TargetHandle;
             const Position = IsSource
                 ? edge.data.position.source
                 : edge.data.position.target;
+            const IsTheSameNode = EdgeId.includes(
+                canvasStore.currentActiveNode.id,
+            );
+            const IsHandleActive = IsSource
+                ? edge.data.referenced.isHandleActive
+                : edge.data.referencing.isHandleActive;
 
             const MiddlePlace = 50;
             const CoordsSpaceStep = MiddlePlace / arr.length;
@@ -54,11 +62,12 @@ const getHandles = computed(() => {
             PositionTracker.push(Position);
 
             return {
-                id: IsSource ? EdgeHandle : TargetHandle,
+                id: EdgeId,
                 position: Position,
                 type: IsSource ? 'source' : 'target',
                 connectable: false,
                 style: PositionStyle,
+                isHandleActive: IsTheSameNode && IsHandleActive,
             };
         });
 });
@@ -80,10 +89,11 @@ const getHandles = computed(() => {
             '-translate-x-2/4 translate-y-2/4':
                 handle.position === 'bottom' || handle.position === 'left',
             'border-slate-200 bg-slate-500 dark:border-dark-200 dark:bg-dark-600':
-                !props.isActive && !props.isFaded,
-            'border-cyan-50 bg-cyan-500': props.isActive && !props.isFaded,
+                !handle.isHandleActive && !props.isFaded,
+            'border-cyan-50 bg-cyan-500':
+                handle.isHandleActive && !props.isFaded,
             'border-slate-50 bg-slate-300 dark:border-dark-500 dark:bg-dark-800':
-                !props.isActive && props.isFaded,
+                !handle.isHandleActive && props.isFaded,
         }"
     />
 </template>

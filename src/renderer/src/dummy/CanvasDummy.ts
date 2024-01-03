@@ -39,9 +39,11 @@ const createEdges = () => {
             data: {
                 referenced: {
                     column: edge.source.column,
+                    isHandleActive: false,
                 },
                 referencing: {
                     column: edge.target.column,
+                    isHandleActive: false,
                 },
                 constraint: {
                     onDelete: 'NO ACTION',

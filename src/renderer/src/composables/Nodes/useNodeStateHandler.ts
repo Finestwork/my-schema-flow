@@ -23,6 +23,8 @@ export function useNodeStateHandler() {
                 edge.style = {};
                 edge.animated = false;
                 edge.zIndex = 0;
+                edge.data.referenced.isHandleActive = false;
+                edge.data.referencing.isHandleActive = false;
                 return edge;
             });
         });
@@ -42,6 +44,8 @@ export function useNodeStateHandler() {
                     edge.class = 'active';
                     edge.animated = true;
                     edge.zIndex = 98;
+                    edge.data.referenced.isHandleActive = true;
+                    edge.data.referencing.isHandleActive = true;
                     NodeIds.add(edge.targetNode.id);
                     NodeIds.add(edge.sourceNode.id);
                     return edge;
@@ -52,10 +56,12 @@ export function useNodeStateHandler() {
                 edge.sourceNode.data.states = {
                     isActive: false,
                     isFaded: true,
+                    isHandleActive: false,
                 };
                 edge.targetNode.data.states = {
                     isActive: false,
                     isFaded: true,
+                    isHandleActive: false,
                 };
 
                 return edge;
@@ -70,10 +76,17 @@ export function useNodeStateHandler() {
                 node.zIndex = 99;
 
                 if (NodeIndex !== -1) {
-                    node.data.states = {
-                        isActive: true,
-                        isFaded: false,
-                    };
+                    if (canvasStore.currentActiveNode.id === node.id) {
+                        node.data.states = {
+                            isActive: true,
+                            isFaded: false,
+                        };
+                    } else {
+                        node.data.states = {
+                            isActive: false,
+                            isFaded: false,
+                        };
+                    }
                 } else {
                     node.data.states = {
                         isActive: false,
@@ -84,10 +97,6 @@ export function useNodeStateHandler() {
                 return node;
             });
         });
-        canvasStore.currentActiveNode.data.states = {
-            isActive: true,
-            isFaded: false,
-        };
     };
     const activatePairNode = (edge: TEdge) => {
         setEdges((edges) => {
@@ -96,19 +105,13 @@ export function useNodeStateHandler() {
                     currentEdge.class = 'active';
                     currentEdge.animated = true;
                     currentEdge.zIndex = 98;
+                    edge.data.referenced.isHandleActive = true;
+                    edge.data.referencing.isHandleActive = true;
                     return edge;
                 }
 
                 currentEdge.class = 'faded';
                 currentEdge.animated = false;
-                currentEdge.sourceNode.data.states = {
-                    isActive: false,
-                    isFaded: true,
-                };
-                currentEdge.targetNode.data.states = {
-                    isActive: false,
-                    isFaded: true,
-                };
 
                 return currentEdge;
             });
@@ -121,10 +124,17 @@ export function useNodeStateHandler() {
                     edge.targetNode.id === node.id;
 
                 if (MatchPairNode) {
-                    node.data.states = {
-                        isActive: true,
-                        isFaded: false,
-                    };
+                    if (canvasStore.currentActiveNode.id === node.id) {
+                        node.data.states = {
+                            isActive: true,
+                            isFaded: false,
+                        };
+                    } else {
+                        node.data.states = {
+                            isActive: false,
+                            isFaded: false,
+                        };
+                    }
                 } else {
                     node.data.states = {
                         isActive: false,
