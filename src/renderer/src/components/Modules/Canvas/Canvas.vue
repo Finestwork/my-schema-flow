@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { TestNodes, TestEdges } from '@dummy/CanvasDummy'; // Delete this in production
+import { TestNodes } from '@dummy/CanvasDummy'; // Delete this in production
 import CustomNode from '@components/Modules/Canvas/Partials/CustomNode.vue';
 import CustomNodePlaceholder from '@components/Modules/Canvas/Partials/CustomNodePlaceholder.vue';
 import Controls from '@components/Modules/Canvas/Partials/Controls.vue';
@@ -22,7 +22,7 @@ import { VueFlow, useVueFlow } from '@vue-flow/core';
 import { nextTick, computed } from 'vue';
 
 const testElements = TestNodes;
-const testEdges = TestEdges;
+const testEdges = [];
 const settingsStore = useSettingsStore();
 const getPatternColor = computed(() => {
     if (settingsStore.backgroundVariant === 'lines') {

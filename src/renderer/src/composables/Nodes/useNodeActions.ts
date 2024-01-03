@@ -4,6 +4,7 @@ import { vueFlowKey } from '@symbols/VueFlow';
 import { inject } from 'vue';
 import { v4 as uuidv4 } from 'uuid';
 import { klona } from 'klona/full';
+import { createNodes } from '@utilities/NodeEdgeHelper';
 
 export function useNodeActions() {
     const canvasStore = useCanvasStore();
@@ -83,9 +84,17 @@ export function useNodeActions() {
         createHistory(`Cloned Table: ${TableName}`);
     };
 
+    const createNodeFromImport = (nodes: object) => {
+        if (!VueFlow || VueFlow.vueFlowRef.value === null) return;
+        const NewTable = createNodes(nodes);
+        VueFlow.setNodes(NewTable);
+        createHistory(`Opened Database File`);
+    };
+
     return {
         createNode,
         deleteNode,
         copyNode,
+        createNodeFromImport,
     };
 }

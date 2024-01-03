@@ -161,18 +161,6 @@ export default class HandleEventListeners {
             if (!Result.filePaths) return;
             const File = await readFile(Result.filePaths[0]);
             event.reply('schemaOpened', File);
-            /*
-            const File = await readFile(Result.filePaths[0], {
-                encoding: 'utf-8',
-            });
-            
-            event.reply(
-                'filedOpened',
-                File,
-                Result.filePaths,
-                basename(Result.filePaths[0]),
-            );
-            */
         });
     }
 

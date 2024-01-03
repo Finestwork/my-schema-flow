@@ -1,6 +1,8 @@
 import { useFileStore } from '@stores/File';
 import { useHistoryStore } from '@stores/History';
 import { useHistoryActions } from '@composables/History/useHistoryActions';
+import { useNodeActions } from '@composables/Nodes/useNodeActions';
+import { useTableRelationActions } from '@composables/Table/useTableRelationActions';
 import { vueFlowKey } from '@symbols/VueFlow';
 import { inject, onMounted, onUnmounted } from 'vue';
 import { importHelper } from '@utilities/ImportHelper';
@@ -10,7 +12,8 @@ export function useIPCListeners() {
     const historyStore = useHistoryStore();
     const { createHistory } = useHistoryActions();
     const vueFlow = inject(vueFlowKey);
-
+    const { createNodeFromImport } = useNodeActions();
+    const { createEdgeFromImport } = useTableRelationActions();
     onMounted(() => {
         window.electron.ipcRenderer.on(
             'fileSavedSuccessfully',
@@ -41,12 +44,8 @@ export function useIPCListeners() {
                 historyStore.$reset();
                 fileStore.$reset();
                 const contents = await importHelper(file);
-                if (contents && contents.length >= 2) {
-                    const nodes = contents[0];
-                    const edges = contents[1];
-                    vueFlow.setNodes(nodes);
-                    vueFlow.setEdges(edges);
-                }
+                const [nodes, edges] = contents;
+                createNodeFromImport(nodes), createEdgeFromImport(edges, nodes);
             },
         );
 

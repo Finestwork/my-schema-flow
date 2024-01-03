@@ -1,5 +1,4 @@
 import * as initSqlJs from 'sql.js/dist/sql-asm.js';
-import { TEdge, TNode } from '@stores/Canvas';
 import { v4 as uuidv4 } from 'uuid';
 
 export const importHelper = async (file: Uint8Array) => {
@@ -10,7 +9,7 @@ export const importHelper = async (file: Uint8Array) => {
     const table_names = database[0].values.map((value) => value[0]);
     const nodes: { [key: string]: object } = {};
     const edges: object[] = [];
-    table_names.map((table_name) => {
+    table_names.forEach((table_name) => {
         const result = db.exec(`PRAGMA table_info(${table_name})`)[0].values;
         const columns: object[] = result.map((row: object) => {
             const dataTypeMatch = dataTypeRegex.exec(row[2]);
@@ -57,64 +56,5 @@ export const importHelper = async (file: Uint8Array) => {
         }
     });
 
-    const realnodes = await createNodes(nodes);
-    const realedges = await createEdges(edges, nodes);
-    return [realnodes, realedges];
-};
-
-const createNodes = (NodeDummy): Array<TNode> => {
-    const Elements: Array<TNode> = [];
-    let index = 1;
-    for (const table in NodeDummy) {
-        const NewObject = {
-            id: NodeDummy[table].id,
-            type: 'custom',
-            connectable: false,
-            position: { x: 270 * index, y: 5 },
-            data: {
-                table: {
-                    name: NodeDummy[table].name,
-                    columns: NodeDummy[table].columns,
-                },
-                states: {
-                    isActive: false,
-                    isFaded: false,
-                },
-            },
-        };
-        Elements.push(NewObject as TNode);
-        index++;
-    }
-    return Elements;
-};
-
-const createEdges = (EdgesDummy, NodeDummy) => {
-    const Edges: Array<TEdge> = [];
-    EdgesDummy.forEach((edge) => {
-        // set key constraint for the source
-        const foreignKey = NodeDummy[edge.source.table].columns.find(
-            (column) => column.name === edge.source.column,
-        );
-        foreignKey.keyConstraint = 'FK';
-        const EdgeObj = {
-            id: uuidv4(),
-            source: NodeDummy[edge.source.table].id,
-            target: NodeDummy[edge.target.table].id,
-            data: {
-                referenced: {
-                    column: edge.source.column,
-                },
-                referencing: {
-                    column: edge.target.column,
-                },
-                constraint: {
-                    onDelete: 'NO ACTION',
-                    onUpdate: 'NO ACTION',
-                },
-            },
-        };
-
-        Edges.push(EdgeObj as TEdge);
-    });
-    return Edges;
+    return [nodes, edges];
 };
