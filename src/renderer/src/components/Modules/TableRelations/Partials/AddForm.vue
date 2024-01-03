@@ -95,12 +95,12 @@ const onClickAddRelation = async () => {
         <PanelFormReferencedColumn
             v-model="referencedColumn"
             v-model:referenced-table="referencedTable"
-            class="mb-5"
+            class="mb-4"
             :disabled="referencedTable.trim() === ''"
         />
         <PanelFormOnDeleteConstraint
             v-model="onDeleteConstraint"
-            class="mb-5"
+            class="mb-4"
         />
 
         <PanelFormOnUpdateConstraint

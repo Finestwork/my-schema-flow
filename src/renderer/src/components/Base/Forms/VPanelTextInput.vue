@@ -27,6 +27,7 @@ const emits = defineEmits<{
 <template>
     <div class="h-full w-full">
         <div
+            v-if="$slots.label"
             class="flex items-center"
             :class="{
                 'mb-1': !$slots.helper,
@@ -34,7 +35,6 @@ const emits = defineEmits<{
             }"
         >
             <label
-                v-if="$slots.label"
                 class="cursor-pointer text-xs font-bold text-slate-700 dark:text-slate-300"
                 :for="id"
             >

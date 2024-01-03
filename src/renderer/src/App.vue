@@ -7,20 +7,36 @@ import HistorySection from '@components/Modules/HistorySection/HistorySection.vu
 import TableInformationSection from '@components/Modules/TableInformationSection/TableInformationSection.vue';
 import TableList from '@components/Modules/Tables/Tables.vue';
 import TableRelations from '@components/Modules/TableRelations/TableRelations.vue';
+import Settings from '@components/Modules/Settings/Settings.vue';
+import { useSettingsStore } from '@stores/Settings';
+import { useFileStore } from '@stores/File';
 import { vueFlowKey } from '@symbols/VueFlow';
+import { useTitle } from '@vueuse/core';
 import { isCreatingTableKey } from '@symbols/Canvas';
 import { useVueFlow } from '@vue-flow/core';
-import { provide, ref } from 'vue';
+import { provide, ref, watch } from 'vue';
 
+const settingsStore = useSettingsStore();
+const fileStore = useFileStore();
 const isCreatingTable = ref(false);
+const title = useTitle();
 provide(vueFlowKey, useVueFlow());
 provide(isCreatingTableKey, isCreatingTable);
+
+watch(
+    () => fileStore.fileName,
+    (fileName) => {
+        if (fileName.trim() === '') return;
+        const FileName = fileStore.getFileNameWithoutExt;
+        title.value = `MySchemaFlow — ${FileName}`;
+    },
+);
 </script>
 
 <template>
     <TitleBar />
     <Toolbar />
-    <div class="flex h-[calc(100vh-52px-44px)]">
+    <div class="flex h-[calc(100vh-52px-48px)]">
         <VPanelWrapper
             class="h-full w-full max-w-[250px] border-r-2 border-r-slate-300 dark:border-r-dark-700"
         >
@@ -35,4 +51,5 @@ provide(isCreatingTableKey, isCreatingTable);
             <TableRelations />
         </VPanelWrapper>
     </div>
+    <Settings v-if="settingsStore.showSettings" />
 </template>
