@@ -56,7 +56,7 @@ const emits = defineEmits<{
             :class="{
                 'border-slate-400 placeholder-slate-500 hover:border-cyan-500 focus:border-cyan-500 focus:ring-4 focus:ring-cyan-500/30 dark:border-slate-700 dark:text-slate-500 dark:placeholder-slate-600 dark:hover:border-cyan-500 hover:dark:text-slate-300 dark:focus:border-cyan-500':
                     !props.disabled,
-                'cursor-not-allowed dark:border-slate-800 dark:placeholder-slate-700':
+                'cursor-not-allowed border-slate-300 placeholder-slate-400 dark:border-slate-800 dark:placeholder-slate-700':
                     props.disabled,
             }"
             :placeholder="props.placeholder"
