@@ -14,7 +14,7 @@ const props = defineProps<TProps>();
         type="button"
         class="flex w-full justify-between px-3 py-3 text-left text-sm font-bold outline-none"
         :class="{
-            'bg-cyan-600 dark:bg-cyan-950/50': props.shouldHighlight,
+            'bg-slate-500 dark:bg-cyan-950/50': props.shouldHighlight,
             'group hover:bg-cyan-500 hover:dark:bg-cyan-950/50':
                 !props.shouldHighlight && !props.isFaded && isTableSelected,
             'bg-cyan-500 dark:bg-cyan-950/50': props.isSelected,
@@ -27,7 +27,7 @@ const props = defineProps<TProps>();
                     props.isDefault && !props.isSelected,
                 'text-slate-600/40 dark:text-slate-700/50':
                     props.isFaded && !props.isSelected,
-                'text-cyan-50 dark:text-cyan-500':
+                'text-slate-100 dark:text-cyan-500':
                     props.shouldHighlight || props.isSelected,
             }"
             ><slot name="name"></slot
@@ -39,7 +39,7 @@ const props = defineProps<TProps>();
                     props.isDefault && !props.isSelected,
                 'text-slate-400/50 dark:text-slate-700/50':
                     props.isFaded && !props.isSelected,
-                'text-cyan-200 dark:text-cyan-500':
+                'text-slate-100  dark:text-cyan-500':
                     props.shouldHighlight || props.isSelected,
             }"
         >
@@ -53,7 +53,7 @@ const props = defineProps<TProps>();
                     !props.shouldHighlight &&
                     !props.isSelected,
                 'text-slate-700/50': props.isFaded && !props.isSelected,
-                'text-cyan-200 dark:text-cyan-500':
+                'text-slate-100  dark:text-cyan-500':
                     props.shouldHighlight || props.isSelected,
             }"
         >
