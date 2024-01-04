@@ -50,6 +50,10 @@ export const importHelper = async (file: Uint8Array) => {
                             table: row[2],
                             column: row[4],
                         },
+                        constraints: {
+                            onDelete: row[5],
+                            onUpdate: row[6],
+                        },
                     };
                 }),
             );

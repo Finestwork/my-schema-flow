@@ -137,6 +137,7 @@ export function useTableRelationActions() {
 
     const createEdgeFromImport = (edges, nodes) => {
         const Edges = createEdges(edges, nodes);
+
         VueFlow?.setEdges(Edges);
     };
 

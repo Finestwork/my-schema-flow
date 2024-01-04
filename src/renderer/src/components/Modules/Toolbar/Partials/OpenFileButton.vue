@@ -3,12 +3,9 @@ import VToolbarButtonDropdown from '@components/Base/Dropdowns/VToolbarButtonDro
 import VToolbarButtonDropdownItem from '@components/Base/Dropdowns/VToolbarButtonDropdownItem.vue';
 import VTooltipKeyboardText from '@components/Base/Texts/VTooltipKeyboardText.vue';
 import OpenFileIcon from '@components/Shared/Icons/OpenFileIcon.vue';
-import { useNodeAutoLayout } from '@composables/Nodes/useAutoLayout';
 
-const { autoLayout } = useNodeAutoLayout();
 const onClickImportDatabase = () => {
     window.api.openSchema('');
-    autoLayout();
 };
 const onClickOpenFile = () => {
     window.electron.ipcRenderer.send('openFile');

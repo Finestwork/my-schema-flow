@@ -47,8 +47,8 @@ export const createEdges = (edges, nodes) => {
                     column: edge.target.column,
                 },
                 constraint: {
-                    onDelete: 'NO ACTION',
-                    onUpdate: 'NO ACTION',
+                    onDelete: edge.constraints.onDelete,
+                    onUpdate: edge.constraints.onUpdate,
                 },
             },
         };
