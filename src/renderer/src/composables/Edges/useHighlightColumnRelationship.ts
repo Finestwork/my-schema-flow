@@ -4,7 +4,12 @@ import { inject } from 'vue';
 export function useHighlightColumnRelationship() {
     const VueFlow = inject(vueFlowKey);
     const highlightNodeColumnRelation = (edge) => {
-        if (!VueFlow) return;
+        const IsAllowedToHighlight =
+            !VueFlow ||
+            edge.sourceNode.data.states.isFaded ||
+            edge.targetNode.data.states.isFaded;
+        if (IsAllowedToHighlight) return;
+
         const ReferencingColumn = edge.data.referencing.column;
         const ReferencedColumn = edge.data.referenced.column;
 
