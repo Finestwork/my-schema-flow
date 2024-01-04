@@ -5,7 +5,7 @@ import { JSonSchema7 } from 'sql-ddl-to-json-schema';
 export const importSchema = async (file: Uint8Array) => {
     const sql = await initSqlJs();
 
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         const db = new sql.Database(file);
         const database = db.exec('SELECT tbl_name FROM sqlite_master');
         const dataTypeRegex = /^(.+?)(?:\((\d+)\))?$/;
@@ -72,9 +72,11 @@ export const importDDL = (schema: JSonSchema7) => {
     const nodes: { [key: string]: object } = {};
     const edges: object[] = [];
 
-    schema.map((table: any) => {
-
-        const primary_key = typeof table.primaryKey !== "undefined" ? table.primaryKey.columns : [];
+    schema.map((table: object) => {
+        const primary_key =
+            typeof table.primaryKey !== 'undefined'
+                ? table.primaryKey.columns
+                : [];
         const columns: object[] = table.columns.map((row: object) => {
             const column: object = {
                 name: row.name,
@@ -84,7 +86,6 @@ export const importDDL = (schema: JSonSchema7) => {
                 keyConstraint: primary_key.includes(row.name) ? 'PK' : '',
                 shouldHighlight: false, // Set the appropriate value based on your logic
             };
-            console.log(primary_key.includes(row.name))
             return column;
         });
 
@@ -96,7 +97,6 @@ export const importDDL = (schema: JSonSchema7) => {
         // define the edges
         if (table.foreignKeys) {
             table.foreignKeys.map((fk) => {
-                console.log(fk);
 
                 const edge = {
                     source: {
@@ -116,6 +116,5 @@ export const importDDL = (schema: JSonSchema7) => {
             });
         }
     });
-    console.log(nodes, edges)
     return [nodes, edges];
 };

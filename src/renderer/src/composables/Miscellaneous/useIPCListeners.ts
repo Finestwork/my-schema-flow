@@ -52,7 +52,7 @@ export function useIPCListeners() {
                 await nextTick();
                 vueFlow.setEdges(() => []);
                 vueFlow.setNodes(() => []);
-               
+
                 createNodeFromImport(nodes);
                 await nextTick();
                 createEdgeFromImport(edges, nodes);
@@ -65,7 +65,7 @@ export function useIPCListeners() {
         window.electron.ipcRenderer.on('ddlOpened', async (_, file: string) => {
             if (!vueFlow) return;
             historyStore.$reset();
-        
+
             fileStore.$reset();
             const jsonschema = parser.feed(file).toCompactJson(parser.results);
             const contents = await importDDL(jsonschema);
