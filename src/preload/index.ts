@@ -18,6 +18,12 @@ const api = {
     saveAsScript(script: string, extension: Array<string>) {
         ipcRenderer.send('saveAsScript', script, extension);
     },
+    openSchema(filePath: string) {
+        ipcRenderer.send('openSchema', filePath);
+    },
+    openDDL(filePath: string) {
+        ipcRenderer.send('openDDL', filePath);
+    },
     openFile() {
         ipcRenderer.send('openFile');
     },
