@@ -10,6 +10,7 @@ declare global {
             overwriteFile(contents: string, filePath: string): void;
             saveAsScript(script: string, extension: Array<string>): void;
             openSchema(filePath: string): void;
+            openDDL(filePath: string): void;
             openFile(): void;
         };
     }

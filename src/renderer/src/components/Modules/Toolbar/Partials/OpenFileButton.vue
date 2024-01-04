@@ -7,6 +7,9 @@ import OpenFileIcon from '@components/Shared/Icons/OpenFileIcon.vue';
 const onClickImportDatabase = () => {
     window.api.openSchema('');
 };
+const onCickImportDDL = () => {
+    window.api.openDDL('');
+};
 const onClickOpenFile = () => {
     window.electron.ipcRenderer.send('openFile');
 };
@@ -23,6 +26,10 @@ const onClickOpenFile = () => {
         <template #float>
             <VToolbarButtonDropdownItem @click="onClickImportDatabase">
                 <template #text>Import Database</template>
+            </VToolbarButtonDropdownItem>
+
+            <VToolbarButtonDropdownItem @click="onCickImportDDL">
+                <template #text>Import DDL / SQL</template>
             </VToolbarButtonDropdownItem>
 
             <VToolbarButtonDropdownItem @click="onClickOpenFile">

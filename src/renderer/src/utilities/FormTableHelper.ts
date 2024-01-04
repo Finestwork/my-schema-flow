@@ -186,6 +186,7 @@ const ValidateConstraint = (
         'CASCADE',
         'SET NULL',
         'SET DEFAULT',
+        'RESTRICT'
     ];
 
     // If the user ommits the constraint, default to NO ACTION

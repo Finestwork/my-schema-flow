@@ -12,6 +12,7 @@ export default class HandleEventListeners {
         this._openFile();
         this._saveAsScript();
         this._openSchema();
+        this._openDDL();
     }
 
     private _toggleDarkMode() {
@@ -164,6 +165,30 @@ export default class HandleEventListeners {
         });
     }
 
+    private _openDDL() {
+        ipcMain.on('openDDL', async (event) => {
+            const CurrentBrowser = BrowserWindow.fromWebContents(event.sender);
+            if (!CurrentBrowser) return;
+
+            const DialogOptions = {
+                title: 'Importing SQL / DDL',
+                filters: [
+                    {
+                        name: 'sql/ddl',
+                        extensions: ['sql', 'ddl'],
+                    },
+                ],
+            };
+            const Result = await dialog.showOpenDialog(
+                CurrentBrowser,
+                DialogOptions,
+            );
+            if (Result.canceled) return;
+            if (!Result.filePaths) return;
+            const File = await readFile(Result.filePaths[0]);
+            event.reply('ddlOpened', File.toString());
+        });
+    }
     private _saveAsScript() {
         ipcMain.on(
             'saveAsScript',
