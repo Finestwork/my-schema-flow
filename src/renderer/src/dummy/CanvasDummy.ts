@@ -36,6 +36,9 @@ const createEdges = () => {
             id: uuidv4(),
             source: NodeDummy[edge.source.table].id,
             target: NodeDummy[edge.target.table].id,
+            style: {
+                strokeWidth: 2.5,
+            },
             data: {
                 referenced: {
                     column: edge.source.column,
