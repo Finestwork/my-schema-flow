@@ -3,9 +3,12 @@ import { useHistoryStore } from '@stores/History';
 import { useHistoryActions } from '@composables/History/useHistoryActions';
 import { useNodeActions } from '@composables/Nodes/useNodeActions';
 import { useTableRelationActions } from '@composables/Table/useTableRelationActions';
-import { vueFlowKey } from '@symbols/VueFlow';
-import { inject, onMounted, onUnmounted } from 'vue';
 import { importHelper } from '@utilities/ImportHelper';
+import { vueFlowKey } from '@symbols/VueFlow';
+import { inject, onMounted, onUnmounted, nextTick } from 'vue';
+import { useNodeAutoLayout } from '@composables/Nodes/useAutoLayout';
+import { klona } from 'klona/full';
+
 
 export function useIPCListeners() {
     const fileStore = useFileStore();
@@ -14,6 +17,7 @@ export function useIPCListeners() {
     const vueFlow = inject(vueFlowKey);
     const { createNodeFromImport } = useNodeActions();
     const { createEdgeFromImport } = useTableRelationActions();
+    const { autoLayout } = useNodeAutoLayout();
     onMounted(() => {
         window.electron.ipcRenderer.on(
             'fileSavedSuccessfully',
@@ -44,8 +48,19 @@ export function useIPCListeners() {
                 historyStore.$reset();
                 fileStore.$reset();
                 const contents = await importHelper(file);
-                const [nodes, edges] = contents;
-                createNodeFromImport(nodes), createEdgeFromImport(edges, nodes);
+                const [nodes, edges] = await contents;
+                vueFlow.setEdges(()=>[]);
+                vueFlow.setNodes(()=>[]);
+                await nextTick();
+                createNodeFromImport(nodes);
+                createEdgeFromImport(edges, nodes);
+                console.log(klona(nodes));
+                
+                console.log(klona(nodes));
+                    autoLayout();
+                    await nextTick();
+                    autoLayout();
+              
             },
         );
 

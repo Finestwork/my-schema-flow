@@ -3,10 +3,12 @@ import { v4 as uuidv4 } from 'uuid';
 
 export const importHelper = async (file: Uint8Array) => {
     const sql = await initSqlJs();
-    const db = new sql.Database(file);
-    const database = db.exec('SELECT tbl_name FROM sqlite_master');
-    const dataTypeRegex = /^(.+?)(?:\((\d+)\))?$/;
-    const table_names = database[0].values.map((value) => value[0]);
+
+    return new Promise((resolve, reject)=>{
+        const db =  new sql.Database(file);
+    const database =  db.exec('SELECT tbl_name FROM sqlite_master');
+    const dataTypeRegex =  /^(.+?)(?:\((\d+)\))?$/;
+    const table_names =  database[0].values.map((value) => value[0]);
     const nodes: { [key: string]: object } = {};
     const edges: object[] = [];
     table_names.forEach((table_name) => {
@@ -60,5 +62,7 @@ export const importHelper = async (file: Uint8Array) => {
         }
     });
 
-    return [nodes, edges];
+    resolve([nodes, edges])
+    });
+    
 };

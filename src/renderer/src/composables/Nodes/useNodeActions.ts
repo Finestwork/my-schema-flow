@@ -87,7 +87,7 @@ export function useNodeActions() {
     const createNodeFromImport = (nodes: object) => {
         if (!VueFlow || VueFlow.vueFlowRef.value === null) return;
         const NewTable = createNodes(nodes);
-        VueFlow.setNodes(NewTable);
+        VueFlow.setNodes(()=>NewTable);
         createHistory(`Opened Database File`);
     };
 
