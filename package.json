@@ -9,6 +9,13 @@
         "appId": "com.finestwork.schema-sparkle",
         "files": "!resources{/*}",
         "copyright": "Copyright © 2019 ${author}",
+        "fileAssociations": [
+            {
+                "ext": "msf",
+                "name": "MySchemaFlow File",
+                "role": "Editor"
+            }
+        ],
         "win": {
             "target": [
                 "nsis"
