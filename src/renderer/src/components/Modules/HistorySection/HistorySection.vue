@@ -23,7 +23,7 @@ const historyStore = useHistoryStore();
                     :class="{
                         'bg-cyan-600 text-cyan-50 dark:bg-cyan-950/40 dark:text-cyan-500':
                             ind === historyStore.currentIndex,
-                        'bg-white text-dark-800 hover:bg-slate-200 focus:bg-slate-200 dark:bg-dark-700/40 dark:text-slate-400 hover:dark:bg-cyan-950/40 hover:dark:text-cyan-500 focus:dark:bg-cyan-950/40 focus:dark:text-cyan-500':
+                        'bg-transparent text-dark-800 hover:bg-slate-200 focus:bg-slate-200 dark:text-slate-400 hover:dark:bg-cyan-950/40 hover:dark:text-cyan-500 focus:dark:bg-cyan-950/40 focus:dark:text-cyan-500':
                             ind !== historyStore.currentIndex,
                     }"
                     type="button"
