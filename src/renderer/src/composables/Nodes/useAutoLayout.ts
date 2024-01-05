@@ -16,7 +16,6 @@ export function useNodeAutoLayout() {
             VueFlow.getEdges.value,
             settingsStore.currentOrientation,
         );
-        console.log(nodes, edges);
         VueFlow.setNodes(() => nodes);
         VueFlow.setEdges(() => edges);
         calculateAllEdgesPosition();

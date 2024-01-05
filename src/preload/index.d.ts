@@ -9,8 +9,8 @@ declare global {
             overwriteFileName(currentFilePath: string, fileName: string): void;
             overwriteFile(contents: string, filePath: string): void;
             saveAsScript(script: string, extension: Array<string>): void;
-            openSchema(filePath: string): void;
-            openDDL(filePath: string): void;
+            importDatabaseFile(): Promise<Buffer>;
+            importSQLScript(): Promise<string>;
             openFile(): void;
         };
     }

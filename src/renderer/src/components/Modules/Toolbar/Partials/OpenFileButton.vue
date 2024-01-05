@@ -1,15 +1,10 @@
 <script setup lang="ts">
 import VToolbarButtonDropdown from '@components/Base/Dropdowns/VToolbarButtonDropdown.vue';
 import VToolbarButtonDropdownItem from '@components/Base/Dropdowns/VToolbarButtonDropdownItem.vue';
-import VTooltipKeyboardText from '@components/Base/Texts/VTooltipKeyboardText.vue';
 import OpenFileIcon from '@components/Shared/Icons/OpenFileIcon.vue';
+import { useFileImportHelper } from '@composables/Miscellaneous/useFileImportHelper';
 
-const onClickImportDatabase = () => {
-    window.api.openSchema('');
-};
-const onCickImportDDL = () => {
-    window.api.openDDL('');
-};
+const { importDatabaseFile, importSQLScript } = useFileImportHelper();
 const onClickOpenFile = () => {
     window.electron.ipcRenderer.send('openFile');
 };
@@ -18,20 +13,14 @@ const onClickOpenFile = () => {
 <template>
     <VToolbarButtonDropdown ref="btn">
         <OpenFileIcon />
-        <template #tooltip>
-            <VTooltipKeyboardText :mac="['⌘', 'O']" :windows="['Ctrl', 'O']">
-                <template #label>Open A File</template>
-            </VTooltipKeyboardText></template
-        >
+        <template #tooltip> Open A File</template>
         <template #float>
-            <VToolbarButtonDropdownItem @click="onClickImportDatabase">
+            <VToolbarButtonDropdownItem @click="importDatabaseFile">
                 <template #text>Import Database</template>
             </VToolbarButtonDropdownItem>
-
-            <VToolbarButtonDropdownItem @click="onCickImportDDL">
+            <VToolbarButtonDropdownItem @click="importSQLScript">
                 <template #text>Import DDL / SQL</template>
             </VToolbarButtonDropdownItem>
-
             <VToolbarButtonDropdownItem @click="onClickOpenFile">
                 <template #text>Import Diagram</template>
             </VToolbarButtonDropdownItem>

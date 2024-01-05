@@ -18,12 +18,9 @@ const api = {
     saveAsScript(script: string, extension: Array<string>) {
         ipcRenderer.send('saveAsScript', script, extension);
     },
-    openSchema(filePath: string) {
-        ipcRenderer.send('openSchema', filePath);
-    },
-    openDDL(filePath: string) {
-        ipcRenderer.send('openDDL', filePath);
-    },
+    importDatabaseFile: () => ipcRenderer.sendSync('importDatabaseFile'),
+    importSQLScript: (filePath: string) =>
+        ipcRenderer.sendSync('importSQLScript', filePath),
     openFile() {
         ipcRenderer.send('openFile');
     },

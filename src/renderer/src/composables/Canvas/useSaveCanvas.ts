@@ -31,10 +31,8 @@ export function useSaveCanvas() {
 
         // If file is already saved, overwrite it
         if (fileStore.filePath.length <= 0) {
-            console.log(JSON.stringify(Contents));
             window.api.saveFile(JSON.stringify(Contents));
         } else {
-            console.log(JSON.stringify(Contents))
             window.api.overwriteFile(
                 JSON.stringify(Contents),
                 JSON.stringify(fileStore.filePath),

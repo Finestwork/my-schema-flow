@@ -1,5 +1,5 @@
-import { ipcMain, BrowserWindow, dialog } from 'electron';
-import { writeFile, readFile, rename } from 'fs/promises';
+import { BrowserWindow, dialog, ipcMain } from 'electron';
+import { readFile, rename, writeFile } from 'fs/promises';
 import { basename, dirname } from 'path';
 import IpcMainEvent = Electron.IpcMainEvent;
 
@@ -11,8 +11,8 @@ export default class HandleEventListeners {
         this._overwriteFile();
         this._openFile();
         this._saveAsScript();
-        this._openSchema();
-        this._openDDL();
+        this._importDatabaseFile();
+        this._importSQLScript();
     }
 
     private _toggleDarkMode() {
@@ -140,8 +140,8 @@ export default class HandleEventListeners {
         });
     }
 
-    private _openSchema() {
-        ipcMain.on('openSchema', async (event) => {
+    private _importDatabaseFile() {
+        ipcMain.on('importDatabaseFile', async (event) => {
             const CurrentBrowser = BrowserWindow.fromWebContents(event.sender);
             if (!CurrentBrowser) return;
 
@@ -160,13 +160,12 @@ export default class HandleEventListeners {
             );
             if (Result.canceled) return;
             if (!Result.filePaths) return;
-            const File = await readFile(Result.filePaths[0]);
-            event.reply('schemaOpened', File);
+            event.returnValue = await readFile(Result.filePaths[0]);
         });
     }
 
-    private _openDDL() {
-        ipcMain.on('openDDL', async (event) => {
+    private _importSQLScript() {
+        ipcMain.on('importSQLScript', async (event) => {
             const CurrentBrowser = BrowserWindow.fromWebContents(event.sender);
             if (!CurrentBrowser) return;
 
@@ -186,9 +185,10 @@ export default class HandleEventListeners {
             if (Result.canceled) return;
             if (!Result.filePaths) return;
             const File = await readFile(Result.filePaths[0]);
-            event.reply('ddlOpened', File.toString());
+            event.returnValue = File.toString();
         });
     }
+
     private _saveAsScript() {
         ipcMain.on(
             'saveAsScript',

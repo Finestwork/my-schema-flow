@@ -1,23 +1,14 @@
 import { useFileStore } from '@stores/File';
 import { useHistoryStore } from '@stores/History';
 import { useHistoryActions } from '@composables/History/useHistoryActions';
-import { useNodeActions } from '@composables/Nodes/useNodeActions';
-import { useTableRelationActions } from '@composables/Table/useTableRelationActions';
-import { importSchema, importDDL } from '@utilities/ImportHelper';
 import { vueFlowKey } from '@symbols/VueFlow';
-import { inject, onMounted, onUnmounted, nextTick } from 'vue';
-import { useNodeAutoLayout } from '@composables/Nodes/useAutoLayout';
-import { Parser } from 'sql-ddl-to-json-schema';
+import { inject, onMounted, onUnmounted } from 'vue';
 
 export function useIPCListeners() {
     const fileStore = useFileStore();
     const historyStore = useHistoryStore();
     const { createHistory } = useHistoryActions();
     const vueFlow = inject(vueFlowKey);
-    const { createNodeFromImport } = useNodeActions();
-    const { createEdgeFromImport } = useTableRelationActions();
-    const { autoLayout } = useNodeAutoLayout();
-    const parser = new Parser('mysql');
     onMounted(() => {
         window.electron.ipcRenderer.on(
             'fileSavedSuccessfully',
@@ -41,46 +32,6 @@ export function useIPCListeners() {
             },
         );
 
-        window.electron.ipcRenderer.on(
-            'schemaOpened',
-            async (_, file: Uint8Array) => {
-                if (!vueFlow) return;
-                historyStore.$reset();
-                fileStore.$reset();
-                const contents = await importSchema(file);
-                const [nodes, edges] = await contents;
-                await nextTick();
-                vueFlow.setEdges(() => []);
-                vueFlow.setNodes(() => []);
-
-                createNodeFromImport(nodes);
-                await nextTick();
-                createEdgeFromImport(edges, nodes);
-                vueFlow.updateNodeInternals();
-                await nextTick();
-                autoLayout();
-            },
-        );
-
-        window.electron.ipcRenderer.on('ddlOpened', async (_, file: string) => {
-            if (!vueFlow) return;
-            historyStore.$reset();
-
-            fileStore.$reset();
-            const jsonschema = parser.feed(file).toCompactJson(parser.results);
-            const contents = await importDDL(jsonschema);
-            const [nodes, edges] = await contents;
-            vueFlow.setEdges(() => []);
-            vueFlow.setNodes(() => []);
-            await nextTick();
-            createNodeFromImport(nodes);
-            await nextTick();
-            createEdgeFromImport(edges, nodes);
-            await nextTick();
-            vueFlow.updateNodeInternals();
-            await nextTick();
-            autoLayout();
-        });
         window.electron.ipcRenderer.on(
             'filedOpened',
             (_, file: string, filePath: string, fileName: string) => {

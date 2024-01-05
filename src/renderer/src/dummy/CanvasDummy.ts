@@ -11,7 +11,7 @@ const createNodes = (): Array<TNode> => {
             id: NodeDummy[table].id,
             type: 'custom',
             connectable: false,
-            position: { x: 270 * index, y: 5 },
+            position: { x: 350 * index, y: 5 },
             data: {
                 table: {
                     name: NodeDummy[table].name,

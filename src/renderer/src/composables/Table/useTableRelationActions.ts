@@ -2,7 +2,6 @@ import { useCanvasStore } from '@stores/Canvas';
 import { useEdgePositionCalculator } from '@composables/Edges/useEdgePositionCalculator';
 import { useNodeStateHandler } from '@composables/Nodes/useNodeStateHandler';
 import { findNodeByTableName } from '@utilities/CanvasHelper';
-import { createEdges } from '@utilities/NodeEdgeHelper';
 import { vueFlowKey } from '@symbols/VueFlow';
 import { v4 as uuidv4 } from 'uuid';
 import { nextTick, inject } from 'vue';
@@ -135,18 +134,11 @@ export function useTableRelationActions() {
         });
     };
 
-    const createEdgeFromImport = (edges, nodes) => {
-        const Edges = createEdges(edges, nodes);
-
-        VueFlow?.setEdges(Edges);
-    };
-
     return {
         addRelation,
         deleteRelation,
         deleteRelationByColumn,
         updateRelation,
         updateColumnRelation,
-        createEdgeFromImport,
     };
 }
