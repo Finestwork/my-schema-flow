@@ -31,12 +31,12 @@ export function useSaveCanvas() {
 
         // If file is already saved, overwrite it
         if (fileStore.filePath.length <= 0) {
-            const { filePath: FilePath, fileName: FileName } =
-                await window.api.saveFile(JSON.stringify(Contents));
+            const Result = await window.api.saveFile(JSON.stringify(Contents));
+            if (Result === null) return;
 
             fileStore.savedIndex = historyStore.currentIndex;
-            fileStore.fileName = FileName;
-            fileStore.filePath = FilePath;
+            fileStore.fileName = Result.fileName;
+            fileStore.filePath = Result.filePath;
         } else {
             await window.api.overwriteFile(
                 JSON.stringify(Contents),

@@ -1,3 +1,4 @@
+import { useSettingsStore } from '@stores/Settings';
 import { useSaveCanvas } from '@composables/Canvas/useSaveCanvas';
 import { useHistoryActions } from '@composables/History/useHistoryActions';
 import { useNodeActions } from '@composables/Nodes/useNodeActions';
@@ -6,6 +7,7 @@ import { onUnmounted } from 'vue';
 import { useVueFlow } from '@vue-flow/core';
 
 export function useKeyboardShortcuts() {
+    const settingsStore = useSettingsStore();
     const { saveCanvas } = useSaveCanvas();
     const { redoHistory, undoHistory } = useHistoryActions();
     const { createNode } = useNodeActions();
@@ -14,6 +16,8 @@ export function useKeyboardShortcuts() {
 
     const shortcut = (e: KeyboardEvent) => {
         const SaveKey = (e.ctrlKey || e.metaKey) && e.key === 's';
+        const ShowSettingsKey =
+            (e.ctrlKey || e.metaKey) && e.altKey && e.key === 's';
         const RedoKey = (e.ctrlKey || e.metaKey) && e.key === 'y';
         const UndoKey = (e.ctrlKey || e.metaKey) && e.key === 'z';
         const ToggleDarkModeKey =
@@ -24,7 +28,7 @@ export function useKeyboardShortcuts() {
             e.key.toLowerCase() === 'c' &&
             e.shiftKey;
 
-        if (SaveKey) {
+        if (SaveKey && !ShowSettingsKey) {
             saveCanvas();
         } else if (RedoKey) {
             redoHistory();
@@ -39,6 +43,8 @@ export function useKeyboardShortcuts() {
             window.api.toggleDarkMode(isDarkMode.value);
         } else if (OpenFileKey) {
             window.electron.ipcRenderer.send('openFile');
+        } else if (ShowSettingsKey) {
+            settingsStore.showSettings = true;
         }
     };
 

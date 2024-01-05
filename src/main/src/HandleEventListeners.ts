@@ -54,8 +54,10 @@ export default class HandleEventListeners {
                 CurrentBrowserWindow,
                 DialogOptions,
             );
-            if (Result.canceled) return;
-            if (!Result.filePath) return;
+            if (Result.canceled || !Result.filePath) {
+                return null;
+            }
+
             await writeFile(Result.filePath, contents);
 
             return {

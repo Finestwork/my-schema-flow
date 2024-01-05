@@ -7,7 +7,7 @@ declare global {
             toggleDarkMode(isDarkMode: boolean): void;
             saveFile(
                 contents: string,
-            ): Promise<{ filePath: string; fileName: string }>;
+            ): Promise<{ filePath: string; fileName: string } | null>;
             overwriteFileName(
                 currentFilePath: string,
                 fileName: string,
