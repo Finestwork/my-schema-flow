@@ -48,7 +48,7 @@ export default class HandleEventListeners {
 
             const DialogOptions = {
                 title: 'Exporting a File',
-                filters: [{ name: 'spark', extensions: ['ss'] }],
+                filters: [{ name: 'MySchemaFlow', extensions: ['msf'] }],
             };
             const Result = await dialog.showSaveDialog(
                 CurrentBrowserWindow,
@@ -124,7 +124,7 @@ export default class HandleEventListeners {
 
             const DialogOptions = {
                 title: 'Importing a File',
-                filters: [{ name: 'spark', extensions: ['ss'] }],
+                filters: [{ name: 'MySchemaFlow', extensions: ['msf'] }],
             };
             const Result = await dialog.showOpenDialog(
                 CurrentBrowser,
