@@ -13,7 +13,6 @@ const fileStore = useFileStore();
 const currentFileName = ref(fileStore.getFileNameWithoutExt);
 const showError = ref(false);
 const unsupportedCharsPattern = /[<>:"/\\|?*]/;
-const { overwriteFileName } = useSaveCanvas();
 
 const onInputTrackErrors = () => {
     if (unsupportedCharsPattern.test(currentFileName.value)) {
@@ -26,8 +25,7 @@ const onEnterSaveFile = () => {
     if (unsupportedCharsPattern.test(currentFileName.value)) {
         return;
     }
-    emits('onEnter');
-    overwriteFileName(currentFileName.value);
+    emits('onEnter', currentFileName.value);
 };
 const onBlurResetForm = () => {
     currentFileName.value = fileStore.getFileNameWithoutExt;

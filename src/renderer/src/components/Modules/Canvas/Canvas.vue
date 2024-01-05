@@ -12,7 +12,6 @@ import { useEdgeEvents } from '@composables/Edges/useEdgeEvent';
 import { useSortTableColumns } from '@composables/Table/useSortTableColumns';
 import { useMinimap } from '@composables/Canvas/useMinimap';
 import { useKeyboardShortcuts } from '@composables/Miscellaneous/useKeyboardShortcuts';
-import { useIPCListeners } from '@composables/Miscellaneous/useIPCListeners';
 import { usePaneDoubleClick } from '@composables/Canvas/usePaneDoubleClick';
 import { useCanvasControls } from '@composables/Canvas/useCanvasControls';
 import { useDebounceFn } from '@vueuse/core';
@@ -39,7 +38,6 @@ useNodeDragEvent();
 useMinimap();
 useEdgeEvents();
 useKeyboardShortcuts();
-useIPCListeners();
 onPaneReady(async () => {
     sortPrimaryKey();
     autoLayout();

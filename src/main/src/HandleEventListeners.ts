@@ -1,7 +1,7 @@
 import { BrowserWindow, dialog, ipcMain } from 'electron';
 import { readFile, rename, writeFile } from 'fs/promises';
 import { basename, dirname } from 'path';
-import IpcMainEvent = Electron.IpcMainEvent;
+import IpcMainInvokeEvent = Electron.IpcMainInvokeEvent;
 
 export default class HandleEventListeners {
     constructor() {
@@ -40,7 +40,7 @@ export default class HandleEventListeners {
      * Saves a file by listening to the 'saveFile' event.
      */
     private _saveFile() {
-        ipcMain.on('saveFile', async (event, contents) => {
+        ipcMain.handle('saveFile', async (event, contents) => {
             const CurrentBrowserWindow = BrowserWindow.fromWebContents(
                 event.sender,
             );
@@ -58,18 +58,21 @@ export default class HandleEventListeners {
             if (!Result.filePath) return;
             await writeFile(Result.filePath, contents);
 
-            CurrentBrowserWindow.webContents.send(
-                'fileSavedSuccessfully',
-                Result.filePath,
-                basename(Result.filePath),
-            );
+            return {
+                filePath: Result.filePath,
+                fileName: basename(Result.filePath),
+            };
         });
     }
 
     private _overwriteFileName() {
-        ipcMain.on(
+        ipcMain.handle(
             'overwriteFileName',
-            async (event: IpcMainEvent, filePath: string, fileName: string) => {
+            async (
+                event: IpcMainInvokeEvent,
+                filePath: string,
+                fileName: string,
+            ) => {
                 const CurrentBrowserWindow = BrowserWindow.fromWebContents(
                     event.sender,
                 );
@@ -83,31 +86,31 @@ export default class HandleEventListeners {
                     const NewFilePath = `${CurrentDir}/${fileName}.ss`;
                     await rename(filePath, NewFilePath);
 
-                    CurrentBrowserWindow.webContents.send(
-                        'fileNameOverwriteSuccessfully',
-                        NewFilePath,
-                        basename(`${fileName}.ss`),
-                    );
+                    return {
+                        filePath: NewFilePath,
+                        fileName: basename(`${fileName}.ss`),
+                    };
                 } catch (err) {
-                    CurrentBrowserWindow.webContents.send('cantUpdateFileName');
+                    return {};
                 }
             },
         );
     }
 
     private _overwriteFile() {
-        ipcMain.on(
+        ipcMain.handle(
             'overwriteFile',
-            async (event: IpcMainEvent, contents: string, filePath: string) => {
+            async (
+                event: IpcMainInvokeEvent,
+                contents: string,
+                filePath: string,
+            ) => {
                 const CurrentBrowserWindow = BrowserWindow.fromWebContents(
                     event.sender,
                 );
                 filePath = JSON.parse(filePath);
                 if (!CurrentBrowserWindow) return;
                 await writeFile(filePath[0], contents);
-                CurrentBrowserWindow.webContents.send(
-                    'fileOverwriteSuccessfully',
-                );
             },
         );
     }
@@ -131,12 +134,12 @@ export default class HandleEventListeners {
             const File = await readFile(Result.filePaths[0], {
                 encoding: 'utf-8',
             });
-            event.reply(
-                'filedOpened',
-                File,
-                Result.filePaths,
-                basename(Result.filePaths[0]),
-            );
+
+            event.returnValue = {
+                contents: File,
+                filePath: Result.filePaths,
+                baseName: basename(Result.filePaths[0]),
+            };
         });
     }
 
@@ -209,7 +212,7 @@ export default class HandleEventListeners {
                 if (Result.canceled) return;
                 if (!Result.filePath) return;
 
-                writeFile(Result.filePath, script);
+                await writeFile(Result.filePath, script);
             },
         );
     }

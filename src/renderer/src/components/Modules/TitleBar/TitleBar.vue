@@ -4,12 +4,14 @@ import TextInput from '@components/Modules/TitleBar/Partials/TextInput.vue';
 import SettingsButtonIcon from '@components/Modules/TitleBar/Partials/SettingsButtonIcon.vue';
 import { useFileStore } from '@stores/File';
 import { useTrackChange } from '@composables/History/useTrackChange';
-import { computed, onMounted, ref } from 'vue';
+import { useSaveCanvas } from '@composables/Canvas/useSaveCanvas';
+import { computed, ref } from 'vue';
 
 const fileStore = useFileStore();
 const isEditing = ref(false);
 const isLoading = ref(false);
 const { hasChanged } = useTrackChange();
+const { overwriteFileName } = useSaveCanvas();
 const defaultFileName = computed(() => {
     if (fileStore.filePath === '') {
         return 'Untitled';
@@ -18,18 +20,11 @@ const defaultFileName = computed(() => {
     const FileName = fileStore.fileName.split('.')[0];
     return hasChanged.value ? `${FileName} (Unsaved)` : FileName;
 });
-
-onMounted(() => {
-    window.electron.ipcRenderer.on('fileNameOverwriteSuccessfully', () => {
-        // Add timeout to avoid content jumping
-        setTimeout(() => {
-            isLoading.value = false;
-        }, 350);
-    });
-    window.electron.ipcRenderer.on('cantUpdateFileName', () => {
-        isLoading.value = false;
-    });
-});
+const onEnterSaveCurrentFile = async (fileName: string) => {
+    isLoading.value = true;
+    await overwriteFileName(fileName);
+    isLoading.value = false;
+};
 </script>
 
 <template>
@@ -58,7 +53,7 @@ onMounted(() => {
                             <TextInput
                                 v-else
                                 class="no-drag-title-bar text-slate-300"
-                                @on-enter="isLoading = true"
+                                @on-enter="onEnterSaveCurrentFile"
                                 @blur="isEditing = false"
                             />
                         </template>

@@ -15,7 +15,7 @@ export function useSaveCanvas() {
     const vueFlow = inject(vueFlowKey);
     const { hasChanged } = useTrackChange();
 
-    const saveCanvas = () => {
+    const saveCanvas = async () => {
         if (!vueFlow || (!hasChanged.value && fileStore.filePath.trim() !== ''))
             return;
 
@@ -31,20 +31,34 @@ export function useSaveCanvas() {
 
         // If file is already saved, overwrite it
         if (fileStore.filePath.length <= 0) {
-            window.api.saveFile(JSON.stringify(Contents));
+            const { filePath: FilePath, fileName: FileName } =
+                await window.api.saveFile(JSON.stringify(Contents));
+
+            fileStore.savedIndex = historyStore.currentIndex;
+            fileStore.fileName = FileName;
+            fileStore.filePath = FilePath;
         } else {
-            window.api.overwriteFile(
+            await window.api.overwriteFile(
                 JSON.stringify(Contents),
                 JSON.stringify(fileStore.filePath),
             );
+            fileStore.savedIndex = historyStore.currentIndex;
         }
     };
 
-    const overwriteFileName = (fileName: string) => {
+    const overwriteFileName = async (fileName: string) => {
         if (fileStore.filePath.trim() === '') return;
 
         // If file is already saved, overwrite it
-        window.api.overwriteFileName(fileStore.filePath, fileName);
+        const Result = await window.api.overwriteFileName(
+            fileStore.filePath,
+            fileName,
+        );
+
+        if (Result.fileName && Result.filePath) {
+            fileStore.fileName = Result.fileName;
+            fileStore.filePath = Result.filePath;
+        }
     };
 
     return {

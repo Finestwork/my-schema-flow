@@ -5,13 +5,25 @@ declare global {
         electron: ElectronAPI;
         api: {
             toggleDarkMode(isDarkMode: boolean): void;
-            saveFile(contents: string): void;
-            overwriteFileName(currentFilePath: string, fileName: string): void;
-            overwriteFile(contents: string, filePath: string): void;
+            saveFile(
+                contents: string,
+            ): Promise<{ filePath: string; fileName: string }>;
+            overwriteFileName(
+                currentFilePath: string,
+                fileName: string,
+            ): Promise<{
+                filePath?: string;
+                fileName?: string;
+            }>;
+            overwriteFile(contents: string, filePath: string): Promise<void>;
             saveAsScript(script: string, extension: Array<string>): void;
             importDatabaseFile(): Promise<Buffer>;
             importSQLScript(): Promise<string>;
-            openFile(): void;
+            openFile(): Promise<{
+                contents: string;
+                filePath: string;
+                fileName: string;
+            }>;
         };
     }
 }
