@@ -128,8 +128,10 @@ export default class HandleEventListeners {
                 CurrentBrowser,
                 DialogOptions,
             );
-            if (Result.canceled) return;
-            if (!Result.filePaths) return;
+            if (Result.canceled || (Result && !Result.filePaths)) {
+                event.returnValue = null;
+                return;
+            }
 
             const File = await readFile(Result.filePaths[0], {
                 encoding: 'utf-8',
@@ -161,8 +163,10 @@ export default class HandleEventListeners {
                 CurrentBrowser,
                 DialogOptions,
             );
-            if (Result.canceled) return;
-            if (!Result.filePaths) return;
+            if (Result.canceled || (Result && !Result.filePaths)) {
+                event.returnValue = null;
+                return;
+            }
             event.returnValue = await readFile(Result.filePaths[0]);
         });
     }
@@ -185,8 +189,10 @@ export default class HandleEventListeners {
                 CurrentBrowser,
                 DialogOptions,
             );
-            if (Result.canceled) return;
-            if (!Result.filePaths) return;
+            if (Result.canceled || (Result && !Result.filePaths)) {
+                event.returnValue = null;
+                return;
+            }
             const File = await readFile(Result.filePaths[0]);
             event.returnValue = File.toString();
         });

@@ -17,7 +17,7 @@ const api = {
     importDatabaseFile: () => ipcRenderer.sendSync('importDatabaseFile'),
     importSQLScript: (filePath: string) =>
         ipcRenderer.sendSync('importSQLScript', filePath),
-    openFile: () => ipcRenderer.sendSync('openFile'),
+    importDiagram: () => ipcRenderer.sendSync('openFile'),
 };
 
 // Use `contextBridge` APIs to expose Electron APIs to

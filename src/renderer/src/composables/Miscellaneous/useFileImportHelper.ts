@@ -36,21 +36,43 @@ export function useFileImportHelper() {
     };
     const importDatabaseFile = async () => {
         const ImportedFile = await window.api.importDatabaseFile();
-        if (!vueFlow) return;
+        if (ImportedFile === null) return;
         const { nodes: Nodes, edges: Edges } =
             await readImportedDatabaseFile(ImportedFile);
         _displayCanvasData(Nodes, Edges);
     };
 
     const importSQLScript = async () => {
-        if (!vueFlow) return;
         const Script = await window.api.importSQLScript();
+        if (Script === null) return;
         const { nodes: Nodes, edges: Edges } = importDDL(Script);
         _displayCanvasData(Nodes, Edges);
     };
 
+    const importDiagram = async () => {
+        if (!vueFlow) return;
+        const Result = await window.api.importDiagram();
+        if (Result === null) return;
+        const Contents = JSON.parse(Result.contents);
+        fileStore.fileName = Result.fileName;
+        fileStore.filePath = Result.filePath[0];
+        fileStore.savedIndex = 0;
+        historyStore.$reset();
+        fileStore.$reset();
+        vueFlow.setEdges(() => []);
+        vueFlow.setNodes(() => []);
+        await nextTick();
+        vueFlow.addNodes(Contents.nodes);
+        vueFlow.addEdges(Contents.edges);
+        await nextTick();
+        vueFlow.updateNodeInternals();
+        autoLayout();
+        await nextTick();
+        createHistory(`Initial Load`);
+    };
     return {
         importDatabaseFile,
         importSQLScript,
+        importDiagram,
     };
 }

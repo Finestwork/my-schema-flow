@@ -2,12 +2,11 @@
 import VPanelTextInput from '@components/Base/Forms/VPanelTextInput.vue';
 import VFloatingLayout from '@components/Base/Floaters/VFloatingLayout.vue';
 import { useFileStore } from '@stores/File';
-import { useSaveCanvas } from '@composables/Canvas/useSaveCanvas';
 import { ref } from 'vue';
 
 const emits = defineEmits<{
     (e: 'blur'): void;
-    (e: 'onEnter'): void;
+    (e: 'onEnter', value: string): void;
 }>();
 const fileStore = useFileStore();
 const currentFileName = ref(fileStore.getFileNameWithoutExt);
