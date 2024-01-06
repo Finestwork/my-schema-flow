@@ -34,7 +34,7 @@ onClickOutside(reference, () => {
                 type="button"
                 class="flex h-[25px] items-center justify-center rounded p-1.5 outline-none"
                 :class="{
-                    'bg-slate-500 stroke-slate-50 hover:bg-cyan-500 hover:stroke-cyan-50 focus:bg-cyan-500 focus:stroke-cyan-50 dark:bg-dark-700/60 dark:stroke-dark-300 dark:hover:bg-cyan-950/60 hover:dark:stroke-cyan-500 dark:focus:bg-cyan-950/60 focus:dark:stroke-cyan-500':
+                    'focus-visibility:bg-cyan-100 focus-visibility:stroke-cyan-700 bg-dark-50/20 stroke-dark-900 hover:bg-cyan-100 hover:stroke-cyan-700 dark:bg-dark-700/60 dark:stroke-dark-300 dark:hover:bg-cyan-950/60 hover:dark:stroke-cyan-500 dark:focus:bg-cyan-950/60 focus:dark:stroke-cyan-500':
                         !showFloatingLayout,
                     'bg-cyan-500 stroke-cyan-50 dark:bg-cyan-950/60 dark:stroke-cyan-500':
                         showFloatingLayout,
@@ -44,7 +44,7 @@ onClickOutside(reference, () => {
                 <span class="block w-[14px]">
                     <slot></slot>
                 </span>
-                <span class="ml-1 block w-[9px]">
+                <span class="ml-1.5 block w-[9px]">
                     <ChevronIcon />
                 </span>
             </button>
