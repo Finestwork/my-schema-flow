@@ -40,6 +40,9 @@ const onClickChooseDataType = (index: number) => {
 };
 
 const onInput = (e: Event) => {
+    if (!showDropdown.value) {
+        showDropdown.value = true;
+    }
     const Target = e.target as HTMLInputElement;
     searchTerm.value = Target.value;
 };
@@ -54,6 +57,8 @@ const onFocusShowDropdown = async () => {
     _findIndex();
 };
 const onKeyDownNavigateDropdown = (e: KeyboardEvent) => {
+    if (getMysqlDataTypes.value.length === 0) return;
+
     const assignDataTypeValue = () => {
         const DataType = getMysqlDataTypes.value[currentIndex.value];
         if (!DataType) return;
@@ -102,7 +107,7 @@ const onKeyDownNavigateDropdown = (e: KeyboardEvent) => {
         }
 
         showDropdown.value = false;
-        (e.target as HTMLInputElement).blur();
+        (e.target as HTMLInputElement).focus();
     }
 };
 
@@ -142,6 +147,7 @@ watch(
         <template #label>Column Type:</template>
         <template #float>
             <div
+                v-if="getMysqlDataTypes.length !== 0"
                 class="h-full border-2 border-slate-300 bg-white outline-none dark:border-dark-700 dark:bg-dark-800"
             >
                 <OverlayScrollbarsComponent
