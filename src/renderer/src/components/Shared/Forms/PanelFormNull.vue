@@ -8,7 +8,7 @@ const { modelValue } = defineModels<{
 
 <template>
     <div>
-        <span class="mb-1.5 block text-xs font-semibold dark:text-slate-300"
+        <span class="mb-1.5 block text-xs font-bold dark:text-slate-300"
             >Null Type:</span
         >
         <div class="flex">

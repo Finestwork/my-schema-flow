@@ -15,7 +15,7 @@ const onClickToggleModelValue = (type: string, e: MouseEvent) => {
 </script>
 <template>
     <div>
-        <span class="text-xs font-semibold dark:text-slate-300"
+        <span class="text-xs font-bold dark:text-slate-300"
             >Key Constraints:</span
         >
         <div class="mt-1.5 flex">
