@@ -104,7 +104,7 @@ const onSortEnd = ({ newIndex, oldIndex }) => {
 <template>
     <div>
         <div class="mb-4">
-            <VAlert v-if="isTableNameUnique" type="danger"
+            <VAlert v-if="isTableNameUnique" class="mb-2" type="danger"
                 >This table name already exist. You might encounter a problem
                 when trying to export them as script.
             </VAlert>
