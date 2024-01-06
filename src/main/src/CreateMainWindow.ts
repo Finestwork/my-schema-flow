@@ -1,5 +1,5 @@
 import { electronApp, is, optimizer } from '@electron-toolkit/utils';
-import { app, BrowserWindow, shell } from 'electron';
+import { app, BrowserWindow, shell, globalShortcut } from 'electron';
 import { join } from 'path';
 
 export default class CreateMainWindow {
@@ -83,9 +83,26 @@ export default class CreateMainWindow {
             this._mainWindow.maximize();
             this._mainWindow.show();
         });
-        this._mainWindow.webContents.setWindowOpenHandler((details) => {
-            shell.openExternal(details.url);
-            return { action: 'deny' };
+
+        const ZoomKeys = [
+            'CmdOrCtrl+0',
+            'CmdOrCtrl+plus',
+            'CmdOrCtrl+=',
+            'CmdOrCtrl+-',
+            'CmdOrCtrl+_',
+        ];
+        this._mainWindow.on('focus', () => {
+            ZoomKeys.forEach((acc) => {
+                globalShortcut.register(acc, () => {
+                    return;
+                });
+            });
+        });
+
+        this._mainWindow.on('blur', () => {
+            ZoomKeys.forEach((acc) => {
+                globalShortcut.unregister(acc);
+            });
         });
     }
 
