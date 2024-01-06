@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import OpenFileButton from '@components/Modules/Toolbar/Partials/OpenFileButton.vue';
+import OpenFileButton from '@components/Modules/Toolbar/Partials/ImportFileButton.vue';
 import AddNewTableButton from '@components/Modules/Toolbar/Partials/AddNewTableButton.vue';
 import AutoLayoutButton from '@components/Modules/Toolbar/Partials/AutoLayoutButton.vue';
 import ChangeOrientationButton from '@components/Modules/Toolbar/Partials/ChangeOrientationButton.vue';
-import ExportAsImageButton from '@components/Modules/Toolbar/Partials/ExportAsImageButton.vue';
+import ExportAsImageButton from '@components/Modules/Toolbar/Partials/ExportToImageButton.vue';
 import UndoButton from '@components/Modules/Toolbar/Partials/UndoButton.vue';
 import RedoButton from '@components/Modules/Toolbar/Partials/RedoButton.vue';
 import SaveButton from '@components/Modules/Toolbar/Partials/SaveButton.vue';

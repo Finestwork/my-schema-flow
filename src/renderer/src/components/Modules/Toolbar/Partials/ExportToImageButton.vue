@@ -35,7 +35,7 @@ const onClickExportAsImage = (type: TExportTypes) => {
 <template>
     <VToolbarButtonDropdown ref="btn">
         <ExportImageIcon />
-        <template #tooltip>Export As Image</template>
+        <template #tooltip>Export To Image</template>
         <template #float>
             <VToolbarButtonDropdownItem @click="onClickExportAsImage('png')">
                 <template #text>Export To PNG</template>

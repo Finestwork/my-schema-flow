@@ -20,12 +20,11 @@ const onClickExportSQL = () => {
 <template>
     <VToolbarButtonDropdown ref="btn">
         <ExportSQLIcon />
-        <template #tooltip>Export as File</template>
+        <template #tooltip>Export To SQL Script</template>
         <template #float>
             <VToolbarButtonDropdownItem @click="onClickExportSQL">
-                <template #text>Export To MySQL</template>
+                <template #text>Export To SQL</template>
             </VToolbarButtonDropdownItem>
-
             <VToolbarButtonDropdownItem @click="onClickExportSQL">
                 <template #text>Export To SQLite</template>
             </VToolbarButtonDropdownItem>
