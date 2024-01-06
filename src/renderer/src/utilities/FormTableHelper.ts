@@ -20,7 +20,7 @@ export const validateColumns = (
     if (isEmpty(data.name)) {
         Errors.push('Column name cannot be empty.');
     } else {
-        // If user is currently editing the column, do not run the uniqueness check
+        // If the user is currently editing the column, do not run the uniqueness check
         if (!('originalColumnName' in data)) {
             const Columns = currentNode.data.table.columns;
             const Index = Columns.findIndex(
@@ -35,10 +35,11 @@ export const validateColumns = (
     if (isEmpty(data.type)) {
         Errors.push('Column type cannot be empty.');
     } else {
+        const ColumnDataType = data.type.split('(')[0];
         // Check if a data type is valid in mysql
         const Index = mySqlDataTypes.findIndex(
             (dataType) =>
-                dataType.name.toLowerCase() === data.type.toLowerCase(),
+                dataType.name.toLowerCase() === ColumnDataType.toLowerCase(),
         );
 
         if (Index === -1) {

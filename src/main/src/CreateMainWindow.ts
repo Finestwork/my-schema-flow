@@ -1,5 +1,5 @@
 import { electronApp, is, optimizer } from '@electron-toolkit/utils';
-import { app, BrowserWindow, shell, globalShortcut } from 'electron';
+import { app, BrowserWindow, globalShortcut } from 'electron';
 import { join } from 'path';
 
 export default class CreateMainWindow {

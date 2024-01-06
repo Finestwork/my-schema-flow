@@ -1,6 +1,4 @@
-import { mySqlDataTypes } from '@utilities/DatabaseHelper';
 import { findNode } from '@utilities/CanvasHelper';
-import numeral from 'numeral';
 import { klona } from 'klona/json';
 import type { TEdge, TNode, TTableColumn } from '@stores/Canvas';
 
@@ -30,22 +28,9 @@ export const sortConstraintKeys = (arr: Array<TTableColumn>) => {
  */
 export const formatColumnForNodeCanvas = (arr: Array<TTableColumn>) => {
     return arr.map((column) => {
-        const Size = numeral(column.length).format('0a');
-        const Type = column.type;
-        const MySqlDataType = mySqlDataTypes.filter(
-            (dataType) => dataType.name === Type,
-        )[0];
-        let formattedType = '';
-
-        if (MySqlDataType && MySqlDataType.hasSize && Size !== '0') {
-            formattedType = `${Type}(${Size})`;
-        } else {
-            formattedType = `${Type}`;
-        }
-
         return {
             name: column.name,
-            type: formattedType,
+            type: column.type,
             keyConstraint: column.keyConstraint,
             shouldHighlight: column.shouldHighlight,
         };
@@ -90,4 +75,13 @@ export const getRelationList = (
         .sort((edge) => {
             return edge.isCurrentNodeParent ? 1 : -1;
         });
+};
+
+/**
+ * This makes sure the column data type is in the uppercase format
+ */
+export const formatColumnDataType = (column: string) => {
+    const SplittedColumn = column.split('(');
+    const Type = SplittedColumn[0];
+    return `${Type.toUpperCase()}(${SplittedColumn[1]}`;
 };

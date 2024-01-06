@@ -8,9 +8,6 @@ export function useColumnData() {
         canvasStore.getCurrentActiveColumnData?.name ?? '',
     );
     const columnType = ref(canvasStore.getCurrentActiveColumnData?.type ?? '');
-    const columnLength = ref(
-        canvasStore.getCurrentActiveColumnData?.length ?? '',
-    );
     const columnKeyConstraint = ref(
         canvasStore.getCurrentActiveColumnData?.keyConstraint ?? '',
     );
@@ -23,7 +20,6 @@ export function useColumnData() {
             originalColumnName: columnOriginalColumnName.value,
             type: columnType.value,
             isNull: columnIsNull.value,
-            length: columnLength.value,
             keyConstraint: columnKeyConstraint.value,
         };
     });
@@ -31,7 +27,6 @@ export function useColumnData() {
         columnName.value = '';
         columnOriginalColumnName.value = '';
         columnType.value = '';
-        columnLength.value = '';
         columnKeyConstraint.value = '';
         columnIsNull.value = false;
     };
@@ -44,8 +39,6 @@ export function useColumnData() {
                 canvasStore.getCurrentActiveColumnData?.name ?? '';
             columnType.value =
                 canvasStore.getCurrentActiveColumnData?.type ?? '';
-            columnLength.value =
-                canvasStore.getCurrentActiveColumnData?.length ?? '';
             columnKeyConstraint.value =
                 canvasStore.getCurrentActiveColumnData?.keyConstraint ?? '';
             columnIsNull.value =
@@ -58,7 +51,6 @@ export function useColumnData() {
         columnName,
         columnOriginalColumnName,
         columnType,
-        columnLength,
         columnKeyConstraint,
         columnIsNull,
         fullResetData,

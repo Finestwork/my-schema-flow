@@ -17,6 +17,13 @@ watch(
         displayAddForm.value = false;
     },
 );
+watch(
+    () => canvasStore.currentNodeActiveColumnIndex,
+    (newVal, oldval) => {
+        if (newVal === oldval) return;
+        displayAddForm.value = false;
+    },
+);
 </script>
 
 <template>

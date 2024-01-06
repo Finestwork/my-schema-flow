@@ -6,7 +6,6 @@ import EditIcon from '@components/Shared/Icons/EditIcon.vue';
 import PanelBackButton from '@components/Shared/Buttons/PanelBackButton.vue';
 import PanelFormColumnName from '@components/Shared/Forms/PanelFormColumnName.vue';
 import PanelFormColumnType from '@components/Shared/Forms/PanelFormColumnType.vue';
-import PanelFormColumnLength from '@components/Shared/Forms/PanelFormColumnLength.vue';
 import PanelFormKeyConstraints from '@components/Shared/Forms/PanelFormKeyConstraints.vue';
 import PanelFormNull from '@components/Shared/Forms/PanelFormNull.vue';
 import { useCanvasStore } from '@stores/Canvas';
@@ -16,6 +15,7 @@ import { validateColumns } from '@utilities/FormTableHelper';
 import { ref } from 'vue';
 import type { Ref } from 'vue';
 import type { TUpdateColumn } from '@composables/Table/useTableRelationActions';
+import { formatColumnDataType } from '@utilities/TableHelper';
 
 const emits = defineEmits<{
     (e: 'hideForm', value: MouseEvent): void;
@@ -30,7 +30,6 @@ const {
     columnName,
     columnOriginalColumnName,
     columnType,
-    columnLength,
     columnKeyConstraint,
     columnIsNull,
 } = useColumnData();
@@ -43,6 +42,7 @@ const onClickUpdateColumn = () => {
         canvasStore.currentActiveNode,
     );
     if (errors.value.length !== 0) return;
+    columnType.value = formatColumnDataType(columnType.value);
     emits('updateColumnRelation', {
         originalName: columnOriginalColumnName.value,
         newName: columnName.value,
@@ -73,7 +73,6 @@ const onClickUpdateColumn = () => {
             </VAlert>
             <PanelFormColumnName v-model="columnName" class="mb-3" />
             <PanelFormColumnType v-model="columnType" class="mb-3" />
-            <PanelFormColumnLength v-model="columnLength" class="mb-3" />
             <PanelFormNull v-model="columnIsNull" class="mb-3" />
             <PanelFormKeyConstraints v-model="columnKeyConstraint" />
             <VPanelActionButton class="mb-3 mt-6" @click="onClickUpdateColumn">

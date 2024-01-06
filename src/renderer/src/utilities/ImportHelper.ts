@@ -123,7 +123,6 @@ export const importDDL = (script: string) => {
                 name: row.name,
                 type: row.type.datatype.toUpperCase(),
                 isNull: row?.options?.nullable ?? true,
-                length: row?.type?.length?.toString() ?? '',
                 keyConstraint: PrimaryKey.includes(row.name) ? 'PK' : '',
                 shouldHighlight: false,
             };

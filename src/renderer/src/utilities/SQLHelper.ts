@@ -8,15 +8,14 @@ export type TSQLResultObj = {
 };
 
 export const createColumnScript = (column: TTableColumn) => {
-    const ColumnLength = column.length ? `(${column.length})` : '';
     const KeyConstraint = column.keyConstraint === 'PK' ? 'PRIMARY KEY' : '';
 
     if (column.keyConstraint === 'PK') {
-        return `${column.name} ${column.type}${ColumnLength} ${KeyConstraint}`;
+        return `${column.name} ${column.type} ${KeyConstraint}`;
     }
 
     const IsNull = column.isNull ? 'NULL' : 'NOT NULL';
-    return `${column.name} ${column.type}${ColumnLength} ${KeyConstraint} ${IsNull}`;
+    return `${column.name} ${column.type} ${KeyConstraint} ${IsNull}`;
 };
 
 export const createTableRelationScript = (

@@ -8,7 +8,6 @@ export type TTableColumn = {
     name: string;
     type: string;
     isNull: boolean;
-    length: string;
     keyConstraint: 'PK' | 'FK' | string;
     shouldHighlight: boolean;
 };
