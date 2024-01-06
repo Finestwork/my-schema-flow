@@ -25,6 +25,7 @@ const getHandles = computed(() => {
                     type: '',
                     connectable: false,
                     style: {},
+                    isHandleActive: false,
                 };
             }
             const IsSource = edge.source === props.nodeId;
