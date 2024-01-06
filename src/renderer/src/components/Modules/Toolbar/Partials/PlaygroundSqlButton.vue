@@ -12,14 +12,13 @@ const vueFlow = inject(vueFlowKey)
 
 const modalStore = useModalStore()
 const playgroundStore = usePlaygroundStore()
-const sqlPlayground = () => {
+const sqlPlayground = async () => {
     modalStore.showPlaygroundModal = !modalStore.showPlaygroundModal 
     const statement = exportToSQL(
         vueFlow.getNodes.value,
         vueFlow.getEdges.value,
     );
-    playgroundStore.db = initializeDatabase(statement)
-    console.log(statement)
+    playgroundStore.db = await initializeDatabase(statement)
 };
 </script>
 
