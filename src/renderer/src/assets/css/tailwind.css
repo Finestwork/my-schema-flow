@@ -7,7 +7,6 @@
         font-feature-settings: "ss01", "ss02", "ss03", "ss04", "ss05", "ss06", "ss07", "ss08", "calt", "dlig";
     }
 }
-
 @layer utilities {
     .drag-title-bar {
         -webkit-app-region: drag;
@@ -15,8 +14,30 @@
     .no-drag-title-bar {
         -webkit-app-region: no-drag;
     }
+
+    .animate-infinite-progress{
+        animation: infinite-progress 5s ease-in-out infinite both;
+    }
 }
 
 body {
     overflow: hidden;
+}
+
+@keyframes infinite-progress {
+    0% {
+        left: -100%;
+    }
+    45%,
+    50% {
+        left: -50%;
+    }
+    75% {
+        left: -45%;
+    }
+
+    75%,
+    100% {
+        left: 100%;
+    }
 }

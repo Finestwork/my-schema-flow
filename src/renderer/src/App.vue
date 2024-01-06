@@ -8,6 +8,8 @@ import TableInformationSection from '@components/Modules/TableInformationSection
 import TableList from '@components/Modules/Tables/Tables.vue';
 import TableRelations from '@components/Modules/TableRelations/TableRelations.vue';
 import Settings from '@components/Modules/Settings/Settings.vue';
+import DiagramModalLoader from '@components/Modules/DiagramModalLoader/DiagramModalLoader.vue';
+import { useModalStore } from '@stores/Modal';
 import { useSettingsStore } from '@stores/Settings';
 import { useFileStore } from '@stores/File';
 import { vueFlowKey } from '@symbols/VueFlow';
@@ -16,6 +18,7 @@ import { isCreatingTableKey } from '@symbols/Canvas';
 import { useVueFlow } from '@vue-flow/core';
 import { provide, ref, watch } from 'vue';
 
+const modalStore = useModalStore();
 const settingsStore = useSettingsStore();
 const fileStore = useFileStore();
 const isCreatingTable = ref(false);
@@ -52,4 +55,5 @@ watch(
         </VPanelWrapper>
     </div>
     <Settings v-if="settingsStore.showSettings" />
+    <DiagramModalLoader v-if="modalStore.showDiagramLoaderModal" />
 </template>

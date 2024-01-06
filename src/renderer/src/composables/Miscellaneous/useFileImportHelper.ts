@@ -1,3 +1,4 @@
+import { useModalStore } from '@stores/Modal';
 import { useFileStore } from '@stores/File';
 import { useHistoryStore } from '@stores/History';
 import { useNodeAutoLayout } from '@composables/Nodes/useAutoLayout';
@@ -11,6 +12,7 @@ import { inject, nextTick } from 'vue';
 import { useHistoryActions } from '@composables/History/useHistoryActions';
 
 export function useFileImportHelper() {
+    const modalStore = useModalStore();
     const fileStore = useFileStore();
     const historyStore = useHistoryStore();
     const vueFlow = inject(vueFlowKey);
@@ -19,6 +21,7 @@ export function useFileImportHelper() {
 
     const _displayCanvasData = async (nodes, edges) => {
         if (!vueFlow) return;
+        modalStore.showDiagramLoaderModal = true;
         const GeneratedNodes = generateNodeDataForCanvas(nodes);
         const GeneratedEdges = generateEdgeDataForCanvas(edges, nodes);
         historyStore.$reset();
@@ -33,6 +36,11 @@ export function useFileImportHelper() {
         autoLayout();
         await nextTick();
         createHistory(`Initial Load`);
+
+        // Add delay to avoid content jumping
+        setTimeout(() => {
+            modalStore.showDiagramLoaderModal = false;
+        }, 450);
     };
     const importDatabaseFile = async () => {
         const ImportedFile = await window.api.importDatabaseFile();
