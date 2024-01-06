@@ -113,21 +113,20 @@ export const importDDL = (script: string) => {
         MySQLParser.results,
     );
 
-    const Nodes = JSONSchema.map((table) => {
+    const Nodes = JSONSchema.map((table): TGeneratedNodeData => {
         const PrimaryKey = table.primaryKey
             ? table.primaryKey?.columns ?? []
             : [];
         const TableColumns = table?.columns ?? [];
-        const Columns = TableColumns.map((row) => {
-            const column: object = {
+        const Columns = TableColumns.map((row): Omit<TTableColumn, 'id'> => {
+            return {
                 name: row.name,
                 type: row.type.datatype.toUpperCase(),
                 isNull: row?.options?.nullable ?? true,
-                length: row.type.length ? row.type.length : '',
+                length: row?.type?.length?.toString() ?? '',
                 keyConstraint: PrimaryKey.includes(row.name) ? 'PK' : '',
-                shouldHighlight: false, // Set the appropriate value based on your logic
+                shouldHighlight: false,
             };
-            return column;
         });
 
         return {
@@ -136,7 +135,7 @@ export const importDDL = (script: string) => {
             columns: Columns,
         };
     });
-    const Edges = JSONSchema.map((table) => {
+    const Edges = JSONSchema.map((table): Array<TGeneratedEdgeData> => {
         // define the edges
         if (!table.foreignKeys) {
             return [];
@@ -150,7 +149,7 @@ export const importDDL = (script: string) => {
                 },
                 target: {
                     table: table.name,
-                    column: fk.columns[0].column,
+                    column: fk?.columns[0]?.column ?? '',
                 },
                 constraints: {
                     onDelete: fk?.reference?.on?.[0].action.toUpperCase() ?? '',

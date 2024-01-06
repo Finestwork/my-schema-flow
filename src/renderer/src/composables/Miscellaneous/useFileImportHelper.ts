@@ -22,15 +22,13 @@ export function useFileImportHelper() {
     const _displayCanvasData = async (nodes, edges) => {
         if (!vueFlow) return;
         modalStore.showDiagramLoaderModal = true;
-        const GeneratedNodes = generateNodeDataForCanvas(nodes);
-        const GeneratedEdges = generateEdgeDataForCanvas(edges, nodes);
         historyStore.$reset();
         fileStore.$reset();
         vueFlow.setEdges(() => []);
         vueFlow.setNodes(() => []);
         await nextTick();
-        vueFlow.addNodes(GeneratedNodes);
-        vueFlow.addEdges(GeneratedEdges);
+        vueFlow.addNodes(nodes);
+        vueFlow.addEdges(edges);
         await nextTick();
         vueFlow.updateNodeInternals();
         autoLayout();
@@ -40,21 +38,25 @@ export function useFileImportHelper() {
         // Add delay to avoid content jumping
         setTimeout(() => {
             modalStore.showDiagramLoaderModal = false;
-        }, 450);
+        }, 1000);
     };
     const importDatabaseFile = async () => {
         const ImportedFile = await window.api.importDatabaseFile();
         if (ImportedFile === null) return;
         const { nodes: Nodes, edges: Edges } =
             await readImportedDatabaseFile(ImportedFile);
-        _displayCanvasData(Nodes, Edges);
+        const GeneratedNodes = generateNodeDataForCanvas(Nodes);
+        const GeneratedEdges = generateEdgeDataForCanvas(Edges, Nodes);
+        _displayCanvasData(GeneratedNodes, GeneratedEdges);
     };
 
     const importSQLScript = async () => {
         const Script = await window.api.importSQLScript();
         if (Script === null) return;
         const { nodes: Nodes, edges: Edges } = importDDL(Script);
-        _displayCanvasData(Nodes, Edges);
+        const GeneratedNodes = generateNodeDataForCanvas(Nodes);
+        const GeneratedEdges = generateEdgeDataForCanvas(Edges, Nodes);
+        _displayCanvasData(GeneratedNodes, GeneratedEdges);
     };
 
     const importDiagram = async () => {
@@ -65,18 +67,7 @@ export function useFileImportHelper() {
         fileStore.fileName = Result.fileName;
         fileStore.filePath = Result.filePath[0];
         fileStore.savedIndex = 0;
-        historyStore.$reset();
-        fileStore.$reset();
-        vueFlow.setEdges(() => []);
-        vueFlow.setNodes(() => []);
-        await nextTick();
-        vueFlow.addNodes(Contents.nodes);
-        vueFlow.addEdges(Contents.edges);
-        await nextTick();
-        vueFlow.updateNodeInternals();
-        autoLayout();
-        await nextTick();
-        createHistory(`Initial Load`);
+        _displayCanvasData(Contents.nodes, Contents.edges);
     };
     return {
         importDatabaseFile,
