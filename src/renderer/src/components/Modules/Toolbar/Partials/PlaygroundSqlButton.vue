@@ -3,21 +3,33 @@ import VToolbarButtonDropdown from '@components/Base/Dropdowns/VToolbarButtonDro
 import VToolbarButtonDropdownItem from '@components/Base/Dropdowns/VToolbarButtonDropdownItem.vue';
 import OpenFileIcon from '@components/Shared/Icons/OpenFileIcon.vue';
 import { useModalStore } from '@stores/Modal'
+import { usePlaygroundStore } from '@stores/Playground'
+import { initializeDatabase } from '@utilities/PlaygroundHelper';
+import { vueFlowKey } from '@symbols/VueFlow';
+import { inject } from 'vue';
+import { exportToSQL } from '@utilities/ExportHelper';
+const vueFlow = inject(vueFlowKey)  
 
 const modalStore = useModalStore()
-
+const playgroundStore = usePlaygroundStore()
 const sqlPlayground = () => {
-    modalStore.showPlaygroundModal = !modalStore.showPlaygroundModal
+    modalStore.showPlaygroundModal = !modalStore.showPlaygroundModal 
+    const statement = exportToSQL(
+        vueFlow.getNodes.value,
+        vueFlow.getEdges.value,
+    );
+    playgroundStore.db = initializeDatabase(statement)
+    console.log(statement)
 };
 </script>
 
 <template>
     <VToolbarButtonDropdown ref="btn">
         <OpenFileIcon />
-        <template #tooltip> Import A File</template>
+        <template #tooltip> SQL Playground</template>
         <template #float>
             <VToolbarButtonDropdownItem @click="sqlPlayground">
-                <template #text>SQL Playground</template>
+                <template #text>Run SQLite</template>
             </VToolbarButtonDropdownItem>
         </template>
         
