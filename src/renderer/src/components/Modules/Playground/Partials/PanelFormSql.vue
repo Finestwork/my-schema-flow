@@ -12,6 +12,7 @@ const { modelValue } = defineModels<{
         id="playgroundSql"
         v-model="modelValue"
         placeholder="SQL: "
+        :no-whitespace="false"
     >
         <template #label>Sql Statement:</template>
     </VPlaygroundTextInput>

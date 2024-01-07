@@ -2,26 +2,34 @@
 import VFullScreenModal from '@components/Base/Modals/VFullScreenModal.vue';
 import PanelFormSql from '@components/Modules/Playground/Partials/PanelFormSql.vue';
 import ExecuteSqlButton from '@components/Modules/Playground/Partials/ExecuteSqlButton.vue';
+import TableList from './Partials/TableList.vue';
 import { usePlaygroundStore } from '@stores/Playground';
 import { useModalStore } from '@stores/Modal';
-import { executeStatement } from '@utilities/PlaygroundHelper';
+import { executeStatement, getRowsandColumns } from '@utilities/PlaygroundHelper';
+
+
+
 const modalStore = useModalStore();
 const playgroundStore = usePlaygroundStore();
 
 const executeSQL = async () => {
-    PanelFormSql.modelValue = "";
-    const result = await executeStatement(playgroundStore.db, playgroundStore.SQLScript);
-    console.log(result)
-
-}
+    const result = await executeStatement(
+        playgroundStore.db,
+        playgroundStore.SQLScript,
+    );
+    playgroundStore.result = result;
+    getRowsandColumns(playgroundStore.db, playgroundStore.result);
+    
+};
 
 </script>
 <template>
     <Teleport to="body">
         <VFullScreenModal @close-modal="modalStore.showPlaygroundModal = false">
-            <ExecuteSqlButton @click = "executeSQL"/>
-            <PanelFormSql v-model="playgroundStore.SQLScript"/>
-            
+            <TableList v-model="playgroundStore.currentTable" />
+            <PanelFormSql v-model="playgroundStore.SQLScript" />
+            <ExecuteSqlButton @click="executeSQL" />
+
         </VFullScreenModal>
     </Teleport>
 </template>

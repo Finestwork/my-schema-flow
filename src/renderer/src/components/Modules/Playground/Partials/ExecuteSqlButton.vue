@@ -22,16 +22,7 @@ const props = withDefaults(defineProps<TProps>(), {
         }"
         @click="emits('click', $event)"
     >
-        <span
-            class="mr-1 block w-[10px]"
-            :class="{
-                'stroke-cyan-50 dark:stroke-slate-400 group-hover:dark:stroke-cyan-500 group-focus:dark:stroke-cyan-500':
-                    props.colorScheme === 'default',
-                'stroke-rose-50': props.colorScheme === 'danger',
-            }"
-        >
-            <slot name="icon"></slot>
-        </span>
+
         <span
             class="text-xs"
             :class="{

@@ -13,3 +13,17 @@ export const executeStatement = (db: Database, statement: string) => {
     const result = db.exec(statement);
     return result;
 }
+
+
+export const getTableList = (db: Database) => {
+    const result = db.exec('SELECT name FROM sqlite_master WHERE type="table"');
+    return result;
+}
+
+
+
+export const getColumns = (db: Database, currentTable: string) => {
+    const columns = db.exec(`PRAGMA table_info(${playgroundStore.currentTable})`)[0].values.map((column: any) => column[1]);
+
+    return columns;
+}
