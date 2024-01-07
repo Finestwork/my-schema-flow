@@ -26,7 +26,7 @@ const modifyScript = async () => {
         playgroundStore.db,
         playgroundStore.SQLScript,
         playgroundStore.currentTable,
-    )
+    );
     const rows = await getRows(playgroundStore.db, playgroundStore.result);
     playgroundStore.resultRows = rows;
 };

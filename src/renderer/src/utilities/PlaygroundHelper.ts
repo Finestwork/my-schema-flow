@@ -2,8 +2,6 @@ import { usePlaygroundStore } from '@stores/Playground';
 import * as initSqlJs from 'sql.js/dist/sql-asm.js';
 import { Database } from 'sql.js/dist/sql-asm.js';
 
-
-
 export const initializeDatabase = async (statement: string) => {
     const sql = await initSqlJs();
     const db = new sql.Database();
@@ -11,14 +9,13 @@ export const initializeDatabase = async (statement: string) => {
     return db;
 };
 
-
 export const initializeImportedDatabase = async (file: Buffer) => {
     const sql = await initSqlJs();
     const db = new sql.Database(file);
     return db;
 };
 
-export const executeStatement = async(
+export const executeStatement = async (
     db: Database,
     statement: string,
     currentTable: string,
@@ -34,13 +31,13 @@ export const executeStatement = async(
         if (isCUD) {
             return db.exec(`SELECT * FROM ${currentTable}`);
             playgroundStore.result = result; // update the currentRows if Create Update or Delete
-            return [] // return no errors 
+            return []; // return no errors
         } else {
             playgroundStore.result = result; // return the resulting query if Select
-            return [] // return no errors
+            return []; // return no errors
         }
     } catch (error) {
-        return [error]
+        return [error];
     }
 };
 
