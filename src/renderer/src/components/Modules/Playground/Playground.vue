@@ -23,7 +23,7 @@ const executeSQL = async () => {
 const closeModal = () => {
     modalStore.showPlaygroundModal = false;
     const db = playgroundStore.db;
-    db.close(); 
+    db.close();
     playgroundStore.$reset();
 };
 </script>

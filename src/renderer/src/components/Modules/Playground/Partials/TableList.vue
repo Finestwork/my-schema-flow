@@ -2,13 +2,23 @@
 import VPlaygroundAutoComplete from '@components/Base/Forms/VPlaygroundAutoComplete.vue';
 import { usePlaygroundStore } from '@stores/Playground';
 import { ref } from 'vue';
-import { getColumns, executeStatement, getRows } from '@utilities/PlaygroundHelper';
+import {
+    getColumns,
+    executeStatement,
+    getRows,
+} from '@utilities/PlaygroundHelper';
 
 const playgroundStore = usePlaygroundStore();
 const tableName = ref('hello');
 
 const modifyScript = async () => {
-    playgroundStore.SQLScript = `SELECT * FROM ${playgroundStore.currentTable}`;
+    if (playgroundStore.currentTable === '') {
+        playgroundStore.SQLScript = '';
+    }
+    else{
+        playgroundStore.SQLScript = `SELECT * FROM ${playgroundStore.currentTable}`;
+    }
+    
     playgroundStore.currentColumns = getColumns(
         playgroundStore.db,
         playgroundStore.currentTable,
@@ -29,7 +39,6 @@ const modifyScript = async () => {
         v-model="tableName"
         placeholder="Tables"
         :dropdown-items="playgroundStore.tables"
-
         @click="modifyScript"
     >
         <template #label>Tables:</template>

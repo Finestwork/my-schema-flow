@@ -1,4 +1,4 @@
-<script setup lang = "ts"> 
+<script setup lang="ts">
 import { usePlaygroundStore } from '@stores/Playground';
 
 const playgroundStore = usePlaygroundStore();

@@ -9,6 +9,9 @@ export const initializeDatabase = async (statement: string) => {
 };
 
 export const executeStatement = (db: Database, statement: string) => {
+    if (statement === '') {
+        return [];
+    }
     const result = db.exec(statement);
     return result;
 };
@@ -19,9 +22,12 @@ export const getTableList = (db: Database) => {
 };
 
 export const getColumns = (db: Database, currentTable: string) => {
+    if (currentTable === '') {
+        return [];
+    }
     const columns = db
         .exec(`PRAGMA table_info(${currentTable})`)[0]
-        .values.map((column: any) => column[1]);
+        .values.map((column: object) => column[1]);
 
     return columns;
 };
@@ -29,10 +35,7 @@ export const getColumns = (db: Database, currentTable: string) => {
 export const getRows = (db: Database, result: any) => {
     if (result.length === 0) {
         return [];
+    } else {
+        return result[0]?.values.map((row: object) => row);
     }
-    else{ 
-        console.log(result[0].values)
-        return result[0].values.map((row: any) => row);
-    }
-}
-
+};

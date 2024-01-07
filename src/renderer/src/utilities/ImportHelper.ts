@@ -34,7 +34,6 @@ export const readImportedDatabaseFile = async (file: Buffer) => {
     const SQLDatabaseInstance = new sql.Database(file);
     const DatabaseTableNames: Array<TDatabaseTableNames> =
         SQLDatabaseInstance.exec('SELECT tbl_name FROM sqlite_master');
-    const DataTypeRegex = /^(.+?)(?:\((\d+)\))?$/;
     const TableNames = DatabaseTableNames[0].values.map((value) => value[0]);
     const Nodes: Array<TGeneratedNodeData> = TableNames.map((tableName) => {
         type TRow = [number, string, string, number, null, number];
@@ -43,18 +42,13 @@ export const readImportedDatabaseFile = async (file: Buffer) => {
         )[0].values;
 
         const MapColumnValues = (row: TRow) => {
-            const DataTypeMatch = DataTypeRegex.exec(row[2]);
-            const ColumnDataType =
-                DataTypeMatch && DataTypeMatch[1] ? DataTypeMatch[1] : row[2];
-            const ColumnLength =
-                DataTypeMatch && DataTypeMatch[2] ? DataTypeMatch[2] : '';
+            const ColumnDataType = row[2];
             const ColumnKeyConstraint = row[5] === 1 ? 'PK' : '';
 
             return {
                 name: row[1],
                 type: ColumnDataType,
                 isNull: row[3] === null,
-                length: ColumnLength,
                 keyConstraint: ColumnKeyConstraint,
                 shouldHighlight: false,
             };
@@ -96,6 +90,7 @@ export const readImportedDatabaseFile = async (file: Buffer) => {
                 };
             });
         }
+
         return [];
     })
         .filter((edges) => edges.length > 0)
@@ -137,6 +132,41 @@ export const importDDL = (script: string) => {
     const Edges = JSONSchema.map((table): Array<TGeneratedEdgeData> => {
         // define the edges
         if (!table.foreignKeys) {
+            // if no foreign keys, test custom regex
+            const foreignKeyRegex =
+                /ALTER TABLE `(\w+)` ADD CONSTRAINT `(\w+)` FOREIGN KEY \(`(\w+)`\) REFERENCES `(\w+)` \(`(\w+)`\) ON DELETE (\w+ ?\w*) ON UPDATE (\w+ ?\w*)/g;
+            const matches = script.match(foreignKeyRegex);
+            if (matches) {
+                const edges = matches.map((match) => {
+                    const groups = foreignKeyRegex.exec(match);
+                    if (groups) {
+                        const tableName = groups[1];
+                        const constraintName = groups[2];
+                        const foreignKeyColumn = groups[3];
+                        const referencedTable = groups[4];
+                        const referencedColumn = groups[5];
+                        const onDeleteAction = groups[6];
+                        const onUpdateAction = groups[7];
+                        return {
+                            source: {
+                                table: tableName,
+                                column: foreignKeyColumn,
+                            },
+                            target: {
+                                table: referencedTable,
+                                column: referencedColumn,
+                            },
+                            constraints: {
+                                onDelete: onDeleteAction.toUpperCase() ?? '',
+                                onUpdate: onUpdateAction.toUpperCase() ?? '',
+                            },
+                        };
+                    }
+                    return [];
+                });
+                return edges;
+            }
+    
             return [];
         }
 
@@ -151,14 +181,18 @@ export const importDDL = (script: string) => {
                     column: fk?.columns[0]?.column ?? '',
                 },
                 constraints: {
-                    onDelete: fk?.reference?.on?.[0].action.toUpperCase() ?? '',
-                    onUpdate: fk?.reference?.on?.[1].action.toUpperCase() ?? '',
+                    onDelete:
+                        fk?.reference?.on?.[0]?.action.toUpperCase() ?? '',
+                    onUpdate:
+                        fk?.reference?.on?.[1]?.action.toUpperCase() ?? '',
                 },
             };
         });
     })
         .filter((edges) => edges.length > 0)
         .flat();
+
+    console.log(Nodes, Edges);
     return {
         nodes: Nodes,
         edges: Edges,
