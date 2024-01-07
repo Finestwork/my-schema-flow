@@ -14,11 +14,10 @@ const tableName = ref('hello');
 const modifyScript = async () => {
     if (playgroundStore.currentTable === '') {
         playgroundStore.SQLScript = '';
-    }
-    else{
+    } else {
         playgroundStore.SQLScript = `SELECT * FROM ${playgroundStore.currentTable}`;
     }
-    
+
     playgroundStore.currentColumns = getColumns(
         playgroundStore.db,
         playgroundStore.currentTable,
@@ -26,6 +25,7 @@ const modifyScript = async () => {
     const result = await executeStatement(
         playgroundStore.db,
         playgroundStore.SQLScript,
+        playgroundStore.currentTable,
     );
     playgroundStore.result = result;
     const rows = await getRows(playgroundStore.db, playgroundStore.result);

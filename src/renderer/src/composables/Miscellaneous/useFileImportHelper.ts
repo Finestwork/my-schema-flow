@@ -69,9 +69,16 @@ export function useFileImportHelper() {
         fileStore.savedIndex = 0;
         _displayCanvasData(Contents.nodes, Contents.edges);
     };
+
+    const importAndRunFile = async () => {
+        const ImportedFile = await window.api.importDatabaseFile();
+        if (ImportedFile === null) return;
+        return ImportedFile;
+    };
     return {
         importDatabaseFile,
         importSQLScript,
         importDiagram,
+        importAndRunFile,
     };
 }

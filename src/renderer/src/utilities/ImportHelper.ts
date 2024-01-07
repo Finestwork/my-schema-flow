@@ -166,7 +166,7 @@ export const importDDL = (script: string) => {
                 });
                 return edges;
             }
-    
+
             return [];
         }
 

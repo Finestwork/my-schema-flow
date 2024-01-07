@@ -14,6 +14,7 @@ const executeSQL = async () => {
     const result = await executeStatement(
         playgroundStore.db,
         playgroundStore.SQLScript,
+        playgroundStore.currentTable
     );
     playgroundStore.result = result;
     const rows = await getRows(playgroundStore.db, playgroundStore.result);

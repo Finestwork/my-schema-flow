@@ -8,12 +8,28 @@ export const initializeDatabase = async (statement: string) => {
     return db;
 };
 
-export const executeStatement = (db: Database, statement: string) => {
+export const importAndInitializeDatabase = async (file: Buffer) => {
+    const sql = await initSqlJs();
+    const db = new sql.Database(file);
+    return db;
+};
+
+export const executeStatement = (
+    db: Database,
+    statement: string,
+    currentTable: string,
+) => {
     if (statement === '') {
         return [];
     }
+    const sqlStatementRegex = /\b(INSERT|UPDATE|DELETE)\b/gi;
+    const isCUD = sqlStatementRegex.test(statement);
     const result = db.exec(statement);
-    return result;
+    if (isCUD) {
+        return db.exec(`SELECT * FROM ${currentTable}`);
+    } else {
+        return result;
+    }
 };
 
 export const getTableList = (db: Database) => {
