@@ -16,7 +16,6 @@ const props = withDefaults(defineProps<TProps>(), {
             'bg-cyan-500 dark:bg-cyan-950/50': props.isActive,
         }"
     >
-
         <span
             v-if="$slots.text"
             class="text-[.6rem]"

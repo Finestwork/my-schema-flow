@@ -4,7 +4,6 @@ import VPlaygroundTextInput from '@components/Base/Forms/VPlaygroundTextInput.vu
 const { modelValue } = defineModels<{
     modelValue: string;
 }>();
-
 </script>
 
 <template>

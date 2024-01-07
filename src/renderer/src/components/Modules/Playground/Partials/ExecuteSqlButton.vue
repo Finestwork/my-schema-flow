@@ -22,7 +22,6 @@ const props = withDefaults(defineProps<TProps>(), {
         }"
         @click="emits('click', $event)"
     >
-
         <span
             class="text-xs"
             :class="{

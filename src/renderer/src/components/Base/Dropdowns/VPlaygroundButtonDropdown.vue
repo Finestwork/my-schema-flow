@@ -32,7 +32,7 @@ onClickOutside(reference, () => {
             <button
                 ref="reference"
                 type="button"
-                class="flex h-[25px] items-center justify-center rounded p-1.5 outline-none w-screen"
+                class="flex h-[25px] w-screen items-center justify-center rounded p-1.5 outline-none"
                 :class="{
                     'focus-visibility:bg-cyan-100 focus-visibility:stroke-cyan-700 bg-dark-50/20 stroke-dark-900 hover:bg-cyan-100 hover:stroke-cyan-700 dark:bg-dark-700/60 dark:stroke-dark-300 dark:hover:bg-cyan-950/60 hover:dark:stroke-cyan-500 dark:focus:bg-cyan-950/60 focus:dark:stroke-cyan-500':
                         !showFloatingLayout,

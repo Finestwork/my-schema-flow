@@ -6,5 +6,7 @@ export const usePlaygroundStore = defineStore('playground', {
         tables: [],
         currentTable: '',
         result: [],
+        currentColumns: [],
+        resultRows: [],
     }),
 });
