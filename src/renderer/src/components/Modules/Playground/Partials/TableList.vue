@@ -29,6 +29,7 @@ const modifyScript = async () => {
         v-model="tableName"
         placeholder="Tables"
         :dropdown-items="playgroundStore.tables"
+
         @click="modifyScript"
     >
         <template #label>Tables:</template>

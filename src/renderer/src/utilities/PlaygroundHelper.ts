@@ -36,15 +36,3 @@ export const getRows = (db: Database, result: any) => {
     }
 }
 
-
-export const getTableRows = (db: Database, currentTable: string) => {
-    const result = db.exec(`SELECT * FROM ${currentTable}`);
-
-    if (result.length === 0) {
-        return [];
-    }
-    else{ 
-        console.log(result[0].values)
-        return result[0].values.map((row: any) => row);
-    }
-}
