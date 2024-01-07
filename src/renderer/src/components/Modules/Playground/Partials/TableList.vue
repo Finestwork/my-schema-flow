@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import VPlaygroundAutoComplete from '@components/Base/Forms/VPlaygroundAutoComplete.vue';
 import { usePlaygroundStore } from '@stores/Playground';
-import { ref } from 'vue';
 import {
     getColumns,
     executeStatement,
     getRows,
 } from '@utilities/PlaygroundHelper';
+import { ref } from 'vue';
 
 const playgroundStore = usePlaygroundStore();
 const tableName = ref('hello');
@@ -22,12 +22,11 @@ const modifyScript = async () => {
         playgroundStore.db,
         playgroundStore.currentTable,
     );
-    const result = await executeStatement(
+    await executeStatement(
         playgroundStore.db,
         playgroundStore.SQLScript,
         playgroundStore.currentTable,
-    );
-    playgroundStore.result = result;
+    )
     const rows = await getRows(playgroundStore.db, playgroundStore.result);
     playgroundStore.resultRows = rows;
 };

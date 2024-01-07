@@ -1,5 +1,8 @@
+import { usePlaygroundStore } from '@stores/Playground';
 import * as initSqlJs from 'sql.js/dist/sql-asm.js';
 import { Database } from 'sql.js/dist/sql-asm.js';
+
+
 
 export const initializeDatabase = async (statement: string) => {
     const sql = await initSqlJs();
@@ -8,27 +11,36 @@ export const initializeDatabase = async (statement: string) => {
     return db;
 };
 
-export const importAndInitializeDatabase = async (file: Buffer) => {
+
+export const initializeImportedDatabase = async (file: Buffer) => {
     const sql = await initSqlJs();
     const db = new sql.Database(file);
     return db;
 };
 
-export const executeStatement = (
+export const executeStatement = async(
     db: Database,
     statement: string,
     currentTable: string,
 ) => {
+    const playgroundStore = usePlaygroundStore();
     if (statement === '') {
         return [];
     }
     const sqlStatementRegex = /\b(INSERT|UPDATE|DELETE)\b/gi;
     const isCUD = sqlStatementRegex.test(statement);
-    const result = db.exec(statement);
-    if (isCUD) {
-        return db.exec(`SELECT * FROM ${currentTable}`);
-    } else {
-        return result;
+    try {
+        const result = await db.exec(statement);
+        if (isCUD) {
+            return db.exec(`SELECT * FROM ${currentTable}`);
+            playgroundStore.result = result; // update the currentRows if Create Update or Delete
+            return [] // return no errors 
+        } else {
+            playgroundStore.result = result; // return the resulting query if Select
+            return [] // return no errors
+        }
+    } catch (error) {
+        return [error]
     }
 };
 

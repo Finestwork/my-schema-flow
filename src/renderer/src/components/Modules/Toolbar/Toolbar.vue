@@ -8,7 +8,7 @@ import UndoButton from '@components/Modules/Toolbar/Partials/UndoButton.vue';
 import RedoButton from '@components/Modules/Toolbar/Partials/RedoButton.vue';
 import SaveButton from '@components/Modules/Toolbar/Partials/SaveButton.vue';
 import ExportFileButton from '@components/Modules/Toolbar/Partials/ExportFileButton.vue';
-import PlaygroundSqlButton from './Partials/PlaygroundSqlButton.vue';
+import PlaygroundButton from './Partials/PlaygroundButton.vue';
 </script>
 
 <template>
@@ -19,7 +19,7 @@ import PlaygroundSqlButton from './Partials/PlaygroundSqlButton.vue';
             <OpenFileButton class="mr-2" />
             <ExportAsImageButton class="mr-2" />
             <ExportFileButton class="mr-2" />
-            <PlaygroundSqlButton class="mr-2" />
+            <PlaygroundButton class="mr-2" />
         </div>
 
         <div class="flex">

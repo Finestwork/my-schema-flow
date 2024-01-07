@@ -70,7 +70,7 @@ export function useFileImportHelper() {
         _displayCanvasData(Contents.nodes, Contents.edges);
     };
 
-    const importAndRunFile = async () => {
+    const playgroundDatabaseFile = async () => {
         const ImportedFile = await window.api.importDatabaseFile();
         if (ImportedFile === null) return;
         return ImportedFile;
@@ -79,6 +79,6 @@ export function useFileImportHelper() {
         importDatabaseFile,
         importSQLScript,
         importDiagram,
-        importAndRunFile,
+        playgroundDatabaseFile,
     };
 }
