@@ -8,6 +8,7 @@ import TableInformationSection from '@components/Modules/TableInformationSection
 import TableList from '@components/Modules/Tables/Tables.vue';
 import TableRelations from '@components/Modules/TableRelations/TableRelations.vue';
 import Settings from '@components/Modules/Settings/Settings.vue';
+import Playground from '@components/Modules/Playground/Playground.vue';
 import DiagramModalLoader from '@components/Modules/DiagramModalLoader/DiagramModalLoader.vue';
 import { useModalStore } from '@stores/Modal';
 import { useSettingsStore } from '@stores/Settings';
@@ -55,5 +56,6 @@ watch(
         </VPanelWrapper>
     </div>
     <Settings v-if="settingsStore.showSettings" />
+    <Playground v-if="modalStore.showPlaygroundModal" />
     <DiagramModalLoader v-if="modalStore.showDiagramLoaderModal" />
 </template>
