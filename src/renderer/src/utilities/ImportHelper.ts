@@ -137,7 +137,7 @@ export const importDDL = (script: string) => {
                 /ALTER TABLE `(\w+)` ADD CONSTRAINT `(\w+)` FOREIGN KEY \(`(\w+)`\) REFERENCES `(\w+)` \(`(\w+)`\) ON DELETE (\w+ ?\w*) ON UPDATE (\w+ ?\w*)/g;
             const matches = script.match(foreignKeyRegex);
             if (matches) {
-                const edges = matches.map((match) => {
+                return matches.map((match) => {
                     const groups = foreignKeyRegex.exec(match);
                     if (groups) {
                         const tableName = groups[1];
@@ -164,7 +164,6 @@ export const importDDL = (script: string) => {
                     }
                     return [];
                 });
-                return edges;
             }
 
             return [];
@@ -191,8 +190,6 @@ export const importDDL = (script: string) => {
     })
         .filter((edges) => edges.length > 0)
         .flat();
-
-    console.log(Nodes, Edges);
     return {
         nodes: Nodes,
         edges: Edges,

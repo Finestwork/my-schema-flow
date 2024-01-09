@@ -25,7 +25,7 @@ const emits = defineEmits<{
 }>();
 </script>
 <template>
-    <div class="w-full">
+    <div class="h-full w-full">
         <div
             v-if="$slots.label"
             class="flex items-center"
@@ -51,7 +51,7 @@ const emits = defineEmits<{
             v-model="modelValue"
             v-number-only="props.isNumber"
             v-no-white-space="props.noWhiteSpace"
-            class="block w-full rounded border-2 bg-transparent p-1.5 text-xs font-bold outline-none transition-shadow duration-150 ease-in-out"
+            class="block h-full w-full rounded border-2 bg-transparent p-1.5 text-xs font-bold outline-none transition-shadow duration-150 ease-in-out"
             type="text"
             :class="{
                 'border-slate-400 placeholder-slate-500 hover:border-cyan-500 focus:border-cyan-500 focus:ring-4 focus:ring-cyan-500/30 dark:border-slate-700 dark:text-slate-500 dark:placeholder-slate-600 dark:hover:border-cyan-500 hover:dark:text-slate-300 dark:focus:border-cyan-500':

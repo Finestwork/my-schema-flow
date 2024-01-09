@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import CloseIcon from '@components/Shared/Icons/CloseIcon.vue';
+import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue';
 
 const emits = defineEmits<{
     (e: 'closeModal');
@@ -7,15 +8,17 @@ const emits = defineEmits<{
 </script>
 <template>
     <div
-        class="fixed top-[48px] h-[calc(100vh-44px)] w-full bg-white px-2 py-2 dark:bg-dark-900"
+        class="fixed top-[48px] h-[calc(100vh-44px)] w-full bg-white dark:bg-dark-900"
     >
-        <button
-            type="button"
-            class="duration-750 ml-auto mr-2 mt-4 block h-[25px] w-[25px] rounded-full border-none bg-rose-600 stroke-slate-50 p-2 outline-none transition-shadow hover:bg-rose-700 focus-visible:ring-4 focus-visible:ring-rose-600/30"
-            @click="emits('closeModal')"
-        >
-            <CloseIcon />
-        </button>
-        <slot></slot>
+        <OverlayScrollbarsComponent class="h-full">
+            <button
+                type="button"
+                class="duration-750 ml-auto mr-2 mt-4 block h-[25px] w-[25px] rounded-full border-none bg-rose-600 stroke-slate-50 p-2 outline-none transition-shadow hover:bg-rose-700 focus-visible:ring-4 focus-visible:ring-rose-600/30"
+                @click="emits('closeModal')"
+            >
+                <CloseIcon />
+            </button>
+            <slot></slot>
+        </OverlayScrollbarsComponent>
     </div>
 </template>

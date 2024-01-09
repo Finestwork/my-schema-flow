@@ -13,7 +13,7 @@ const props = withDefaults(defineProps<TProps>(), {
 <template>
     <button
         type="button"
-        class="group flex items-center justify-center rounded px-1 py-2.5 font-semibold outline-none"
+        class="group flex w-full items-center justify-center rounded px-1 py-2.5 font-semibold outline-none"
         :class="{
             'bg-cyan-600 hover:bg-cyan-600/90 focus:bg-cyan-600/90 dark:bg-dark-700/70 hover:dark:bg-cyan-950/50 focus:dark:bg-cyan-950/50':
                 props.colorScheme === 'default',
@@ -23,6 +23,17 @@ const props = withDefaults(defineProps<TProps>(), {
         @click="emits('click', $event)"
     >
         <span
+            v-if="$slots.icon"
+            class="mr-1 block w-[10px]"
+            :class="{
+                'stroke-cyan-50 dark:stroke-slate-400 group-hover:dark:stroke-cyan-500 group-focus:dark:stroke-cyan-500':
+                    props.colorScheme === 'default',
+                'stroke-rose-50': props.colorScheme === 'danger',
+            }"
+        >
+            <slot name="icon"></slot>
+        </span>
+        <span
             class="text-xs"
             :class="{
                 'text-cyan-50 dark:text-slate-400 group-hover:dark:text-cyan-500 group-focus:dark:text-cyan-500':
@@ -30,7 +41,7 @@ const props = withDefaults(defineProps<TProps>(), {
                 'text-rose-50': props.colorScheme === 'danger',
             }"
         >
-            <slot name="text">Submit</slot>
+            <slot name="text"></slot>
         </span>
     </button>
 </template>

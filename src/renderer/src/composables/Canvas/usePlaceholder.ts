@@ -1,7 +1,7 @@
 import { useNodeActions } from '@composables/Nodes/useNodeActions';
 import { isCreatingTableKey } from '@symbols/Canvas';
 import { vueFlowKey } from '@symbols/VueFlow';
-import { nextTick, ref, toValue, inject } from 'vue';
+import { nextTick, ref, toValue, inject, onMounted } from 'vue';
 import type { Ref } from 'vue';
 
 export function usePlaceholder(placeholder: Ref<HTMLElement>) {
@@ -21,7 +21,6 @@ export function usePlaceholder(placeholder: Ref<HTMLElement>) {
 
     const {
         vueFlowRef,
-        onPaneReady,
         onPaneMouseMove,
         onPaneMouseEnter,
         onPaneMouseLeave,
@@ -40,12 +39,13 @@ export function usePlaceholder(placeholder: Ref<HTMLElement>) {
         });
     };
 
-    onPaneReady(() => {
+    onMounted(() => {
         if (!vueFlowRef.value) return;
         draggableContainer.value = vueFlowRef.value.querySelector(
             '.vue-flow__pane.vue-flow__container.draggable',
         );
     });
+
     onPaneMouseEnter(() => {
         if (isCreatingTable && !isCreatingTable.value) {
             Object.assign(draggableContainer.value.style, {

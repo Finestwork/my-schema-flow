@@ -8,7 +8,10 @@ const settingsStore = useSettingsStore();
 </script>
 <template>
     <Teleport to="body">
-        <VFullScreenModal @close-modal="settingsStore.showSettings = false">
+        <VFullScreenModal
+            class="px-2 py-2"
+            @close-modal="settingsStore.showSettings = false"
+        >
             <div class="flex h-full">
                 <div
                     class="mr-4 h-full w-2/12 max-w-[220px] border-r-2 border-r-slate-300 pr-4 dark:border-r-dark-800"

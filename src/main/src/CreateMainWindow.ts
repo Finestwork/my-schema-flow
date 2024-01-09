@@ -1,11 +1,18 @@
 import { electronApp, is, optimizer } from '@electron-toolkit/utils';
 import { app, BrowserWindow, globalShortcut } from 'electron';
-import { join } from 'path';
 
+export type TOptions = {
+    htmlFile: string;
+    preloadFile: string;
+};
 export default class CreateMainWindow {
     private _mainWindow: BrowserWindow | null = null;
+    private _htmlFile: string = '';
+    private _preloadFile: string = '';
 
-    constructor() {
+    constructor(options: TOptions) {
+        this._htmlFile = options.htmlFile;
+        this._preloadFile = options.preloadFile;
         app.whenReady().then(() => {
             this._createWindow();
             electronApp.setAppUserModelId('com.schemaSparkle');
@@ -22,14 +29,13 @@ export default class CreateMainWindow {
             show: false,
             autoHideMenuBar: true,
             titleBarStyle: 'hidden',
-            title: 'SchemaSparkle',
             titleBarOverlay: {
                 color: '#0f172a',
                 symbolColor: '#64748b',
                 height: 48,
             },
             webPreferences: {
-                preload: join(__dirname, '../preload/index.js'),
+                preload: this._preloadFile,
                 sandbox: false,
             },
         });
@@ -115,9 +121,7 @@ export default class CreateMainWindow {
         if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
             this._mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL']);
         } else {
-            this._mainWindow.loadFile(
-                join(__dirname, '../renderer/index.html'),
-            );
+            this._mainWindow.loadFile(this._htmlFile);
         }
     }
 }

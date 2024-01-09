@@ -3,7 +3,7 @@ import { useSaveCanvas } from '@composables/Canvas/useSaveCanvas';
 import { useHistoryActions } from '@composables/History/useHistoryActions';
 import { useNodeActions } from '@composables/Nodes/useNodeActions';
 import { useDarkMode } from '@composables/Miscellaneous/useDarkMode';
-import { onUnmounted } from 'vue';
+import { onMounted, onUnmounted } from 'vue';
 import { useVueFlow } from '@vue-flow/core';
 
 export function useKeyboardShortcuts() {
@@ -47,7 +47,6 @@ export function useKeyboardShortcuts() {
             settingsStore.showSettings = true;
         }
     };
-
     window.addEventListener('keydown', shortcut);
 
     onUnmounted(() => {

@@ -85,3 +85,20 @@ export const formatColumnDataType = (column: string) => {
     const Type = SplittedColumn[0];
     return `${Type.toUpperCase()}(${SplittedColumn[1]}`;
 };
+
+/**
+ * Extracts the table name and all the columns
+ */
+export const extractTableData = (nodes: Array<TNode>) => {
+    const Tables = nodes.map((node) => node.data.table.name);
+    const Columns = nodes
+        .map((node) => node.data.table.columns)
+        .map((columns) => columns.map((column) => column.name))
+        .filter((column, ind, arr) => arr.indexOf(column) === ind)
+        .flat();
+
+    return {
+        tables: Tables,
+        columns: Columns,
+    };
+};
