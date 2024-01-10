@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import VUniversalButton from '@components/Base/Buttons/VUniversalButton.vue';
 import VPlaygroundTextInput from '@components/Base/Forms/VPlaygroundTextInput.vue';
 import VAlert from '@components/Base/Alerts/VAlert.vue';
 import CircleLoader from '@components/Base/Loaders/CircleLoader.vue';
@@ -16,6 +17,7 @@ const connection = reactive({
 });
 
 const connectMySQL = async () => {
+    error.value = '';
     isLoading.value = true;
     await new Promise((resolve) => setTimeout(() => resolve(), 1000));
     const Result = await window.api.connectMySQL(Object.assign({}, connection));
@@ -71,14 +73,19 @@ const connectMySQL = async () => {
                 placeholder="Password"
                 class="mb-2"
             />
-            <button
-                class="block w-full bg-rose-500"
-                type="button"
-                @click="connectMySQL"
-            >
-                <CircleLoader v-if="isLoading" class="w-[15px]" />
-                Connect
-            </button>
+            <VUniversalButton @click="connectMySQL">
+                <template #text>
+                    <CircleLoader v-if="isLoading" class="loader w-[15px]" />
+                    <span v-else>Connect</span>
+                </template>
+            </VUniversalButton>
         </div>
     </div>
 </template>
+
+<style scoped>
+.loader :deep(path) {
+    stroke: white;
+    fill: white;
+}
+</style>
