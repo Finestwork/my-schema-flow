@@ -28,10 +28,12 @@ onMounted(async () => {
         vueFlow?.getNodes.value ?? [],
     );
 
+    console.log(settingsStore.isDarkMode ? 'dark' : 'light');
+
     const EditorOptions: IStandaloneEditorConstructionOptions = {
         value: '',
         language: 'sql',
-        theme: 'dark',
+        theme: settingsStore.isDarkMode ? 'dark' : 'light',
         fontSize: 14,
         fontFamily: 'NeonMono',
         lineHeight: 35,
@@ -136,7 +138,6 @@ onMounted(async () => {
         EditorOptions,
     );
 
-    monaco.editor.setTheme('light');
     window.addEventListener('resize', monacoEditorInstance.layout);
 });
 
