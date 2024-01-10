@@ -53,11 +53,13 @@ const connectMySQL = async () => {
                     v-model="connection.host"
                     placeholder="Host"
                     class="mr-2"
+                    @keydown.enter="connectMySQL"
                 />
                 <VPlaygroundTextInput
                     id="pgPortTxtInput"
                     v-model="connection.port"
                     placeholder="Port"
+                    @keydown.enter="connectMySQL"
                 />
             </div>
             <VPlaygroundTextInput
@@ -65,6 +67,7 @@ const connectMySQL = async () => {
                 v-model="connection.user"
                 placeholder="User"
                 class="mb-2"
+                @keydown.enter="connectMySQL"
             />
             <VPlaygroundTextInput
                 id="pgPasswordTxtInput"
@@ -72,6 +75,7 @@ const connectMySQL = async () => {
                 type="password"
                 placeholder="Password"
                 class="mb-2"
+                @keydown.enter="connectMySQL"
             />
             <VUniversalButton @click="connectMySQL">
                 <template #text>
