@@ -22,7 +22,7 @@ const closeModal = () => {
                     <TextEditor />
                     <Result />
                 </template>
-                <TestConnection />
+                <TestConnection v-else />
             </div>
         </VFullScreenModal>
     </Teleport>

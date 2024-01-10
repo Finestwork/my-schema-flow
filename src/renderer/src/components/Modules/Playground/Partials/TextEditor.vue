@@ -10,7 +10,14 @@ import IStandaloneEditorConstructionOptions = editor.IStandaloneEditorConstructi
 
 const editorWrapper = ref();
 const vueFlow = inject(vueFlowKey);
+let monacoEditorInstance = null;
 let monacoEditorDisposable = null;
+const onKeydownDisplayResult = async (e: KeyboardEvent) => {
+    if (!e.altKey || e.key !== 'Enter') return;
+    const Result = await window.api.runQuery(monacoEditorInstance.getValue());
+
+    console.log(Result);
+};
 
 onMounted(async () => {
     await nextTick();
@@ -120,22 +127,24 @@ onMounted(async () => {
             },
         },
     );
-    const MonacoEditorInstance = monaco.editor.create(
+    monacoEditorInstance = monaco.editor.create(
         editorWrapper.value,
         EditorOptions,
     );
 
-    window.addEventListener('resize', () => {
-        MonacoEditorInstance.layout();
-        console.log('w');
-    });
+    window.addEventListener('resize', monacoEditorInstance.layout);
 });
 
 onUnmounted(() => {
     monacoEditorDisposable.dispose();
+    window.removeEventListener('resize', monacoEditorInstance.layout);
 });
 </script>
 
 <template>
-    <div ref="editorWrapper" class="h-full max-h-[350px] w-full"></div>
+    <div
+        ref="editorWrapper"
+        class="h-full max-h-[350px] w-full"
+        @keydown="onKeydownDisplayResult"
+    />
 </template>

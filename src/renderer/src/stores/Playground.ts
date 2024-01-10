@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia';
 
 export type TConnection = {
-    database: string;
     host: string;
     port: string;
     user: string;

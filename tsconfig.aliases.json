@@ -2,6 +2,7 @@
     "include": [
         "src/renderer/src/env.d.ts",
         "src/renderer/src/**/*",
+        "src/main/src/**/*",
         "src/renderer/src/**/*.vue",
         "src/preload/*.d.ts"
     ],
@@ -37,6 +38,9 @@
             ],
             "@dummy/*": [
                 "src/renderer/src/dummy/*"
+            ],
+            "@lottie/*": [
+                "src/renderer/src/lottie/*"
             ]
         }
     }

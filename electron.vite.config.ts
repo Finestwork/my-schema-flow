@@ -26,6 +26,7 @@ export default defineConfig({
                 '@utilities': resolve('src/renderer/src/utilities'),
                 '@symbols': resolve('src/renderer/src/symbols'),
                 '@dummy': resolve('src/renderer/src/dummy'),
+                '@lottie': resolve('src/renderer/src/lottie'),
             },
         },
         plugins: [

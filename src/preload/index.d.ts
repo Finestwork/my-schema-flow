@@ -1,4 +1,17 @@
 import { ElectronAPI } from '@electron-toolkit/preload';
+import type { Connection } from 'mysql2';
+
+export type TMySQLConnection = {
+    host: string;
+    port: string;
+    user: string;
+    password: string;
+};
+export type TMySQLConnectionReturn = {
+    error: {
+        message: string;
+    } | null;
+};
 
 declare global {
     interface Window {
@@ -24,6 +37,10 @@ declare global {
                 filePath: string;
                 fileName: string;
             } | null>;
+            connectMySQL(
+                options: TMySQLConnection,
+            ): Promise<TMySQLConnectionReturn>;
+            runQuery(query: string): Promise<void>;
         };
     }
 }

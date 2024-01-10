@@ -1,5 +1,6 @@
 import CreateMainWindow from '@main/src/CreateMainWindow';
 import HandleEventListeners from '@main/src/HandleEventListeners';
+import HandleDatabaseListener from '@main/src/HandleDatabaseListener';
 import { join } from 'path';
 
 const IndexHTMLFile = join(__dirname, '../renderer/index.html');
@@ -10,3 +11,4 @@ const MainWindowOptions = {
 };
 new CreateMainWindow(MainWindowOptions);
 new HandleEventListeners();
+new HandleDatabaseListener();

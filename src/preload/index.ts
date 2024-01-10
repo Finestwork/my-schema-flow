@@ -1,5 +1,6 @@
 import { electronAPI } from '@electron-toolkit/preload';
 import { contextBridge, ipcRenderer } from 'electron';
+import type { TMySQLConnection } from './index';
 
 // Custom APIs for renderer
 const api = {
@@ -18,6 +19,9 @@ const api = {
     importSQLScript: (filePath: string) =>
         ipcRenderer.sendSync('importSQLScript', filePath),
     importDiagram: () => ipcRenderer.sendSync('openFile'),
+    connectMySQL: (options: TMySQLConnection) =>
+        ipcRenderer.invoke('connectMySQL', options),
+    runQuery: (query: string) => ipcRenderer.invoke('runQuery', query),
 };
 
 // Use `contextBridge` APIs to expose Electron APIs to

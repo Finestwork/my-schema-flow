@@ -1,13 +1,33 @@
 <script setup lang="ts">
 import VPlaygroundTextInput from '@components/Base/Forms/VPlaygroundTextInput.vue';
-import { reactive } from 'vue';
+import VAlert from '@components/Base/Alerts/VAlert.vue';
+import CircleLoader from '@components/Base/Loaders/CircleLoader.vue';
+import { usePlaygroundStore } from '@stores/Playground';
+import { reactive, ref } from 'vue';
 
-const connection = {
-    database: '',
+const playgroundStore = usePlaygroundStore();
+const isLoading = ref(false);
+const error = ref('');
+const connection = reactive({
     host: '',
     port: '',
     user: '',
     password: '',
+});
+
+const connectMySQL = async () => {
+    isLoading.value = true;
+    await new Promise((resolve) => setTimeout(() => resolve(), 1000));
+    const Result = await window.api.connectMySQL(Object.assign({}, connection));
+
+    if (Result.error !== null) {
+        error.value = Result.error.message;
+        isLoading.value = false;
+        return;
+    }
+
+    playgroundStore.connection = Object.assign({}, connection);
+    isLoading.value = false;
 };
 </script>
 <template>
@@ -22,14 +42,9 @@ const connection = {
         </p>
 
         <div class="mx-auto mt-10 w-full max-w-[350px]">
-            <VPlaygroundTextInput
-                id="pgDatabaseTxtInput"
-                v-model="connection.database"
-                placeholder="Place database name here"
-                class="mb-2"
-            >
-                <template #label>Database:</template>
-            </VPlaygroundTextInput>
+            <VAlert v-if="error !== ''" type="danger" class="mb-4">
+                {{ error }}
+            </VAlert>
             <div class="mb-2 flex">
                 <VPlaygroundTextInput
                     id="pgHostTxtInput"
@@ -52,10 +67,18 @@ const connection = {
             <VPlaygroundTextInput
                 id="pgPasswordTxtInput"
                 v-model="connection.password"
+                type="password"
                 placeholder="Password"
                 class="mb-2"
             />
-            <button type="button">Connect</button>
+            <button
+                class="block w-full bg-rose-500"
+                type="button"
+                @click="connectMySQL"
+            >
+                <CircleLoader v-if="isLoading" class="w-[15px]" />
+                Connect
+            </button>
         </div>
     </div>
 </template>
