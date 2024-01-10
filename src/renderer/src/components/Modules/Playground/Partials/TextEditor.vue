@@ -1,15 +1,18 @@
 <script setup lang="ts">
+import { useSettingsStore } from '@stores/Settings';
 import { extractTableData } from '@utilities/TableHelper';
 import { vueFlowKey } from '@symbols/VueFlow';
-import MaterialOcean from '@utilities/Editor/Theme';
+import DarkTheme from '@utilities/Editor/DarkTheme';
+import LightTheme from '@utilities/Editor/LightTheme';
 import * as monaco from 'monaco-editor';
 import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker';
-import { nextTick, onMounted, ref, inject, onUnmounted } from 'vue';
+import { nextTick, onMounted, ref, inject, onUnmounted, watch } from 'vue';
 import { editor } from 'monaco-editor';
 import IStandaloneEditorConstructionOptions = editor.IStandaloneEditorConstructionOptions;
 
 const editorWrapper = ref();
 const vueFlow = inject(vueFlowKey);
+const settingsStore = useSettingsStore();
 let monacoEditorInstance = null;
 let monacoEditorDisposable = null;
 const onKeydownDisplayResult = async (e: KeyboardEvent) => {
@@ -28,7 +31,7 @@ onMounted(async () => {
     const EditorOptions: IStandaloneEditorConstructionOptions = {
         value: '',
         language: 'sql',
-        theme: 'ocean',
+        theme: 'dark',
         fontSize: 14,
         fontFamily: 'NeonMono',
         lineHeight: 35,
@@ -46,7 +49,8 @@ onMounted(async () => {
         lineDecorationsWidth: 0,
         lineNumbersMinChars: 2,
     };
-    editor.defineTheme('ocean', MaterialOcean);
+    editor.defineTheme('dark', DarkTheme);
+    editor.defineTheme('light', LightTheme);
 
     self.MonacoEnvironment = {
         getWorker() {
@@ -132,6 +136,7 @@ onMounted(async () => {
         EditorOptions,
     );
 
+    monaco.editor.setTheme('light');
     window.addEventListener('resize', monacoEditorInstance.layout);
 });
 
@@ -139,6 +144,14 @@ onUnmounted(() => {
     monacoEditorDisposable.dispose();
     window.removeEventListener('resize', monacoEditorInstance.layout);
 });
+
+watch(
+    () => settingsStore.isDarkMode,
+    (isDarkMode) => {
+        if (isDarkMode) monaco.editor.setTheme('dark');
+        else monaco.editor.setTheme('light');
+    },
+);
 </script>
 
 <template>
