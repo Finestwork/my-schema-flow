@@ -10,7 +10,9 @@ const props = defineProps<{
                 <th
                     class="bg-slate-300 text-left font-black text-slate-800 dark:bg-dark-700 dark:text-slate-400"
                 >
-                    <span class="block p-2">Tables</span>
+                    <span class="block p-2">
+                        <slot name="header"></slot>
+                    </span>
                 </th>
             </tr>
         </thead>

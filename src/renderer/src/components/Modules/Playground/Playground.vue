@@ -7,14 +7,19 @@ import PlainResults from '@components/Modules/Playground/Partials/PlainResults.v
 import { useModalStore } from '@stores/Modal';
 import { usePlaygroundStore } from '@stores/Playground';
 import { checkUseKeywordExistence } from '@utilities/Editor/LineValidatorHelper';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { getLastResultFromQuery } from '@utilities/MySQLHelper';
 
 const modalStore = useModalStore();
 const playgroundStore = usePlaygroundStore();
 const error = ref('');
-const plainResults = ref<Array<string>>([]);
-const CurrentTestTable = 'test';
+const databaseResults = ref<Array<string>>([]);
+const tableResults = ref<Array<string>>([]);
+const displayBottomView = computed(() => {
+    return (
+        tableResults.value.length !== 0 || databaseResults.value.length !== 0
+    );
+});
 
 const closeModal = () => {
     modalStore.showPlaygroundModal = false;
@@ -30,15 +35,25 @@ const runQuery = async (code: string) => {
     const LastResult = getLastResultFromQuery(QueryResult);
 
     const displayResult = (item: { [k: string]: string }) => {
-        const ObjectKey = Object.keys(item)[0];
-        if (
-            ObjectKey === 'Database' ||
-            ObjectKey === `Tables_in_${CurrentTestTable}`
-        ) {
-            plainResults.value = LastResult.map(
+        const Keys = Object.keys(item);
+
+        if (Keys.includes('Database')) {
+            tableResults.value = [];
+            databaseResults.value = LastResult.map(
                 (result) => Object.values(result)[0],
             );
-        } else if (ObjectKey === 'fieldCount') {
+            return;
+        }
+
+        if (Keys.includes(`Tables_in_${playgroundStore.database}`)) {
+            databaseResults.value = [];
+            tableResults.value = LastResult.map(
+                (result) => Object.values(result)[0],
+            );
+            return;
+        }
+
+        if (Keys.includes('fieldCount')) {
             console.log(
                 'Show status about the query like: Query sent okay or number of rows affected',
                 LastResult,
@@ -79,23 +94,37 @@ const runQuery = async (code: string) => {
                         </VAlert>
                     </div>
                     <div
-                        class="overflow-hidden border-2 border-dashed border-slate-300 pl-2 dark:border-dark-700"
+                        class="overflow-hidden border-2 border-slate-300 pl-2 dark:border-dark-700"
                         :class="{
-                            'rounded-t-2xl': plainResults.length !== 0,
-                            'rounded-2xl': plainResults.length === 0,
+                            'rounded-t-lg': displayBottomView,
+                            'rounded-lg': !displayBottomView,
                         }"
                     >
                         <TextEditor @run-query="runQuery" />
                     </div>
 
                     <div
-                        v-if="plainResults.length !== 0"
-                        class="border-t-none overflow-hidden rounded-b-2xl border-b-2 border-l-2 border-r-2 border-dashed border-slate-300 dark:border-dark-700"
+                        v-if="displayBottomView"
+                        class="border-t-none overflow-hidden rounded-b-lg border-b-2 border-l-2 border-r-2 border-slate-300 dark:border-dark-700"
                     >
                         <PlainResults
-                            v-if="plainResults.length !== 0"
-                            :items="plainResults"
-                        />
+                            v-if="
+                                tableResults.length !== 0 &&
+                                databaseResults.length === 0
+                            "
+                            :items="tableResults"
+                        >
+                            <template #header>Tables</template>
+                        </PlainResults>
+                        <PlainResults
+                            v-if="
+                                databaseResults.length !== 0 &&
+                                tableResults.length === 0
+                            "
+                            :items="databaseResults"
+                        >
+                            <template #header>Database</template>
+                        </PlainResults>
                     </div>
                 </div>
                 <TestConnection v-else />
