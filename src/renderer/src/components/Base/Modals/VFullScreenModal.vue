@@ -1,13 +1,28 @@
 <script setup lang="ts">
 import CloseIcon from '@components/Shared/Icons/CloseIcon.vue';
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue';
+import { useFocusTrap } from '@vueuse/integrations/useFocusTrap';
+import { nextTick, onMounted, onUnmounted, ref } from 'vue';
 
 const emits = defineEmits<{
     (e: 'closeModal');
 }>();
+const root = ref();
+const { activate, deactivate } = useFocusTrap(root, {
+    allowOutsideClick: true,
+    returnFocusOnDeactivate: false,
+});
+onMounted(async () => {
+    await nextTick();
+    activate();
+});
+onUnmounted(() => {
+    deactivate();
+});
 </script>
 <template>
     <div
+        ref="root"
         class="fixed top-[48px] h-[calc(100vh-44px)] w-full bg-white dark:bg-dark-900"
     >
         <OverlayScrollbarsComponent class="h-full">
