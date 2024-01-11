@@ -51,15 +51,17 @@ onMounted(async () => {
     MonacoModel.onDidChangeContent(() => {
         const content = monaco.getValue();
         const index = content.indexOf('use');
+        const { lineNumber } = monaco.getPosition();
+        const id = `use-keyword-${lineNumber}`;
         if (index !== -1) {
-            const position = MonacoModel.getPositionAt(index);
+            const UseKeywordLength = 3;
+            const Position = MonacoModel.getPositionAt(index);
             const range = new Range(
-                position.lineNumber,
-                position.column,
-                position.lineNumber,
-                position.column + 3,
+                lineNumber,
+                Position.column,
+                lineNumber,
+                Position.column + UseKeywordLength,
             );
-            const id = `use-keyword-${position.lineNumber}-${position.column}`;
             const markerData = {
                 severity: MarkerSeverity.Error,
                 message: "Use of 'use' keyword is prohibited.",
@@ -69,6 +71,8 @@ onMounted(async () => {
                 endColumn: range.endColumn,
             };
             editor.setModelMarkers(monaco.getModel(), id, [markerData]);
+        } else {
+            editor.removeAllMarkers(id);
         }
     });
 

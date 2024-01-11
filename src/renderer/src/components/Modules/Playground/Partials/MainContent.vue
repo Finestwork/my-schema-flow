@@ -107,7 +107,7 @@ const runQuery = async (code: string) => {
             </VAlert>
         </div>
         <div
-            class="overflow-hidden border-2 border-slate-300 pl-2 dark:border-dark-700"
+            class="border-2 border-slate-300 pl-2 dark:border-dark-700"
             :class="{
                 'rounded-t-lg': displayBottomView,
                 'rounded-lg': !displayBottomView,
@@ -117,7 +117,7 @@ const runQuery = async (code: string) => {
         </div>
         <div
             v-if="displayBottomView"
-            class="border-t-none overflow-hidden rounded-b-lg border-b-2 border-l-2 border-r-2 border-slate-300 dark:border-dark-700"
+            class="border-t-none rounded-b-lg border-b-2 border-l-2 border-r-2 border-slate-300 dark:border-dark-700"
         >
             <PlainResults
                 v-if="
