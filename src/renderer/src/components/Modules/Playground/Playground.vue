@@ -4,6 +4,7 @@ import VAlert from '@components/Base/Alerts/VAlert.vue';
 import TextEditor from '@components/Modules/Playground/Partials/TextEditor.vue';
 import TestConnection from '@components/Modules/Playground/Partials/TestConnection.vue';
 import PlainResults from '@components/Modules/Playground/Partials/PlainResults.vue';
+import FieldCount from '@components/Modules/Playground/Partials/FieldCount.vue';
 import { useModalStore } from '@stores/Modal';
 import { usePlaygroundStore } from '@stores/Playground';
 import { checkUseKeywordExistence } from '@utilities/Editor/LineValidatorHelper';
@@ -15,9 +16,13 @@ const playgroundStore = usePlaygroundStore();
 const error = ref('');
 const databaseResults = ref<Array<string>>([]);
 const tableResults = ref<Array<string>>([]);
+const affectedRows = ref(-1);
+
 const displayBottomView = computed(() => {
     return (
-        tableResults.value.length !== 0 || databaseResults.value.length !== 0
+        tableResults.value.length !== 0 ||
+        databaseResults.value.length !== 0 ||
+        affectedRows.value !== -1
     );
 });
 
@@ -39,6 +44,7 @@ const runQuery = async (code: string) => {
 
         if (Keys.includes('Database')) {
             tableResults.value = [];
+            affectedRows.value = -1;
             databaseResults.value = LastResult.map(
                 (result) => Object.values(result)[0],
             );
@@ -47,6 +53,7 @@ const runQuery = async (code: string) => {
 
         if (Keys.includes(`Tables_in_${playgroundStore.database}`)) {
             databaseResults.value = [];
+            affectedRows.value = -1;
             tableResults.value = LastResult.map(
                 (result) => Object.values(result)[0],
             );
@@ -54,10 +61,7 @@ const runQuery = async (code: string) => {
         }
 
         if (Keys.includes('fieldCount')) {
-            console.log(
-                'Show status about the query like: Query sent okay or number of rows affected',
-                LastResult,
-            );
+            affectedRows.value = LastResult.affectedRows;
         }
 
         console.log('SELECT', LastResult);
@@ -110,7 +114,8 @@ const runQuery = async (code: string) => {
                         <PlainResults
                             v-if="
                                 tableResults.length !== 0 &&
-                                databaseResults.length === 0
+                                databaseResults.length === 0 &&
+                                affectedRows === -1
                             "
                             :items="tableResults"
                         >
@@ -119,12 +124,22 @@ const runQuery = async (code: string) => {
                         <PlainResults
                             v-if="
                                 databaseResults.length !== 0 &&
-                                tableResults.length === 0
+                                tableResults.length === 0 &&
+                                affectedRows === -1
                             "
                             :items="databaseResults"
                         >
                             <template #header>Database</template>
                         </PlainResults>
+                        <FieldCount
+                            v-if="
+                                databaseResults.length === 0 &&
+                                tableResults.length === 0 &&
+                                affectedRows !== -1
+                            "
+                        >
+                            {{ affectedRows }}
+                        </FieldCount>
                     </div>
                 </div>
                 <TestConnection v-else />
