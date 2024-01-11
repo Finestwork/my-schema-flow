@@ -28,7 +28,7 @@ export default class HandleDatabaseListener {
                     user: 'root',
                     password: '12345',
                     multipleStatements: true,
-                    database: 'test',
+                    database: 'lektura',
                 });
 
                 return {

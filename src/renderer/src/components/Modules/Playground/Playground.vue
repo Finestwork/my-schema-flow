@@ -5,6 +5,7 @@ import TextEditor from '@components/Modules/Playground/Partials/TextEditor.vue';
 import TestConnection from '@components/Modules/Playground/Partials/TestConnection.vue';
 import PlainResults from '@components/Modules/Playground/Partials/PlainResults.vue';
 import FieldCount from '@components/Modules/Playground/Partials/FieldCount.vue';
+import ViewResults from '@components/Modules/Playground/Partials/ViewResults.vue';
 import { useModalStore } from '@stores/Modal';
 import { usePlaygroundStore } from '@stores/Playground';
 import { checkUseKeywordExistence } from '@utilities/Editor/LineValidatorHelper';
@@ -17,12 +18,14 @@ const error = ref('');
 const databaseResults = ref<Array<string>>([]);
 const tableResults = ref<Array<string>>([]);
 const affectedRows = ref(-1);
+const selectedRows = ref<Array<{ [k: string]: string }>>([]);
 
 const displayBottomView = computed(() => {
     return (
         tableResults.value.length !== 0 ||
         databaseResults.value.length !== 0 ||
-        affectedRows.value !== -1
+        affectedRows.value !== -1 ||
+        selectedRows.value.length !== 0
     );
 });
 
@@ -45,6 +48,7 @@ const runQuery = async (code: string) => {
         if (Keys.includes('Database')) {
             tableResults.value = [];
             affectedRows.value = -1;
+            selectedRows.value = [];
             databaseResults.value = LastResult.map(
                 (result) => Object.values(result)[0],
             );
@@ -54,6 +58,7 @@ const runQuery = async (code: string) => {
         if (Keys.includes(`Tables_in_${playgroundStore.database}`)) {
             databaseResults.value = [];
             affectedRows.value = -1;
+            selectedRows.value = [];
             tableResults.value = LastResult.map(
                 (result) => Object.values(result)[0],
             );
@@ -61,13 +66,25 @@ const runQuery = async (code: string) => {
         }
 
         if (Keys.includes('fieldCount')) {
+            tableResults.value = [];
+            databaseResults.value = [];
+            selectedRows.value = [];
             affectedRows.value = LastResult.affectedRows;
+            return;
         }
 
-        console.log('SELECT', LastResult);
+        // Could SELECT keyword or anything that will view the result
+        tableResults.value = [];
+        databaseResults.value = [];
+        affectedRows.value = -1;
+        selectedRows.value = LastResult;
     };
 
     if (LastResult.length === 0) {
+        tableResults.value = [];
+        databaseResults.value = [];
+        affectedRows.value = -1;
+        selectedRows.value = [];
         console.log('No Result Here');
         return;
     }
@@ -115,7 +132,8 @@ const runQuery = async (code: string) => {
                             v-if="
                                 tableResults.length !== 0 &&
                                 databaseResults.length === 0 &&
-                                affectedRows === -1
+                                affectedRows === -1 &&
+                                selectedRows.length === 0
                             "
                             :items="tableResults"
                         >
@@ -125,17 +143,28 @@ const runQuery = async (code: string) => {
                             v-if="
                                 databaseResults.length !== 0 &&
                                 tableResults.length === 0 &&
-                                affectedRows === -1
+                                affectedRows === -1 &&
+                                selectedRows.length === 0
                             "
                             :items="databaseResults"
                         >
                             <template #header>Database</template>
                         </PlainResults>
+                        <ViewResults
+                            v-if="
+                                databaseResults.length === 0 &&
+                                tableResults.length === 0 &&
+                                affectedRows === -1 &&
+                                selectedRows.length !== 0
+                            "
+                            :columns="selectedRows"
+                        />
                         <FieldCount
                             v-if="
                                 databaseResults.length === 0 &&
                                 tableResults.length === 0 &&
-                                affectedRows !== -1
+                                affectedRows !== -1 &&
+                                selectedRows.length === 0
                             "
                         >
                             {{ affectedRows }}
