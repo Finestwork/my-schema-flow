@@ -6,6 +6,7 @@ import TestConnection from '@components/Modules/Playground/Partials/TestConnecti
 import PlainResults from '@components/Modules/Playground/Partials/PlainResults.vue';
 import FieldCount from '@components/Modules/Playground/Partials/FieldCount.vue';
 import ViewResults from '@components/Modules/Playground/Partials/ViewResults.vue';
+import NoResult from '@components/Modules/Playground/Partials/NoResult.vue';
 import { useModalStore } from '@stores/Modal';
 import { usePlaygroundStore } from '@stores/Playground';
 import { checkUseKeywordExistence } from '@utilities/Editor/LineValidatorHelper';
@@ -19,13 +20,15 @@ const databaseResults = ref<Array<string>>([]);
 const tableResults = ref<Array<string>>([]);
 const affectedRows = ref(-1);
 const selectedRows = ref<Array<{ [k: string]: string }>>([]);
+const hasNoResult = ref(false);
 
 const displayBottomView = computed(() => {
     return (
         tableResults.value.length !== 0 ||
         databaseResults.value.length !== 0 ||
         affectedRows.value !== -1 ||
-        selectedRows.value.length !== 0
+        selectedRows.value.length !== 0 ||
+        hasNoResult.value
     );
 });
 
@@ -49,6 +52,7 @@ const runQuery = async (code: string) => {
             tableResults.value = [];
             affectedRows.value = -1;
             selectedRows.value = [];
+            hasNoResult.value = false;
             databaseResults.value = LastResult.map(
                 (result) => Object.values(result)[0],
             );
@@ -59,6 +63,7 @@ const runQuery = async (code: string) => {
             databaseResults.value = [];
             affectedRows.value = -1;
             selectedRows.value = [];
+            hasNoResult.value = false;
             tableResults.value = LastResult.map(
                 (result) => Object.values(result)[0],
             );
@@ -70,6 +75,7 @@ const runQuery = async (code: string) => {
             databaseResults.value = [];
             selectedRows.value = [];
             affectedRows.value = LastResult.affectedRows;
+            hasNoResult.value = false;
             return;
         }
 
@@ -78,6 +84,7 @@ const runQuery = async (code: string) => {
         databaseResults.value = [];
         affectedRows.value = -1;
         selectedRows.value = LastResult;
+        hasNoResult.value = false;
     };
 
     if (LastResult.length === 0) {
@@ -85,7 +92,7 @@ const runQuery = async (code: string) => {
         databaseResults.value = [];
         affectedRows.value = -1;
         selectedRows.value = [];
-        console.log('No Result Here');
+        hasNoResult.value = true;
         return;
     }
 
@@ -133,7 +140,8 @@ const runQuery = async (code: string) => {
                                 tableResults.length !== 0 &&
                                 databaseResults.length === 0 &&
                                 affectedRows === -1 &&
-                                selectedRows.length === 0
+                                selectedRows.length === 0 &&
+                                !hasNoResult
                             "
                             :items="tableResults"
                         >
@@ -144,7 +152,8 @@ const runQuery = async (code: string) => {
                                 databaseResults.length !== 0 &&
                                 tableResults.length === 0 &&
                                 affectedRows === -1 &&
-                                selectedRows.length === 0
+                                selectedRows.length === 0 &&
+                                !hasNoResult
                             "
                             :items="databaseResults"
                         >
@@ -164,11 +173,21 @@ const runQuery = async (code: string) => {
                                 databaseResults.length === 0 &&
                                 tableResults.length === 0 &&
                                 affectedRows !== -1 &&
-                                selectedRows.length === 0
+                                selectedRows.length === 0 &&
+                                !hasNoResult
                             "
                         >
                             {{ affectedRows }}
                         </FieldCount>
+                        <NoResult
+                            v-if="
+                                databaseResults.length === 0 &&
+                                tableResults.length === 0 &&
+                                affectedRows === -1 &&
+                                selectedRows.length === 0 &&
+                                hasNoResult
+                            "
+                        />
                     </div>
                 </div>
                 <TestConnection v-else />
