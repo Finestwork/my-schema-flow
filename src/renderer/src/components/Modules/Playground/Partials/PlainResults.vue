@@ -20,7 +20,7 @@ const props = defineProps<{
             <tr
                 v-for="item in props.items"
                 :key="item"
-                class="bg-slate-200 text-slate-700 odd:bg-white"
+                class="bg-slate-200 text-slate-700 odd:bg-transparent dark:bg-dark-800 dark:text-slate-100"
             >
                 <td>
                     <span class="block p-2">
