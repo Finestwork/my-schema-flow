@@ -1,5 +1,5 @@
+import { isObject, isArray } from 'lodash';
 import {
-    OkPacket,
     ProcedureCallPacket,
     ResultSetHeader,
     RowDataPacket,
@@ -17,13 +17,25 @@ export const getLastResultFromQuery = (queryResult: TQueryResult) => {
     const Results = queryResult[0];
 
     if (Array.isArray(Results)) {
-        const LastResult = Results[Results.length - 1]; // Get the last item, could be an array or object
-        const ObjectKey = Object.keys(LastResult)[0];
-        const IsArrayOfObjects =
-            ObjectKey === 'Database' || ObjectKey.includes('Tables_in_'); // Check if the last item is an array of objects
+        if (Results.length === 0) {
+            return Results;
+        }
 
-        // If the last item of the array is an array of objects, do not get the last item
-        if (IsArrayOfObjects) {
+        const LastResult = Results[Results.length - 1]; // Get the last item, could be an array or object
+
+        // If array of objects, return the last item
+        if (isArray(LastResult)) {
+            return LastResult;
+        }
+
+        // If the last item is from the ResultSetHeader
+        if (isObject(LastResult)) {
+            // Single object
+            if (Object.keys(LastResult).includes('fieldCount')) {
+                return LastResult;
+            }
+
+            // Array of objects
             return Results;
         }
 

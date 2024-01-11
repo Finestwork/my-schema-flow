@@ -30,30 +30,31 @@ const runQuery = async (code: string) => {
     const LastResult = getLastResultFromQuery(QueryResult);
 
     const displayResult = (item: { [k: string]: string }) => {
-        switch (Object.keys(item)[0]) {
-            case 'Database':
-            case `Tables_in_${CurrentTestTable}`:
-                plainResults.value = LastResult.map(
-                    (result) => Object.values(result)[0],
-                );
-                break;
-            case 'fieldCount':
-                console.log(
-                    'Show status about the query like: Query sent okay or number of rows affected',
-                    LastResult,
-                );
-                break;
-            default:
-                console.log('No Result');
+        const ObjectKey = Object.keys(item)[0];
+        if (
+            ObjectKey === 'Database' ||
+            ObjectKey === `Tables_in_${CurrentTestTable}`
+        ) {
+            plainResults.value = LastResult.map(
+                (result) => Object.values(result)[0],
+            );
+        } else if (ObjectKey === 'fieldCount') {
+            console.log(
+                'Show status about the query like: Query sent okay or number of rows affected',
+                LastResult,
+            );
         }
+
+        console.log('SELECT', LastResult);
     };
+
+    if (LastResult.length === 0) {
+        console.log('No Result Here');
+        return;
+    }
 
     // If the last result is array of arrays, then mysql executed too many statements
     if (Array.isArray(LastResult)) {
-        if (LastResult.length === 0) {
-            console.log('No Result Here');
-            return;
-        }
         const Item = LastResult[0];
         displayResult(Item);
         return;
@@ -78,10 +79,15 @@ const runQuery = async (code: string) => {
                         </VAlert>
                     </div>
                     <TextEditor
-                        class="overflow-hidden rounded-t-2xl border-2 border-dashed border-slate-300 dark:border-dark-700"
+                        class="overflow-hidden border-2 border-dashed border-slate-300 dark:border-dark-700"
+                        :class="{
+                            'rounded-t-2xl': plainResults.length !== 0,
+                            'rounded-2xl': plainResults.length === 0,
+                        }"
                         @run-query="runQuery"
                     />
                     <div
+                        v-if="plainResults.length !== 0"
                         class="border-t-none overflow-hidden rounded-b-2xl border-b-2 border-l-2 border-r-2 border-dashed border-slate-300 dark:border-dark-700"
                     >
                         <PlainResults
