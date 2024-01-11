@@ -1,55 +1,53 @@
 <script setup lang="ts">
-import { useSettingsStore } from '@stores/Settings';
-import { extractTableData } from '@utilities/TableHelper';
-import { vueFlowKey } from '@symbols/VueFlow';
+import VAlert from '@components/Base/Alerts/VAlert.vue';
+import { useTrackEditorTheme } from '@composables/TextEditor/useTrackEditorTheme';
+import { useSQLLanguage } from '@composables/TextEditor/useSQLLanguage';
+import { getEditorOptions } from '@utilities/Editor/TextEditorHelper';
 import DarkTheme from '@utilities/Editor/DarkTheme';
 import LightTheme from '@utilities/Editor/LightTheme';
-import * as monaco from 'monaco-editor';
+import { checkUseKeywordExistence } from '@utilities/Editor/LineValidatorHelper';
+import { editor, Range, MarkerSeverity } from 'monaco-editor';
 import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker';
-import { nextTick, onMounted, ref, inject, onUnmounted, watch } from 'vue';
-import { editor } from 'monaco-editor';
-import IStandaloneEditorConstructionOptions = editor.IStandaloneEditorConstructionOptions;
+import { nextTick, onMounted, onUnmounted, ref } from 'vue';
+import IStandaloneCodeEditor = editor.IStandaloneCodeEditor;
 
-const editorWrapper = ref();
-const vueFlow = inject(vueFlowKey);
-const settingsStore = useSettingsStore();
-let monacoEditorInstance = null;
-let monacoEditorDisposable = null;
+const editorWrapper = ref<HTMLDivElement>();
+const error = ref('');
+let monaco: IStandaloneCodeEditor | null = null;
 const onKeydownDisplayResult = async (e: KeyboardEvent) => {
     if (!e.altKey || e.key !== 'Enter') return;
-    const Result = await window.api.runQuery(monacoEditorInstance.getValue());
+    const currentValue = monaco.getValue();
 
-    console.log(Result);
+    // 'use' keyword is not allowed
+    if (checkUseKeywordExistence(currentValue)) {
+        error.value = 'The "USE" keyword is not allowed.';
+        return;
+    }
+
+    const QueryResult = await window.api.runQuery(currentValue);
+    const Results = QueryResult[0]; // Desired results are always at 0 because index 1 is a buffer array
+    const LastResult = Results[Results.length - 1];
+
+    // If the last result is array of arrays, then mysql executed too many statements
+    if (Array.isArray(LastResult)) {
+        const LastResult = Results[Results.length - 1]; // There might be so many results that we only want the last one
+        console.log(LastResult);
+        return;
+    }
+
+    // The user probably executed only one statement, hence, returned array of objects
+    console.log(Object.keys(LastResult), LastResult);
+};
+
+// Without doing this, it throws widget error
+const updateLayout = () => {
+    monaco?.layout();
 };
 
 onMounted(async () => {
     await nextTick();
-    const { tables: Tables, columns: Columns } = extractTableData(
-        vueFlow?.getNodes.value ?? [],
-    );
-
-    console.log(settingsStore.isDarkMode ? 'dark' : 'light');
-
-    const EditorOptions: IStandaloneEditorConstructionOptions = {
-        value: '',
+    const EditorOptions = {
         language: 'sql',
-        theme: settingsStore.isDarkMode ? 'dark' : 'light',
-        fontSize: 14,
-        fontFamily: 'NeonMono',
-        lineHeight: 35,
-        fontWeight: '700',
-        cursorSmoothCaretAnimation: 'on',
-        cursorBlinking: 'expand',
-        tabSize: 2,
-        fontLigatures:
-            "'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08', 'calt', 'dlig'",
-        minimap: {
-            enabled: false,
-        },
-        scrollBeyondLastLine: false,
-        lineNumbers: 'on',
-        lineDecorationsWidth: 0,
-        lineNumbersMinChars: 2,
     };
     editor.defineTheme('dark', DarkTheme);
     editor.defineTheme('light', LightTheme);
@@ -60,105 +58,57 @@ onMounted(async () => {
         },
     };
 
-    // Register SQL language configuration
-    monaco.languages.register({ id: 'sql' });
-
-    // Register a completion item provider for SQL language
-    monacoEditorDisposable = monaco.languages.registerCompletionItemProvider(
-        'sql',
-        {
-            provideCompletionItems: function (model, position) {
-                const word = model.getWordUntilPosition(position);
-                const Keywords = [
-                    {
-                        label: 'SELECT',
-                        detail: 'keyword',
-                        kind: monaco.languages.CompletionItemKind.Keyword,
-                        insertText: 'SELECT ',
-                        range: {
-                            startLineNumber: position.lineNumber,
-                            endLineNumber: position.lineNumber,
-                            startColumn: word.startColumn,
-                            endColumn: word.endColumn,
-                        },
-                    },
-                    {
-                        label: 'FROM',
-                        detail: 'keyword',
-                        kind: monaco.languages.CompletionItemKind.Keyword,
-                        insertText: 'FROM ',
-                        range: {
-                            startLineNumber: position.lineNumber,
-                            endLineNumber: position.lineNumber,
-                            startColumn: word.startColumn,
-                            endColumn: word.endColumn,
-                        },
-                    },
-                ];
-
-                const MappedTable =
-                    Tables.map((table) => {
-                        return {
-                            label: table,
-                            detail: 'Table',
-                            kind: monaco.languages.CompletionItemKind.Field,
-                            insertText: `${table} `,
-                            range: {
-                                startLineNumber: position.lineNumber,
-                                endLineNumber: position.lineNumber,
-                                startColumn: word.startColumn,
-                                endColumn: word.endColumn,
-                            },
-                        };
-                    }) ?? [];
-
-                const MappedColumn = Columns.map((column) => {
-                    return {
-                        label: column,
-                        detail: 'Column',
-                        kind: monaco.languages.CompletionItemKind.Field,
-                        insertText: `${column} `,
-                        range: {
-                            startLineNumber: position.lineNumber,
-                            endLineNumber: position.lineNumber,
-                            startColumn: word.startColumn,
-                            endColumn: word.endColumn,
-                        },
-                    };
-                });
-
-                return {
-                    suggestions: [...Keywords, ...MappedTable, ...MappedColumn],
-                };
-            },
-        },
-    );
-    monacoEditorInstance = monaco.editor.create(
+    monaco = editor.create(
         editorWrapper.value,
-        EditorOptions,
+        getEditorOptions(EditorOptions),
     );
 
-    window.addEventListener('resize', monacoEditorInstance.layout);
-});
+    // Prevent user from using use keyword
+    const MonacoModel = monaco.getModel();
+    MonacoModel.onDidChangeContent(() => {
+        const content = monaco.getValue();
+        const index = content.indexOf('use');
+        if (index !== -1) {
+            const position = MonacoModel.getPositionAt(index);
+            const range = new Range(
+                position.lineNumber,
+                position.column,
+                position.lineNumber,
+                position.column + 3,
+            );
+            const id = `use-keyword-${position.lineNumber}-${position.column}`;
+            const markerData = {
+                severity: MarkerSeverity.Error,
+                message: "Use of 'use' keyword is prohibited.",
+                startLineNumber: range.startLineNumber,
+                startColumn: range.startColumn,
+                endLineNumber: range.endLineNumber,
+                endColumn: range.endColumn,
+            };
+            editor.setModelMarkers(monaco.getModel(), id, [markerData]);
+        }
+    });
 
+    window.addEventListener('resize', updateLayout);
+});
 onUnmounted(() => {
-    monacoEditorDisposable.dispose();
-    window.removeEventListener('resize', monacoEditorInstance.layout);
+    window.removeEventListener('resize', updateLayout);
 });
-
-watch(
-    () => settingsStore.isDarkMode,
-    (isDarkMode) => {
-        if (isDarkMode) monaco.editor.setTheme('dark');
-        else monaco.editor.setTheme('light');
-    },
-);
+useTrackEditorTheme();
+useSQLLanguage();
 </script>
 
 <template>
-    <div
-        ref="editorWrapper"
-        class="h-full max-h-[350px] w-full"
-        @keydown="onKeydownDisplayResult"
-    />
+    <div class="h-full w-full">
+        <div v-if="error !== ''" class="mb-2 flex justify-center">
+            <VAlert type="danger">
+                {{ error }}
+            </VAlert>
+        </div>
+        <div
+            ref="editorWrapper"
+            class="h-full max-h-[350px] w-full"
+            @keydown="onKeydownDisplayResult"
+        />
+    </div>
 </template>

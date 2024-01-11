@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import VFullScreenModal from '@components/Base/Modals/VFullScreenModal.vue';
-import Result from '@components/Modules/Playground/Partials/Result.vue';
 import TextEditor from '@components/Modules/Playground/Partials/TextEditor.vue';
 import TestConnection from '@components/Modules/Playground/Partials/TestConnection.vue';
+import TableResults from '@components/Modules/Playground/Partials/TableResults.vue';
 import { useModalStore } from '@stores/Modal';
 import { usePlaygroundStore } from '@stores/Playground';
 
@@ -20,7 +20,7 @@ const closeModal = () => {
             <div class="mt-10 h-full">
                 <template v-if="playgroundStore.connection !== null">
                     <TextEditor />
-                    <Result />
+                    <TableResults />
                 </template>
                 <TestConnection v-else />
             </div>

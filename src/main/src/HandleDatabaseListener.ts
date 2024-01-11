@@ -14,12 +14,19 @@ export default class HandleDatabaseListener {
         ipcMain.handle('connectMySQL', async (_, options: TMySQLConnection) => {
             try {
                 // Create the connection to database
+                // this._connection = await mysql.createConnection({
+                //     host: options.host,
+                //     port: options.port,
+                //     user: options.user,
+                //     password: options.password,
+                //     multipleStatements: true,
+                // });
+
                 this._connection = await mysql.createConnection({
-                    host: options.host,
-                    port: options.port,
-                    user: options.user,
-                    password: options.password,
-                    database: options.database,
+                    host: 'localhost',
+                    port: '',
+                    user: 'root',
+                    password: '12345',
                     multipleStatements: true,
                 });
 
