@@ -1,45 +1,28 @@
 <script setup lang="ts">
-import VAlert from '@components/Base/Alerts/VAlert.vue';
 import { useTrackEditorTheme } from '@composables/TextEditor/useTrackEditorTheme';
 import { useSQLLanguage } from '@composables/TextEditor/useSQLLanguage';
 import { getEditorOptions } from '@utilities/Editor/TextEditorHelper';
 import DarkTheme from '@utilities/Editor/DarkTheme';
 import LightTheme from '@utilities/Editor/LightTheme';
-import { checkUseKeywordExistence } from '@utilities/Editor/LineValidatorHelper';
 import { editor, Range, MarkerSeverity } from 'monaco-editor';
 import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker';
 import { nextTick, onMounted, onUnmounted, ref } from 'vue';
 import IStandaloneCodeEditor = editor.IStandaloneCodeEditor;
 
+const emits = defineEmits<{
+    (e: 'runQuery', value: string);
+    (e: 'showTables');
+    (e: 'showDatabases');
+}>();
 const editorWrapper = ref<HTMLDivElement>();
-const error = ref('');
+
 let monaco: IStandaloneCodeEditor | null = null;
 const onKeydownDisplayResult = async (e: KeyboardEvent) => {
     if (!e.altKey || e.key !== 'Enter') return;
-    const currentValue = monaco.getValue();
-
-    // 'use' keyword is not allowed
-    if (checkUseKeywordExistence(currentValue)) {
-        error.value = 'The "USE" keyword is not allowed.';
-        return;
-    }
-
-    const QueryResult = await window.api.runQuery(currentValue);
-    const Results = QueryResult[0]; // Desired results are always at 0 because index 1 is a buffer array
-    const LastResult = Results[Results.length - 1];
-
-    // If the last result is array of arrays, then mysql executed too many statements
-    if (Array.isArray(LastResult)) {
-        const LastResult = Results[Results.length - 1]; // There might be so many results that we only want the last one
-        console.log(LastResult);
-        return;
-    }
-
-    // The user probably executed only one statement, hence, returned array of objects
-    console.log(Object.keys(LastResult), LastResult);
+    emits('runQuery', monaco.getValue());
 };
 
-// Without doing this, it throws widget error
+// Without doing this, it throws widget error when just assigning to window's event listener
 const updateLayout = () => {
     monaco?.layout();
 };
@@ -63,7 +46,7 @@ onMounted(async () => {
         getEditorOptions(EditorOptions),
     );
 
-    // Prevent user from using use keyword
+    // Prevent user from using 'use' keyword
     const MonacoModel = monaco.getModel();
     MonacoModel.onDidChangeContent(() => {
         const content = monaco.getValue();
@@ -99,16 +82,9 @@ useSQLLanguage();
 </script>
 
 <template>
-    <div class="h-full w-full">
-        <div v-if="error !== ''" class="mb-2 flex justify-center">
-            <VAlert type="danger">
-                {{ error }}
-            </VAlert>
-        </div>
-        <div
-            ref="editorWrapper"
-            class="h-full max-h-[350px] w-full"
-            @keydown="onKeydownDisplayResult"
-        />
-    </div>
+    <div
+        ref="editorWrapper"
+        class="relative h-[350px] w-full pl-2"
+        @keydown="onKeydownDisplayResult"
+    />
 </template>

@@ -1,5 +1,11 @@
 import { ElectronAPI } from '@electron-toolkit/preload';
 import type { Connection } from 'mysql2';
+import {
+    OkPacket,
+    ProcedureCallPacket,
+    ResultSetHeader,
+    RowDataPacket,
+} from 'mysql2/typings/mysql/lib/protocol/packets';
 
 export type TMySQLConnection = {
     host: string;
@@ -12,6 +18,13 @@ export type TMySQLConnectionReturn = {
         message: string;
     } | null;
 };
+
+export type TMysqlReturnedData =
+    | ResultSetHeader
+    | ResultSetHeader[]
+    | RowDataPacket[]
+    | RowDataPacket[][]
+    | ProcedureCallPacket;
 
 declare global {
     interface Window {
@@ -40,7 +53,7 @@ declare global {
             connectMySQL(
                 options: TMySQLConnection,
             ): Promise<TMySQLConnectionReturn>;
-            runQuery(query: string): Promise<void>;
+            runQuery(query: string): Promise<TMysqlReturnedData>;
         };
     }
 }
