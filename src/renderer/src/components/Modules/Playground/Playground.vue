@@ -78,14 +78,16 @@ const runQuery = async (code: string) => {
                             {{ error }}
                         </VAlert>
                     </div>
-                    <TextEditor
-                        class="overflow-hidden border-2 border-dashed border-slate-300 dark:border-dark-700"
+                    <div
+                        class="overflow-hidden border-2 border-dashed border-slate-300 pl-2 dark:border-dark-700"
                         :class="{
                             'rounded-t-2xl': plainResults.length !== 0,
                             'rounded-2xl': plainResults.length === 0,
                         }"
-                        @run-query="runQuery"
-                    />
+                    >
+                        <TextEditor @run-query="runQuery" />
+                    </div>
+
                     <div
                         v-if="plainResults.length !== 0"
                         class="border-t-none overflow-hidden rounded-b-2xl border-b-2 border-l-2 border-r-2 border-dashed border-slate-300 dark:border-dark-700"
