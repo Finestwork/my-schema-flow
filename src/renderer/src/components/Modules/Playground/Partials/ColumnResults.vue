@@ -47,7 +47,7 @@ const onClickNextPage = () => {
                         <th
                             v-for="column in getColumns"
                             :key="column"
-                            class="border-r-2 border-r-slate-500 bg-slate-300 text-left font-black text-slate-800 last-of-type:border-r-0 dark:border-dark-500 dark:border-r-dark-600 dark:bg-dark-700 dark:text-slate-400"
+                            class="border-r-2 border-r-slate-500 bg-slate-300 text-left font-black text-slate-800 last-of-type:border-r-0 dark:border-dark-500 dark:border-r-dark-600 dark:bg-dark-800/50 dark:text-slate-400"
                         >
                             <span class="block p-2">
                                 {{ column }}
@@ -59,7 +59,7 @@ const onClickNextPage = () => {
                     <tr
                         v-for="(items, ind) in getValues[currentPage]"
                         :key="`${items[0]}-${ind}`"
-                        class="bg-slate-200 text-slate-700 odd:bg-transparent dark:bg-dark-800 dark:text-slate-300"
+                        class="bg-slate-200 text-slate-700 odd:bg-transparent dark:bg-dark-800 dark:text-slate-400"
                     >
                         <td
                             v-for="(item, ind) in items"

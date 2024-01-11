@@ -5,7 +5,7 @@ import TextEditor from '@components/Modules/Playground/Partials/TextEditor.vue';
 import TestConnection from '@components/Modules/Playground/Partials/TestConnection.vue';
 import PlainResults from '@components/Modules/Playground/Partials/PlainResults.vue';
 import FieldCount from '@components/Modules/Playground/Partials/FieldCount.vue';
-import ViewResults from '@components/Modules/Playground/Partials/ViewResults.vue';
+import ColumnResults from '@components/Modules/Playground/Partials/ColumnResults.vue';
 import NoResult from '@components/Modules/Playground/Partials/NoResult.vue';
 import { useModalStore } from '@stores/Modal';
 import { usePlaygroundStore } from '@stores/Playground';
@@ -159,7 +159,7 @@ const runQuery = async (code: string) => {
                         >
                             <template #header>Database</template>
                         </PlainResults>
-                        <ViewResults
+                        <ColumnResults
                             v-if="
                                 databaseResults.length === 0 &&
                                 tableResults.length === 0 &&
