@@ -1,7 +1,5 @@
 import { ElectronAPI } from '@electron-toolkit/preload';
-import type { Connection } from 'mysql2';
 import {
-    OkPacket,
     ProcedureCallPacket,
     ResultSetHeader,
     RowDataPacket,

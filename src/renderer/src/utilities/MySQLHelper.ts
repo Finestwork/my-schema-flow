@@ -1,5 +1,5 @@
 import { isObject, isArray } from 'lodash';
-import {
+import type {
     ProcedureCallPacket,
     ResultSetHeader,
     RowDataPacket,

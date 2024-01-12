@@ -27,27 +27,32 @@ const onClickNextPage = () => {
 
 <template>
     <div>
-        <div class="justify-left mb-2 ml-2 mt-2 flex">
+        <div
+            v-if="getValues.length > 1"
+            class="justify-left mb-2 ml-2 mt-2 flex"
+        >
             <VTableNavigateButton
                 :disabled="currentPage === 0"
                 class="mr-2"
                 @click="onClickPrevPage"
-                >Back</VTableNavigateButton
-            >
+                >Back
+            </VTableNavigateButton>
             <VTableNavigateButton
                 :disabled="currentPage === getValues.length - 1"
                 @click="onClickNextPage"
-                >Next</VTableNavigateButton
-            >
+                >Next
+            </VTableNavigateButton>
         </div>
         <OverlayScrollbarsComponent>
-            <table class="whitespace-nowrap pl-2 font-neon-mono text-xs">
+            <table
+                class="w-full border-2 border-slate-300 pl-2 text-xs dark:border-dark-500"
+            >
                 <thead>
                     <tr>
                         <th
                             v-for="column in getColumns"
                             :key="column"
-                            class="border-r-2 border-r-slate-500 bg-slate-300 text-left font-black text-slate-800 last-of-type:border-r-0 dark:border-dark-500 dark:border-r-dark-600 dark:bg-dark-800/50 dark:text-slate-400"
+                            class="border-r-slate-[#98a5b6] border-r-2 bg-slate-300 text-left font-bold text-slate-500 last-of-type:border-r-0 dark:border-dark-500 dark:border-r-dark-600 dark:bg-dark-800/50 dark:text-slate-400"
                         >
                             <span class="block p-2">
                                 {{ column }}
@@ -55,7 +60,7 @@ const onClickNextPage = () => {
                         </th>
                     </tr>
                 </thead>
-                <tbody class="font-semibold">
+                <tbody class="font-bold">
                     <tr
                         v-for="(items, ind) in getValues[currentPage]"
                         :key="`${items[0]}-${ind}`"
@@ -64,7 +69,7 @@ const onClickNextPage = () => {
                         <td
                             v-for="(item, ind) in items"
                             :key="`${item}-${ind}`"
-                            class="border-r-2 border-r-slate-500 last-of-type:border-r-0 dark:border-r-dark-600"
+                            class="border-r-slate-[#98a5b6] border-r-2 font-semibold last-of-type:border-r-0 dark:border-r-dark-600"
                         >
                             <span class="block p-2">
                                 {{ item }}
@@ -74,18 +79,18 @@ const onClickNextPage = () => {
                 </tbody>
             </table>
         </OverlayScrollbarsComponent>
-        <div class="mb-2 mt-2 flex justify-center">
+        <div v-if="getValues.length > 1" class="mb-2 mt-2 flex justify-center">
             <VTableNavigateButton
                 class="mr-2"
                 :disabled="currentPage === 0"
                 @click="onClickPrevPage"
-                >Back</VTableNavigateButton
-            >
+                >Back
+            </VTableNavigateButton>
             <VTableNavigateButton
                 :disabled="currentPage === getValues.length - 1"
                 @click="onClickNextPage"
-                >Next</VTableNavigateButton
-            >
+                >Next
+            </VTableNavigateButton>
         </div>
     </div>
 </template>

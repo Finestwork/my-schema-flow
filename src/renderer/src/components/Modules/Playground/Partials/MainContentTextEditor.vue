@@ -88,7 +88,7 @@ useSQLLanguage();
 <template>
     <div
         ref="editorWrapper"
-        class="relative h-[350px] w-full"
+        class="relative h-[350px] w-full border-2 border-dashed border-slate-300 dark:border-slate-700"
         @keydown="onKeydownDisplayResult"
     />
 </template>

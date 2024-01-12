@@ -7,8 +7,8 @@ export type TOptions = {
 };
 export default class CreateMainWindow {
     private _mainWindow: BrowserWindow | null = null;
-    private _htmlFile: string = '';
-    private _preloadFile: string = '';
+    private _htmlFile = '';
+    private _preloadFile = '';
 
     constructor(options: TOptions) {
         this._htmlFile = options.htmlFile;

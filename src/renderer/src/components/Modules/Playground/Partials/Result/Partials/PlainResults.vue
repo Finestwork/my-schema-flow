@@ -4,11 +4,13 @@ const props = defineProps<{
 }>();
 </script>
 <template>
-    <table class="w-full pl-2 font-neon-mono text-xs">
+    <table
+        class="w-full border-2 border-slate-300 pl-2 text-xs dark:border-dark-500"
+    >
         <thead>
             <tr>
                 <th
-                    class="bg-slate-300 text-left font-black text-slate-800 dark:bg-dark-700 dark:text-slate-400"
+                    class="bg-slate-300 text-left font-bold text-slate-800 dark:bg-dark-700 dark:text-slate-400"
                 >
                     <span class="block p-2">
                         <slot name="header"></slot>
@@ -16,11 +18,11 @@ const props = defineProps<{
                 </th>
             </tr>
         </thead>
-        <tbody class="font-semibold">
+        <tbody class="font-bold">
             <tr
                 v-for="item in props.items"
                 :key="item"
-                class="bg-slate-200 text-slate-700 odd:bg-transparent dark:bg-dark-800/50 dark:text-slate-100"
+                class="bg-slate-200 text-[.7rem] text-slate-700 odd:bg-transparent dark:bg-dark-800/50 dark:text-slate-100"
             >
                 <td>
                     <span class="block p-2">
