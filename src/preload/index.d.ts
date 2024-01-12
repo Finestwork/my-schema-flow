@@ -14,11 +14,6 @@ export type TMySQLConnection = {
     password: string;
     database: string;
 };
-export type TMySQLConnectionReturn = {
-    error: {
-        message: string;
-    } | null;
-};
 
 export type TMysqlReturnedData =
     | ResultSetHeader
@@ -26,6 +21,13 @@ export type TMysqlReturnedData =
     | RowDataPacket[]
     | RowDataPacket[][]
     | ProcedureCallPacket;
+
+export type TMySQLConnectionReturn = {
+    result: TMysqlReturnedData | null;
+    error: {
+        message: string;
+    } | null;
+};
 
 declare global {
     interface Window {
@@ -54,7 +56,7 @@ declare global {
             connectMySQL(
                 options: Omit<TMySQLConnection, 'database'>,
             ): Promise<TMySQLConnectionReturn>;
-            runQuery(query: string): Promise<TMysqlReturnedData>;
+            runQuery(query: string): Promise<TMySQLConnectionReturn>;
             createDatabase(
                 options: TMySQLConnection,
             ): Promise<TMySQLConnectionReturn>;

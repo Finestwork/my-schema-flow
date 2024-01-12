@@ -83,8 +83,19 @@ export default class HandleDatabaseListener {
     private _runQuery() {
         ipcMain.handle('runQuery', async (_, query: string) => {
             if (this._connection === null) return;
-            const Result = await this._connection.query(query);
-            return Result;
+            try {
+                const Result = await this._connection.query(query);
+                return {
+                    error: null,
+                    result: Result,
+                };
+            } catch (e) {
+                return {
+                    error: {
+                        message: e,
+                    },
+                };
+            }
         });
     }
 }

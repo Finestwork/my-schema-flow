@@ -37,7 +37,14 @@ const runQuery = async (code: string) => {
         return;
     }
 
-    const QueryResult = await window.api.runQuery(code);
+    const { error: QueryError, result: QueryResult } =
+        await window.api.runQuery(code);
+
+    if (QueryError !== null) {
+        error.value = QueryError.message;
+        return;
+    }
+
     const LastResult = getLastResultFromQuery(QueryResult);
 
     const displayResult = (item: { [k: string]: string }) => {
@@ -105,8 +112,11 @@ const onClickCreateTables = async () => {
     if (!vueFlow) return;
     const { nodes, edges } = vueFlow;
     const Script = exportToSQL(nodes.value, edges.value);
-    console.log(Script);
-    const Result = await window.api.runQuery(Script);
+    const { error: QueryError } = await window.api.runQuery(Script);
+
+    if (QueryError !== null) {
+        error.value = QueryError.message;
+    }
 };
 </script>
 
