@@ -33,18 +33,12 @@ const connectMySQL = async () => {
 };
 </script>
 <template>
-    <div>
-        <p class="text-sm font-semibold text-slate-900 dark:text-slate-400">
-            To dive into our
-            <span
-                class="border-b-2 border-dashed border-b-cyan-600 text-cyan-600 dark:border-b-cyan-500 dark:text-cyan-500"
-                >code playground</span
-            >, let's first get connected to our database. Simply fill out the
-            form below, and you'll be all set to explore.
-        </p>
-
-        <div class="mx-auto mt-10 w-full max-w-[350px]">
-            <VAlert v-if="error !== ''" type="danger" class="mb-4">
+    <div class="relative flex h-[calc(100%-25px-1rem)] items-center">
+        <div class="mx-auto w-full max-w-[350px]">
+            <span class="mb-4 block text-center text-xs font-bold text-cyan-950"
+                >Let's first get connected to our database!</span
+            >
+            <VAlert v-if="error !== ''" type="danger" class="my-4">
                 {{ error }}
             </VAlert>
             <div class="mb-2 flex">
@@ -54,13 +48,17 @@ const connectMySQL = async () => {
                     placeholder="Host"
                     class="mr-2"
                     @keydown.enter="connectMySQL"
-                />
+                >
+                    <template #label>Host:</template>
+                </VPlaygroundTextInput>
                 <VPlaygroundTextInput
                     id="pgPortTxtInput"
                     v-model="connection.port"
                     placeholder="Port"
                     @keydown.enter="connectMySQL"
-                />
+                >
+                    <template #label>Port:</template>
+                </VPlaygroundTextInput>
             </div>
             <VPlaygroundTextInput
                 id="pgUserTxtInput"
@@ -68,7 +66,9 @@ const connectMySQL = async () => {
                 placeholder="User"
                 class="mb-2"
                 @keydown.enter="connectMySQL"
-            />
+            >
+                <template #label>User:</template>
+            </VPlaygroundTextInput>
             <VPlaygroundTextInput
                 id="pgPasswordTxtInput"
                 v-model="connection.password"
@@ -76,7 +76,9 @@ const connectMySQL = async () => {
                 placeholder="Password"
                 class="mb-2"
                 @keydown.enter="connectMySQL"
-            />
+            >
+                <template #label>Password:</template>
+            </VPlaygroundTextInput>
             <VUniversalButton @click="connectMySQL">
                 <template #text>
                     <CircleLoader v-if="isLoading" class="loader w-[15px]" />
@@ -84,6 +86,15 @@ const connectMySQL = async () => {
                 </template>
             </VUniversalButton>
         </div>
+        <p
+            class="absolute bottom-3 w-full text-center text-[.6rem] font-bold text-slate-900"
+        >
+            Please be noted that
+            <span
+                class="border-b-2 border-dashed border-b-cyan-600 text-cyan-600"
+                >we currently support MySQL only</span
+            >, but we are working on supporting other databases. Thank you.
+        </p>
     </div>
 </template>
 

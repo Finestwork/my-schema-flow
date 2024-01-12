@@ -100,7 +100,7 @@ const runQuery = async (code: string) => {
 </script>
 
 <template>
-    <div class="h-full px-4">
+    <div class="mt-4 h-[calc(100%-25px-1rem-1rem)] px-4">
         <div v-if="error !== ''" class="mb-2 flex justify-center">
             <VAlert type="danger">
                 {{ error }}
