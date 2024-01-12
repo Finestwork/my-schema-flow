@@ -7,6 +7,15 @@ const createNodes = (): Array<TNode> => {
     const Elements: Array<TNode> = [];
     let index = 1;
     for (const table in NodeDummy) {
+        const MappedColumns = NodeDummy[table].columns.map((col) => {
+            if (col.type.includes('VARCHAR')) {
+                return Object.assign(col, {
+                    type: `${col.type}(255)`,
+                });
+            }
+
+            return col;
+        });
         const NewObject = {
             id: NodeDummy[table].id,
             type: 'custom',
@@ -15,7 +24,7 @@ const createNodes = (): Array<TNode> => {
             data: {
                 table: {
                     name: NodeDummy[table].name,
-                    columns: NodeDummy[table].columns,
+                    columns: MappedColumns,
                 },
                 states: {
                     isActive: false,

@@ -2,7 +2,6 @@ import { createLinkElement } from '@utilities/DownloadHelper';
 import {
     createColumnScript,
     createTableRelationScript,
-    sortSQLResultObject,
 } from '@utilities/SQLHelper';
 import { toPng, toJpeg, toSvg } from 'html-to-image';
 import { getRectOfNodes, getTransformForBounds } from '@vue-flow/core';
@@ -64,33 +63,29 @@ export const exportAsImage = async (
 };
 
 export const exportToSQL = (nodes: Array<TNode>, edges: Array<TEdge>) => {
-    const SQLScript = nodes.map((node) => {
-        const Columns = node.data.table.columns;
-        let script = `CREATE TABLE ${node.data.table.name}(\n`;
+    let createScript = nodes
+        .map((node) => {
+            const Columns = node.data.table.columns;
+            let script = `CREATE TABLE ${node.data.table.name}(\n`;
 
-        script += Columns.map(createColumnScript).join(',\n');
-        const Relations = createTableRelationScript(node.id, edges);
+            script += Columns.map(createColumnScript).join(',\n');
 
-        if (Relations.length !== 0) {
-            script += ',\n'; // Add ',' to the last column and '\n' to create a new line
-            script += Relations.join(',\n');
-        }
+            // At the last column, do not include comma
+            script += '\n);\n\n';
 
-        // remove the last comma
-        script += '\n);\n\n';
-
-        const ForeignRelationships: Array<string> = edges
-            .filter((edge) => edge.targetNode.id === node.id)
-            .map((edge) => edge.sourceNode.data.table.name);
-
-        return {
-            name: <string>node.data.table.name,
-            script: script,
-            foreignKeys: ForeignRelationships,
-        };
-    });
-
-    return sortSQLResultObject(SQLScript)
-        .map((item) => item.script)
+            return script;
+        })
         .join('\n');
+    let relationScript = nodes
+        .map((node) => createTableRelationScript(node.id, edges).join(';\n'))
+        .filter((script) => script.trim() !== '')
+        .join(';\n');
+
+    // Since join do not include semicolon in the last item of the array
+    if (relationScript.trim() !== '') {
+        relationScript += ';';
+        createScript += `\n\n${relationScript}`;
+    }
+
+    return createScript;
 };

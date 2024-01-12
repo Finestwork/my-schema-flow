@@ -20,6 +20,8 @@ const connection = reactive({
 });
 
 const connectMySQL = async () => {
+    if (isConnectingToDatabase.value) return;
+
     error.value = '';
     isConnectingToDatabase.value = true;
     await new Promise((resolve) => setTimeout(() => resolve(), 1000));
@@ -35,6 +37,8 @@ const connectMySQL = async () => {
     isConnectingToDatabase.value = false;
 };
 const createDatabase = async () => {
+    if (isCreatingDatabase.value) return;
+
     isCreatingDatabase.value = true;
 
     const Options = Object.assign(

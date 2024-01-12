@@ -24,6 +24,8 @@ const api = {
     runQuery: (query: string) => ipcRenderer.invoke('runQuery', query),
     createDatabase: (options: TMySQLConnection) =>
         ipcRenderer.invoke('createDatabase', options),
+    generateTablesFromDiagram: (script: string) =>
+        ipcRenderer.invoke('generateTablesFromDiagram', script),
 };
 
 // Use `contextBridge` APIs to expose Electron APIs to
