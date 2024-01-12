@@ -12,6 +12,7 @@ export type TMySQLConnection = {
     port: string;
     user: string;
     password: string;
+    database: string;
 };
 export type TMySQLConnectionReturn = {
     error: {
@@ -51,9 +52,12 @@ declare global {
                 fileName: string;
             } | null>;
             connectMySQL(
-                options: TMySQLConnection,
+                options: Omit<TMySQLConnection, 'database'>,
             ): Promise<TMySQLConnectionReturn>;
             runQuery(query: string): Promise<TMysqlReturnedData>;
+            createDatabase(
+                options: TMySQLConnection,
+            ): Promise<TMySQLConnectionReturn>;
         };
     }
 }

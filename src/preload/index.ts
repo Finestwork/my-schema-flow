@@ -22,6 +22,8 @@ const api = {
     connectMySQL: (options: TMySQLConnection) =>
         ipcRenderer.invoke('connectMySQL', options),
     runQuery: (query: string) => ipcRenderer.invoke('runQuery', query),
+    createDatabase: (options: TMySQLConnection) =>
+        ipcRenderer.invoke('createDatabase', options),
 };
 
 // Use `contextBridge` APIs to expose Electron APIs to

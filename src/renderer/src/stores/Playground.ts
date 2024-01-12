@@ -9,6 +9,6 @@ export type TConnection = {
 export const usePlaygroundStore = defineStore('playground', {
     state: () => ({
         connection: null as TConnection | null,
-        database: 'lektura',
+        database: '',
     }),
 });

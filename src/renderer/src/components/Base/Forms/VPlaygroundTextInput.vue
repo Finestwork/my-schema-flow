@@ -27,7 +27,7 @@ const emits = defineEmits<{
 }>();
 </script>
 <template>
-    <div class="h-full w-full">
+    <div>
         <div
             v-if="$slots.label"
             class="flex items-center"
