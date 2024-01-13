@@ -61,7 +61,12 @@ const runQuery = async () => {
     isRunningCode.value = false;
 };
 const onClickCreateTables = async () => {
-    if (!vueFlow) return;
+    if (!vueFlow || isGeneratingTable.value) return;
+    const ProgressBar = NProgress.configure({
+        parent: '#playgroundModal',
+        showSpinner: false,
+    });
+    ProgressBar.start();
     isGeneratingTable.value = true;
     error.value = '';
     const { nodes, edges } = vueFlow;
@@ -71,6 +76,7 @@ const onClickCreateTables = async () => {
     script += exportToSQL(nodes.value, edges.value);
     const { error: QueryError } = await window.api.runQuery(script);
     isGeneratingTable.value = false;
+    ProgressBar.done();
 
     if (QueryError !== null) {
         error.value = QueryError.message;
