@@ -31,7 +31,7 @@ export default class CreateMainWindow {
             titleBarStyle: 'hidden',
             titleBarOverlay: {
                 color: '#0f172a',
-                symbolColor: '#64748b',
+                symbolColor: '#cbd5e1',
                 height: 48,
             },
             webPreferences: {

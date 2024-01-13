@@ -18,7 +18,7 @@ const props = withDefaults(defineProps<TProps>(), {
             type="button"
             class="block h-full w-full rounded p-[.3rem] outline-none"
             :class="{
-                'stroke-slate-500 hover:bg-slate-500/20 dark:hover:bg-cyan-950/50 dark:hover:stroke-cyan-500':
+                'stroke-slate-300 hover:bg-slate-500/20 dark:stroke-dark-50 dark:hover:bg-cyan-950/50 dark:hover:stroke-cyan-500':
                     !props.isActive,
                 'bg-cyan-600 stroke-cyan-50 dark:bg-cyan-900/50 dark:stroke-cyan-600':
                     props.isActive,
