@@ -41,6 +41,9 @@
             ],
             "@lottie/*": [
                 "src/renderer/src/lottie/*"
+            ],
+            "@autocomplete/*": [
+                "src/renderer/src/autocomplete/*"
             ]
         }
     }

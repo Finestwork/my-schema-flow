@@ -27,6 +27,7 @@ export default defineConfig({
                 '@symbols': resolve('src/renderer/src/symbols'),
                 '@dummy': resolve('src/renderer/src/dummy'),
                 '@lottie': resolve('src/renderer/src/lottie'),
+                '@autocomplete': resolve('src/renderer/src/autocomplete'),
             },
         },
         plugins: [

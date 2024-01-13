@@ -1,5 +1,6 @@
 import { extractTableData } from '@utilities/TableHelper';
 import { vueFlowKey } from '@symbols/VueFlow';
+import SQLKeywords from '@autocomplete/SQLAutocomplete';
 import * as monaco from 'monaco-editor';
 import { inject } from 'vue';
 import type { editor, Position } from 'monaco-editor';
@@ -15,32 +16,20 @@ export function useSqlAutoComplete() {
         position: Position,
     ) => {
         const word = model.getWordUntilPosition(position);
-        const Keywords = [
-            {
-                label: 'SELECT',
+        const Keywords = SQLKeywords.map((keyword) => {
+            return {
+                label: keyword,
                 detail: 'keyword',
                 kind: monaco.languages.CompletionItemKind.Keyword,
-                insertText: 'SELECT',
+                insertText: keyword,
                 range: {
                     startLineNumber: position.lineNumber,
                     endLineNumber: position.lineNumber,
                     startColumn: word.startColumn,
                     endColumn: word.endColumn,
                 },
-            },
-            {
-                label: 'FROM',
-                detail: 'keyword',
-                kind: monaco.languages.CompletionItemKind.Keyword,
-                insertText: 'FROM',
-                range: {
-                    startLineNumber: position.lineNumber,
-                    endLineNumber: position.lineNumber,
-                    startColumn: word.startColumn,
-                    endColumn: word.endColumn,
-                },
-            },
-        ];
+            };
+        });
 
         const MappedTable =
             Tables.map((table) => {
