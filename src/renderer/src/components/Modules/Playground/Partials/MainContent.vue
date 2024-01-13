@@ -32,19 +32,20 @@ type TMySQLConnectionReturn = {
 };
 
 const error = ref('');
+const code = ref('');
 const isGeneratingTable = ref(false);
 const result = ref<TMySQLConnectionReturn | Record<string, never>>({});
 const vueFlow = inject(vueFlowKey);
-const runQuery = async (code: string) => {
+const runQuery = async () => {
     error.value = '';
 
     // 'use' keyword is not allowed
-    if (checkUseKeywordExistence(code)) {
+    if (checkUseKeywordExistence(code.value)) {
         error.value = 'The "USE" keyword is not allowed.';
         return;
     }
 
-    result.value = await klona(window.api.runQuery(code));
+    result.value = await klona(window.api.runQuery(code.value));
 };
 const onClickCreateTables = async () => {
     if (!vueFlow) return;
@@ -81,7 +82,7 @@ const onClickCreateTables = async () => {
                     <CodingEllipsisIcon />
                     <template #slot>Generate tables from diagram</template>
                 </VPlaygroundButtonIcon>
-                <VPlaygroundButtonIcon @on-click="onClickCreateTables">
+                <VPlaygroundButtonIcon @on-click="runQuery">
                     <span class="ml-[.1rem] block h-full w-full">
                         <PlayIcon />
                     </span>
@@ -89,7 +90,7 @@ const onClickCreateTables = async () => {
                 </VPlaygroundButtonIcon>
             </div>
         </div>
-        <TextEditor @run-query="runQuery" />
+        <TextEditor v-model="code" @run-query="runQuery" />
         <Result :result="result" />
     </div>
 </template>

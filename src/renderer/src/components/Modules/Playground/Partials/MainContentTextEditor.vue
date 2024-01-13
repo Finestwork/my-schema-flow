@@ -10,16 +10,19 @@ import { nextTick, onMounted, onUnmounted, ref } from 'vue';
 import IStandaloneCodeEditor = editor.IStandaloneCodeEditor;
 
 const emits = defineEmits<{
-    (e: 'runQuery', value: string);
+    (e: 'runQuery');
     (e: 'showTables');
     (e: 'showDatabases');
+}>();
+const { modelValue } = defineModels<{
+    modelValue: string;
 }>();
 const editorWrapper = ref<HTMLDivElement>();
 
 let monaco: IStandaloneCodeEditor | null = null;
 const onKeydownDisplayResult = async (e: KeyboardEvent) => {
     if (!e.altKey || e.key !== 'Enter') return;
-    emits('runQuery', monaco.getValue());
+    emits('runQuery');
 };
 
 // Without doing this, it throws widget error when just assigning to window's event listener
@@ -74,6 +77,8 @@ onMounted(async () => {
         } else {
             editor.removeAllMarkers(id);
         }
+
+        modelValue.value = monaco.getValue();
     });
 
     window.addEventListener('resize', updateLayout);
