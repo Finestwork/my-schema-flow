@@ -11,6 +11,7 @@ import { exportToSQL } from '@utilities/ExportHelper';
 import { vueFlowKey } from '@symbols/VueFlow';
 import { ref, inject } from 'vue';
 import { klona } from 'klona';
+import NProgress from 'nprogress';
 import type {
     ProcedureCallPacket,
     ResultSetHeader,
@@ -31,12 +32,19 @@ type TMySQLConnectionReturn = {
     } | null;
 };
 
+const root = ref<HTMLDivElement>();
 const error = ref('');
 const code = ref('');
 const isGeneratingTable = ref(false);
 const result = ref<TMySQLConnectionReturn | Record<string, never>>({});
 const vueFlow = inject(vueFlowKey);
+
 const runQuery = async () => {
+    const ProgressBar = NProgress.configure({
+        parent: '#playgroundModal',
+        showSpinner: false,
+    });
+    ProgressBar.start();
     error.value = '';
 
     // 'use' keyword is not allowed
@@ -46,6 +54,7 @@ const runQuery = async () => {
     }
 
     result.value = await klona(window.api.runQuery(code.value));
+    ProgressBar.done();
 };
 const onClickCreateTables = async () => {
     if (!vueFlow) return;
@@ -66,7 +75,7 @@ const onClickCreateTables = async () => {
 </script>
 
 <template>
-    <div class="mt-6 px-4 pb-4">
+    <div ref="root" class="mt-6 px-4 pb-4">
         <div v-if="error !== ''" class="mb-2 flex justify-center">
             <VAlert type="danger">
                 {{ error }}

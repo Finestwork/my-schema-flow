@@ -15,7 +15,7 @@ const closeModal = () => {
 
 <template>
     <Teleport to="body">
-        <VFullScreenModal @close-modal="closeModal">
+        <VFullScreenModal id="playgroundModal" @close-modal="closeModal">
             <MainContent
                 v-if="
                     playgroundStore.connection !== null &&
