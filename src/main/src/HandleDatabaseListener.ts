@@ -2,6 +2,10 @@ import { ipcMain } from 'electron';
 import mysql from 'mysql2/promise';
 import type { ConnectionOptions } from 'mysql2/promise';
 
+type TDatabaseCreation = ConnectionOptions & {
+    customizedDatabase?: string;
+    storedDatabase?: string;
+};
 export default class HandleDatabaseListener {
     private _connection: mysql.Connection | null = null;
 
@@ -24,8 +28,14 @@ export default class HandleDatabaseListener {
                         password: options.password,
                     });
 
+                    const DatabaseQuery = 'SHOW DATABASES;';
+
+                    const Databases =
+                        await this._connection.query(DatabaseQuery);
+
                     return {
                         error: null,
+                        databases: Databases,
                     };
                 } catch (e) {
                     this._connection = null;
@@ -42,7 +52,7 @@ export default class HandleDatabaseListener {
     private _createDatabase() {
         ipcMain.handle(
             'createDatabase',
-            async (_, options: ConnectionOptions) => {
+            async (_, options: TDatabaseCreation) => {
                 try {
                     if (this._connection === null) {
                         this._connection = await mysql.createConnection({
@@ -53,10 +63,20 @@ export default class HandleDatabaseListener {
                         });
                     }
 
-                    // Create the connection to database
-                    await this._connection.query(
-                        `CREATE DATABASE ${options.database} DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;`,
-                    );
+                    const CustomizedDatabase =
+                        options?.customizedDatabase ?? '';
+                    const StoredDatabase = options?.storedDatabase ?? '';
+                    const DatabaseName =
+                        CustomizedDatabase !== ''
+                            ? CustomizedDatabase
+                            : StoredDatabase;
+
+                    if ('customizedDatabase' in options) {
+                        // Create the connection to database
+                        await this._connection.query(
+                            `CREATE DATABASE ${options.database} DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;`,
+                        );
+                    }
 
                     await this._connection.end();
 
@@ -65,7 +85,7 @@ export default class HandleDatabaseListener {
                         port: options.port,
                         user: options.user,
                         password: options.password,
-                        database: options.database,
+                        database: DatabaseName,
                         multipleStatements: true,
                     });
 

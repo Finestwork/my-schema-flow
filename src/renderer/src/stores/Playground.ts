@@ -10,5 +10,6 @@ export const usePlaygroundStore = defineStore('playground', {
     state: () => ({
         connection: null as TConnection | null,
         database: '',
+        storedDatabases: [] as Array<string>,
     }),
 });

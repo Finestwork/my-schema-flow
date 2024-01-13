@@ -10,7 +10,9 @@ export type TMySQLConnection = {
     port: string;
     user: string;
     password: string;
-    database: string;
+    database?: string;
+    customizedDatabase?: string;
+    storedDatabase?: string;
 };
 
 export type TMysqlReturnedData =
@@ -25,6 +27,7 @@ export type TMySQLConnectionReturn = {
     error: {
         message: string;
     } | null;
+    databases?: Array<RowDataPacket>;
 };
 
 declare global {
