@@ -20,7 +20,7 @@ export function useSqlAutoComplete() {
                 label: 'SELECT',
                 detail: 'keyword',
                 kind: monaco.languages.CompletionItemKind.Keyword,
-                insertText: 'SELECT ',
+                insertText: 'SELECT',
                 range: {
                     startLineNumber: position.lineNumber,
                     endLineNumber: position.lineNumber,
@@ -32,7 +32,7 @@ export function useSqlAutoComplete() {
                 label: 'FROM',
                 detail: 'keyword',
                 kind: monaco.languages.CompletionItemKind.Keyword,
-                insertText: 'FROM ',
+                insertText: 'FROM',
                 range: {
                     startLineNumber: position.lineNumber,
                     endLineNumber: position.lineNumber,
@@ -48,7 +48,7 @@ export function useSqlAutoComplete() {
                     label: table,
                     detail: 'Table',
                     kind: monaco.languages.CompletionItemKind.Field,
-                    insertText: `${table} `,
+                    insertText: `${table}`,
                     range: {
                         startLineNumber: position.lineNumber,
                         endLineNumber: position.lineNumber,
@@ -60,10 +60,10 @@ export function useSqlAutoComplete() {
 
         const MappedColumn = Columns.map((column) => {
             return {
-                label: column,
-                detail: 'Column',
+                label: column.name,
+                detail: column.type,
                 kind: monaco.languages.CompletionItemKind.Field,
-                insertText: `${column} `,
+                insertText: `${column.name}`,
                 range: {
                     startLineNumber: position.lineNumber,
                     endLineNumber: position.lineNumber,

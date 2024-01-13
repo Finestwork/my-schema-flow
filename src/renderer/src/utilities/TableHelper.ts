@@ -93,8 +93,12 @@ export const extractTableData = (nodes: Array<TNode>) => {
     const Tables = nodes.map((node) => node.data.table.name);
     const Columns = nodes
         .map((node) => node.data.table.columns)
-        .map((columns) => columns.map((column) => column.name))
-        .filter((column, ind, arr) => arr.indexOf(column) === ind)
+        .map((columns) =>
+            columns.map((column) => ({
+                name: column.name,
+                type: column.type,
+            })),
+        )
         .flat();
 
     return {
