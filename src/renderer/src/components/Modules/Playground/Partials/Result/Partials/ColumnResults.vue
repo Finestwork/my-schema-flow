@@ -62,8 +62,8 @@ const onClickNextPage = () => {
                 </thead>
                 <tbody class="font-bold">
                     <tr
-                        v-for="(items, ind) in getValues[currentPage]"
-                        :key="`${items[0]}-${ind}`"
+                        v-for="(items, index) in getValues[currentPage]"
+                        :key="`${items[0]}-${index}`"
                         class="bg-slate-200/50 text-slate-700 odd:bg-transparent dark:bg-dark-800 dark:text-slate-400"
                     >
                         <td

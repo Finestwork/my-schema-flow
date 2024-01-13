@@ -12,6 +12,7 @@ import IStandaloneCodeEditor = editor.IStandaloneCodeEditor;
 import SQLWorker from 'monaco-sql-languages/out/esm/sql/sql.worker?worker';
 import 'monaco-sql-languages/out/esm/sql/sql.contribution';
 import 'monaco-sql-languages/out/esm/mysql/mysql.contribution';
+import ITextModel = editor.ITextModel;
 
 const emits = defineEmits<{
     (e: 'runQuery');
@@ -21,7 +22,7 @@ const emits = defineEmits<{
 const { modelValue } = defineModels<{
     modelValue: string;
 }>();
-const editorWrapper = ref<HTMLDivElement>();
+const editorWrapper = ref<HTMLElement>();
 
 let monaco: IStandaloneCodeEditor | null = null;
 const onKeydownDisplayResult = async (e: KeyboardEvent) => {
@@ -55,41 +56,50 @@ onMounted(async () => {
     });
 
     monaco = editor.create(
-        editorWrapper.value,
+        editorWrapper.value as HTMLElement,
         getEditorOptions(EditorOptions),
     );
 
-    // Prevent user from using 'use' keyword
-    const MonacoModel = monaco.getModel();
-    MonacoModel.onDidChangeContent(() => {
-        const content = monaco.getValue();
-        const index = content.indexOf('use');
-        const { lineNumber } = monaco.getPosition();
-        const id = `use-keyword-${lineNumber}`;
-        if (index !== -1) {
-            const UseKeywordLength = 3;
-            const Position = MonacoModel.getPositionAt(index);
-            const range = new Range(
-                lineNumber,
-                Position.column,
-                lineNumber,
-                Position.column + UseKeywordLength,
-            );
-            const markerData = {
-                severity: MarkerSeverity.Error,
-                message: "Use of 'use' keyword is prohibited.",
-                startLineNumber: range.startLineNumber,
-                startColumn: range.startColumn,
-                endLineNumber: range.endLineNumber,
-                endColumn: range.endColumn,
-            };
-            editor.setModelMarkers(monaco.getModel(), id, [markerData]);
-        } else {
-            editor.removeAllMarkers(id);
-        }
+    if (monaco == null) return;
 
-        modelValue.value = monaco.getValue();
-    });
+    const MonacoModel = monaco.getModel();
+    if (MonacoModel !== null) {
+        // Prevent user from using 'use' keyword
+        MonacoModel.onDidChangeContent(() => {
+            if (monaco === null) return;
+
+            const content = monaco.getValue();
+            const index = content.indexOf('use');
+            const Position = monaco.getPosition();
+            if (Position === null) return;
+
+            const id = `use-keyword-${Position.lineNumber}`;
+            const LatestMonacoModel = <ITextModel>monaco.getModel();
+            if (index !== -1 && MonacoModel !== null) {
+                const UseKeywordLength = 3;
+                const Position = LatestMonacoModel.getPositionAt(index);
+                const range = new Range(
+                    Position.lineNumber,
+                    Position.column,
+                    Position.lineNumber,
+                    Position.column + UseKeywordLength,
+                );
+                const markerData = {
+                    severity: MarkerSeverity.Error,
+                    message: "Use of 'use' keyword is prohibited.",
+                    startLineNumber: range.startLineNumber,
+                    startColumn: range.startColumn,
+                    endLineNumber: range.endLineNumber,
+                    endColumn: range.endColumn,
+                };
+                editor.setModelMarkers(LatestMonacoModel, id, [markerData]);
+            } else {
+                editor.removeAllMarkers(id);
+            }
+
+            modelValue.value = monaco?.getValue() ?? '';
+        });
+    }
 
     window.addEventListener('resize', updateLayout);
 });

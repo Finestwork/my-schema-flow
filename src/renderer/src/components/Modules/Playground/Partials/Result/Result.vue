@@ -53,6 +53,8 @@ watch(
             return;
         }
 
+        if (QueryResult === null) return;
+
         const LastResult = getLastResultFromQuery(QueryResult);
 
         const displayResult = (item: { [k: string]: string }) => {

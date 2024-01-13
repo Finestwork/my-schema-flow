@@ -6,6 +6,8 @@ import { nextTick, onMounted, ref } from 'vue';
 const root = ref<HTMLSpanElement>();
 onMounted(async () => {
     await nextTick();
+    if (!root.value) return;
+
     lottie.loadAnimation({
         container: root.value,
         renderer: 'svg',

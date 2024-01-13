@@ -12,6 +12,6 @@ const modalStore = useModalStore();
         @click="modalStore.showPlaygroundModal = true"
     >
         <CodeIcon />
-        <template #tooltip> SQLite Playground</template>
+        <template #tooltip> MySQL Playground</template>
     </VToolbarButtonIcon>
 </template>

@@ -21,7 +21,7 @@ const connectMySQL = async () => {
 
     error.value = '';
     isConnectingToDatabase.value = true;
-    await new Promise((resolve) => setTimeout(() => resolve(), 1000));
+    await new Promise((resolve) => setTimeout(() => resolve(null), 1000));
     const Result = await window.api.connectMySQL(Object.assign({}, connection));
 
     if (Result.error !== null) {
@@ -30,7 +30,7 @@ const connectMySQL = async () => {
         return;
     }
 
-    if ('databases' in Result) {
+    if (Result.databases) {
         const StoredDatabases = Result.databases[0];
         playgroundStore.storedDatabases = StoredDatabases.map(
             (db) => Object.values(db)[0],

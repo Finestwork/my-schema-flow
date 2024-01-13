@@ -33,7 +33,7 @@ const createDatabase = async () => {
         playgroundStore.connection,
     );
 
-    await new Promise((resolve) => setTimeout(() => resolve(), 450));
+    await new Promise((resolve) => setTimeout(() => resolve(null), 450));
     const Result = await window.api.createDatabase(Options);
     isCreatingDatabase.value = false;
 
