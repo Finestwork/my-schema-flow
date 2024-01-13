@@ -7,7 +7,11 @@ import LightTheme from '@utilities/Editor/LightTheme';
 import { editor, Range, MarkerSeverity } from 'monaco-editor';
 import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker';
 import { nextTick, onMounted, onUnmounted, ref } from 'vue';
+import { setupLanguageFeatures, LanguageIdEnum } from 'monaco-sql-languages';
 import IStandaloneCodeEditor = editor.IStandaloneCodeEditor;
+import SQLWorker from 'monaco-sql-languages/out/esm/sql/sql.worker?worker';
+import 'monaco-sql-languages/out/esm/sql/sql.contribution';
+import 'monaco-sql-languages/out/esm/mysql/mysql.contribution';
 
 const emits = defineEmits<{
     (e: 'runQuery');
@@ -39,10 +43,16 @@ onMounted(async () => {
     editor.defineTheme('light', LightTheme);
 
     self.MonacoEnvironment = {
-        getWorker() {
+        getWorker(_, label) {
+            if (label === 'sql') return new SQLWorker();
             return new EditorWorker();
         },
     };
+
+    setupLanguageFeatures({
+        languageId: LanguageIdEnum.SQL,
+        completionItems: false,
+    });
 
     monaco = editor.create(
         editorWrapper.value,
