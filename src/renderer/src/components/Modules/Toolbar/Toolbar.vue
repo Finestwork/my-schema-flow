@@ -3,12 +3,11 @@ import OpenFileButton from '@components/Modules/Toolbar/Partials/ImportFileButto
 import AddNewTableButton from '@components/Modules/Toolbar/Partials/AddNewTableButton.vue';
 import AutoLayoutButton from '@components/Modules/Toolbar/Partials/AutoLayoutButton.vue';
 import ChangeOrientationButton from '@components/Modules/Toolbar/Partials/ChangeOrientationButton.vue';
-import ExportAsImageButton from '@components/Modules/Toolbar/Partials/ExportToImageButton.vue';
 import UndoButton from '@components/Modules/Toolbar/Partials/UndoButton.vue';
 import RedoButton from '@components/Modules/Toolbar/Partials/RedoButton.vue';
 import SaveButton from '@components/Modules/Toolbar/Partials/SaveButton.vue';
 import ExportFileButton from '@components/Modules/Toolbar/Partials/ExportFileButton.vue';
-import PlaygroundButton from './Partials/PlaygroundButton.vue';
+import PlaygroundButton from '@components/Modules/Toolbar/Partials/PlaygroundButton.vue';
 </script>
 
 <template>
@@ -17,7 +16,6 @@ import PlaygroundButton from './Partials/PlaygroundButton.vue';
     >
         <div>
             <OpenFileButton class="mr-2" />
-            <ExportAsImageButton class="mr-2" />
             <ExportFileButton class="mr-2" />
             <PlaygroundButton class="mr-2" />
         </div>
