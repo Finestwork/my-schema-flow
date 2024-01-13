@@ -14,7 +14,7 @@ const emits = defineEmits<{
     <VTooltip>
         <button
             type="button"
-            class="h-[30px] w-[30px] rounded-full border-2 p-1.5 outline-none ring-0 transition-shadow"
+            class="h-[25px] w-[25px] rounded-full border-2 p-1.5 outline-none ring-0 transition-shadow"
             :class="{
                 'border-slate-400 stroke-slate-400 ring-cyan-500/50 hover:border-cyan-600 hover:stroke-cyan-600 focus-visible:border-cyan-500 focus-visible:stroke-cyan-500 focus-visible:ring-4':
                     !props.disabled,
