@@ -2,8 +2,10 @@
 import VTitleBarButtonIcon from '@components/Base/Buttons/VTitleBarButtonIcon.vue';
 import SettingsIcon from '@components/Shared/Icons/SettingsIcon.vue';
 import { useSettingsStore } from '@stores/Settings';
+import { useKeyboardShortcuts } from '@composables/Miscellaneous/useKeyboardShortcuts';
 
 const settingsStore = useSettingsStore();
+useKeyboardShortcuts();
 </script>
 
 <template>

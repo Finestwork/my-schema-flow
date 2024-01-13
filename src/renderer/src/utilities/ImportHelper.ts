@@ -137,34 +137,29 @@ export const importDDL = (script: string) => {
                 /ALTER TABLE `(\w+)` ADD CONSTRAINT `(\w+)` FOREIGN KEY \(`(\w+)`\) REFERENCES `(\w+)` \(`(\w+)`\) ON DELETE (\w+ ?\w*) ON UPDATE (\w+ ?\w*)/g;
             const matches = script.match(foreignKeyRegex);
             if (matches) {
-                const edges = matches.map((match) => {
+                return matches.map((match) => {
                     const groups = foreignKeyRegex.exec(match);
-                    if (groups) {
-                        const tableName = groups[1];
-                        const constraintName = groups[2];
-                        const foreignKeyColumn = groups[3];
-                        const referencedTable = groups[4];
-                        const referencedColumn = groups[5];
-                        const onDeleteAction = groups[6];
-                        const onUpdateAction = groups[7];
-                        return {
-                            source: {
-                                table: tableName,
-                                column: foreignKeyColumn,
-                            },
-                            target: {
-                                table: referencedTable,
-                                column: referencedColumn,
-                            },
-                            constraints: {
-                                onDelete: onDeleteAction.toUpperCase() ?? '',
-                                onUpdate: onUpdateAction.toUpperCase() ?? '',
-                            },
-                        };
-                    }
-                    return [];
+                    const tableName = groups?.[1] ?? '';
+                    const foreignKeyColumn = groups?.[3] ?? '';
+                    const referencedTable = groups?.[4] ?? '';
+                    const referencedColumn = groups?.[5] ?? '';
+                    const onDeleteAction = groups?.[6] ?? '';
+                    const onUpdateAction = groups?.[7] ?? '';
+                    return {
+                        source: {
+                            table: tableName,
+                            column: foreignKeyColumn,
+                        },
+                        target: {
+                            table: referencedTable,
+                            column: referencedColumn,
+                        },
+                        constraints: {
+                            onDelete: onDeleteAction.toUpperCase() ?? '',
+                            onUpdate: onUpdateAction.toUpperCase() ?? '',
+                        },
+                    };
                 });
-                return edges;
             }
 
             return [];
@@ -191,8 +186,6 @@ export const importDDL = (script: string) => {
     })
         .filter((edges) => edges.length > 0)
         .flat();
-
-    console.log(Nodes, Edges);
     return {
         nodes: Nodes,
         edges: Edges,

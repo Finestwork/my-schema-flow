@@ -11,14 +11,13 @@ import { useNodeDragEvent } from '@composables/Nodes/useNodeDragEvent';
 import { useEdgeEvents } from '@composables/Edges/useEdgeEvent';
 import { useSortTableColumns } from '@composables/Table/useSortTableColumns';
 import { useMinimap } from '@composables/Canvas/useMinimap';
-import { useKeyboardShortcuts } from '@composables/Miscellaneous/useKeyboardShortcuts';
 import { usePaneDoubleClick } from '@composables/Canvas/usePaneDoubleClick';
 import { useCanvasControls } from '@composables/Canvas/useCanvasControls';
 import { useDebounceFn } from '@vueuse/core';
 import { Background } from '@vue-flow/background';
 import { MiniMap } from '@vue-flow/minimap';
 import { VueFlow, useVueFlow } from '@vue-flow/core';
-import { nextTick, computed } from 'vue';
+import { nextTick, computed, onMounted } from 'vue';
 
 const testElements = TestNodes;
 const testEdges = TestEdges;
@@ -32,12 +31,18 @@ const getPatternColor = computed(() => {
 const { createHistory } = useHistoryActions();
 const { autoLayout } = useNodeAutoLayout();
 const { sortPrimaryKey } = useSortTableColumns();
-const { onPaneReady, onViewportChange, getViewport } = useVueFlow();
+const { onViewportChange, getViewport, onPaneReady, updateNodeInternals } =
+    useVueFlow();
 const { zoomOut } = useCanvasControls();
 useNodeDragEvent();
 useMinimap();
 useEdgeEvents();
-useKeyboardShortcuts();
+onMounted(async () => {
+    await nextTick();
+    updateNodeInternals();
+    await nextTick();
+    autoLayout();
+});
 onPaneReady(async () => {
     sortPrimaryKey();
     autoLayout();
@@ -75,6 +80,8 @@ usePaneDoubleClick(() => {
             :max-zoom="1"
             :delete-key-code="null"
             :nodes-focusable="false"
+            :selection-key-code="null"
+            :multi-selection-key-code="null"
         >
             <Background
                 class="h-full"

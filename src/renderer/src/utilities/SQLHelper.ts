@@ -11,11 +11,16 @@ export const createColumnScript = (column: TTableColumn) => {
     const KeyConstraint = column.keyConstraint === 'PK' ? 'PRIMARY KEY' : '';
 
     if (column.keyConstraint === 'PK') {
-        return `${column.name} ${column.type} ${KeyConstraint}`;
+        return `\t${column.name.trim()} ${column.type.trim()} ${KeyConstraint}`;
+    }
+    const IsNull = column.isNull ? 'NULL' : 'NOT NULL';
+
+    // This will remove empty space between a column type and null constraint, which will surely cause an error
+    if (KeyConstraint === '') {
+        return `\t${column.name.trim()} ${column.type.trim()} ${IsNull}`;
     }
 
-    const IsNull = column.isNull ? 'NULL' : 'NOT NULL';
-    return `${column.name} ${column.type} ${KeyConstraint} ${IsNull}`;
+    return `\t${column.name.trim()} ${column.type.trim()} ${KeyConstraint} ${IsNull}`;
 };
 
 export const createTableRelationScript = (
@@ -27,25 +32,26 @@ export const createTableRelationScript = (
     if (Edges.length === 0) return [];
 
     return Edges.map((edge) => {
+        const ReferencingTableName = edge.targetNode.data.table.name;
         const ReferencingColumn = edge.data.referencing.column;
         const ReferencedColumn = edge.data.referenced.column;
         const ReferencedTableName = edge.sourceNode.data.table.name;
-        return `FOREIGN KEY (${ReferencingColumn}) REFERENCES ${ReferencedTableName}(${ReferencedColumn}) ON DELETE ${
-            edge.data.constraint.onDelete
-                ? edge.data.constraint.onDelete
-                : 'NO ACTION'
-        } ON UPDATE ${
-            edge.data.constraint.onUpdate
-                ? edge.data.constraint.onUpdate
-                : 'NO ACTION'
-        }`;
+        const OnDeleteReferentialIntegrityConstraint = edge.data.constraint
+            .onDelete
+            ? edge.data.constraint.onDelete
+            : 'NO ACTION';
+        const OnUpdateReferentialIntegrityConstraint = edge.data.constraint
+            .onUpdate
+            ? edge.data.constraint.onUpdate
+            : 'NO ACTION';
+
+        return `ALTER TABLE ${ReferencingTableName} ADD FOREIGN KEY (${ReferencingColumn}) REFERENCES ${ReferencedTableName}(${ReferencedColumn}) ON DELETE ${OnDeleteReferentialIntegrityConstraint} ON UPDATE ${OnUpdateReferentialIntegrityConstraint}`;
     });
 };
 
 export const sortSQLResultObject = (arr: Array<TSQLResultObj>) => {
     const SortedArray = klona(arr);
 
-    // Iterate over the array
     for (let i = 0; i < SortedArray.length; i++) {
         const Current = SortedArray[i];
 

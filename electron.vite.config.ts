@@ -16,6 +16,9 @@ export default defineConfig({
         plugins: [externalizeDepsPlugin()],
     },
     renderer: {
+        define: {
+            'process.env': process.env,
+        },
         resolve: {
             alias: {
                 '@assets': resolve('src/renderer/src/assets'),
@@ -26,6 +29,8 @@ export default defineConfig({
                 '@utilities': resolve('src/renderer/src/utilities'),
                 '@symbols': resolve('src/renderer/src/symbols'),
                 '@dummy': resolve('src/renderer/src/dummy'),
+                '@lottie': resolve('src/renderer/src/lottie'),
+                '@autocomplete': resolve('src/renderer/src/autocomplete'),
             },
         },
         plugins: [

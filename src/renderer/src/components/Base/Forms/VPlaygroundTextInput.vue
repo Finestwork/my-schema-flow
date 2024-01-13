@@ -7,11 +7,13 @@ export type TProps = {
     disabled?: boolean;
     isNumber?: boolean;
     noWhiteSpace?: boolean;
+    type?: string;
 };
 
 const props = withDefaults(defineProps<TProps>(), {
     isNumber: false,
     noWhiteSpace: false,
+    type: 'text',
 });
 const { modelValue } = defineModels<{
     modelValue: string;
@@ -25,7 +27,7 @@ const emits = defineEmits<{
 }>();
 </script>
 <template>
-    <div class="w-full">
+    <div>
         <div
             v-if="$slots.label"
             class="flex items-center"
@@ -51,8 +53,7 @@ const emits = defineEmits<{
             v-model="modelValue"
             v-number-only="props.isNumber"
             v-no-white-space="props.noWhiteSpace"
-            class="block w-full rounded border-2 bg-transparent p-1.5 text-xs font-bold outline-none transition-shadow duration-150 ease-in-out"
-            type="text"
+            :type="props.type"
             :class="{
                 'border-slate-400 placeholder-slate-500 hover:border-cyan-500 focus:border-cyan-500 focus:ring-4 focus:ring-cyan-500/30 dark:border-slate-700 dark:text-slate-500 dark:placeholder-slate-600 dark:hover:border-cyan-500 hover:dark:text-slate-300 dark:focus:border-cyan-500':
                     !props.disabled,
@@ -61,6 +62,7 @@ const emits = defineEmits<{
             }"
             :placeholder="props.placeholder"
             :disabled="props.disabled"
+            class="block h-full w-full rounded border-2 bg-transparent p-1.5 text-xs font-bold outline-none transition-shadow duration-150 ease-in-out"
             @input="emits('input', $event)"
             @focus="emits('focus', $event)"
             @blur="emits('blur', $event)"

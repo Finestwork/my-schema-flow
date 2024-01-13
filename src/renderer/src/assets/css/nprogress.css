@@ -1,0 +1,6 @@
+#nprogress .bar{
+    background: #0891b2;
+}
+.dark #nprogress .bar{
+    background: #06b6d4;
+}

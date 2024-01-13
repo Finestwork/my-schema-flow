@@ -31,7 +31,7 @@ export default class HandleEventListeners {
             }
             CurrentBrowserWindow.setTitleBarOverlay({
                 color: '#0f172a',
-                symbolColor: '#64748b',
+                symbolColor: '#cbd5e1',
             });
         });
     }

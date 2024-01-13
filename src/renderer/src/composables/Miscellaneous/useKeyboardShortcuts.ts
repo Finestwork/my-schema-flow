@@ -47,7 +47,6 @@ export function useKeyboardShortcuts() {
             settingsStore.showSettings = true;
         }
     };
-
     window.addEventListener('keydown', shortcut);
 
     onUnmounted(() => {
