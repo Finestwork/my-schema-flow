@@ -36,10 +36,13 @@ const root = ref<HTMLDivElement>();
 const error = ref('');
 const code = ref('');
 const isGeneratingTable = ref(false);
+const isRunningCode = ref(false);
 const result = ref<TMySQLConnectionReturn | Record<string, never>>({});
 const vueFlow = inject(vueFlowKey);
 
 const runQuery = async () => {
+    if (isRunningCode.value || code.value.trim() === '') return;
+    isRunningCode.value = true;
     const ProgressBar = NProgress.configure({
         parent: '#playgroundModal',
         showSpinner: false,
@@ -55,6 +58,7 @@ const runQuery = async () => {
 
     result.value = await klona(window.api.runQuery(code.value));
     ProgressBar.done();
+    isRunningCode.value = false;
 };
 const onClickCreateTables = async () => {
     if (!vueFlow) return;
@@ -91,7 +95,10 @@ const onClickCreateTables = async () => {
                     <CodingEllipsisIcon />
                     <template #slot>Generate tables from diagram</template>
                 </VPlaygroundButtonIcon>
-                <VPlaygroundButtonIcon @on-click="runQuery">
+                <VPlaygroundButtonIcon
+                    :disabled="isRunningCode"
+                    @on-click="runQuery"
+                >
                     <span class="ml-[.1rem] block h-full w-full">
                         <PlayIcon />
                     </span>
