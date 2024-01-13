@@ -58,9 +58,6 @@ declare global {
             createDatabase(
                 options: TMySQLConnection,
             ): Promise<TMySQLConnectionReturn>;
-            generateTablesFromDiagram(
-                script: string,
-            ): Promise<TMySQLConnectionReturn>;
         };
     }
 }

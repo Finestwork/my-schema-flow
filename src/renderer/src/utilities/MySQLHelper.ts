@@ -1,4 +1,5 @@
 import { isObject, isArray } from 'lodash';
+import type { TNode } from '@stores/Canvas';
 import type {
     ProcedureCallPacket,
     ResultSetHeader,
@@ -43,4 +44,14 @@ export const getLastResultFromQuery = (queryResult: TQueryResult) => {
     }
 
     return Results;
+};
+
+export const dropAllTablesQuery = (nodes: Array<TNode>) => {
+    let script = nodes
+        .map((node) => `DROP TABLE IF EXISTS \`${node.data.table.name}\`;`)
+        .join('\n');
+
+    script += '\n\n';
+
+    return script;
 };

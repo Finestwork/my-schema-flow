@@ -3,6 +3,7 @@ const props = defineProps<{
     items: Array<string>;
 }>();
 </script>
+
 <template>
     <table
         class="w-full border-2 border-slate-300 pl-2 text-xs dark:border-dark-500"

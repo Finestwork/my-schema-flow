@@ -1,6 +1,6 @@
 import { ipcMain } from 'electron';
 import mysql from 'mysql2/promise';
-import type { TMySQLConnection } from '../../preload';
+import type { ConnectionOptions } from 'mysql2/promise';
 
 export default class HandleDatabaseListener {
     private _connection: mysql.Connection | null = null;
@@ -12,34 +12,37 @@ export default class HandleDatabaseListener {
     }
 
     private _connectMySQL() {
-        ipcMain.handle('connectMySQL', async (_, options: TMySQLConnection) => {
-            try {
-                // Create the connection to database
-                this._connection = await mysql.createConnection({
-                    host: options.host,
-                    port: options.port,
-                    user: options.user,
-                    password: options.password,
-                });
+        ipcMain.handle(
+            'connectMySQL',
+            async (_, options: ConnectionOptions) => {
+                try {
+                    // Create the connection to database
+                    this._connection = await mysql.createConnection({
+                        host: options.host,
+                        port: options.port,
+                        user: options.user,
+                        password: options.password,
+                    });
 
-                return {
-                    error: null,
-                };
-            } catch (e) {
-                this._connection = null;
-                return {
-                    error: {
-                        message: e,
-                    },
-                };
-            }
-        });
+                    return {
+                        error: null,
+                    };
+                } catch (e) {
+                    this._connection = null;
+                    return {
+                        error: {
+                            message: e,
+                        },
+                    };
+                }
+            },
+        );
     }
 
     private _createDatabase() {
         ipcMain.handle(
             'createDatabase',
-            async (_, options: TMySQLConnection) => {
+            async (_, options: ConnectionOptions) => {
                 try {
                     if (this._connection === null) {
                         this._connection = await mysql.createConnection({

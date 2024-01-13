@@ -1,12 +1,29 @@
 <script setup lang="ts">
 import FieldCount from '@components/Modules/Playground/Partials/Result/Partials/FieldCount.vue';
 import ColumnResults from '@components/Modules/Playground/Partials/Result/Partials/ColumnResults.vue';
-import NoResult from '@components/Modules/Playground/Partials/Result/Partials/NoResult.vue';
 import PlainResults from '@components/Modules/Playground/Partials/Result/Partials/PlainResults.vue';
 import { ref, watch } from 'vue';
 import { getLastResultFromQuery } from '@utilities/MySQLHelper';
 import { usePlaygroundStore } from '@stores/Playground';
-import { TMySQLConnectionReturn } from '../../../../../../../preload/index';
+import {
+    ProcedureCallPacket,
+    ResultSetHeader,
+    RowDataPacket,
+} from 'mysql2/typings/mysql/lib/protocol/packets';
+
+type TMysqlReturnedData =
+    | ResultSetHeader
+    | ResultSetHeader[]
+    | RowDataPacket[]
+    | RowDataPacket[][]
+    | ProcedureCallPacket;
+
+type TMySQLConnectionReturn = {
+    result: TMysqlReturnedData | null;
+    error: {
+        message: string;
+    } | null;
+};
 
 const props = defineProps<{
     result: TMySQLConnectionReturn | Record<string, never>;
