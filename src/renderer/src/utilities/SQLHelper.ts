@@ -1,4 +1,4 @@
-import type { TEdge, TTableColumn } from '@stores/Canvas';
+import type { TEdge, TNode, TTableColumn } from '@stores/Canvas';
 import { klona } from 'klona';
 
 export type TSQLResultObj = {
@@ -7,7 +7,7 @@ export type TSQLResultObj = {
     foreignKeys: Array<string>;
 };
 
-export const createColumnScript = (column: TTableColumn) => {
+export const createInsertTableScript = (column: TTableColumn) => {
     const KeyConstraint = column.keyConstraint === 'PK' ? 'PRIMARY KEY' : '';
 
     if (column.keyConstraint === 'PK') {
@@ -76,4 +76,23 @@ export const sortSQLResultObject = (arr: Array<TSQLResultObj>) => {
     }
 
     return SortedArray;
+};
+
+export const createUniqueScript = (arr: Array<TNode>) => {
+    return arr
+        .filter((node) => {
+            const Columns = node.data.table.columns;
+            const UniqueColumn = Columns.find((column) => column.isUnique);
+            return !!UniqueColumn;
+        })
+        .map((node) => {
+            const Columns = node.data.table.columns;
+            const UniqueColumns = Columns.filter(
+                (column) => column.isUnique,
+            ).map((columns) => columns.name);
+
+            return UniqueColumns.map((col) => {
+                return `ALTER TABLE ${node.data.table.name} ADD CONSTRAINT uniq_${col} UNIQUE(${col})`;
+            }).join(';\n');
+        });
 };

@@ -1,7 +1,8 @@
 import { createLinkElement } from '@utilities/DownloadHelper';
 import {
-    createColumnScript,
+    createInsertTableScript,
     createTableRelationScript,
+    createUniqueScript,
 } from '@utilities/SQLHelper';
 import { toPng, toJpeg, toSvg } from 'html-to-image';
 import { getRectOfNodes, getTransformForBounds } from '@vue-flow/core';
@@ -68,7 +69,7 @@ export const exportToSQL = (nodes: Array<TNode>, edges: Array<TEdge>) => {
             const Columns = node.data.table.columns;
             let script = `CREATE TABLE ${node.data.table.name}(\n`;
 
-            script += Columns.map(createColumnScript).join(',\n');
+            script += Columns.map(createInsertTableScript).join(',\n');
 
             // At the last column, do not include comma
             script += '\n);\n\n';
@@ -80,11 +81,17 @@ export const exportToSQL = (nodes: Array<TNode>, edges: Array<TEdge>) => {
         .map((node) => createTableRelationScript(node.id, edges).join(';\n'))
         .filter((script) => script.trim() !== '')
         .join(';\n');
+    let uniqueScript = createUniqueScript(nodes).join(';\n');
 
     // Since join do not include semicolon in the last item of the array
     if (relationScript.trim() !== '') {
         relationScript += ';';
         createScript += `\n\n${relationScript}`;
+    }
+
+    if (uniqueScript.trim() !== '') {
+        uniqueScript += ';';
+        createScript += `\n\n${uniqueScript}`;
     }
 
     return createScript;
