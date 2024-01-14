@@ -6,6 +6,19 @@
         font-family: 'Inter', 'sans-serif';
         font-feature-settings: "ss01", "ss02", "ss03", "ss04", "ss05", "ss06", "ss07", "ss08", "calt", "dlig";
     }
+
+    [type="checkbox"]{
+        appearance: none;
+    }
+
+    [type="checkbox"]:checked {
+        background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 16 12'%3E%3Cpath stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M1 5.917 5.724 10.5 15 1.5'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-size: .55em .55em;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        background-position: center;
+    }
 }
 @layer utilities {
     .drag-title-bar {
