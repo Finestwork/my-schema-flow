@@ -1,5 +1,5 @@
 import { useCanvasStore } from '@stores/Canvas';
-import { computed, ref, watch } from 'vue';
+import { ref, watch } from 'vue';
 
 export function useColumnData() {
     const canvasStore = useCanvasStore();

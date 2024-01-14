@@ -49,6 +49,7 @@ export const readImportedDatabaseFile = async (file: Buffer) => {
                 name: row[1],
                 type: ColumnDataType,
                 isNull: row[3] === null,
+                isUnique: false,
                 keyConstraint: ColumnKeyConstraint,
                 shouldHighlight: false,
             };
@@ -118,6 +119,7 @@ export const importDDL = (script: string) => {
                 name: row.name,
                 type: row.type.datatype.toUpperCase(),
                 isNull: row?.options?.nullable ?? true,
+                isUnique: row?.options?.unique ?? true,
                 keyConstraint: PrimaryKey.includes(row.name) ? 'PK' : '',
                 shouldHighlight: false,
             };
