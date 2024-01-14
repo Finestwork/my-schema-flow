@@ -81,18 +81,18 @@ export const getRelationList = (
  * This makes sure the column data type is in the uppercase format
  */
 export const formatColumnDataType = (column: string) => {
-    const typeRegex = /^\s*(\w+)\s*/i;
-    const varcharLengthRegex = /VARCHAR\s*\(\s*(\d+)\s*\)/i;
+    const TypeRegex = /^\s*(\w+)\s*/i;
+    const VarcharLengthRegex = /VARCHAR\s*\(\s*(\d+)\s*\)/i;
 
-    const matchType = column.match(typeRegex);
-    const matchLength = column.match(varcharLengthRegex);
+    const MatchType = column.match(TypeRegex);
+    const MatchLength = column.match(VarcharLengthRegex);
 
-    if (matchType) {
-        const type = matchType[1].toUpperCase();
+    if (MatchType) {
+        const type = MatchType[1].toUpperCase();
 
         if (type === 'VARCHAR') {
-            if (matchLength) {
-                return matchLength[0];
+            if (MatchLength) {
+                return MatchLength[0];
             } else {
                 return 'VARCHAR(255)';
             }
@@ -103,8 +103,6 @@ export const formatColumnDataType = (column: string) => {
 
     return 'VARCHAR(255)';
 };
-
-
 
 /**
  * Extracts the table name and all the columns
