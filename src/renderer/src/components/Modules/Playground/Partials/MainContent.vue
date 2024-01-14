@@ -2,9 +2,11 @@
 import VPlaygroundButtonIcon from '@components/Base/ButtonIcons/VPlaygroundButtonIcon.vue';
 import VAlert from '@components/Base/Alerts/VAlert.vue';
 import PlayIcon from '@components/Shared/Icons/PlayIcon.vue';
+import BackArrowIconVue from '@components/Shared/Icons/BackArrowIcon.vue';
 import CodingEllipsisIcon from '@components/Shared/Icons/CodingEllipsisIcon.vue';
 import TextEditor from '@components/Modules/Playground/Partials/MainContentTextEditor.vue';
 import Result from '@components/Modules/Playground/Partials/Result/Result.vue';
+import { usePlaygroundStore } from '@stores/Playground';
 import { dropAllTablesQuery } from '@utilities/MySQLHelper';
 import { checkUseKeywordExistence } from '@utilities/Editor/LineValidatorHelper';
 import { exportToSQL } from '@utilities/ExportHelper';
@@ -31,6 +33,8 @@ type TMySQLConnectionReturn = {
         message: string;
     } | null;
 };
+
+const clearDatabase = usePlaygroundStore().clearDatabase;
 
 const root = ref<HTMLDivElement>();
 const error = ref('');
@@ -92,24 +96,30 @@ const onClickCreateTables = async () => {
             </VAlert>
         </div>
         <div class="mb-2">
-            <div class="flex justify-end">
-                <VPlaygroundButtonIcon
-                    class="mr-2"
-                    :disabled="isGeneratingTable"
-                    @on-click="onClickCreateTables"
-                >
-                    <CodingEllipsisIcon />
-                    <template #slot>Generate tables from diagram</template>
+            <div class="flex justify-between">
+                <VPlaygroundButtonIcon @on-click="clearDatabase">
+                    <BackArrowIconVue />
+                    <template #slot>Back To Database Selection</template>
                 </VPlaygroundButtonIcon>
-                <VPlaygroundButtonIcon
-                    :disabled="isRunningCode"
-                    @on-click="runQuery"
-                >
-                    <span class="ml-[.1rem] block h-full w-full">
-                        <PlayIcon />
-                    </span>
-                    <template #slot>Run code</template>
-                </VPlaygroundButtonIcon>
+                <div>
+                    <VPlaygroundButtonIcon
+                        class="mr-2"
+                        :disabled="isGeneratingTable"
+                        @on-click="onClickCreateTables"
+                    >
+                        <CodingEllipsisIcon />
+                        <template #slot>Generate tables from diagram</template>
+                    </VPlaygroundButtonIcon>
+                    <VPlaygroundButtonIcon
+                        :disabled="isRunningCode"
+                        @on-click="runQuery"
+                    >
+                        <span class="ml-[.1rem] block h-full w-full">
+                            <PlayIcon />
+                        </span>
+                        <template #slot>Run code</template>
+                    </VPlaygroundButtonIcon>
+                </div>
             </div>
         </div>
         <TextEditor v-model="code" @run-query="runQuery" />
