@@ -51,6 +51,10 @@ export const validateColumns = (
         Errors.push('Null property must be a boolean.');
     }
 
+    if (!isBoolean(data.isUnique)) {
+        Errors.push('Unique property must be a boolean.');
+    }
+
     // Check if there's an existing primary key
     const Columns = currentNode.data.table.columns;
     const PKIndex = Columns.findIndex(
@@ -68,21 +72,31 @@ export const validateColumns = (
             Errors.push('There should be only one primary key.');
         } else {
             // If there's no primary key, then check if null property is enabled
-            if (data.isNull && !isEmpty(data.keyConstraint)) {
+            if (data.isNull && data.keyConstraint === 'PK') {
                 Errors.push(
                     'Null property must not be enabled because column is a primary key.',
                 );
             }
+
+            if (data.isUnique && data.keyConstraint === 'PK') {
+                Errors.push('Primary key is already a unique key by default.');
+            }
         }
     } else {
+        // Check if there's an existing primary key
         if (PKIndex !== -1 && data.keyConstraint === 'PK') {
             Errors.push('There should be only one primary key.');
         } else {
             // If there's no primary key, then check if null property is enabled
-            if (data.isNull && !isEmpty(data.keyConstraint)) {
+            if (data.isNull && data.keyConstraint === 'PK') {
                 Errors.push(
                     'Null property must not be enabled because column is a primary key.',
                 );
+            }
+
+            // If there's no primary key, then check if null property is enabled
+            if (data.isUnique && data.keyConstraint === 'PK') {
+                Errors.push('Primary key is already a unique key by default.');
             }
         }
     }

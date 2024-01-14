@@ -14,15 +14,9 @@ export function useColumnData() {
     const columnIsNull = ref(
         canvasStore.getCurrentActiveColumnData?.isNull ?? false,
     );
-    const getColumnData = computed(() => {
-        return {
-            name: columnName.value,
-            originalColumnName: columnOriginalColumnName.value,
-            type: columnType.value,
-            isNull: columnIsNull.value,
-            keyConstraint: columnKeyConstraint.value,
-        };
-    });
+    const columnIsUnique = ref(
+        canvasStore.getCurrentActiveColumnData?.isNull ?? false,
+    );
     const fullResetData = () => {
         columnName.value = '';
         columnOriginalColumnName.value = '';
@@ -43,16 +37,18 @@ export function useColumnData() {
                 canvasStore.getCurrentActiveColumnData?.keyConstraint ?? '';
             columnIsNull.value =
                 canvasStore.getCurrentActiveColumnData?.isNull ?? false;
+            columnIsUnique.value =
+                canvasStore.getCurrentActiveColumnData?.isUnique ?? false;
         },
     );
 
     return {
-        getColumnData,
         columnName,
         columnOriginalColumnName,
         columnType,
         columnKeyConstraint,
         columnIsNull,
+        columnIsUnique,
         fullResetData,
     };
 }
