@@ -14,7 +14,9 @@ const props = defineProps<TProps>();
         type="button"
         class="flex w-full justify-between px-3 py-3 text-left text-sm font-bold outline-none"
         :class="{
-            'bg-slate-500 dark:bg-cyan-950/50': props.shouldHighlight,
+            'bg-slate-500 dark:bg-cyan-950/50':
+                props.shouldHighlight && !props.isTableSelected,
+            'bg-cyan-600 dark:bg-cyan-950/50': props.shouldHighlight,
             'group hover:bg-cyan-500 hover:dark:bg-cyan-950/50':
                 !props.shouldHighlight && !props.isFaded && isTableSelected,
             'bg-cyan-500 dark:bg-cyan-950/50': props.isSelected,
