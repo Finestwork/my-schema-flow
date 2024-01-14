@@ -97,7 +97,7 @@ watch(
             <template #tableName>{{ props.data.table.name }}</template>
             <VTableNodeButton
                 v-for="(column, index) in getColumns"
-                :key="column.name"
+                :key="`${column.name}-${index}`"
                 :is-default="column.isDefault"
                 :is-faded="column.isFaded"
                 :should-highlight="column.shouldHighlight"
