@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import VPanelAutoCompleteWrapper from '@components/Base/Forms/VPanelAutoCompleteWrapper.vue';
-import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue';
+import { useScrollbar } from '@composables/Miscellaneous/useScrollbar';
 import { computed, nextTick, ref, watch } from 'vue';
 
 export type TProps = {
@@ -26,10 +26,11 @@ const getDropdownItems = computed(() => {
         item.toLowerCase().includes(searchTerm.value.toLowerCase()),
     );
 });
+const { elements } = useScrollbar(scrollbar);
 
 const _updateScrollPosition = () => {
     const CurrentElement = dropdownBtn.value[currentIndex.value];
-    scrollbar.value.scrollTop = CurrentElement.offsetTop;
+    elements.value.scrollEventElement.scrollTop = CurrentElement.offsetTop;
 };
 const _findIndex = async () => {
     await nextTick();
@@ -157,13 +158,8 @@ watch(
             <slot name="helper"></slot>
         </template>
         <template #float>
-            <div
-                ref="scrollbar"
-                class="h-full outline-none dark:bg-dark-800/50"
-            >
-                <OverlayScrollbarsComponent
-                    class="max-h-[250px] overflow-y-scroll"
-                >
+            <div class="h-full outline-none dark:bg-dark-800/50">
+                <div ref="scrollbar" class="max-h-[250px]">
                     <button
                         v-for="(item, ind) in getDropdownItems"
                         ref="dropdownBtn"
@@ -188,7 +184,7 @@ watch(
                             >{{ item }}</span
                         >
                     </button>
-                </OverlayScrollbarsComponent>
+                </div>
             </div>
         </template>
     </VPanelAutoCompleteWrapper>

@@ -3,9 +3,9 @@ import VPanelAutoCompleteWrapper from '@components/Base/Forms/VPanelAutoComplete
 import VDatabaseWithDescriptionButton from '@components/Base/Buttons/VDatabaseWithDescriptionButton.vue';
 import VTooltip from '@components/Base/Floaters/VTooltip.vue';
 import { useSearchMySQLDataTypes } from '@composables/Miscellaneous/useSearchMySQLDataTypes';
-import { nextTick, onMounted, onUnmounted, ref } from 'vue';
-import { watch } from 'vue';
-import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue';
+import { useScrollbar } from '@composables/Miscellaneous/useScrollbar';
+import { nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
+
 import type { Ref } from 'vue';
 
 const { modelValue } = defineModels<{
@@ -16,11 +16,10 @@ const dropdownBtn: Ref<Array<typeof VDatabaseWithDescriptionButton>> = ref([]);
 const showDropdown = ref(false);
 const currentIndex = ref(0);
 const { searchTerm, getMysqlDataTypes } = useSearchMySQLDataTypes();
-
+const { elements } = useScrollbar(scrollbar);
 const _updateScrollPosition = () => {
     const CurrentElement = dropdownBtn.value[currentIndex.value].$el;
-    scrollbar.value.osInstance().elements().scrollEventElement.scrollTop =
-        CurrentElement.offsetTop;
+    elements.value.scrollEventElement.scrollTop = CurrentElement.offsetTop;
 };
 const _findIndex = () => {
     const NewIndex = getMysqlDataTypes.value.findIndex((item) =>
@@ -150,10 +149,7 @@ watch(
                 v-if="getMysqlDataTypes.length !== 0"
                 class="h-full border-2 border-slate-300 bg-white outline-none dark:border-dark-700 dark:bg-dark-800"
             >
-                <OverlayScrollbarsComponent
-                    ref="scrollbar"
-                    class="max-h-[250px] overflow-y-scroll"
-                >
+                <div ref="scrollbar" class="max-h-[250px]">
                     <VTooltip
                         v-for="(item, ind) in getMysqlDataTypes"
                         :key="ind"
@@ -179,7 +175,7 @@ watch(
                             </span>
                         </template>
                     </VTooltip>
-                </OverlayScrollbarsComponent>
+                </div>
             </div>
         </template>
     </VPanelAutoCompleteWrapper>

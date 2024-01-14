@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import VTableNavigateButton from '@components/Base/Buttons/VTableNavigateButton.vue';
-import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue';
+import { useScrollbar } from '@composables/Miscellaneous/useScrollbar';
 import { chunk } from 'lodash';
 import { computed, ref } from 'vue';
 
 const props = defineProps<{
     columns: Array<{ [k: string]: string }>;
 }>();
+const scrollbar = ref();
 const currentPage = ref(0);
 const getColumns = computed(() => {
     return props.columns.map((col) => Object.keys(col))[0];
@@ -23,6 +24,7 @@ const onClickNextPage = () => {
     if (currentPage.value === getValues.value.length - 1) return;
     currentPage.value++;
 };
+useScrollbar(scrollbar);
 </script>
 
 <template>
@@ -43,7 +45,7 @@ const onClickNextPage = () => {
                 >Next
             </VTableNavigateButton>
         </div>
-        <OverlayScrollbarsComponent>
+        <div ref="scrollbar">
             <table
                 class="w-full border-2 border-slate-300 pl-2 text-xs dark:border-dark-500"
             >
@@ -78,7 +80,7 @@ const onClickNextPage = () => {
                     </tr>
                 </tbody>
             </table>
-        </OverlayScrollbarsComponent>
+        </div>
         <div v-if="getValues.length > 1" class="mb-2 mt-2 flex justify-center">
             <VTableNavigateButton
                 class="mr-2"
