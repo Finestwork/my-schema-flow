@@ -39,13 +39,6 @@ export const generateEdgeDataForCanvas = (
             (node) => node.name === edge.source.table,
         );
         const SourceNode = nodes[SourceNodeIndex];
-        const SourceForeignColumn = SourceNode.columns.find(
-            (column) => column.name === edge.source.column,
-        );
-
-        if (SourceForeignColumn) {
-            SourceForeignColumn.keyConstraint = 'FK';
-        }
 
         return {
             id: uuidv4(),

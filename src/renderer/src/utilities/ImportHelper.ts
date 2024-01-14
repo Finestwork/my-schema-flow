@@ -1,6 +1,7 @@
 import * as initSqlJs from 'sql.js/dist/sql-asm.js';
 import { v4 as uuidv4 } from 'uuid';
 import { Parser } from 'sql-ddl-to-json-schema';
+import { klona } from 'klona/full';
 import type { TTableColumn } from '@stores/Canvas';
 
 export type TGeneratedNodeData = {
@@ -110,20 +111,34 @@ export const importDDL = (script: string) => {
     );
 
     const Nodes = JSONSchema.map((table): TGeneratedNodeData => {
-        const PrimaryKey = table.primaryKey
-            ? table.primaryKey?.columns ?? []
-            : [];
-        const TableColumns = table?.columns ?? [];
+        console.log(table);
+        const PrimaryKey =
+            table?.primaryKey?.columns?.map((key) => key.column) ?? [];
+        const ForeignKeys =
+            table?.foreignKeys?.map((key) => key.columns)?.flat() ?? [];
+        const UniqueKeys = table?.uniqueKeys ?? [];
+        const TableColumns = klona(table?.columns) ?? [];
         const Columns = TableColumns.map((row): Omit<TTableColumn, 'id'> => {
+            const PKExistence = PrimaryKey.findIndex(
+                (column) => column === row.name,
+            );
+            const FKExistence = ForeignKeys.findIndex(
+                (key) => key.column === row.name,
+            );
+            const KeyConstraint =
+                FKExistence > -1 ? 'FK' : PKExistence > -1 ? 'PK' : '';
+
             return {
                 name: row.name,
                 type: row.type.datatype.toUpperCase(),
                 isNull: row?.options?.nullable ?? true,
                 isUnique: row?.options?.unique ?? true,
-                keyConstraint: PrimaryKey.includes(row.name) ? 'PK' : '',
+                keyConstraint: KeyConstraint,
                 shouldHighlight: false,
             };
         });
+
+        console.log(Columns);
 
         return {
             id: uuidv4(),
