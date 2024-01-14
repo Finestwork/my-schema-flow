@@ -23,7 +23,7 @@ const onClickToggleSection = (e: MouseEvent) => {
             class="group flex w-full items-center justify-between bg-slate-200 px-2 py-2.5 outline-none hover:bg-slate-400/40 focus:bg-slate-400/40 dark:bg-dark-800/80 hover:dark:bg-cyan-950/20 focus:dark:bg-cyan-950/20"
             type="button"
             :class="{
-                'border-b-2 border-b-slate-200 dark:border-b-dark-700 hover:dark:border-b-cyan-900 focus:dark:border-b-cyan-900':
+                'border-b-2 border-b-slate-300 dark:border-b-dark-700 hover:dark:border-b-cyan-900 focus:dark:border-b-cyan-900':
                     !toggleContent,
             }"
             @click="onClickToggleSection"
