@@ -35,8 +35,6 @@ const {
 const { sortPrimaryKey } = useSortTableColumns();
 const { createHistory } = useHistoryActions();
 const onClickAddColumn = () => {
-    errors.value = [];
-    isSuccessfullyCreated.value = false;
     const ColumnData = {
         name: columnName.value,
         type: columnType.value,
@@ -44,9 +42,11 @@ const onClickAddColumn = () => {
         isUnique: columnIsUnique.value,
         keyConstraint: columnKeyConstraint.value,
     };
+    errors.value = [];
+    isSuccessfullyCreated.value = false;
     errors.value = validateColumns(ColumnData, canvasStore.currentActiveNode);
     if (errors.value.length !== 0) return;
-    columnType.value = formatColumnDataType(columnType.value);
+    ColumnData.type = formatColumnDataType(columnType.value);
     const TableName = canvasStore.currentActiveNode.data.table.name;
     createHistory(`Column Added: ${columnName.value} in '${TableName}' table`);
     canvasStore.addColumnInActiveNode(ColumnData);

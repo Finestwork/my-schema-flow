@@ -46,7 +46,7 @@ const onClickUpdateColumn = () => {
     isSuccessfullyCreated.value = false;
     errors.value = validateColumns(ColumnData, canvasStore.currentActiveNode);
     if (errors.value.length !== 0) return;
-    columnType.value = formatColumnDataType(columnType.value);
+    ColumnData.type = formatColumnDataType(columnType.value);
     updateColumnBasedOnActiveNode(
         columnOriginalColumnName.value,
         columnName.value,
