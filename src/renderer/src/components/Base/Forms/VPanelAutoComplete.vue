@@ -158,7 +158,10 @@ watch(
             <slot name="helper"></slot>
         </template>
         <template #float>
-            <div class="h-full outline-none dark:bg-dark-800/50">
+            <div
+                v-if="showDropdown"
+                class="h-full outline-none dark:bg-dark-800/50"
+            >
                 <div ref="scrollbar" class="max-h-[250px]">
                     <button
                         v-for="(item, ind) in getDropdownItems"

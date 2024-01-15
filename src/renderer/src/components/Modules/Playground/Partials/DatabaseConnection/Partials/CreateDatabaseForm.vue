@@ -2,7 +2,7 @@
 import VAlert from '@components/Base/Alerts/VAlert.vue';
 import VPlaygroundTextInput from '@components/Base/Forms/VPlaygroundTextInput.vue';
 import VUniversalButton from '@components/Base/Buttons/VUniversalButton.vue';
-import VDropdown from '@components/Base/Forms/VPlaygroundDropdown.vue';
+import VPlaygroundDropdown from '@components/Base/Forms/VPlaygroundDropdown.vue';
 import CircleLoader from '@components/Base/Loaders/CircleLoader.vue';
 import { usePlaygroundStore } from '@stores/Playground';
 import { ref } from 'vue';
@@ -85,7 +85,7 @@ const createDatabase = async () => {
                 v-if="playgroundStore.storedDatabases.length !== 0"
                 class="w-full"
             >
-                <VDropdown
+                <VPlaygroundDropdown
                     id="databases"
                     v-model="storedDatabase"
                     class="w-full"
@@ -106,7 +106,7 @@ const createDatabase = async () => {
                     >
                         {{ db }}
                     </option>
-                </VDropdown>
+                </VPlaygroundDropdown>
             </div>
 
             <VUniversalButton class="mt-2 w-full" @click="createDatabase">

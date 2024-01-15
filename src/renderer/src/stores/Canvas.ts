@@ -16,6 +16,10 @@ export type TNodeData = {
     table: {
         name: string;
         columns: TTableColumn[];
+        indexes: Array<{
+            column: string;
+            type: 'unique' | 'spatial' | 'fulltext' | null;
+        }>;
     };
     states: {
         isActive: boolean;
