@@ -130,12 +130,18 @@ export const importDDL = (script: string) => {
             );
             const KeyConstraint =
                 FKExistence > -1 ? 'FK' : PKExistence > -1 ? 'PK' : '';
+            const UniqueKeys =
+                table?.uniqueKeys
+                    ?.map((key) => {
+                        return key.columns.map((column) => column.column);
+                    })
+                    .flat() ?? [];
 
             return {
                 name: row.name,
                 type: row.type.datatype.toUpperCase(),
                 isNull: row?.options?.nullable ?? true,
-                isUnique: row?.options?.unique ?? true,
+                isUnique: UniqueKeys.includes(row.name),
                 keyConstraint: KeyConstraint,
                 shouldHighlight: false,
             };
