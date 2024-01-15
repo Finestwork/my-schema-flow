@@ -22,7 +22,7 @@ watch(
 
 <template>
     <VPanelSectionWrapper>
-        <template #label>Table Relation</template>
+        <template #label>Relationships</template>
         <template #content>
             <div v-if="canvasStore.hasActiveNode">
                 <DefaultContent
