@@ -7,12 +7,19 @@ export function useUpdateEdgeData() {
     const canvasStore = useCanvasStore();
     const VueFlow = inject(vueFlowKey);
 
-    const updateColumnBasedOnActiveNode = (newColumnName: string) => {
+    /**
+     * This will update the column name from active edge(relationship)
+     */
+    const updateColumnBasedOnActiveNode = (
+        oldColumnName,
+        newColumnName: string,
+    ) => {
         if (!VueFlow) return;
         const CurrentActiveEdges = getNodeRelationship(
             canvasStore.currentActiveNode,
             VueFlow.getEdges.value,
         );
+
         VueFlow.setEdges((edges) => {
             return edges.map((edge) => {
                 const Index = CurrentActiveEdges.findIndex(
@@ -23,9 +30,15 @@ export function useUpdateEdgeData() {
                     const IsSource =
                         edge.source === canvasStore.currentActiveNode.id;
 
-                    if (IsSource) {
+                    if (
+                        IsSource &&
+                        edge.data.referenced.column === oldColumnName
+                    ) {
                         edge.data.referenced.column = newColumnName;
-                    } else {
+                    } else if (
+                        !IsSource &&
+                        edge.data.referenced.column === oldColumnName
+                    ) {
                         edge.data.referencing.column = newColumnName;
                     }
                 }

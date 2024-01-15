@@ -108,6 +108,7 @@ export const useCanvasStore = defineStore('canvas', {
 
             this.currentActiveNode.data.table.columns =
                 sortConstraintKeys(Columns);
+
             return this.currentActiveNode.data.table.columns.findIndex(
                 (column) => column.name === data.name,
             );
