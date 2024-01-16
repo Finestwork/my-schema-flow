@@ -5,11 +5,19 @@ import DefaultContent from '@components/Modules/TableIndexes/Partials/DefaultCon
 import AddForm from '@components/Modules/TableIndexes/Partials/AddForm.vue';
 import EditForm from '@components/Modules/TableIndexes/Partials/EditForm.vue';
 import { useCanvasStore } from '@stores/Canvas';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 
 const canvasStore = useCanvasStore();
 const displayAddForm = ref(false);
 const displayEditForm = ref(false);
+
+watch(
+    () => canvasStore.currentActiveNode,
+    () => {
+        displayAddForm.value = false;
+        displayEditForm.value = false;
+    },
+);
 </script>
 
 <template>
