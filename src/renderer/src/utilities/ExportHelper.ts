@@ -1,9 +1,10 @@
 import { createLinkElement } from '@utilities/DownloadHelper';
 import {
+    createIndexScript,
     createInsertTableScript,
     createTableRelationScript,
     createUniqueScript,
-} from '@utilities/SQLHelper';
+} from '@utilities/SQLScriptHelper';
 import { toPng, toJpeg, toSvg } from 'html-to-image';
 import { getRectOfNodes, getTransformForBounds } from '@vue-flow/core';
 import type { TEdge, TNode } from '@stores/Canvas';
@@ -81,7 +82,8 @@ export const exportToSQL = (nodes: Array<TNode>, edges: Array<TEdge>) => {
         .map((node) => createTableRelationScript(node.id, edges).join(';\n'))
         .filter((script) => script.trim() !== '')
         .join(';\n');
-    let uniqueScript = createUniqueScript(nodes).join(';\n');
+    const UniqueScript = createUniqueScript(nodes).join(';\n');
+    let indexScript = createIndexScript(nodes).join('\n');
 
     // Since join do not include semicolon in the last item of the array
     if (relationScript.trim() !== '') {
@@ -89,9 +91,13 @@ export const exportToSQL = (nodes: Array<TNode>, edges: Array<TEdge>) => {
         createScript += `\n\n${relationScript}`;
     }
 
-    if (uniqueScript.trim() !== '') {
-        uniqueScript += ';';
-        createScript += `\n\n${uniqueScript}`;
+    if (UniqueScript.trim() !== '') {
+        createScript += `\n\n${UniqueScript}`;
+    }
+
+    if (indexScript.trim() !== '') {
+        indexScript += ';';
+        createScript += `\n\n${indexScript}`;
     }
 
     return createScript;
