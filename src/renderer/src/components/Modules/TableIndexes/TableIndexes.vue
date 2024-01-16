@@ -9,13 +9,13 @@ import { ref, watch } from 'vue';
 
 const canvasStore = useCanvasStore();
 const displayAddForm = ref(false);
-const displayEditForm = ref(false);
+const activeColumnIndex = ref(-1);
 
 watch(
     () => canvasStore.currentActiveNode,
     () => {
         displayAddForm.value = false;
-        displayEditForm.value = false;
+        activeColumnIndex.value = -1;
     },
 );
 </script>
@@ -26,17 +26,17 @@ watch(
         <template #content>
             <div v-if="canvasStore.hasActiveNode">
                 <DefaultContent
-                    v-if="!displayAddForm && !displayEditForm"
+                    v-if="!displayAddForm && activeColumnIndex === -1"
+                    v-model:active-column-index="activeColumnIndex"
                     @add-form="displayAddForm = true"
-                    @edit-form="displayEditForm = true"
                 />
                 <AddForm
-                    v-if="displayAddForm && !displayEditForm"
+                    v-if="displayAddForm && activeColumnIndex === -1"
                     @go-back="displayAddForm = false"
                 />
                 <EditForm
-                    v-if="!displayAddForm && displayEditForm"
-                    @go-back="displayEditForm = false"
+                    v-if="!displayAddForm && activeColumnIndex !== -1"
+                    v-model:active-column-index="activeColumnIndex"
                 />
             </div>
             <NoTableSelected v-else />

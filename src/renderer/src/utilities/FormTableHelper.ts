@@ -238,19 +238,19 @@ const ValidateConstraint = (
 
 export const validateIndex = (
     indexObj: {
-        attribute: string;
+        column: string;
         type: string;
     },
     columns: Array<string>,
 ) => {
     const Errors: Array<string> = [];
 
-    if (isEmpty(indexObj.attribute)) {
-        Errors.push('Index attribute cannot be empty.');
+    if (isEmpty(indexObj.column)) {
+        Errors.push("'index' column cannot be empty.");
     } else {
-        const Column = columns.find((column) => column === indexObj.attribute);
+        const Column = columns.find((column) => column === indexObj.column);
         if (!Column) {
-            Errors.push("'index' attribute is not found in the current table.");
+            Errors.push("'index' column is not found in the current table.");
         }
     }
 

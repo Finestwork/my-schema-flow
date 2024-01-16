@@ -21,7 +21,7 @@ const canvasStore = useCanvasStore();
 const onClickAddIndex = async () => {
     isSuccessfullyCreated.value = false;
     const IndexObject = {
-        attribute: attribute.value,
+        column: attribute.value,
         type: indexType.value,
     };
     const Columns = canvasStore.currentActiveNode.data.table.columns.map(

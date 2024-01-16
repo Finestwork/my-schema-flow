@@ -12,14 +12,15 @@ export type TTableColumn = {
     keyConstraint: 'PK' | 'FK' | string;
     shouldHighlight: boolean;
 };
+export type TActiveIndexColumn = {
+    column: string;
+    type: 'unique' | 'spatial' | 'fulltext' | null;
+};
 export type TNodeData = {
     table: {
         name: string;
         columns: TTableColumn[];
-        indexes: Array<{
-            column: string;
-            type: 'unique' | 'spatial' | 'fulltext' | null;
-        }>;
+        indexes: Array<TActiveIndexColumn>;
     };
     states: {
         isActive: boolean;

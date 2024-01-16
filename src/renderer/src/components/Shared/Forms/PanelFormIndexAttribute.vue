@@ -15,7 +15,7 @@ const tableColumns = computed(() => {
         .filter((column) => {
             const Indexes = canvasStore.currentActiveNode.data.table.indexes;
             const IndexObject = Indexes.find(
-                (index) => index.attribute === column,
+                (index) => index.column === column,
             );
             return !IndexObject;
         });
