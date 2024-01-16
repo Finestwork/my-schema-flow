@@ -239,7 +239,7 @@ const ValidateConstraint = (
 export const validateIndex = (
     indexObj: {
         attribute: string;
-        indexType: string;
+        type: string;
     },
     columns: Array<string>,
 ) => {
@@ -254,12 +254,12 @@ export const validateIndex = (
         }
     }
 
-    if (isEmpty(indexObj.indexType)) {
+    if (isEmpty(indexObj.type)) {
         Errors.push('Index type cannot be empty.');
     } else {
         const Items = ['non-unique', 'unique', 'fulltext', 'spatial'];
 
-        if (!Items.includes(indexObj.indexType)) {
+        if (!Items.includes(indexObj.type)) {
             Errors.push('Index type is not valid.');
         }
     }

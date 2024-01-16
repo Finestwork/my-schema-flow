@@ -22,7 +22,7 @@ const onClickAddIndex = async () => {
     isSuccessfullyCreated.value = false;
     const IndexObject = {
         attribute: attribute.value,
-        indexType: indexType.value,
+        type: indexType.value,
     };
     const Columns = canvasStore.currentActiveNode.data.table.columns.map(
         (column) => column.name,
