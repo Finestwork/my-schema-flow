@@ -1,6 +1,7 @@
 import * as initSqlJs from 'sql.js/dist/sql-asm.js';
 import { v4 as uuidv4 } from 'uuid';
 import { Parser } from 'sql-ddl-to-json-schema';
+import { klona } from 'klona/full';
 import type { TTableColumn } from '@stores/Canvas';
 
 export type TGeneratedNodeData = {
@@ -10,17 +11,22 @@ export type TGeneratedNodeData = {
 };
 
 export type TGeneratedEdgeData = {
-    source: {
-        table: string;
-        column: string;
-    };
-    target: {
-        table: string;
-        column: string;
-    };
-    constraints: {
-        onDelete: string;
-        onUpdate: string;
+    id: string;
+    referencingTable: string;
+    referencedTable: string;
+    data: {
+        referenced: {
+            isHandleActive: boolean;
+            column: string;
+        };
+        referencing: {
+            isHandleActive: boolean;
+            column: string;
+        };
+        constraint: {
+            onDelete: string;
+            onUpdate: string;
+        };
     };
 };
 
@@ -49,6 +55,7 @@ export const readImportedDatabaseFile = async (file: Buffer) => {
                 name: row[1],
                 type: ColumnDataType,
                 isNull: row[3] === null,
+                isUnique: false,
                 keyConstraint: ColumnKeyConstraint,
                 shouldHighlight: false,
             };
@@ -109,16 +116,33 @@ export const importDDL = (script: string) => {
     );
 
     const Nodes = JSONSchema.map((table): TGeneratedNodeData => {
-        const PrimaryKey = table.primaryKey
-            ? table.primaryKey?.columns ?? []
-            : [];
-        const TableColumns = table?.columns ?? [];
+        const PrimaryKey =
+            table?.primaryKey?.columns?.map((key) => key.column) ?? [];
+        const ForeignKeys =
+            table?.foreignKeys?.map((key) => key.columns)?.flat() ?? [];
+        const TableColumns = klona(table?.columns) ?? [];
         const Columns = TableColumns.map((row): Omit<TTableColumn, 'id'> => {
+            const PKExistence = PrimaryKey.findIndex(
+                (column) => column === row.name,
+            );
+            const FKExistence = ForeignKeys.findIndex(
+                (key) => key.column === row.name,
+            );
+            const KeyConstraint =
+                FKExistence > -1 ? 'FK' : PKExistence > -1 ? 'PK' : '';
+            const UniqueKeys =
+                table?.uniqueKeys
+                    ?.map((key) => {
+                        return key.columns.map((column) => column.column);
+                    })
+                    .flat() ?? [];
+
             return {
                 name: row.name,
                 type: row.type.datatype.toUpperCase(),
                 isNull: row?.options?.nullable ?? true,
-                keyConstraint: PrimaryKey.includes(row.name) ? 'PK' : '',
+                isUnique: UniqueKeys.includes(row.name),
+                keyConstraint: KeyConstraint,
                 shouldHighlight: false,
             };
         });
@@ -129,63 +153,54 @@ export const importDDL = (script: string) => {
             columns: Columns,
         };
     });
-    const Edges = JSONSchema.map((table): Array<TGeneratedEdgeData> => {
-        // define the edges
-        if (!table.foreignKeys) {
-            // if no foreign keys, test custom regex
-            const foreignKeyRegex =
-                /ALTER TABLE `(\w+)` ADD CONSTRAINT `(\w+)` FOREIGN KEY \(`(\w+)`\) REFERENCES `(\w+)` \(`(\w+)`\) ON DELETE (\w+ ?\w*) ON UPDATE (\w+ ?\w*)/g;
-            const matches = script.match(foreignKeyRegex);
-            if (matches) {
-                return matches.map((match) => {
-                    const groups = foreignKeyRegex.exec(match);
-                    const tableName = groups?.[1] ?? '';
-                    const foreignKeyColumn = groups?.[3] ?? '';
-                    const referencedTable = groups?.[4] ?? '';
-                    const referencedColumn = groups?.[5] ?? '';
-                    const onDeleteAction = groups?.[6] ?? '';
-                    const onUpdateAction = groups?.[7] ?? '';
+    const Edges = JSONSchema.map((table) => {
+        const TableName = table.name;
+        const ForeignKeys = table?.foreignKeys ?? [];
+
+        if (ForeignKeys.length) {
+            return ForeignKeys.map((column) => {
+                const ReferencingColumn = column?.columns?.[0]?.column ?? '';
+                const ReferencedTable = column.reference.table;
+                const ReferencedColumn =
+                    column.reference?.columns?.[0]?.column ?? '';
+                const OnActions = column.reference?.on?.map((actions) => {
+                    if (actions.trigger === 'delete') {
+                        return {
+                            onDelete: actions.action,
+                        };
+                    }
                     return {
-                        source: {
-                            table: tableName,
-                            column: foreignKeyColumn,
-                        },
-                        target: {
-                            table: referencedTable,
-                            column: referencedColumn,
-                        },
-                        constraints: {
-                            onDelete: onDeleteAction.toUpperCase() ?? '',
-                            onUpdate: onUpdateAction.toUpperCase() ?? '',
-                        },
+                        onUpdate: actions.action,
                     };
                 });
-            }
 
-            return [];
+                return {
+                    id: uuidv4(),
+                    referencingTable: TableName,
+                    referencedTable: ReferencedTable,
+                    data: {
+                        referenced: {
+                            isHandleActive: false,
+                            column: ReferencedColumn,
+                        },
+                        referencing: {
+                            isHandleActive: false,
+                            column: ReferencingColumn,
+                        },
+                        constraint: {
+                            onDelete: OnActions?.[0]?.onDelete ?? 'NO ACTION',
+                            onUpdate: OnActions?.[1]?.onDelete ?? 'NO ACTION',
+                        },
+                    },
+                };
+            });
         }
 
-        return table.foreignKeys.map((fk) => {
-            return {
-                source: {
-                    table: fk.reference.table,
-                    column: fk?.reference?.columns?.[0]?.column ?? '',
-                },
-                target: {
-                    table: table.name,
-                    column: fk?.columns[0]?.column ?? '',
-                },
-                constraints: {
-                    onDelete:
-                        fk?.reference?.on?.[0]?.action.toUpperCase() ?? '',
-                    onUpdate:
-                        fk?.reference?.on?.[1]?.action.toUpperCase() ?? '',
-                },
-            };
-        });
+        return null;
     })
-        .filter((edges) => edges.length > 0)
-        .flat();
+        .filter((edge) => edge !== null)
+        .flat() as Array<TGeneratedEdgeData>;
+
     return {
         nodes: Nodes,
         edges: Edges,

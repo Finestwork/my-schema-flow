@@ -43,9 +43,11 @@ export function useTableRelationActions() {
             target: canvasStore.currentActiveNode.id,
             data: {
                 referenced: {
+                    isHandleActive: false,
                     column: relationData.referencedColumn,
                 },
                 referencing: {
+                    isHandleActive: false,
                     column: relationData.referencingColumn,
                 },
                 constraint: {

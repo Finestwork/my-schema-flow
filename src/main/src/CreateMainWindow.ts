@@ -1,3 +1,4 @@
+// import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer';
 import { electronApp, is, optimizer } from '@electron-toolkit/utils';
 import { app, BrowserWindow, globalShortcut } from 'electron';
 
@@ -13,7 +14,8 @@ export default class CreateMainWindow {
     constructor(options: TOptions) {
         this._htmlFile = options.htmlFile;
         this._preloadFile = options.preloadFile;
-        app.whenReady().then(() => {
+        app.whenReady().then(async () => {
+            // await installExtension(VUEJS_DEVTOOLS); // Delete this in production
             this._createWindow();
             electronApp.setAppUserModelId('com.schemaSparkle');
             this._listeners();

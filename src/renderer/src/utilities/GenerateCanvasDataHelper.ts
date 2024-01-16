@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
 import type {
     TGeneratedNodeData,
     TGeneratedEdgeData,
@@ -32,37 +31,18 @@ export const generateEdgeDataForCanvas = (
     nodes: Array<TGeneratedNodeData>,
 ) => {
     return edges.map((edge) => {
-        const TargetNodeIndex = nodes.findIndex(
-            (node) => node.name === edge.target.table,
+        const TargetNode = nodes.find(
+            (node) => node.name === edge.referencingTable,
         );
-        const SourceNodeIndex = nodes.findIndex(
-            (node) => node.name === edge.source.table,
+        const SourceNode = nodes.find(
+            (node) => node.name === edge.referencedTable,
         );
-        const SourceNode = nodes[SourceNodeIndex];
-        const SourceForeignColumn = SourceNode.columns.find(
-            (column) => column.name === edge.source.column,
-        );
-
-        if (SourceForeignColumn) {
-            SourceForeignColumn.keyConstraint = 'FK';
-        }
 
         return {
-            id: uuidv4(),
-            source: SourceNode.id,
-            target: nodes[TargetNodeIndex].id,
-            data: {
-                referenced: {
-                    column: edge.source.column,
-                },
-                referencing: {
-                    column: edge.target.column,
-                },
-                constraint: {
-                    onDelete: edge.constraints.onDelete,
-                    onUpdate: edge.constraints.onUpdate,
-                },
-            },
+            id: edge.id ?? '',
+            source: SourceNode?.id ?? '',
+            target: TargetNode?.id ?? '',
+            data: edge.data,
         };
     });
 };

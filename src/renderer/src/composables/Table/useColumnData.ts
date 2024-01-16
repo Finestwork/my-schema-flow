@@ -1,5 +1,5 @@
 import { useCanvasStore } from '@stores/Canvas';
-import { computed, ref, watch } from 'vue';
+import { ref, watch } from 'vue';
 
 export function useColumnData() {
     const canvasStore = useCanvasStore();
@@ -15,7 +15,7 @@ export function useColumnData() {
         canvasStore.getCurrentActiveColumnData?.isNull ?? false,
     );
     const columnIsUnique = ref(
-        canvasStore.getCurrentActiveColumnData?.isNull ?? false,
+        canvasStore.getCurrentActiveColumnData?.isUnique ?? false,
     );
     const fullResetData = () => {
         columnName.value = '';
@@ -24,6 +24,8 @@ export function useColumnData() {
         columnKeyConstraint.value = '';
         columnIsNull.value = false;
     };
+
+    // This tracks the user whenever they switch columns
     watch(
         () => canvasStore.currentNodeActiveColumnIndex,
         () => {

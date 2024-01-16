@@ -92,7 +92,28 @@ export const createUniqueScript = (arr: Array<TNode>) => {
             ).map((columns) => columns.name);
 
             return UniqueColumns.map((col) => {
-                return `ALTER TABLE ${node.data.table.name} ADD CONSTRAINT uniq_${col} UNIQUE(${col})`;
-            }).join(';\n');
+                return `ALTER TABLE ${node.data.table.name} ADD CONSTRAINT uniq_${col} UNIQUE(${col});`;
+            });
         });
+};
+
+export const createIndexScript = (arr: Array<TNode>) => {
+    return arr
+        .filter((node) => node.data.table.indexes.length !== 0)
+        .map((node) => {
+            const Table = node.data.table.name;
+            return node.data.table.indexes.map((attr) => {
+                const Constraint =
+                    attr.type === 'non-unique'
+                        ? 'INDEX'
+                        : attr.type === 'unique'
+                          ? 'UNIQUE INDEX'
+                          : attr.type === 'spatial'
+                            ? 'SPATIAL INDEX'
+                            : 'FULLTEXT INDEX';
+
+                return `ALTER TABLE ${Table} ADD ${Constraint} (${attr.column});`;
+            });
+        })
+        .flat();
 };

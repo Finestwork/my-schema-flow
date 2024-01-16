@@ -10,6 +10,7 @@ import TableRelations from '@components/Modules/TableRelations/TableRelations.vu
 import Settings from '@components/Modules/Settings/Settings.vue';
 import Playground from '@components/Modules/Playground/Playground.vue';
 import DiagramModalLoader from '@components/Modules/DiagramModalLoader/DiagramModalLoader.vue';
+import TableIndexes from '@components/Modules/TableIndexes/TableIndexes.vue';
 import { useModalStore } from '@stores/Modal';
 import { useSettingsStore } from '@stores/Settings';
 import { useFileStore } from '@stores/File';
@@ -56,6 +57,7 @@ watch(
         >
             <TableInformationSection />
             <TableRelations />
+            <TableIndexes />
         </VPanelWrapper>
     </div>
     <Settings v-if="settingsStore.showSettings" />

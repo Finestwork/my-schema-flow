@@ -64,6 +64,7 @@ export const getRelationList = (
             const Column = IsParent
                 ? edge.data.referenced.column
                 : edge.data.referencing.column;
+
             return {
                 id: edge.id,
                 table: Table,
@@ -83,7 +84,6 @@ export const getRelationList = (
 export const formatColumnDataType = (column: string) => {
     const TypeRegex = /^\s*(\w+)\s*/i;
     const VarcharLengthRegex = /VARCHAR\s*\(\s*(\d+)\s*\)/i;
-
     const MatchType = column.match(TypeRegex);
     const MatchLength = column.match(VarcharLengthRegex);
 
@@ -101,7 +101,7 @@ export const formatColumnDataType = (column: string) => {
         return type;
     }
 
-    return 'VARCHAR(255)';
+    return column;
 };
 
 /**

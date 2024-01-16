@@ -13,14 +13,12 @@ import { useCanvasStore } from '@stores/Canvas';
 import { useUpdateEdgeData } from '@composables/Edges/useUpdateEdgeData';
 import { useColumnData } from '@composables/Table/useColumnData';
 import { validateColumns } from '@utilities/FormTableHelper';
+import { formatColumnDataType } from '@utilities/TableHelper';
 import { ref } from 'vue';
 import type { Ref } from 'vue';
-import type { TUpdateColumn } from '@composables/Table/useTableRelationActions';
-import { formatColumnDataType } from '@utilities/TableHelper';
 
 const emits = defineEmits<{
     (e: 'hideForm', value: MouseEvent): void;
-    (e: 'updateColumnRelation', value: TUpdateColumn): void;
 }>();
 const canvasStore = useCanvasStore();
 const errors: Ref<Array<string>> = ref([]);
@@ -48,12 +46,11 @@ const onClickUpdateColumn = () => {
     isSuccessfullyCreated.value = false;
     errors.value = validateColumns(ColumnData, canvasStore.currentActiveNode);
     if (errors.value.length !== 0) return;
-    columnType.value = formatColumnDataType(columnType.value);
-    emits('updateColumnRelation', {
-        originalName: columnOriginalColumnName.value,
-        newName: columnName.value,
-    });
-    updateColumnBasedOnActiveNode(columnName.value);
+    ColumnData.type = formatColumnDataType(columnType.value);
+    updateColumnBasedOnActiveNode(
+        columnOriginalColumnName.value,
+        columnName.value,
+    );
     columnOriginalColumnName.value = columnName.value;
     canvasStore.currentNodeActiveColumnIndex =
         canvasStore.updateColumnInActiveNode(

@@ -25,6 +25,7 @@ const createNodes = (): Array<TNode> => {
                 table: {
                     name: NodeDummy[table].name,
                     columns: MappedColumns,
+                    indexes: [],
                 },
                 states: {
                     isActive: false,

@@ -12,10 +12,15 @@ export type TTableColumn = {
     keyConstraint: 'PK' | 'FK' | string;
     shouldHighlight: boolean;
 };
+export type TActiveIndexColumn = {
+    column: string;
+    type: 'unique' | 'spatial' | 'fulltext' | null;
+};
 export type TNodeData = {
     table: {
         name: string;
         columns: TTableColumn[];
+        indexes: Array<TActiveIndexColumn>;
     };
     states: {
         isActive: boolean;
@@ -108,6 +113,7 @@ export const useCanvasStore = defineStore('canvas', {
 
             this.currentActiveNode.data.table.columns =
                 sortConstraintKeys(Columns);
+
             return this.currentActiveNode.data.table.columns.findIndex(
                 (column) => column.name === data.name,
             );

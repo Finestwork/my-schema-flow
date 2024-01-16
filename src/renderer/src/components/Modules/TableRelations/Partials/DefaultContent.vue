@@ -20,7 +20,6 @@ const onClickEditForm = (edgeId: string) => {
     // No need to create shallow copy
     const Edge = VueFlow.getEdges.value.find((edge) => edge.id === edgeId);
     canvasStore.currentActiveEdge = Edge ? Edge : {};
-
     emits('editForm');
 };
 </script>
