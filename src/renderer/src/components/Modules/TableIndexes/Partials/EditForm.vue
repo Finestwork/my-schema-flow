@@ -19,7 +19,7 @@ const indexType = ref(ActiveNodeIndexArr[activeColumnIndex.value].type);
 const errors = ref<Array<string>>([]);
 const isSuccessfullyCreated = ref(false);
 
-const onClickAddIndex = async () => {
+const onClickUpdateIndex = async () => {
     isSuccessfullyCreated.value = false;
     const IndexObject = {
         column: attribute.value,
@@ -30,8 +30,6 @@ const onClickAddIndex = async () => {
     );
     errors.value = validateIndex(IndexObject, Columns);
     if (errors.value.length !== 0) return;
-
-    //
     ActiveNodeIndexArr[activeColumnIndex.value] = Object.assign(
         {},
         IndexObject,
@@ -39,7 +37,14 @@ const onClickAddIndex = async () => {
     await nextTick();
     isSuccessfullyCreated.value = true;
 };
+const onClickDeleteIndex = async () => {
+    const Indexes = canvasStore.currentActiveNode.data.table.indexes;
+    Indexes.splice(activeColumnIndex.value, 1);
+    await nextTick();
+    activeColumnIndex.value = -1;
+};
 </script>
+
 <template>
     <div class="pb-2">
         <PanelBackButton class="mb-4 mt-2" @click="activeColumnIndex = -1" />
@@ -54,8 +59,17 @@ const onClickAddIndex = async () => {
         />
         <PanelFormIndexAttribute v-model="attribute" class="mb-2" />
         <PanelFormIndexType v-model="indexType" />
-        <VPanelActionButton class="mt-4" @click="onClickAddIndex">
-            <template #text>Add Index</template>
-        </VPanelActionButton>
+        <div class="mt-4">
+            <VPanelActionButton class="mb-2" @click="onClickUpdateIndex">
+                <template #text>Update Index</template>
+            </VPanelActionButton>
+            <VPanelActionButton
+                color-scheme="danger"
+                class="mb-2"
+                @click="onClickDeleteIndex"
+            >
+                <template #text>Delete Index</template>
+            </VPanelActionButton>
+        </div>
     </div>
 </template>

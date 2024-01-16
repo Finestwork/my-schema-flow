@@ -55,9 +55,9 @@ watch(
         <VPanelWrapper
             class="h-full w-full max-w-[280px] border-l-2 border-l-slate-300 dark:border-l-dark-700"
         >
-            <TableIndexes />
             <TableInformationSection />
             <TableRelations />
+            <TableIndexes />
         </VPanelWrapper>
     </div>
     <Settings v-if="settingsStore.showSettings" />
