@@ -9,7 +9,7 @@ const { modelValue } = defineModels<{
 <template>
     <VPanelDropdown id="rm" v-model="modelValue">
         <template #label>Index Type:</template>
-        <VPanelDropdownItem value="">NON-UNIQUE</VPanelDropdownItem>
+        <VPanelDropdownItem value="non-unique">NON-UNIQUE</VPanelDropdownItem>
         <VPanelDropdownItem value="unique">UNIQUE</VPanelDropdownItem>
         <VPanelDropdownItem value="spatial">SPATIAL</VPanelDropdownItem>
         <VPanelDropdownItem value="fulltext">FULL TEXT</VPanelDropdownItem>
