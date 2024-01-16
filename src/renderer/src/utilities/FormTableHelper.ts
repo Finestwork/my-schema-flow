@@ -235,3 +235,34 @@ const ValidateConstraint = (
 
     return Errors;
 };
+
+export const validateIndex = (
+    indexObj: {
+        attribute: string;
+        indexType: string;
+    },
+    columns: Array<string>,
+) => {
+    const Errors: Array<string> = [];
+
+    if (isEmpty(indexObj.attribute)) {
+        Errors.push('Index attribute cannot be empty.');
+    } else {
+        const Column = columns.find((column) => column === indexObj.attribute);
+        if (!Column) {
+            Errors.push("'index' attribute is not found in the current table.");
+        }
+    }
+
+    if (isEmpty(indexObj.indexType)) {
+        Errors.push('Index type cannot be empty.');
+    } else {
+        const Items = ['non-unique', 'unique', 'fulltext', 'spatial'];
+
+        if (!Items.includes(indexObj.indexType)) {
+            Errors.push('Index type is not valid.');
+        }
+    }
+
+    return Errors.map((error) => `• ${error}`);
+};
