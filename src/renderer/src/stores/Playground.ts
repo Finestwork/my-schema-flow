@@ -12,4 +12,9 @@ export const usePlaygroundStore = defineStore('playground', {
         database: '',
         storedDatabases: [] as Array<string>,
     }),
+    actions: {
+        clearDatabase() {
+            this.database = '';
+        },
+    },
 });
