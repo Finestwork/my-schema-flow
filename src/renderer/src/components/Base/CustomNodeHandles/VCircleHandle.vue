@@ -28,6 +28,7 @@ const getHandles = computed(() => {
                     isHandleActive: false,
                 };
             }
+
             const IsSource = edge.source === props.nodeId;
             const SourceHandle = edge?.sourceHandle ?? '';
             const TargetHandle = edge?.targetHandle ?? '';
@@ -62,6 +63,24 @@ const getHandles = computed(() => {
             };
             PositionTracker.push(Position);
 
+            const Cardinality =
+                edge.data.cardinality === 'one-to-one'
+                    ? {
+                          source: '1',
+                          target: '1',
+                      }
+                    : edge.data.cardinality === 'one-to-many'
+                      ? {
+                            source: '1',
+                            target: '*',
+                        }
+                      : edge.data.cardinality === 'many-to-one'
+                        ? { source: '*', target: '1' }
+                        : {
+                              source: '*',
+                              target: '*',
+                          };
+
             return {
                 id: EdgeId,
                 position: Position,
@@ -69,6 +88,9 @@ const getHandles = computed(() => {
                 connectable: false,
                 style: PositionStyle,
                 isHandleActive: IsTheSameNode && IsHandleActive,
+                cardinalityLabel: IsSource
+                    ? Cardinality.source
+                    : Cardinality.target,
             };
         });
 });
@@ -96,5 +118,17 @@ const getHandles = computed(() => {
             'border-slate-50 bg-slate-300 dark:border-dark-500 dark:bg-dark-800':
                 !handle.isHandleActive && props.isFaded,
         }"
-    />
+    >
+        <span
+            v-if="handle.isHandleActive && !props.isFaded"
+            class="text-md block font-bold text-slate-950 dark:text-dark-50"
+            :class="{
+                '-translate-y-[20px] translate-x-[12px]':
+                    handle.position === 'top' || handle.position === 'right',
+                '-translate-x-[12px] translate-y-[20px]':
+                    handle.position === 'bottom' || handle.position === 'left',
+            }"
+            >{{ handle.cardinalityLabel }}</span
+        >
+    </Handle>
 </template>

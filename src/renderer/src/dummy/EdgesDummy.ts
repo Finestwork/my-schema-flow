@@ -8,6 +8,7 @@ export default [
             table: 'products',
             column: 'category_id',
         },
+        cardinality: 'one-to-many',
     },
     {
         source: {
@@ -18,6 +19,7 @@ export default [
             table: 'products',
             column: 'supplier_id',
         },
+        cardinality: 'one-to-many',
     },
     {
         source: {
@@ -28,6 +30,7 @@ export default [
             table: 'orders',
             column: 'customer_id',
         },
+        cardinality: 'one-to-many',
     },
     {
         source: {
@@ -38,6 +41,7 @@ export default [
             table: 'shipments',
             column: 'order_id',
         },
+        cardinality: 'one-to-many',
     },
     {
         source: {
@@ -48,6 +52,7 @@ export default [
             table: 'payments',
             column: 'order_id',
         },
+        cardinality: 'one-to-many',
     },
     {
         source: {
@@ -58,6 +63,7 @@ export default [
             table: 'product_reviews',
             column: 'product_id',
         },
+        cardinality: 'one-to-many',
     },
     {
         source: {
@@ -68,6 +74,7 @@ export default [
             table: 'product_reviews',
             column: 'customer_id',
         },
+        cardinality: 'one-to-many',
     },
     {
         source: {
@@ -78,5 +85,6 @@ export default [
             table: 'employee_roles',
             column: 'employee_id',
         },
+        cardinality: 'one-to-many',
     },
 ];

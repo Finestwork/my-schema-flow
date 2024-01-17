@@ -7,10 +7,12 @@ export type TProps = {
     id: string;
     placeholder: string;
     disabled?: boolean;
+    noWhitespace?: boolean;
 };
 
 const props = withDefaults(defineProps<TProps>(), {
     disabled: false,
+    noWhitespace: false,
 });
 const { modelValue, dropdownItems } = defineModels<{
     modelValue: string;
@@ -145,6 +147,7 @@ watch(
         v-model:show-dropdown="showDropdown"
         :placeholder="placeholder"
         :disabled="props.disabled"
+        :no-whitespace="props.noWhitespace"
         @on-input="onInput"
         @on-input-focus="onFocusShowDropdown"
         @on-input-keydown="onKeyDownNavigateDropdown"
