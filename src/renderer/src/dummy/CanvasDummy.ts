@@ -62,6 +62,7 @@ const createEdges = () => {
                     onDelete: 'NO ACTION',
                     onUpdate: 'NO ACTION',
                 },
+                cardinality: edge.cardinality,
             },
         };
 

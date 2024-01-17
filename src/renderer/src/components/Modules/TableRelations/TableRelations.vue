@@ -5,19 +5,25 @@ import DefaultContent from '@components/Modules/TableRelations/Partials/DefaultC
 import AddForm from '@components/Modules/TableRelations/Partials/AddForm.vue';
 import EditForm from '@components/Modules/TableRelations/Partials/EditForm.vue';
 import { useCanvasStore } from '@stores/Canvas';
-import { ref, watch } from 'vue';
+import { vueFlowKey } from '@symbols/VueFlow';
+import { ref, inject } from 'vue';
 
 const canvasStore = useCanvasStore();
 const displayAddForm = ref(false);
 const displayEditForm = ref(false);
-watch(
-    () => canvasStore.currentActiveNode,
-    () => {
-        displayAddForm.value = false;
-        displayEditForm.value = false;
-        canvasStore.currentActiveEdge = Object.assign({}, {});
-    },
-);
+const VueFlow = inject(vueFlowKey);
+
+VueFlow?.onPaneClick(() => {
+    displayAddForm.value = false;
+    displayEditForm.value = false;
+    canvasStore.currentActiveEdge = Object.assign({}, {});
+});
+VueFlow?.onNodeClick(({ node }) => {
+    if (node.id === canvasStore.currentActiveNode.id) return;
+    displayAddForm.value = false;
+    displayEditForm.value = false;
+    canvasStore.currentActiveEdge = Object.assign({}, {});
+});
 </script>
 
 <template>

@@ -187,6 +187,21 @@ export const validateTableRelations = (
         );
     }
 
+    const SupportedCardinalities = [
+        'one-to-one',
+        'one-to-many',
+        'many-to-one',
+        'many-to-many',
+    ];
+
+    if (isEmpty(data.cardinality)) {
+        Errors.push('Cardinality should not be empty.');
+    } else {
+        if (!SupportedCardinalities.includes(data.cardinality)) {
+            Errors.push('Cardinality is not supported.');
+        }
+    }
+
     return Errors.map((error) => `• ${error}`);
 };
 

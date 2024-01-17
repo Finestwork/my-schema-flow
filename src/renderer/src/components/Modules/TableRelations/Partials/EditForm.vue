@@ -18,6 +18,7 @@ import { validateTableRelations } from '@utilities/FormTableHelper';
 import { vueFlowKey } from '@symbols/VueFlow';
 import { nextTick, ref, inject } from 'vue';
 import type { Ref } from 'vue';
+import PanelFormCardinality from '@components/Shared/Forms/PanelFormCardinality.vue';
 
 const emits = defineEmits<{
     (e: 'goBack'): void;
@@ -43,6 +44,7 @@ const onDeleteConstraint = ref(
 const onUpdateConstraint = ref(
     canvasStore.currentActiveEdge.data.constraint.onUpdate,
 );
+const cardinality = ref(canvasStore.currentActiveEdge.data.cardinality);
 
 const isSuccessfullyUpdated = ref(false);
 const onClickHideForm = () => {
@@ -62,6 +64,7 @@ const onClickUpdateRelation = async () => {
             onDelete: onDeleteConstraint.value,
             onUpdate: onUpdateConstraint.value,
         },
+        cardinality: cardinality.value,
     };
     errors.value = validateTableRelations(
         RelationObj,
@@ -71,8 +74,18 @@ const onClickUpdateRelation = async () => {
         'update',
     );
     if (errors.value.length !== 0) return;
-    updateRelation(RelationObj);
+    await updateRelation(RelationObj);
     await nextTick();
+
+    // Need to re-assign values because edges will have a full refresh
+    // so reference to the object canvasStore.currentActiveEdge will be lost
+    const CurrentActiveEdge = canvasStore.currentActiveEdge;
+    referencingColumn.value = CurrentActiveEdge.data.referencing.column;
+    referencedTable.value = CurrentActiveEdge.sourceNode.data.table.name;
+    referencedColumn.value = CurrentActiveEdge.data.referenced.column;
+    onDeleteConstraint.value = CurrentActiveEdge.data.constraint.onDelete;
+    onUpdateConstraint.value = CurrentActiveEdge.data.constraint.onUpdate;
+    cardinality.value = CurrentActiveEdge.data.cardinality;
     const TableName = canvasStore.currentActiveNode.data.table.name;
     const Label = `Relationship Updated: '${TableName}' and '${referencedTable.value}'`;
     createHistory(Label);
@@ -114,9 +127,9 @@ const onClickDeleteRelation = () => {
         />
         <PanelFormOnUpdateConstraint
             v-model="onUpdateConstraint"
-            class="mb-5"
+            class="mb-4"
         />
-
+        <PanelFormCardinality v-model="cardinality" class="mb-5" />
         <VPanelActionButton class="mb-2" @click="onClickUpdateRelation">
             <template #icon>
                 <EditIcon />

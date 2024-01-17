@@ -4,6 +4,7 @@ import { useEdgePositionCalculator } from '@composables/Edges/useEdgePositionCal
 import { useHistoryActions } from '@composables/History/useHistoryActions';
 import { useVueFlow } from '@vue-flow/core';
 import type { TNode } from '@stores/Canvas';
+import { nextTick } from 'vue';
 
 export function useNodeDragEvent() {
     const canvasStore = useCanvasStore();
@@ -43,7 +44,8 @@ export function useNodeDragEvent() {
         createHistory(`Moved Table: '${CurrentNodeName}'`);
     });
 
-    onNodeClick((event) => {
+    onNodeClick(async (event) => {
+        await nextTick(); // Some components are listening to onNodeClick, wait them to be executed first
         if (event.node.id === canvasStore.currentActiveNode.id) return;
         _turnOnNodeActiveState(event.node);
     });

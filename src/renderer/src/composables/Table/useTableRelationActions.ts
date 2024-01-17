@@ -14,6 +14,12 @@ export type TRelationFormData = {
         onDelete: string;
         onUpdate: string;
     };
+    cardinality:
+        | 'one-to-one'
+        | 'one-to-many'
+        | 'many-to-many'
+        | 'many-to-one'
+        | string;
 };
 
 export type TUpdateColumn = {
@@ -54,6 +60,7 @@ export function useTableRelationActions() {
                     onDelete: relationData.constraint.onDelete,
                     onUpdate: relationData.constraint.onUpdate,
                 },
+                cardinality: relationData.cardinality,
             },
         };
         VueFlow.addEdges([EdgeObj]);
@@ -94,29 +101,31 @@ export function useTableRelationActions() {
 
         if (!ReferencedNode) return;
 
-        VueFlow.setEdges((edges) => {
-            return edges.map((edge) => {
-                if (edge.id === canvasStore.currentActiveEdge.id) {
-                    edge.target = ReferencingNode.id;
-                    edge.source = ReferencedNode.id;
-                    edge.data = {
-                        referenced: {
-                            column: relationData.referencedColumn,
-                        },
-                        referencing: {
-                            column: relationData.referencingColumn,
-                        },
-                    };
+        const Edge = VueFlow.findEdge(canvasStore.currentActiveEdge.id);
+        if (!Edge) return;
+        Edge.target = ReferencingNode.id;
+        Edge.source = ReferencedNode.id;
+        Edge.data = {
+            referenced: {
+                column: relationData.referencedColumn,
+            },
+            referencing: {
+                column: relationData.referencingColumn,
+            },
+            constraint: {
+                onDelete: relationData.constraint.onDelete,
+                onUpdate: relationData.constraint.onUpdate,
+            },
+            cardinality: relationData.cardinality,
+        };
 
-                    // The Current active node will now be the referencing node
-                    canvasStore.currentActiveNode = edge.targetNode;
-                }
-                return edge;
-            });
-        });
+        // The Current active node will now be the referencing node
+        canvasStore.currentActiveNode = Edge.sourceNode;
         await nextTick();
         activateState();
         calculateActiveEdgesPosition();
+        await nextTick();
+        canvasStore.currentActiveEdge = Edge;
     };
 
     const updateColumnRelation = (data: TUpdateColumn) => {

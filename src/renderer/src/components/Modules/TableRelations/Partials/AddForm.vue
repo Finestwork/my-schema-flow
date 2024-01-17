@@ -10,6 +10,7 @@ import PanelFormReferencedTable from '@components/Shared/Forms/PanelFormReferenc
 import PanelFormReferencedColumn from '@components/Shared/Forms/PanelFormReferencedColumn.vue';
 import PanelFormOnDeleteConstraint from '@components/Shared/Forms/PanelFormOnDeleteConstraint.vue';
 import PanelFormOnUpdateConstraint from '@components/Shared/Forms/PanelFormOnUpdateConstraint.vue';
+import PanelFormCardinality from '@components/Shared/Forms/PanelFormCardinality.vue';
 import { useCanvasStore } from '@stores/Canvas';
 import { useTableRelationActions } from '@composables/Table/useTableRelationActions';
 import { useHistoryActions } from '@composables/History/useHistoryActions';
@@ -28,6 +29,7 @@ const referencedTable = ref('');
 const referencedColumn = ref('');
 const onDeleteConstraint = ref('NO ACTION');
 const onUpdateConstraint = ref('NO ACTION');
+const cardinality = ref('');
 const isSuccessfullyCreated = ref(false);
 const VueFlow = inject(vueFlowKey);
 const { addRelation } = useTableRelationActions();
@@ -44,6 +46,7 @@ const onClickAddRelation = async () => {
             onDelete: onDeleteConstraint.value,
             onUpdate: onUpdateConstraint.value,
         },
+        cardinality: cardinality.value,
     };
     errors.value = validateTableRelations(
         RelationObj,
@@ -53,15 +56,7 @@ const onClickAddRelation = async () => {
         'add',
     );
     if (errors.value.length !== 0) return;
-    addRelation({
-        referencingColumn: referencingColumn.value,
-        referencedTable: referencedTable.value,
-        referencedColumn: referencedColumn.value,
-        constraint: {
-            onDelete: onDeleteConstraint.value,
-            onUpdate: onUpdateConstraint.value,
-        },
-    });
+    addRelation(RelationObj);
     await nextTick();
     const TableName = canvasStore.currentActiveNode.data.table.name;
     const HistoryLabel = `Relationship Added: '${TableName}' and '${referencedTable.value}'`;
@@ -73,6 +68,7 @@ const onClickAddRelation = async () => {
     referencedColumn.value = '';
     onDeleteConstraint.value = '';
     onUpdateConstraint.value = '';
+    cardinality.value = '';
     isSuccessfullyCreated.value = true;
 };
 </script>
@@ -104,8 +100,9 @@ const onClickAddRelation = async () => {
         />
         <PanelFormOnUpdateConstraint
             v-model="onUpdateConstraint"
-            class="mb-5"
+            class="mb-4"
         />
+        <PanelFormCardinality v-model="cardinality" class="mb-5" />
         <VPanelActionButton @click="onClickAddRelation">
             <template #icon>
                 <AddIcon />
