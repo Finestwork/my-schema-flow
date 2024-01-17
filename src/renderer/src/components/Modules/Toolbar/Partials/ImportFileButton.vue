@@ -13,9 +13,6 @@ const { importDatabaseFile, importSQLScript, importDiagram } =
         <OpenFileIcon />
         <template #tooltip> Import File</template>
         <template #float>
-            <VToolbarButtonDropdownItem @click="importDatabaseFile">
-                <template #text>Import Database File</template>
-            </VToolbarButtonDropdownItem>
             <VToolbarButtonDropdownItem @click="importSQLScript">
                 <template #text>Import SQL Script File</template>
             </VToolbarButtonDropdownItem>

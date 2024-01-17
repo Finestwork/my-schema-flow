@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import OpenFileButton from '@components/Modules/Toolbar/Partials/ImportFileButton.vue';
+import ImportFileButton from '@components/Modules/Toolbar/Partials/ImportFileButton.vue';
 import AddNewTableButton from '@components/Modules/Toolbar/Partials/AddNewTableButton.vue';
 import AutoLayoutButton from '@components/Modules/Toolbar/Partials/AutoLayoutButton.vue';
 import ChangeOrientationButton from '@components/Modules/Toolbar/Partials/ChangeOrientationButton.vue';
@@ -15,7 +15,7 @@ import PlaygroundButton from '@components/Modules/Toolbar/Partials/PlaygroundBut
         class="flex items-center justify-between border-b-2 border-b-slate-300 bg-white px-2 py-3 dark:border-b-dark-700 dark:bg-dark-900"
     >
         <div>
-            <OpenFileButton class="mr-2" />
+            <ImportFileButton class="mr-2" />
             <ExportFileButton class="mr-2" />
             <PlaygroundButton class="mr-2" />
         </div>
