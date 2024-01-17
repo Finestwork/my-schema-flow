@@ -13,6 +13,7 @@ const { activeColumnIndex } = defineModels<{
 
 const canvasStore = useCanvasStore();
 const indexes = computed(() => {
+    if(canvasStore.hasActiveNode) return [];
     return canvasStore.currentActiveNode.data.table.indexes.map((index) => ({
         column: index.column,
         type: index.type.toUpperCase(),
