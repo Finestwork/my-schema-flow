@@ -28,8 +28,9 @@ watch(
     <VPanelAutoComplete
         id="addOnDeleteConstraint"
         v-model="modelValue"
-        placeholder="ON DELETE"
+        placeholder="Place action here on delete"
         :dropdown-items="CONSTRAINTS"
+        :no-whitespace="false"
     >
         <template #label>On Delete:</template>
     </VPanelAutoComplete>

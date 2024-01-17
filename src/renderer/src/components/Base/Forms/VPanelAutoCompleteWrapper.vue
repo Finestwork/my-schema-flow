@@ -8,9 +8,11 @@ export type TProps = {
     id: string;
     placeholder: string;
     disabled?: boolean;
+    noWhitespace?: boolean;
 };
 const props = withDefaults(defineProps<TProps>(), {
     disabled: false,
+    noWhitespace: true,
 });
 const { modelValue, showDropdown } = defineModels<{
     modelValue: string;
@@ -53,7 +55,7 @@ onClickOutside(rootWrapper, () => {
             v-model="modelValue"
             :placeholder="props.placeholder"
             :disabled="props.disabled"
-            :no-white-space="true"
+            :no-white-space="props.noWhitespace"
             @input="onInput"
             @focus="emits('onInputFocus', $event)"
             @keydown="emits('onInputKeydown', $event)"

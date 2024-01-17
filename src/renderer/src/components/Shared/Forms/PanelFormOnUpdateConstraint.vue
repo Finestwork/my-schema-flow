@@ -28,8 +28,9 @@ watch(
     <VPanelAutoComplete
         id="addOnUpdateConstraint"
         v-model="modelValue"
-        placeholder="ON UPDATE"
+        placeholder="Place action here on update"
         :dropdown-items="CONSTRAINTS"
+        :no-whitespace="false"
     >
         <template #label>On Update:</template>
     </VPanelAutoComplete>

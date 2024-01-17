@@ -26,8 +26,8 @@ const errors: Ref<Array<string>> = ref([]);
 const referencingColumn = ref('');
 const referencedTable = ref('');
 const referencedColumn = ref('');
-const onDeleteConstraint = ref('');
-const onUpdateConstraint = ref('');
+const onDeleteConstraint = ref('NO ACTION');
+const onUpdateConstraint = ref('NO ACTION');
 const isSuccessfullyCreated = ref(false);
 const VueFlow = inject(vueFlowKey);
 const { addRelation } = useTableRelationActions();
@@ -102,12 +102,10 @@ const onClickAddRelation = async () => {
             v-model="onDeleteConstraint"
             class="mb-4"
         />
-
         <PanelFormOnUpdateConstraint
             v-model="onUpdateConstraint"
             class="mb-5"
         />
-
         <VPanelActionButton @click="onClickAddRelation">
             <template #icon>
                 <AddIcon />
