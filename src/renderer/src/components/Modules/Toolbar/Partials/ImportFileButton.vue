@@ -4,8 +4,7 @@ import VToolbarButtonDropdownItem from '@components/Base/Dropdowns/VToolbarButto
 import OpenFileIcon from '@components/Shared/Icons/OpenFileIcon.vue';
 import { useFileImportHelper } from '@composables/Miscellaneous/useFileImportHelper';
 
-const { importDatabaseFile, importSQLScript, importDiagram } =
-    useFileImportHelper();
+const { importSQLScript, importDiagram } = useFileImportHelper();
 </script>
 
 <template>

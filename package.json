@@ -1,11 +1,17 @@
 {
-    "name": "MySchemaFlow",
+    "name": "myschemaflow",
     "version": "1.0.0",
     "description": "An electron.js application designed to assist you in creating diagrams, especially for MySQL databases. It offers a user-friendly interface that allows you to visualize and comprehend your database structure more easily.",
     "main": "./out/main/index.js",
     "author": "Finestwork",
-    "homepage": "https://github.com/Finestwork/schema-sparkle",
+    "homepage": "https://github.com/Finestwork/my-schema-flow",
+    "repository": "https://github.com/Finestwork/my-schema-flow",
+    "publish": {
+        "provider": "github",
+        "releaseType": "release"
+    },
     "build": {
+        "productName": "MySchemaFlow",
         "appId": "com.finestwork.schema-sparkle",
         "files": "!resources{/*}",
         "copyright": "Copyright © 2019 ${author}",

@@ -83,9 +83,9 @@ export default class CreateMainWindow {
         if (this._mainWindow === null) return;
 
         // Create the browser window.
-        this._mainWindow.webContents.openDevTools({
-            mode: 'bottom',
-        });
+        // this._mainWindow.webContents.openDevTools({
+        //     mode: 'bottom',
+        // });
         this._mainWindow.on('ready-to-show', () => {
             if (this._mainWindow === null) return;
             this._mainWindow.maximize();
