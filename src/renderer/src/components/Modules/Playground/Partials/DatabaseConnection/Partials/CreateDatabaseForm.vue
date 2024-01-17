@@ -55,7 +55,9 @@ const createDatabase = async () => {
             </VAlert>
 
             <div>
-                <p class="mb-2 text-xs font-bold text-slate-800">
+                <p
+                    class="mb-2 text-xs font-bold text-slate-800 dark:text-slate-300"
+                >
                     Please create your database to test your created diagrams.
                 </p>
                 <VPlaygroundTextInput
@@ -121,11 +123,11 @@ const createDatabase = async () => {
         </div>
 
         <p
-            class="absolute bottom-3 w-full text-center text-[.8rem] font-bold text-slate-900 dark:text-slate-400"
+            class="absolute bottom-3 w-full text-center text-[.8rem] font-bold text-slate-900 dark:text-slate-300"
         >
             Note: Each time you use our application,
             <span
-                class="border-b-2 border-dashed border-b-rose-600 text-rose-600"
+                class="border-b-2 border-dashed border-b-rose-600 text-rose-600 dark:border-b-rose-500 dark:text-rose-500"
             >
                 you are creating a new MySQL database</span
             >. To avoid populating your system with unwanted databases, please

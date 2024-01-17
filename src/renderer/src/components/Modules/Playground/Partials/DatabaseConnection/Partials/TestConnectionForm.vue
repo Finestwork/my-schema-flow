@@ -46,7 +46,8 @@ const connectMySQL = async () => {
 <template>
     <div class="relative flex h-full w-full items-center">
         <div class="mx-auto w-full max-w-[350px]">
-            <span class="mb-4 block text-center text-xs font-bold text-cyan-950"
+            <span
+                class="mb-4 block text-center text-xs font-bold text-cyan-950 dark:text-dark-50"
                 >Let's first get connected to our database!</span
             >
             <VAlert v-if="error !== ''" type="danger" class="my-4">
@@ -102,11 +103,11 @@ const connectMySQL = async () => {
             </VUniversalButton>
         </div>
         <p
-            class="absolute bottom-3 w-full text-center text-[.8rem] font-bold text-slate-900 dark:text-slate-400"
+            class="absolute bottom-3 w-full text-center text-[.8rem] font-bold text-slate-900 dark:text-slate-300"
         >
             Please be noted that
             <span
-                class="border-b-2 border-dashed border-b-cyan-600 text-cyan-600"
+                class="border-b-2 border-dashed border-b-cyan-600 text-cyan-600 dark:border-b-cyan-500 dark:text-cyan-500"
                 >we currently support MySQL only</span
             >, but we are working on supporting other databases. Thank you.
         </p>
