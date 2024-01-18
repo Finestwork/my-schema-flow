@@ -30,6 +30,11 @@ export function useHistoryActions() {
     const createHistory = async (label: string) => {
         if (!VueFlow) return;
         await nextTick();
+
+        // Only limit the history up-to 50 items
+        if (historyStore.items.length >= 50) {
+            historyStore.items.shift();
+        }
         const Nodes = resetNodesActiveState(VueFlow.getNodes.value);
         const Edges = resetEdgesActiveState(VueFlow.getEdges.value);
 
