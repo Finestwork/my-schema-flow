@@ -38,6 +38,8 @@ export default class HandleDatabaseListener {
                         databases: Databases,
                     };
                 } catch (e) {
+                    await this._connection?.end();
+                    this._connection?.destroy();
                     this._connection = null;
                     return {
                         error: {
@@ -74,11 +76,12 @@ export default class HandleDatabaseListener {
                     if ('customizedDatabase' in options) {
                         // Create the connection to database
                         await this._connection.query(
-                            `CREATE DATABASE ${options.database} DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;`,
+                            `CREATE DATABASE ${DatabaseName} DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;`,
                         );
                     }
 
                     await this._connection.end();
+                    this._connection.destroy();
 
                     this._connection = await mysql.createConnection({
                         host: options.host,
