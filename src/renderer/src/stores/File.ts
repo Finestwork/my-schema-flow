@@ -5,7 +5,7 @@ export const useFileStore = defineStore('file', {
         return {
             fileName: '' as string,
             filePath: '' as string,
-            savedIndex: -1 as number,
+            savedIndex: -1 as number, // This tracks the current index of the saved history item.
         };
     },
     getters: {

@@ -2,7 +2,7 @@ import { useModalStore } from '@stores/Modal';
 import { useFileStore } from '@stores/File';
 import { useHistoryStore } from '@stores/History';
 import { useNodeAutoLayout } from '@composables/Nodes/useAutoLayout';
-import { importDDL, readImportedDatabaseFile } from '@utilities/ImportHelper';
+import { importDDL } from '@utilities/ImportHelper';
 import {
     generateEdgeDataForCanvas,
     generateNodeDataForCanvas,
@@ -21,7 +21,6 @@ export function useFileImportHelper() {
 
     const _displayCanvasData = async (nodes, edges) => {
         if (!vueFlow) return;
-        modalStore.showDiagramLoaderModal = true;
         historyStore.$reset();
         fileStore.$reset();
         vueFlow.setEdges(() => []);
@@ -34,51 +33,45 @@ export function useFileImportHelper() {
         autoLayout();
         await nextTick();
         createHistory(`Initial Load`);
-
         // Add delay to avoid content jumping
         setTimeout(() => {
             modalStore.showDiagramLoaderModal = false;
         }, 1000);
     };
-    const importDatabaseFile = async () => {
-        const ImportedFile = await window.api.importDatabaseFile();
-        if (ImportedFile === null) return;
-        const { nodes: Nodes, edges: Edges } =
-            await readImportedDatabaseFile(ImportedFile);
-        const GeneratedNodes = generateNodeDataForCanvas(Nodes);
-        const GeneratedEdges = generateEdgeDataForCanvas(Edges, Nodes);
-        _displayCanvasData(GeneratedNodes, GeneratedEdges);
-    };
 
     const importSQLScript = async () => {
-        const Script = await window.api.importSQLScript();
-        if (Script === null) return;
-        const { nodes: Nodes, edges: Edges } = importDDL(Script);
+        modalStore.showDiagramLoaderModal = true;
+        const Result = await window.api.importSQLScript();
+        if (Result === null) {
+            modalStore.showDiagramLoaderModal = false;
+            return;
+        }
+        const { nodes: Nodes, edges: Edges } = importDDL(Result.contents);
         const GeneratedNodes = generateNodeDataForCanvas(Nodes);
         const GeneratedEdges = generateEdgeDataForCanvas(Edges, Nodes);
-        _displayCanvasData(GeneratedNodes, GeneratedEdges);
+        await _displayCanvasData(GeneratedNodes, GeneratedEdges);
+        fileStore.savedIndex = 0;
+        fileStore.fileName = Result.fileName;
+        fileStore.filePath = Result.filePath;
     };
 
     const importDiagram = async () => {
         if (!vueFlow) return;
+        modalStore.showDiagramLoaderModal = true;
         const Result = await window.api.importDiagram();
-        if (Result === null) return;
+        if (Result === null) {
+            modalStore.showDiagramLoaderModal = false;
+            return;
+        }
         const Contents = JSON.parse(Result.contents);
-        fileStore.fileName = Result.fileName;
-        fileStore.filePath = Result.filePath[0];
+        await _displayCanvasData(Contents.nodes, Contents.edges);
         fileStore.savedIndex = 0;
-        _displayCanvasData(Contents.nodes, Contents.edges);
+        fileStore.fileName = Result.fileName;
+        fileStore.filePath = Result.filePath;
     };
 
-    const playgroundDatabaseFile = async () => {
-        const ImportedFile = await window.api.importDatabaseFile();
-        if (ImportedFile === null) return;
-        return ImportedFile;
-    };
     return {
-        importDatabaseFile,
         importSQLScript,
         importDiagram,
-        playgroundDatabaseFile,
     };
 }

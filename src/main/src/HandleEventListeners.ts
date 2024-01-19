@@ -9,9 +9,8 @@ export default class HandleEventListeners {
         this._saveFile();
         this._overwriteFileName();
         this._overwriteFile();
-        this._openFile();
+        this._importDiagram();
         this._saveAsScript();
-        this._importDatabaseFile();
         this._importSQLScript();
     }
 
@@ -117,8 +116,8 @@ export default class HandleEventListeners {
         );
     }
 
-    private _openFile() {
-        ipcMain.on('openFile', async (event) => {
+    private _importDiagram() {
+        ipcMain.on('importDiagram', async (event) => {
             const CurrentBrowser = BrowserWindow.fromWebContents(event.sender);
             if (!CurrentBrowser) return;
 
@@ -142,34 +141,8 @@ export default class HandleEventListeners {
             event.returnValue = {
                 contents: File,
                 filePath: Result.filePaths,
-                baseName: basename(Result.filePaths[0]),
+                fileName: basename(Result.filePaths[0]),
             };
-        });
-    }
-
-    private _importDatabaseFile() {
-        ipcMain.on('importDatabaseFile', async (event) => {
-            const CurrentBrowser = BrowserWindow.fromWebContents(event.sender);
-            if (!CurrentBrowser) return;
-
-            const DialogOptions = {
-                title: 'Importing a File',
-                filters: [
-                    {
-                        name: 'database',
-                        extensions: ['sqlite3', 'sqlite', 'database', 'db'],
-                    },
-                ],
-            };
-            const Result = await dialog.showOpenDialog(
-                CurrentBrowser,
-                DialogOptions,
-            );
-            if (Result.canceled || (Result && !Result.filePaths)) {
-                event.returnValue = null;
-                return;
-            }
-            event.returnValue = await readFile(Result.filePaths[0]);
         });
     }
 
@@ -179,11 +152,11 @@ export default class HandleEventListeners {
             if (!CurrentBrowser) return;
 
             const DialogOptions = {
-                title: 'Importing SQL / DDL',
+                title: 'Importing SQL',
                 filters: [
                     {
-                        name: 'sql/ddl',
-                        extensions: ['sql', 'ddl'],
+                        name: 'sql',
+                        extensions: ['sql'],
                     },
                 ],
             };
@@ -196,7 +169,11 @@ export default class HandleEventListeners {
                 return;
             }
             const File = await readFile(Result.filePaths[0]);
-            event.returnValue = File.toString();
+            event.returnValue = {
+                contents: File.toString(),
+                filePath: Result.filePaths,
+                fileName: basename(Result.filePaths[0]),
+            };
         });
     }
 

@@ -15,10 +15,9 @@ const api = {
     saveAsScript(script: string, extension: Array<string>) {
         ipcRenderer.send('saveAsScript', script, extension);
     },
-    importDatabaseFile: () => ipcRenderer.sendSync('importDatabaseFile'),
     importSQLScript: (filePath: string) =>
         ipcRenderer.sendSync('importSQLScript', filePath),
-    importDiagram: () => ipcRenderer.sendSync('openFile'),
+    importDiagram: () => ipcRenderer.sendSync('importDiagram'),
     connectMySQL: (options: ConnectionOptions) =>
         ipcRenderer.invoke('connectMySQL', options),
     runQuery: (query: string) => ipcRenderer.invoke('runQuery', query),
