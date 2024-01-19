@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useTrackEditorTheme } from '@composables/TextEditor/useTrackEditorTheme';
+import { useSettingsStore } from '@stores/Settings';
 import { useSQLLanguage } from '@composables/TextEditor/useSQLLanguage';
 import { getEditorOptions } from '@utilities/Editor/TextEditorHelper';
 import DarkTheme from '@utilities/Editor/DarkTheme';
@@ -37,8 +38,10 @@ const updateLayout = () => {
 
 onMounted(async () => {
     await nextTick();
+    const settingsStore = useSettingsStore();
     const EditorOptions = {
         language: 'sql',
+        theme: settingsStore.isDarkMode ? 'dark' : 'light',
     };
     editor.defineTheme('dark', DarkTheme);
     editor.defineTheme('light', LightTheme);
