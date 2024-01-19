@@ -4,10 +4,12 @@ import AutoLayoutIcon from '@components/Shared/Icons/AutoLayoutIcon.vue';
 import { useNodeAutoLayout } from '@composables/Nodes/useAutoLayout';
 import { useHistoryActions } from '@composables/History/useHistoryActions';
 import { useHistoryStore } from '@stores/History';
+import { useSettingsStore } from '@stores/Settings';
 import { vueFlowKey } from '@symbols/VueFlow';
 import { nextTick, inject } from 'vue';
 
 const historyStore = useHistoryStore();
+const settingsStore = useSettingsStore();
 const vueFlow = inject(vueFlowKey);
 const { autoLayout } = useNodeAutoLayout();
 const { createHistory } = useHistoryActions();
@@ -28,7 +30,10 @@ const onClickRunAutoLayout = async () => {
     });
 
     if (HasSomeChanges) {
-        createHistory('Run AutoLayout');
+        const CurrentOrientation = settingsStore.currentOrientation;
+        const LayoutOrientation =
+            CurrentOrientation === 'TB' ? 'Vertically' : 'Horizontally';
+        createHistory(`Autolayout ${LayoutOrientation}`);
     }
 };
 </script>
