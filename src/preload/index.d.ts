@@ -47,7 +47,7 @@ declare global {
             }>;
             overwriteFile(contents: string, filePath: string): Promise<void>;
             saveAsScript(script: string, extension: Array<string>): void;
-            importDatabaseFile(): Promise<Buffer | nukk>;
+            importDatabaseFile(): Promise<Buffer | null>;
             importSQLScript(): Promise<string | null>;
             importDiagram(): Promise<{
                 contents: string;

@@ -58,7 +58,7 @@ const onClickExportAsImage = (type: TExportTypes) => {
                 <template #text>Export To SVG</template>
             </VToolbarButtonDropdownItem>
 
-            <hr />
+            <hr class="border-slate-300 dark:border-dark-500" />
 
             <VToolbarButtonDropdownItem @click="onClickExportSQL">
                 <template #text>Export To SQL</template>
