@@ -25,7 +25,7 @@ onUnmounted(() => {
 <template>
     <div
         ref="root"
-        class="fixed top-[48px] h-[calc(100vh-44px)] w-full bg-white dark:bg-dark-900"
+        class="fixed top-[48px] h-[calc(100vh-48px)] w-full bg-white dark:bg-dark-900"
     >
         <div ref="scrollbar" class="h-full">
             <button
