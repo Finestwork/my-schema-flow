@@ -104,7 +104,7 @@ const createDatabase = async () => {
                         v-for="db in playgroundStore.storedDatabases"
                         :key="db"
                         :value="db"
-                        class="font-semibold text-slate-900"
+                        class="font-semibold text-slate-900 dark:text-slate-300"
                     >
                         {{ db }}
                     </option>

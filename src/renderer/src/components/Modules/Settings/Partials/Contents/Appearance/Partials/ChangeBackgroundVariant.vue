@@ -1,21 +1,9 @@
 <script setup lang="ts">
-import VButtonDropdown from '@components/Base/Forms/VButtonDropdown.vue';
-import VButtonDropdownItem from '@components/Base/Forms/VButtonDropdownItem.vue';
-import { BackgroundVariant } from '@vue-flow/background';
+import VSettingsDropdown from '@components/Base/Forms/VSettingsDropdown.vue';
+import VSettingsDropdownItem from '@components/Base/Forms/VSettingsDropdownItem.vue';
 import { useSettingsStore } from '@stores/Settings';
-import { computed, ref } from 'vue';
-import type { Ref } from 'vue';
 
 const settingsStore = useSettingsStore();
-const dropdown: Ref<InstanceType<typeof VButtonDropdown> | null> = ref(null);
-const getSelectedVariant = computed(() => {
-    return settingsStore.backgroundVariant === 'lines' ? 'Lines' : 'Dots';
-});
-const onClickChangeVariant = (variant: BackgroundVariant) => {
-    if (!dropdown.value) return;
-    settingsStore.backgroundVariant = variant;
-    dropdown.value.showDropdown = false;
-};
 </script>
 
 <template>
@@ -29,22 +17,13 @@ const onClickChangeVariant = (variant: BackgroundVariant) => {
             You can change the canvas's background variant by selecting an item
             from the dropdown menu.
         </p>
-        <VButtonDropdown ref="dropdown">
-            <template #label>
-                {{ getSelectedVariant }}
-            </template>
-            <template #dropdown>
-                <VButtonDropdownItem
-                    @click="onClickChangeVariant(BackgroundVariant.Lines)"
-                >
-                    Lines
-                </VButtonDropdownItem>
-                <VButtonDropdownItem
-                    @click="onClickChangeVariant(BackgroundVariant.Dots)"
-                >
-                    Dots
-                </VButtonDropdownItem>
-            </template>
-        </VButtonDropdown>
+        <VSettingsDropdown
+            id="backgroundVariantDropdown"
+            v-model="settingsStore.backgroundVariant"
+            class="max-w-[150px]"
+        >
+            <VSettingsDropdownItem value="lines"> Lines </VSettingsDropdownItem>
+            <VSettingsDropdownItem value="dots"> Dots </VSettingsDropdownItem>
+        </VSettingsDropdown>
     </div>
 </template>

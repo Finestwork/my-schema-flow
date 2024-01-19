@@ -7,7 +7,7 @@ const props = defineProps<TProps>();
 <template>
     <option
         :value="props.value"
-        class="font-semibold text-slate-900 dark:text-slate-300"
+        class="py-2 font-semibold text-slate-900 dark:text-slate-300"
     >
         <slot></slot>
     </option>
