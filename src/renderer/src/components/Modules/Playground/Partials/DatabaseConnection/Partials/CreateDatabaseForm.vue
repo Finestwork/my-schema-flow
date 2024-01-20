@@ -15,6 +15,14 @@ const error = ref('');
 const createDatabase = async () => {
     if (isCreatingDatabase.value) return;
 
+    if (
+        customizedDatabase.value.trim() === '' &&
+        storedDatabase.value.trim() === ''
+    ) {
+        error.value = 'Please create or select a database';
+        return;
+    }
+
     isCreatingDatabase.value = true;
 
     const DatabaseName =
