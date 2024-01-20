@@ -1,18 +1,21 @@
 {
-  "extends": "@electron-toolkit/tsconfig/tsconfig.web.json",
-  "include": [
-    "src/renderer/src/env.d.ts",
-    "src/renderer/src/**/*",
-    "src/renderer/src/**/*.vue",
-    "src/preload/*.d.ts"
-  ],
-  "compilerOptions": {
-    "composite": true,
-    "baseUrl": ".",
-    "paths": {
-      "@renderer/*": [
-        "src/renderer/src/*"
-      ]
+    "extends": [
+        "@electron-toolkit/tsconfig/tsconfig.web.json",
+        "./tsconfig.aliases.json"
+    ],
+    "files": [
+        "node_modules/@vue-macros/define-models/macros-global.d.ts"
+    ],
+    "compilerOptions": {
+        "composite": true,
+        "baseUrl": ".",
+        "types": [
+            "unplugin-vue-macros/macros-global"
+        ]
+    },
+    "vueCompilerOptions": {
+        "plugins": [
+            "@vue-macros/volar/define-models"
+        ]
     }
-  }
 }

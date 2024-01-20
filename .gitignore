@@ -1,4 +1,7 @@
+.idea
+.vscode
 node_modules
 dist
+build
 out
 *.log*

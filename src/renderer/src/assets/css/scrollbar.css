@@ -1,0 +1,39 @@
+.dark .scrollbar-slim::-webkit-scrollbar{
+    width: 8px;
+}
+.dark .scrollbar-slim::-webkit-scrollbar-track {
+    background: #272F45;
+}
+.dark .scrollbar-slim::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+    background: #40485f;
+}
+
+.os-scrollbar .os-scrollbar-handle{
+    background-color: #4c656fd9;
+}
+.os-scrollbar .os-scrollbar-handle:hover{
+    background-color: #0891b2;
+}
+
+.os-scrollbar .os-scrollbar-track{
+    background-color: #a5a9b5;
+}
+.os-scrollbar .os-scrollbar-track:hover{
+    background-color: #00464357;
+}
+
+
+.dark .os-scrollbar .os-scrollbar-handle{
+    background-color: #9efff91a;
+}
+.dark .os-scrollbar .os-scrollbar-handle:hover{
+    background-color: #9efff9fa;
+}
+
+.dark .os-scrollbar .os-scrollbar-track{
+    background-color: #272F45;
+}
+.dark .os-scrollbar .os-scrollbar-track:hover{
+    background-color: #272F45;
+}

@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind utilities;
+
+@layer base {
+    html {
+        font-family: 'Inter', 'sans-serif';
+        font-feature-settings: "ss01", "ss02", "ss03", "ss04", "ss05", "ss06", "ss07", "ss08", "calt", "dlig";
+    }
+
+    [type="checkbox"]{
+        appearance: none;
+    }
+
+    [type="checkbox"]:checked {
+        background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 16 12'%3E%3Cpath stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M1 5.917 5.724 10.5 15 1.5'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-size: .55em .55em;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        background-position: center;
+    }
+}
+@layer utilities {
+    .drag-title-bar {
+        -webkit-app-region: drag;
+    }
+    .no-drag-title-bar {
+        -webkit-app-region: no-drag;
+    }
+
+    .animate-infinite-progress{
+        animation: infinite-progress 5s ease-in-out infinite both;
+    }
+}
+
+body {
+    overflow: hidden;
+}
+
+@keyframes infinite-progress {
+    0% {
+        left: -100%;
+    }
+    45%,
+    50% {
+        left: -50%;
+    }
+    75% {
+        left: -45%;
+    }
+
+    75%,
+    100% {
+        left: 100%;
+    }
+}

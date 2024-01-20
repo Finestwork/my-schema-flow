@@ -1,0 +1,57 @@
+.vue-flow__node{
+    outline: none;
+}
+
+.vue-flow__edge-path{
+    stroke: #475569;
+}
+.dark .vue-flow__edge-path{
+    stroke: #596481;
+}
+
+.vue-flow__edge.faded .vue-flow__edge-path{
+    stroke: #cbd5e1;
+}
+.dark .vue-flow__edge.faded .vue-flow__edge-path{
+    stroke: #272F45;
+}
+
+.vue-flow__edge.active .vue-flow__edge-path{
+    stroke: #0e7490;
+}
+.dark .vue-flow__edge.active .vue-flow__edge-path{
+    stroke: #22d3ee;
+}
+
+.vue-flow__background{
+    background-color: #f8fafc;
+}
+
+.dark .vue-flow__background{
+    background-color: #090B10;
+}
+
+.dark .vue-flow__minimap{
+    background-color: #272F45;
+}
+
+.vue-flow__minimap-mask {
+    fill: rgb(175 198 204 / 26%);
+}
+.vue-flow__minimap-node{
+    fill: #bac4df;
+}
+
+.dark .vue-flow__minimap-mask {
+    fill: rgba(0,0,0,0.3);
+}
+.dark .vue-flow__minimap-node{
+    fill: #333F5B;
+}
+.vue-flow__minimap-node.active{
+    fill: #06b6d4;
+}
+
+.add-crosshair .vue-flow__pane.draggable{
+    cursor: crosshair;
+}
