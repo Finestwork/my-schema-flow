@@ -2,6 +2,8 @@ import { BrowserWindow, dialog, ipcMain } from 'electron';
 import { readFile, rename, writeFile } from 'fs/promises';
 import { basename, dirname } from 'path';
 import IpcMainInvokeEvent = Electron.IpcMainInvokeEvent;
+import MessageBoxOptions = Electron.MessageBoxOptions;
+import IpcMainEvent = Electron.IpcMainEvent;
 
 export default class HandleEventListeners {
     constructor() {
@@ -12,6 +14,7 @@ export default class HandleEventListeners {
         this._importDiagram();
         this._saveAsScript();
         this._importSQLScript();
+        this._showSaveConfirmationDialog();
     }
 
     private _toggleDarkMode() {
@@ -109,9 +112,8 @@ export default class HandleEventListeners {
                 const CurrentBrowserWindow = BrowserWindow.fromWebContents(
                     event.sender,
                 );
-                filePath = JSON.parse(filePath);
                 if (!CurrentBrowserWindow) return;
-                await writeFile(filePath[0], contents);
+                await writeFile(filePath, contents);
             },
         );
     }
@@ -137,11 +139,12 @@ export default class HandleEventListeners {
             const File = await readFile(Result.filePaths[0], {
                 encoding: 'utf-8',
             });
+            const FilePath = Result.filePaths[0];
 
             event.returnValue = {
                 contents: File,
-                filePath: Result.filePaths,
-                fileName: basename(Result.filePaths[0]),
+                filePath: FilePath,
+                fileName: basename(FilePath),
             };
         });
     }
@@ -169,11 +172,7 @@ export default class HandleEventListeners {
                 return;
             }
             const File = await readFile(Result.filePaths[0]);
-            event.returnValue = {
-                contents: File.toString(),
-                filePath: Result.filePaths,
-                fileName: basename(Result.filePaths[0]),
-            };
+            event.returnValue = File.toString();
         });
     }
 
@@ -198,6 +197,36 @@ export default class HandleEventListeners {
                 if (!Result.filePath) return;
 
                 await writeFile(Result.filePath, script);
+            },
+        );
+    }
+
+    private _showSaveConfirmationDialog() {
+        ipcMain.on(
+            'showSaveConfirmationDialog',
+            async (event: IpcMainEvent, message: string, title: string) => {
+                const CurrentBrowserWindow = BrowserWindow.fromWebContents(
+                    event.sender,
+                );
+                if (!CurrentBrowserWindow) {
+                    event.returnValue = -1;
+                    return;
+                }
+
+                const DialogOptions = {
+                    type: 'warning',
+                    buttons: ['Yes', 'No'],
+                    message: message,
+                    defaultId: 0,
+                    cancelId: 1,
+                    title: title,
+                } as MessageBoxOptions;
+                const { response } = await dialog.showMessageBox(
+                    CurrentBrowserWindow,
+                    DialogOptions,
+                );
+
+                event.returnValue = response;
             },
         );
     }

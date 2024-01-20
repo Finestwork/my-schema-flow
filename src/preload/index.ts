@@ -15,6 +15,8 @@ const api = {
     saveAsScript(script: string, extension: Array<string>) {
         ipcRenderer.send('saveAsScript', script, extension);
     },
+    showSaveConfirmationDialog: (message: string, title: string) =>
+        ipcRenderer.sendSync('showSaveConfirmationDialog', message, title),
     importSQLScript: (filePath: string) =>
         ipcRenderer.sendSync('importSQLScript', filePath),
     importDiagram: () => ipcRenderer.sendSync('importDiagram'),

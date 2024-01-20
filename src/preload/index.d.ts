@@ -47,11 +47,11 @@ declare global {
             }>;
             overwriteFile(contents: string, filePath: string): Promise<void>;
             saveAsScript(script: string, extension: Array<string>): void;
-            importSQLScript(): Promise<{
-                contents: string;
-                filePath: string;
-                fileName: string;
-            } | null>;
+            showSaveConfirmationDialog(
+                message: string,
+                title: string,
+            ): -1 | 0 | 1;
+            importSQLScript(): Promise<string | null>;
             importDiagram(): Promise<{
                 contents: string;
                 filePath: string;
