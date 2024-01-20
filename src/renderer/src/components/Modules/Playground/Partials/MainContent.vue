@@ -57,6 +57,8 @@ const runQuery = async () => {
     // 'use' keyword is not allowed
     if (checkUseKeywordExistence(code.value)) {
         error.value = 'The "USE" keyword is not allowed.';
+        isRunningCode.value = false;
+        ProgressBar.done();
         return;
     }
 
