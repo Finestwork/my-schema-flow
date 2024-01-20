@@ -4,6 +4,7 @@ import CustomNode from '@components/Modules/Canvas/Partials/CustomNode.vue';
 import CustomNodePlaceholder from '@components/Modules/Canvas/Partials/CustomNodePlaceholder.vue';
 import Controls from '@components/Modules/Canvas/Partials/Controls.vue';
 import ZoomText from '@components/Modules/Canvas/Partials/ZoomText.vue';
+import { useHistoryStore } from '@stores/History';
 import { useSettingsStore } from '@stores/Settings';
 import { useHistoryActions } from '@composables/History/useHistoryActions';
 import { useNodeAutoLayout } from '@composables/Nodes/useAutoLayout';
@@ -17,10 +18,9 @@ import { useDebounceFn } from '@vueuse/core';
 import { Background } from '@vue-flow/background';
 import { MiniMap } from '@vue-flow/minimap';
 import { VueFlow, useVueFlow } from '@vue-flow/core';
-import { nextTick, computed, onMounted } from 'vue';
+import { nextTick, computed } from 'vue';
 
-const testElements = TestNodes;
-const testEdges = TestEdges;
+const historyStore = useHistoryStore();
 const settingsStore = useSettingsStore();
 const getPatternColor = computed(() => {
     if (settingsStore.backgroundVariant === 'lines') {
@@ -31,18 +31,14 @@ const getPatternColor = computed(() => {
 const { createHistory } = useHistoryActions();
 const { autoLayout } = useNodeAutoLayout();
 const { sortPrimaryKey } = useSortTableColumns();
-const { onViewportChange, getViewport, onPaneReady, updateNodeInternals } =
-    useVueFlow();
+const { onViewportChange, getViewport, onPaneReady } = useVueFlow();
 const { zoomOut } = useCanvasControls();
+const LastHistoryItems = historyStore.items[historyStore.currentIndex];
+const testElements = LastHistoryItems?.payload?.nodes ?? TestNodes;
+const testEdges = LastHistoryItems?.payload?.edges ?? TestEdges;
 useNodeDragEvent();
 useMinimap();
 useEdgeEvents();
-onMounted(async () => {
-    await nextTick();
-    updateNodeInternals();
-    await nextTick();
-    autoLayout();
-});
 onPaneReady(async () => {
     sortPrimaryKey();
     autoLayout();
