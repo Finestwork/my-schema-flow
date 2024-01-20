@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { TestNodes, TestEdges } from '@dummy/CanvasDummy'; // Delete this in production
 import CustomNode from '@components/Modules/Canvas/Partials/CustomNode.vue';
 import CustomNodePlaceholder from '@components/Modules/Canvas/Partials/CustomNodePlaceholder.vue';
 import Controls from '@components/Modules/Canvas/Partials/Controls.vue';
@@ -34,8 +33,8 @@ const { sortPrimaryKey } = useSortTableColumns();
 const { onViewportChange, getViewport, onPaneReady } = useVueFlow();
 const { zoomOut } = useCanvasControls();
 const LastHistoryItems = historyStore.items[historyStore.currentIndex];
-const testElements = LastHistoryItems?.payload?.nodes ?? TestNodes;
-const testEdges = LastHistoryItems?.payload?.edges ?? TestEdges;
+const testElements = LastHistoryItems?.payload?.nodes ?? [];
+const testEdges = LastHistoryItems?.payload?.edges ?? [];
 useNodeDragEvent();
 useMinimap();
 useEdgeEvents();

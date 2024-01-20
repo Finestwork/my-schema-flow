@@ -42,10 +42,6 @@ export default class CreateMainWindow {
             },
         });
 
-        this._mainWindow.webContents.openDevTools({
-            mode: 'bottom',
-        });
-
         // Always start at 100% when opening the main window
         const WebContents = this._mainWindow.webContents;
         WebContents.on('dom-ready', () => {
