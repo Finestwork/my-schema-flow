@@ -72,20 +72,24 @@ const onClickCreateTables = async () => {
         parent: '#playgroundModal',
         showSpinner: false,
     });
-    ProgressBar.start();
-    isGeneratingTable.value = true;
-    error.value = '';
-    const { nodes, edges } = vueFlow;
-    let script = 'SET FOREIGN_KEY_CHECKS = 0;\n';
-    script += dropAllTablesQuery(nodes.value);
-    script += 'SET FOREIGN_KEY_CHECKS = 1;\n';
-    script += exportToSQL(nodes.value, edges.value);
-    const { error: QueryError } = await window.api.runQuery(script);
-    isGeneratingTable.value = false;
-    ProgressBar.done();
+    try {
+        ProgressBar.start();
+        isGeneratingTable.value = true;
+        error.value = '';
+        const { nodes, edges } = vueFlow;
+        let script = 'SET FOREIGN_KEY_CHECKS = 0;\n';
+        script += dropAllTablesQuery(nodes.value);
+        script += 'SET FOREIGN_KEY_CHECKS = 1;\n';
+        script += exportToSQL(nodes.value, edges.value);
+        const { error: QueryError } = await window.api.runQuery(script);
+        isGeneratingTable.value = false;
+        ProgressBar.done();
 
-    if (QueryError !== null) {
-        error.value = QueryError.message;
+        if (QueryError !== null) {
+            error.value = QueryError.message;
+        }
+    } catch (e) {
+        ProgressBar.done();
     }
 };
 </script>

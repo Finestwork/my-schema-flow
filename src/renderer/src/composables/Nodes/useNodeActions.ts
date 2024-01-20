@@ -28,6 +28,7 @@ export function useNodeActions() {
                 table: {
                     name: TableName,
                     columns: [],
+                    indexes: [],
                 },
                 states: {
                     isActive: false,
