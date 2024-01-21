@@ -11,9 +11,19 @@
         "releaseType": "release"
     },
     "build": {
+        "compression": "maximum",
         "productName": "MySchemaFlow",
         "appId": "com.finestwork.schema-sparkle",
-        "files": "!resources{/*}",
+        "files": [
+            "!src/*",
+            "!banner.png",
+            "!{CODE_OF_CONDUCT.md,CONTRIBUTING.md,CHANGELOG.md,README.md,LICENSE}",
+            "!electron.vite.config.{js,ts,mjs,cjs}",
+            "!**/.{vscode,idea}/*",
+            "!{.eslintignore,.eslintrc.cjs,.prettierignore,.prettierrc.json,dev-app-update.yml}",
+            "!{.env,.env.*,.npmrc,pnpm-lock.yaml}",
+            "!{postcss.config.js,tailwind.config.js,tsconfig.aliases.json,tsconfig.json,tsconfig.node.json,tsconfig.web.json}"
+        ],
         "copyright": "Copyright © 2019 ${author}",
         "fileAssociations": [
             {
@@ -48,7 +58,7 @@
         "build:mac": "npm run build && electron-builder --mac --config",
         "build:linux": "npm run build && electron-builder --linux --config"
     },
-    "dependencies": {
+    "devDependencies": {
         "@electron-toolkit/preload": "^2.0.0",
         "@electron-toolkit/utils": "^2.0.0",
         "@floating-ui/dom": "^1.5.3",
@@ -82,9 +92,7 @@
         "sql.js": "^1.9.0",
         "uuid": "^9.0.1",
         "vue-draggable-plus": "^0.3.3",
-        "vuedraggable": "^4.1.0"
-    },
-    "devDependencies": {
+        "vuedraggable": "^4.1.0",
         "@electron-toolkit/eslint-config": "^1.0.1",
         "@electron-toolkit/eslint-config-ts": "^1.0.0",
         "@electron-toolkit/tsconfig": "^1.0.1",
